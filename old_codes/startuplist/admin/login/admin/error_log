@@ -1,0 +1,21 @@
+[10-Sep-2012 06:44:19 UTC] PHP Warning:  include(../lib/left_bar.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory in /home/mikesoer/public_html/startuplist/admin/login/admin/admin_index.php on line 193
+[10-Sep-2012 06:44:19 UTC] PHP Warning:  include(../lib/left_bar.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory in /home/mikesoer/public_html/startuplist/admin/login/admin/admin_index.php on line 193
+[10-Sep-2012 06:44:19 UTC] PHP Warning:  include() [<a href='function.include'>function.include</a>]: Failed opening '../lib/left_bar.php' for inclusion (include_path='.:/opt/php53/lib/php') in /home/mikesoer/public_html/startuplist/admin/login/admin/admin_index.php on line 193
+[10-Sep-2012 06:44:28 UTC] PHP Warning:  include(../lib/left_bar.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory in /home/mikesoer/public_html/startuplist/admin/login/admin/admin_index.php on line 193
+[10-Sep-2012 06:44:28 UTC] PHP Warning:  include(../lib/left_bar.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory in /home/mikesoer/public_html/startuplist/admin/login/admin/admin_index.php on line 193
+[10-Sep-2012 06:44:28 UTC] PHP Warning:  include() [<a href='function.include'>function.include</a>]: Failed opening '../lib/left_bar.php' for inclusion (include_path='.:/opt/php53/lib/php') in /home/mikesoer/public_html/startuplist/admin/login/admin/admin_index.php on line 193
+[14-Sep-2012 04:45:55 UTC] PHP Warning:  include(../lib/scripts.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory in /home/mikesoer/public_html/startuplist/admin/login/admin/admin_index.php on line 24
+[14-Sep-2012 04:45:55 UTC] PHP Warning:  include(../lib/scripts.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory in /home/mikesoer/public_html/startuplist/admin/login/admin/admin_index.php on line 24
+[14-Sep-2012 04:45:55 UTC] PHP Warning:  include() [<a href='function.include'>function.include</a>]: Failed opening '../lib/scripts.php' for inclusion (include_path='.:/opt/php53/lib/php') in /home/mikesoer/public_html/startuplist/admin/login/admin/admin_index.php on line 24
+[04-Oct-2012 05:36:01 UTC] PHP Parse error:  syntax error, unexpected $end in /home/mikesoer/public_html/startuplist/admin/login/admin/users.php on line 263
+[04-Oct-2012 05:36:16 UTC] PHP Parse error:  syntax error, unexpected $end in /home/mikesoer/public_html/startuplist/admin/login/admin/users.php on line 191
+[04-Oct-2012 05:36:41 UTC] PHP Parse error:  syntax error, unexpected $end in /home/mikesoer/public_html/startuplist/admin/login/admin/users.php on line 263
+[04-Oct-2012 07:36:33 UTC] PHP Parse error:  syntax error, unexpected $end in /home/mikesoer/public_html/startuplist/admin/login/admin/users.php on line 258
+[04-Oct-2012 07:37:42 UTC] PHP Parse error:  syntax error, unexpected $end in /home/mikesoer/public_html/startuplist/admin/login/admin/users.php on line 187
+[04-Oct-2012 07:38:01 UTC] PHP Parse error:  syntax error, unexpected $end in /home/mikesoer/public_html/startuplist/admin/login/admin/users.php on line 258
+[04-Oct-2012 07:39:39 UTC] PHP Parse error:  syntax error, unexpected $end in /home/mikesoer/public_html/startuplist/admin/login/admin/users.php on line 187
+[04-Oct-2012 07:46:22 UTC] PHP Parse error:  syntax error, unexpected $end in /home/mikesoer/public_html/startuplist/admin/login/admin/users.php on line 187
+[04-Oct-2012 07:47:35 UTC] PHP Parse error:  syntax error, unexpected $end in /home/mikesoer/public_html/startuplist/admin/login/admin/users.php on line 258
+[04-Oct-2012 07:47:51 UTC] PHP Parse error:  syntax error, unexpected $end in /home/mikesoer/public_html/startuplist/admin/login/admin/users.php on line 258
+[04-Oct-2012 07:52:33 UTC] PHP Parse error:  syntax error, unexpected $end in /home/mikesoer/public_html/startuplist/admin/login/admin/users.php on line 187
+[04-Oct-2012 09:35:32 UTC] PHP Parse error:  syntax error, unexpected $end in /home/mikesoer/public_html/startuplist/admin/login/admin/users.php on line 266
