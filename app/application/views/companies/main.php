@@ -46,6 +46,7 @@ function deleteCompany(co_id){
 			dataType: "script",
 			success: function(){
 				jQuery("#tr"+co_id).fadeOut(200);
+				self.location = "<?php echo site_url(); ?>companies";
 			}
 		});
 		
@@ -81,7 +82,7 @@ Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?ph
 					}		
 			?></td>
 			<td>[ <a href="<?php echo site_url(); ?>companies/edit/<?php echo $companies[$i]['id']?>" >Edit</a> ] 
-			[ <a style='cursor:pointer; text-decoration: underline' onclick='deleteCompany("<?php echo htmlentities($companies[$i]['id']) ?>"); ' >Delete</a> ]</td>
+			[ <a style='color: red; cursor:pointer; text-decoration: underline' onclick='deleteCompany("<?php echo htmlentities($companies[$i]['id']) ?>"); ' >Delete</a> ]</td>
 		</tr>
 		<?php
 	}
@@ -89,7 +90,7 @@ Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?ph
 		?>
 		<tr>
 			<td colspan="5" class='center font12' >
-				There is a total of <?php echo $cnt; ?> record(s) in the database. 
+				There is a total of <?php echo $cnt; ?> <?php if($cnt>1) { echo "records"; } else{ echo "record"; }?> in the database. 
 				Go to Page: <select onchange='self.location="?start="+this.value'>
 				<?php
 				for($i=0; $i<$pages; $i++){
