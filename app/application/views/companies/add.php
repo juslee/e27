@@ -96,7 +96,8 @@ if($company['id']){
       <td><select multiple="multiple" name='categories[]'>
        <?php
 	  	foreach($categories as $value){
-			if(in_array($value['id'], $co_categories)){
+			
+			if(is_array($co_categories)&&in_array($value['id'], $co_categories)){
 				?>
 				<option selected="selected" value="<?php echo sanitizeX($value['id']); ?>"><?php echo sanitizeX($value['category']); ?></option>
 				<?php
@@ -394,8 +395,8 @@ if($company['id']){
 </tr>
 <tr>
 	<td colspan="2" class='center'>
-		<input type="button" id='savebutton' value="Save" onclick="saveCompany()" />
-		<input type="button" value="Back to Company List" onclick="self.location='<?php echo site_url(); ?>companies'" />
+		<input type="button" id='savebutton' value="Save" onclick="saveCompany()" style='width:200px;' />
+		<!--<input type="button" value="Back to Company List" onclick="self.location='<?php echo site_url(); ?>companies'" />-->
 		<?php 
 		if($company['id']){
 			?><input type="button" style='background:red; color:white' value="Delete" onclick="deleteCompany('<?php echo $company['id']; ?>')" /><?php
