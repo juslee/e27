@@ -2,6 +2,10 @@
 session_start();
 class main extends CI_Controller {
 
+	public function __construct(){
+		parent::__construct();
+		$this->load->database();
+	}
 	public function index(){
 		$this->load->view('layout/main');
 	}
@@ -12,8 +16,12 @@ class main extends CI_Controller {
 	}
 	
 	public function login(){
-		if($_POST['login_email']=='admin'&&$_POST['password']=='admin'){
-			$_SESSION['user'] = 'admin';
+		$sql = "select * from `users` where `login`= ".$this->db->escape($_POST['login_email'])." and `password`= '".md5($_POST['password'])."'";
+		$q = $this->db->query($sql);
+		$r = $q->result_array();			
+		
+		if($r[0]){
+			$_SESSION['user'] = $r[0];
 			redirect_to(site_url());
 		}
 		else{

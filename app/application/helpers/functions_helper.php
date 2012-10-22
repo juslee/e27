@@ -12,4 +12,7 @@ function redirect_to($url){
 	<?php
 	exit();
 }
+function sanitizeX($str){
+	return addslashes($str);
+}
 ?>

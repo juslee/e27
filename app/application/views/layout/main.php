@@ -8,24 +8,61 @@ $user = $_SESSION['user'];
 	<meta charset="utf-8">
 	<title>E27</title>
 
+
+	<script language="javascript" src="<?php echo site_url(); ?>media/js/jquery-1.7.2.min.js"></script>
+	
+	<link rel="stylesheet" href="<?php echo site_url(); ?>media/js/development-bundle/themes/base/jquery.ui.all.css">
+	<script src="<?php echo site_url(); ?>media/js/development-bundle/jquery-1.8.0.js"></script>
+	<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.core.js"></script>
+	<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.widget.js"></script>
+	<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.position.js"></script>
+	<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.autocomplete.js"></script>
+	
+	<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.mouse.js"></script>
+	<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.draggable.js"></script>
+	<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.position.js"></script>
+	<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.resizable.js"></script>
+	<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.dialog.js"></script>
+	<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.datepicker.js"></script>
+
+
+	<script type="text/javascript" src="<?php echo site_url(); ?>media/js/jquery.alerts-1.1/jquery.alerts.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>media/js/jquery.alerts-1.1/jquery.alerts.css" media="screen" />
+
+	<script>
+	jQuery(function(){
+		jQuery(".datepicker").datepicker({ 
+		onSelect: function(date) {
+			},
+		});
+	
+	});
+	function alertX(data){
+		jAlert(data);
+	}
+	
+	function confirmX(data){
+		return jConfirm(data);
+	}
+	</script>
 	<style type="text/css">
 
-	::selection{ background-color: #E13300; color: white; }
-	::moz-selection{ background-color: #E13300; color: white; }
-	::webkit-selection{ background-color: #E13300; color: white; }
+	::selection{ background-color: #21913E; color: white; }
+	::moz-selection{ background-color: #21913E; color: white; }
+	::webkit-selection{ background-color: #21913E; color: white; }
 
 	body {
-		background-color: #fff;
+		background-color: #f0f0f0;
 		margin: 40px;
 		margin-top: 0px;
 		font: 13px/20px normal Helvetica, Arial, sans-serif;
-		color: #4F5155;
+		color: black;
 	}
 	td{
 		vertical-align:top;
 	}
 	a {
-		color: white;
+		color: black;
 		background-color: transparent;
 		font-weight: normal;
 	}
@@ -68,10 +105,40 @@ $user = $_SESSION['user'];
 		margin: 10px;
 		border: 1px solid #D0D0D0;
 		/*-webkit-box-shadow: 0 0 8px #D0D0D0;*/
+		border: 1px solid #E5E5E5;
+    	border-radius: 5px 5px 5px 5px;
+    	box-shadow: 0 4px 18px #C8C8C8;
+		background:white;
+	}
+	.list{
+		margin: 10px;
+		/*border: 1px solid #D0D0D0;*/
+		/*-webkit-box-shadow: 0 0 8px #D0D0D0;*/
+		/*border: 1px solid #E5E5E5;*/
+    	/*border-radius: 5px 5px 5px 5px;*/
+		background:white;
+	}
+	.list table{
+		border-collapse:collapse;
+		border-radius: 5px 5px 5px 5px;
+		width:100%;
+	}
+	.list th{
+		border: 1px solid #D0D0D0;
+		padding:5px;
+		color: white;
+		background: #666666;
+	}
+	.list td{
+		border: 1px solid #D0D0D0;
+		padding:5px;
 	}
 	#header{
 		background:#21913e;
 		padding: 5px;
+	}
+	#header a{
+		color:white;	
 	}
 	#menus{
 		background:black;
@@ -100,7 +167,7 @@ $user = $_SESSION['user'];
 	}
 	*{
 		font-family: Arial, Helvetica, sans-serif;
-		font-size:11px;
+		font-size:12px;
 	}
 	.font14{
 		font-size:14px;
@@ -125,6 +192,52 @@ $user = $_SESSION['user'];
 	}
 	.center{
 		text-align:center;
+	}
+	
+	/* add company */
+	.hint{
+		font-size:10px;
+		font-style:italic;
+		color:#666666;
+		display:inline;
+		padding: 0px 5px 0px 5px;
+	}
+	
+	input[type="password"], input[type="text"], textarea{
+		border: 1px solid #aaaaaa;
+    	border-radius: 3px 3px 3px 3px;
+		padding:4px;
+		width:200px;
+	}
+	input[name="name"]{
+		width:350px;
+	}
+	input[type="submit"], input[type="button"]{
+		min-width: 80px;
+		min-height: 40px;
+		cursor:pointer;	
+	}
+	textarea{
+		width: 350px;
+		height: 80px;
+	}
+	select[multiple="multiple"]{
+		height: 150px;
+		width: 250px;
+		padding: 5px;
+	}
+	.even{
+		
+		background:#EEEEEE;
+	}
+	.odd{
+		background:#FFFFFF;
+	}
+	.inline{
+		display:inline;
+	}
+	.block{
+		display:block;
 	}
 	</style>
 </head>
