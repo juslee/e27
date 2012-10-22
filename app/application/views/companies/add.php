@@ -21,6 +21,22 @@ function saveCompany(){
 	});
 
 }
+function deleteCompany(co_id){
+	if(confirm("Are you sure you want to delete this company?")){
+		formdata = "id="+co_id;
+		jQuery.ajax({
+			url: "<?php echo site_url(); ?>/companies/ajax_delete/"+co_id,
+			type: "POST",
+			data: formdata,
+			dataType: "script",
+			success: function(){
+				self.location = "<?php echo site_url(); ?>/companies";
+			}
+		});
+		
+	}
+}
+
 function checkCompany(co_name){
 	if(jQuery.trim(co_name)){
 		formdata = "name="+co_name;
@@ -380,6 +396,11 @@ if($company['id']){
 	<td colspan="2" class='center'>
 		<input type="button" id='savebutton' value="Save" onclick="saveCompany()" />
 		<input type="button" value="Back to Company List" onclick="self.location='<?php echo site_url(); ?>companies'" />
+		<?php 
+		if($company['id']){
+			?><input type="button" style='background:red; color:white' value="Delete" onclick="deleteCompany('<?php echo $company['id']; ?>')" /><?php
+		}
+		?>
 	</td>
 </tr>
 </td>
