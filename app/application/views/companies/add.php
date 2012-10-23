@@ -69,7 +69,7 @@ function checkCompany(co_name){
 
 function refreshLogo(logopath){
 	logopath = escape(logopath);
-	jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>/media/image.php?p="+logopath+"&mx=220' />");
+	jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>/media/image.php?p="+logopath+"&mx=220&_="+(new Date().getTime())+"' />");
 	jQuery("#logopath").val(logopath);
 }
 var ss = [];
@@ -221,9 +221,17 @@ else{
   <?php
 	if(!$company['id']){
 		?>
-		 <tr>
-		  <td class='font18 bold'>Add New Company</td>
-		  <td></td>
+		<tr>
+		<td class='font18 bold'>Add New Company</td>
+		<td></td>
+		</tr>
+		<?php
+	}
+	else{
+		?>
+		<tr>
+		<td class='font18 bold'>Edit Company</td>
+		<td></td>
 		</tr>
 		<?php
 	}
@@ -330,7 +338,7 @@ else{
 	  <input type='hidden' id='logopath' name='logo' />
 	  <input type='text' id="co_logo" />
 	  <input type='button' class='button' value='Upload' onclick="jQuery('#co_logo').uploadifyUpload();" >
-	  
+	  <br><div class='hint'>e.g. Image Suggestion 220 x 220 pixels .jpg file</div>
 	  </td>
     </tr>
     <tr class="odd">

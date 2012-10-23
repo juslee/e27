@@ -153,7 +153,8 @@ if($_GET['b'])
 else
 {
 	$p = urldecode($_GET['p']);
-	$p = dirname($p)."/".rawurlencode(basename($p));
+	$p = dirname($p)."/".urlencode(basename($p));
+
 }
 
 if($mx)
@@ -164,7 +165,7 @@ if($mx)
 else
 {
 	header('Content-Type: image/jpeg');
-	showThumb($p, 300, 300);
+	showThumb($p, 1000, 1000);
 }
 
 ?>
