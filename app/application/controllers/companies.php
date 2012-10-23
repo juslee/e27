@@ -102,6 +102,13 @@ class companies extends CI_Controller {
 			alertX("Please input Company Description.");
 			<?php
 		}
+		else if(!checkEmail($_POST['email_address'])){
+			$err = 1;
+			?>
+			alertX("Invalid E-mail.");
+			<?php
+		}
+		
 		if(!$err){
 			$sql = "update `companies` set ";
 			$arr = array();
@@ -124,6 +131,17 @@ class companies extends CI_Controller {
 				$this->db->query($sql);
 				foreach($_POST['categories'] as $value){
 					$sql = "insert into `company_category` set `company_id`=".$this->db->escape($id).", `category_id`=".$this->db->escape($value);
+					$this->db->query($sql);
+				}
+			}
+			if(is_array($_POST['screenshots'])){
+				$sql = "delete from `screenshots` where `company_id`=".$this->db->escape($id);
+				$this->db->query($sql);
+				foreach($_POST['screenshots'] as $key=>$value){
+					$sql = "insert into `screenshots` set 
+					`company_id`=".$this->db->escape($id).", 
+					`title`=".$this->db->escape($_POST['screenshot_titles'][$key]).",
+					`screenshot`=".$this->db->escape($value);
 					$this->db->query($sql);
 				}
 			}
@@ -182,11 +200,17 @@ class companies extends CI_Controller {
 			alertX("Please input Company Description.");
 			<?php
 		}
+		else if(!checkEmail($_POST['email_address'])){
+			$err = 1;
+			?>
+			alertX("Invalid E-mail.");
+			<?php
+		}
 		if(!$err){
 			$sql = "insert into `companies` set ";
 			$arr = array();
 			foreach($_POST as $key=>$value){
-				if(!is_array($value)){
+				if(!is_array($value)&&$key!='sid'){
 					$arr[] ="`".$key."`=".$this->db->escape(trim($value));
 				}
 			}
@@ -203,6 +227,56 @@ class companies extends CI_Controller {
 					$this->db->query($sql);
 				}
 			}
+			
+			//update logo url
+			$logo = $_POST['logo'];
+			if($logo){
+				$logo = str_replace("temp/".$_POST['sid'], $id, $logo); //replace sid with the company id
+				$sql = "update `companies` set `logo`=".$this->db->escape($logo)." where `id`=".$this->db->escape($id);
+				$this->db->query($sql);
+				//move files
+				$from = dirname(__FILE__)."/../../media/uploads/temp/".$_POST['sid']."/logo/".urldecode(basename($logo));
+				$folder = dirname(__FILE__)."/../../media/uploads/".$id."/";
+				if(!is_dir($folder)){
+					mkdir($folder, 0777);
+				}
+				$folder = $folder."logo/";
+				if(!is_dir($folder)){
+					mkdir($folder, 0777);
+				}
+				$to = $folder.urldecode(basename($logo));
+				rename($from, $to);
+			}
+			
+			if(is_array($_POST['screenshots'])){
+				foreach($_POST['screenshots'] as $key=>$value){
+					$value = str_replace("temp/".$_POST['sid'], $id, $value); //replace sid with the company id
+					//move files
+					$from = dirname(__FILE__)."/../../media/uploads/temp/".$_POST['sid']."/screenshots/".urldecode(basename($value));
+					$folder = dirname(__FILE__)."/../../media/uploads/".$id."/";
+					if(!is_dir($folder)){
+						mkdir($folder, 0777);
+					}
+					$folder = $folder."screenshots/";
+					if(!is_dir($folder)){
+						mkdir($folder, 0777);
+					}
+					$to = $folder.urldecode(basename($value));
+					rename($from, $to);
+					
+					$sql = "insert into `screenshots` set 
+					`company_id`=".$this->db->escape($id).", 
+					`title`=".$this->db->escape($_POST['screenshot_titles'][$key]).",
+					`screenshot`=".$this->db->escape($value);
+					$this->db->query($sql);
+				}
+			}
+			
+			if($_POST['sid']){
+				$dir = dirname(__FILE__)."/../../media/uploads/temp/".$_POST['sid'];
+				SureRemoveDir($dir, "true");
+			}
+			
 			?>
 			alertX("Successfully Added Company '<?php echo htmlentities($_POST['name']); ?>'.");
 			self.location = "<?php echo site_url(); ?>/companies/edit/<?php echo $id; ?>";
@@ -252,6 +326,12 @@ class companies extends CI_Controller {
 				$arrtemp[] = $value['category_id'];
 			}
 			$co_categories = $arrtemp;
+			
+			$sql = "select * from `screenshots` where `company_id`=".$this->db->escape($company_id)." order by id asc";
+			$q = $this->db->query($sql);
+			$screenshots = $q->result_array();
+			
+			$data['screenshots'] = $screenshots;	
 			$data['co_categories'] = $co_categories;	
 			$data['countries'] = $countries;
 			$data['company'] = $company[0];

@@ -25,10 +25,14 @@ $user = $_SESSION['user'];
 	<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.dialog.js"></script>
 	<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.datepicker.js"></script>
 
-
+	
 	<script type="text/javascript" src="<?php echo site_url(); ?>media/js/jquery.alerts-1.1/jquery.alerts.js"></script>
 	<link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>media/js/jquery.alerts-1.1/jquery.alerts.css" media="screen" />
 
+	<script type="text/javascript" src="<?php echo site_url(); ?>media/js/uploadify/swfobject.js"></script>
+	<script type="text/javascript" src="<?php echo site_url(); ?>media/js/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>media/js/uploadify/uploadify.css" media="screen" />
+	
 	<script>
 	jQuery(function(){
 		jQuery(".datepicker").datepicker({ 
@@ -44,6 +48,9 @@ $user = $_SESSION['user'];
 	function confirmX(data){
 		return jConfirm(data);
 	}
+	
+	
+	
 	</script>
 	<style type="text/css">
 
@@ -217,6 +224,10 @@ $user = $_SESSION['user'];
 		min-height: 40px;
 		cursor:pointer;	
 	}
+	input[type="button"].button{
+		min-height: 20px;
+		cursor:pointer;	
+	}
 	textarea{
 		width: 350px;
 		height: 80px;
@@ -238,6 +249,9 @@ $user = $_SESSION['user'];
 	}
 	.block{
 		display:block;
+	}
+	.row:hover{
+		background:#FFDB96;
 	}
 	</style>
 </head>

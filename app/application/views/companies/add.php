@@ -1,3 +1,7 @@
+<?php
+@session_start();
+$sid = session_id()."_".time();
+?>
 <script>
 function saveCompany(){
 	jQuery("#savebutton").val("Saving...");
@@ -62,19 +66,148 @@ function checkCompany(co_name){
 	}
 	
 }
+
+function refreshLogo(logopath){
+	logopath = escape(logopath);
+	jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>/media/image.php?p="+logopath+"&mx=220' />");
+	jQuery("#logopath").val(logopath);
+}
+var ss = [];
+
+function refreshScreenshots(filepath){
+	file = filepath.split(/\//g);
+	file = file[file.length-1];
+	filepath = escape(filepath);
+	if(ss.indexOf(filepath)==-1){
+		ss.push(filepath);
+		html = jQuery("#sspathhtml").html();	
+		html += "<div><a target='_blank' href='<?php echo site_url(); ?>/media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' /><input type='hidden' name='screenshots[]' value='"+filepath+"' />&nbsp;&nbsp;&nbsp;<a onclick='this.parentElement.outerHTML=\"\"' style='cursor:pointer; text-decoration:underline' >Delete</a></div>";
+		jQuery("#sspathhtml").html(html);
+	}
+	//jQuery("#logopath").val(filepath);
+}
 jQuery(function(){
 	jQuery("#co_name").blur(function(){
 		checkCompany(jQuery("#co_name").val());
 	});
+	
+	jQuery('#co_logo').uploadify({
+		'uploader'  : '<?php echo site_url(); ?>media/js/uploadify/uploadify.swf',
+		'script'    : '<?php echo site_url(); ?>media/js/uploadify/uploadify.php',
+		'cancelImg' : '<?php echo site_url(); ?>media/js/uploadify/cancel.png',
+		'folder'    : '<?php
+			$folder = dirname(__FILE__)."/../../../media/uploads/";
+			if(!is_dir($folder)){
+				mkdir($folder, 0777);
+			}
+			if($company['id']){
+				$folder = dirname(__FILE__)."/../../../media/uploads/".$company['id'];
+				if(!is_dir($folder)){
+					mkdir($folder, 0777);
+				}
+				$folder = dirname(__FILE__)."/../../../media/uploads/".$company['id']."/logo";
+				if(!is_dir($folder)){
+					mkdir($folder, 0777);
+				}
+			}
+			else{
+				$folder = dirname(__FILE__)."/../../../media/uploads/temp";
+				if(!is_dir($folder)){
+					mkdir($folder, 0777);
+				}
+				$folder = dirname(__FILE__)."/../../../media/uploads/temp/".$sid ;
+				if(!is_dir($folder)){
+					mkdir($folder, 0777);
+				}
+				$folder = dirname(__FILE__)."/../../../media/uploads/temp/".$sid."/logo";
+				if(!is_dir($folder)){
+					mkdir($folder, 0777);
+				}
+			}
+			echo str_replace(dirname(__FILE__)."/../../..", "", $folder);
+		?>',
+		'auto'      : true,
+		'multi'       : false,
+		'onComplete'  : function(event, ID, fileObj, response, data) {
+		  //alert('There are ' + data.fileCount + ' files remaining in the queue.');
+		  str = "";
+		  for(x in fileObj){
+		  	str += x+"\n";
+		  }
+		  //alert(str);
+		  //alert(fileObj.filePath);		  
+		  logopath = "<?php echo site_url(); ?>"+fileObj.filePath;
+		  refreshLogo(logopath);
+		}	
+	});
+	
+	jQuery('#co_screenshots').uploadify({
+		'uploader'  : '<?php echo site_url(); ?>media/js/uploadify/uploadify.swf',
+		'script'    : '<?php echo site_url(); ?>media/js/uploadify/uploadify.php',
+		'cancelImg' : '<?php echo site_url(); ?>media/js/uploadify/cancel.png',
+		'folder'    : '<?php
+			$folder = dirname(__FILE__)."/../../../media/uploads/";
+			if(!is_dir($folder)){
+				mkdir($folder, 0777);
+			}
+			if($company['id']){
+				$folder = dirname(__FILE__)."/../../../media/uploads/".$company['id'];
+				if(!is_dir($folder)){
+					mkdir($folder, 0777);
+				}
+				$folder = dirname(__FILE__)."/../../../media/uploads/".$company['id']."/screenshots";
+				if(!is_dir($folder)){
+					mkdir($folder, 0777);
+				}
+			}
+			else{
+				$folder = dirname(__FILE__)."/../../../media/uploads/temp";
+				if(!is_dir($folder)){
+					mkdir($folder, 0777);
+				}
+				$folder = dirname(__FILE__)."/../../../media/uploads/temp/".$sid;
+				if(!is_dir($folder)){
+					mkdir($folder, 0777);
+				}
+				$folder = dirname(__FILE__)."/../../../media/uploads/temp/".$sid."/screenshots";
+				if(!is_dir($folder)){
+					mkdir($folder, 0777);
+				}
+			}
+			echo str_replace(dirname(__FILE__)."/../../..", "", $folder);
+		?>',
+		'auto'      : true,
+		'multi'       : true,
+		'onComplete'  : function(event, ID, fileObj, response, data) {
+		  //alert('There are ' + data.fileCount + ' files remaining in the queue.');
+		  str = "";
+		  for(x in fileObj){
+		  	str += x+"\n";
+		  }
+		  //alert(str);
+		  //alert(fileObj.filePath);		  
+		  filepath = "<?php echo site_url(); ?>"+fileObj.filePath;
+		  refreshScreenshots(filepath);
+		}	
+	});
+	
+	
 });
 </script>
 <form id='company_form'>
+
 <?php
 if($company['id']){
 	?>
 	<input type='hidden' name='id' id='co_id' >
 	<?php
 }
+else{
+	?>
+	<input type='hidden' name='sid' value="<?php echo sanitizeX($sid); ?>">
+	<?php
+}
+
 ?>
 <table width="100%" cellpadding="10px">
 <!--
@@ -155,7 +288,7 @@ if($company['id']){
       <td><input type="text" name="number_of_employees" size="5"></td>
     </tr>
     <tr class="even">
-      <td>Email Address: </td>
+      <td>* Email Address: </td>
       <td><input type="text" name="email_address" size="35"></td>
     </tr>
     <tr class="odd">
@@ -192,7 +325,13 @@ if($company['id']){
     </tr>
     <tr class="even">
       <td>Upload your Company logo:</td>
-      <td><input type='text' /></td>
+      <td>
+	  <div id='logopathhtml'></div>
+	  <input type='hidden' id='logopath' name='logo' />
+	  <input type='text' id="co_logo" />
+	  <input type='button' class='button' value='Upload' onclick="jQuery('#co_logo').uploadifyUpload();" >
+	  
+	  </td>
     </tr>
     <tr class="odd">
       <td>Country:</td>
@@ -225,7 +364,10 @@ if($company['id']){
     </tr>
     <tr class="odd">
       <td>Screenshots:</td>
-      <td><input type='text'/></td>
+      <td>
+	  <div id='sspathhtml' style='padding-bottom:10px;'></div>
+	  <input type='text' id="co_screenshots" />
+	  <input type='button' class='button' value='Upload' onclick="jQuery('#co_screenshots').uploadifyUpload();" ></td>
     </tr>
     
     <tr class="odd">
@@ -427,12 +569,37 @@ if($company['id']){
 </td>
 </table>
 <?php
+
 if($company['id']){
 	?>
 	<script>
-		<?php
+		<?php 
+		
+		if(is_array($screenshots)){
+			?>
+			html = "";
+			<?php
+			foreach($screenshots as $value){
+				?>
+				filepath = "<?php echo sanitizeX($value['screenshot']); ?>";
+				ss.push(filepath);
+				file = "<?php echo sanitizeX(urldecode(basename($value['screenshot']))); ?>";
+				title = "<?php echo sanitizeX($value['title']); ?>";
+				html += "<div><a target='_blank' href='<?php echo site_url(); ?>/media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' value='"+title+"' /><input type='hidden' name='screenshots[]' value='"+filepath+"' />&nbsp;&nbsp;&nbsp;<a onclick='this.parentElement.outerHTML=\"\"' style='cursor:pointer; text-decoration:underline' >Delete</a></div>";
+				<?php
+			}
+			?>
+			jQuery("#sspathhtml").html(html);
+			<?php
+		}
 		foreach($company as $key=>$value){
-			if($key=="active"){
+			if($key=="logo"){
+				?>
+				jQuery('#logopath').val("<?php echo sanitizeX($value); ?>");
+				jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>/media/image.php?p=<?php echo $value ?>&mx=220' />");
+				<?php
+			}
+			else if($key=="active"){
 				if($value=="1"){
 					?>
 					jQuery('[name="<?php echo $key; ?>"]').attr("checked", true);

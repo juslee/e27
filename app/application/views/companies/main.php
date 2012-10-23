@@ -2,6 +2,7 @@
 jQuery(function(){
 
 	
+	
 	jQuery("#company_search").autocomplete({
 		//define callback to format results
 		source: function(req, add){
@@ -59,7 +60,8 @@ Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?ph
 <div class='list'>
 <table>
 	<tr>
-		<th></th>
+		<th style="width:20px"></th>
+		<th style="width:20px"></th>
 		<th>Company Name</th>
 		<th>E-mail Address</th>
 		<th>Active</th>
@@ -69,11 +71,12 @@ Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?ph
 	$t = count($companies);
 	for($i=0; $i<$t; $i++){
 		?>
-		<tr id="tr<?php echo htmlentities($companies[$i]['id']); ?>">
+		<tr id="tr<?php echo htmlentities($companies[$i]['id']); ?>" class="row" >
 			<td><?php echo $start+$i+1; ?></td>
 			<!--<td><?php echo htmlentities($companies[$i]['id']); ?></td>-->
+			<td style='vertical-align:middle;'><img src='<?php echo site_url(); ?>/media/image.php?p=<?php echo $companies[$i]['logo'] ?>&mx=25' /></td>
 			<td><a href="<?php echo site_url(); ?>companies/edit/<?php echo $companies[$i]['id']?>" ><?php echo htmlentities($companies[$i]['name']); ?></a></td>
-			<td><?php echo htmlentities($companies[$i]['email_address']); ?></td>
+			<td><?php if(trim($companies[$i]['email_address'])){ echo "<a href=\"mailto:".sanitizeX($companies[$i]['email_address'])."\">".htmlentities($companies[$i]['email_address'])."</a>"; }?></td>
 			<td><?php 
 					if($companies[$i]['active']==1){
 						echo "Yes";
@@ -90,7 +93,7 @@ Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?ph
 	if($pages>0){
 		?>
 		<tr>
-			<td colspan="5" class='center font12' >
+			<td colspan="6" class='center font12' >
 				There is a total of <?php echo $cnt; ?> <?php if($cnt>1) { echo "records"; } else{ echo "record"; }?> in the database. 
 				Go to Page: <select onchange='self.location="?start="+this.value'>
 				<?php
