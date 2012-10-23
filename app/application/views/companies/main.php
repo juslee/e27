@@ -59,7 +59,7 @@ Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?ph
 <div class='list'>
 <table>
 	<tr>
-		<th>Company ID</th>
+		<th></th>
 		<th>Company Name</th>
 		<th>E-mail Address</th>
 		<th>Active</th>
@@ -70,7 +70,8 @@ Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?ph
 	for($i=0; $i<$t; $i++){
 		?>
 		<tr id="tr<?php echo htmlentities($companies[$i]['id']); ?>">
-			<td><a href="<?php echo site_url(); ?>companies/edit/<?php echo $companies[$i]['id']?>" ><?php echo htmlentities($companies[$i]['id']); ?></a></td>
+			<td><?php echo $start+$i+1; ?></td>
+			<!--<td><?php echo htmlentities($companies[$i]['id']); ?></td>-->
 			<td><a href="<?php echo site_url(); ?>companies/edit/<?php echo $companies[$i]['id']?>" ><?php echo htmlentities($companies[$i]['name']); ?></a></td>
 			<td><?php echo htmlentities($companies[$i]['email_address']); ?></td>
 			<td><?php 

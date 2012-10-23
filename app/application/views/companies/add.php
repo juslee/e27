@@ -77,12 +77,24 @@ if($company['id']){
 }
 ?>
 <table width="100%" cellpadding="10px">
+<!--
 <tr>
 <td colspan="2" class='center bold font14'>Fields with * are required.</td>
 </tr>
+-->
 <tr>
 <td width='50%'> 
   <table width="100%">
+  <?php
+	if(!$company['id']){
+		?>
+		 <tr>
+		  <td class='font18 bold'>Add New Company</td>
+		  <td></td>
+		</tr>
+		<?php
+	}
+	?>
     <tr class="odd required">
       <td>* Company Name:</td>
       <td><input type="text" name="name" size="40" id='co_name'><div class='inline' style='padding-left:5px;' id='co_check'></div></td>
@@ -93,7 +105,8 @@ if($company['id']){
     </tr>
     <tr class="odd">
       <td>Category:</td>
-      <td><select multiple="multiple" name='categories[]'>
+      <td>
+	  <select multiple="multiple" name='categories[]'>
        <?php
 	  	foreach($categories as $value){
 			
@@ -186,9 +199,16 @@ if($company['id']){
       <td><select name="country">
       <?php
 	  	foreach($countries as $value){
-			?>
-          <option value="<?php echo sanitizeX($value['country']); ?>"><?php echo sanitizeX($value['country']); ?></option>
-          <?php
+			if(strtolower(trim($value['country']))=="singapore"){
+				?>
+				<option selected="selected" value="<?php echo sanitizeX($value['country']); ?>"><?php echo sanitizeX($value['country']); ?></option>
+				<?php
+			}
+			else{
+				?>
+				<option value="<?php echo sanitizeX($value['country']); ?>"><?php echo sanitizeX($value['country']); ?></option>
+				<?php
+			}
 		}
 	  ?>
         </select>
