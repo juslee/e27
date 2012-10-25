@@ -315,7 +315,8 @@ class companies extends CI_Controller {
 			
 			?>
 			alertX("Successfully Added Company '<?php echo htmlentities($_POST['name']); ?>'.");
-			self.location = "<?php echo site_url(); ?>/companies/edit/<?php echo $id; ?>";
+			//self.location = "<?php echo site_url(); ?>/companies/edit/<?php echo $id; ?>";
+			self.location = "<?php echo site_url(); ?>/companies/add";
 			<?php
 		}
 		
