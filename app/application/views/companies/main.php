@@ -74,7 +74,7 @@ Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?ph
 		<tr id="tr<?php echo htmlentities($companies[$i]['id']); ?>" class="row" >
 			<td><?php echo $start+$i+1; ?></td>
 			<!--<td><?php echo htmlentities($companies[$i]['id']); ?></td>-->
-			<td style='vertical-align:middle;'><img src='<?php echo site_url(); ?>/media/image.php?p=<?php echo $companies[$i]['logo'] ?>&mx=25' /></td>
+			<td style='vertical-align:middle;'><?php if(trim($companies[$i]['logo'])){ ?><img src='<?php echo site_url(); ?>/media/image.php?p=<?php echo $companies[$i]['logo'] ?>&mx=25' /> <?php } ?></td>
 			<td><a href="<?php echo site_url(); ?>companies/edit/<?php echo $companies[$i]['id']?>" ><?php echo htmlentities($companies[$i]['name']); ?></a></td>
 			<td><?php if(trim($companies[$i]['email_address'])){ echo "<a href=\"mailto:".sanitizeX($companies[$i]['email_address'])."\">".htmlentities($companies[$i]['email_address'])."</a>"; }?></td>
 			<td><?php 

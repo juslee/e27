@@ -10,7 +10,7 @@ class companies extends CI_Controller {
 	public function index(){
 		$start = $_GET['start'];
 		$start += 0;
-		$limit = 100;
+		$limit = 50;
 		
 		$sql = "select * from `companies` where 1 order by `name` asc limit $start, $limit" ;
 		$q = $this->db->query($sql);
@@ -87,7 +87,7 @@ class companies extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input Company Name.");
+			alertX("Please input a Company Name.");
 			<?php
 		}
 		else if($company[0]['id']!=""&&$company[0]['id']!=$_POST['id']){
@@ -99,13 +99,13 @@ class companies extends CI_Controller {
 		else if(!trim($_POST['description'])){
 			$err = 1;
 			?>
-			alertX("Please input Company Description.");
+			alertX("Please input a Company Description.");
 			<?php
 		}
 		else if(!checkEmail($_POST['email_address'])){
 			$err = 1;
 			?>
-			alertX("Invalid E-mail.");
+			alertX("Please input a valid E-mail.");
 			<?php
 		}
 		
@@ -126,22 +126,39 @@ class companies extends CI_Controller {
 			$sql .= "where `id`=".$this->db->escape(trim($_POST['id']));
 			$q = $this->db->query($sql);
 			$id = trim($_POST['id']);
+			
+			$sql = "delete from `company_category` where `company_id`=".$this->db->escape($id);
+			$this->db->query($sql);
 			if(is_array($_POST['categories'])){
-				$sql = "delete from `company_category` where `company_id`=".$this->db->escape($id);
-				$this->db->query($sql);
+				
 				foreach($_POST['categories'] as $value){
 					$sql = "insert into `company_category` set `company_id`=".$this->db->escape($id).", `category_id`=".$this->db->escape($value);
 					$this->db->query($sql);
 				}
 			}
+			
+			$sql = "delete from `screenshots` where `company_id`=".$this->db->escape($id);
+			$this->db->query($sql);
 			if(is_array($_POST['screenshots'])){
-				$sql = "delete from `screenshots` where `company_id`=".$this->db->escape($id);
-				$this->db->query($sql);
+				
 				foreach($_POST['screenshots'] as $key=>$value){
 					$sql = "insert into `screenshots` set 
 					`company_id`=".$this->db->escape($id).", 
 					`title`=".$this->db->escape($_POST['screenshot_titles'][$key]).",
 					`screenshot`=".$this->db->escape($value);
+					$this->db->query($sql);
+				}
+			}
+
+			$sql = "delete from `competitors` where `company_id`=".$this->db->escape($id);
+			$this->db->query($sql);
+			$sql = "delete from `competitors` where `competitor_id`=".$this->db->escape($id);
+			$this->db->query($sql);
+			if(is_array($_POST['competitors'])){
+				foreach($_POST['competitors'] as $key=>$value){
+					$sql = "insert into `competitors` set 
+					`company_id`=".$this->db->escape($id).", 
+					`competitor_id`=".$this->db->escape($_POST['competitors'][$key]);
 					$this->db->query($sql);
 				}
 			}
@@ -168,6 +185,12 @@ class companies extends CI_Controller {
 		$q = $this->db->query($sql);
 		$sql = "delete from `company_category` where `company_id`=".$this->db->escape($company_id);
 		$q = $this->db->query($sql);
+		$sql = "delete from `screenshots` where `company_id`=".$this->db->escape($id);
+		$this->db->query($sql);
+		$sql = "delete from `competitors` where `company_id`=".$this->db->escape($id);
+		$this->db->query($sql);
+		$sql = "delete from `competitors` where `competitor_id`=".$this->db->escape($id);
+		$this->db->query($sql);
 		?>
 		alertX("Successfully deleted <?php echo htmlentities($company[0]['name']); ?>");
 		<?php
@@ -185,7 +208,7 @@ class companies extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input Company Name.");
+			alertX("Please input a Company Name.");
 			<?php
 		}
 		else if($company[0]['id']){
@@ -197,13 +220,13 @@ class companies extends CI_Controller {
 		else if(!trim($_POST['description'])){
 			$err = 1;
 			?>
-			alertX("Please input Company Description.");
+			alertX("Please input a Company Description.");
 			<?php
 		}
 		else if(!checkEmail($_POST['email_address'])){
 			$err = 1;
 			?>
-			alertX("Invalid E-mail.");
+			alertX("Please input a valid E-mail.");
 			<?php
 		}
 		if(!$err){
@@ -272,6 +295,19 @@ class companies extends CI_Controller {
 				}
 			}
 			
+			if(is_array($_POST['competitors'])){
+				$sql = "delete from `competitors` where `company_id`=".$this->db->escape($id);
+				$this->db->query($sql);
+				$sql = "delete from `competitors` where `competitor_id`=".$this->db->escape($id);
+				$this->db->query($sql);
+				foreach($_POST['competitors'] as $key=>$value){
+					$sql = "insert into `competitors` set 
+					`company_id`=".$this->db->escape($id).", 
+					`competitor_id`=".$this->db->escape($_POST['competitors'][$key]);
+					$this->db->query($sql);
+				}
+			}
+
 			if($_POST['sid']){
 				$dir = dirname(__FILE__)."/../../media/uploads/temp/".$_POST['sid'];
 				SureRemoveDir($dir, "true");
@@ -330,7 +366,23 @@ class companies extends CI_Controller {
 			$sql = "select * from `screenshots` where `company_id`=".$this->db->escape($company_id)." order by id asc";
 			$q = $this->db->query($sql);
 			$screenshots = $q->result_array();
+
+			$sql = "select `b`.`id` as `value`, `b`.`name` as `label` from `competitors` as `a`, `companies` as `b` where 
+				(
+					`a`.`company_id`=".$this->db->escape($company_id)." 
+					and `a`.`competitor_id` = `b`.`id`
+				)
+				or
+				(
+					`a`.`competitor_id`=".$this->db->escape($company_id)." 
+					and `a`.`company_id` = `b`.`id`
+				)
+				order by `b`.`name` asc
+			";
+			$q = $this->db->query($sql);
+			$competitors = $q->result_array();
 			
+			$data['competitors'] = $competitors;
 			$data['screenshots'] = $screenshots;	
 			$data['co_categories'] = $co_categories;	
 			$data['countries'] = $countries;

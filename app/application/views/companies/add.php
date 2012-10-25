@@ -73,6 +73,7 @@ function refreshLogo(logopath){
 	jQuery("#logopath").val(logopath);
 }
 var ss = [];
+var competitors = []; 
 
 function refreshScreenshots(filepath){
 	file = filepath.split(/\//g);
@@ -81,12 +82,94 @@ function refreshScreenshots(filepath){
 	if(ss.indexOf(filepath)==-1){
 		ss.push(filepath);
 		html = jQuery("#sspathhtml").html();	
-		html += "<div><a target='_blank' href='<?php echo site_url(); ?>/media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' /><input type='hidden' name='screenshots[]' value='"+filepath+"' />&nbsp;&nbsp;&nbsp;<a onclick='this.parentElement.outerHTML=\"\"' style='cursor:pointer; text-decoration:underline' >Delete</a></div>";
+		html += "<div><a target='_blank' href='<?php echo site_url(); ?>/media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' /><input type='hidden' name='screenshots[]' value='"+filepath+"' />&nbsp;&nbsp;&nbsp;<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delSS(this, \""+filepath+"\")' >Delete</a></div>";
 		jQuery("#sspathhtml").html(html);
 	}
 	//jQuery("#logopath").val(filepath);
 }
+
+function addCompetitor(label, value){
+
+	<?php
+	if($company['id']){
+		?>
+		if(value==<?php echo $company['id']; ?>){
+			alert("Cannot add self as competitor.");
+			return false;
+		}
+		<?php
+	}
+	?>
+	value = value*1;
+	
+	if(competitors.indexOf(value)==-1){
+		competitors.push(value);
+		html = jQuery("#competitors_html").html();
+		htmladd = "<div class='compete' id='compete"+value+"' style='display:'>";
+		htmladd += "<a target='_blank' href='<?php echo site_url(); ?>companies/edit/"+value+"'>"+label+"</a>";
+		htmladd += "<input type='hidden' name='competitors[]' value='"+value+"' />";
+		htmladd += "&nbsp;&nbsp;&nbsp;<a class='red delete' onclick='delCompete(this, "+value+")' style='cursor:pointer; text-decoration:underline' >Delete</a>";
+		htmladd += "</div>";
+		html += htmladd;
+		jQuery("#competitors_html").html(html);
+	}
+	else{
+		alert(label+" is already a competitor.");	
+	}
+}
+
+function delSS(obj, filepath){
+	if(confirm("Are you sure you want to delete this screenshot?")){
+		index = ss.indexOf(filepath);
+		ss.splice(index, 1);
+		obj.parentElement.outerHTML = "";
+		return true;
+	}
+	return false;
+}
+function delCompete(obj, value){
+	if(confirm("Are you sure you want to delete this competitor?")){
+		index = competitors.indexOf(value);
+		competitors.splice(index, 1);
+		obj.parentElement.outerHTML = "";
+		return true;
+	}
+	return false;
+}
 jQuery(function(){
+	jQuery("#competitor_search").autocomplete({
+		//define callback to format results
+		source: function(req, add){
+			//pass request to server
+			jQuery.getJSON("<?php echo site_url(); ?>companies/ajax_search", req, function(data) {
+				//create array for response objects
+				var suggestions = [];
+				//process response
+				jQuery.each(data, function(i, val){								
+					suggestions.push(val);
+				});
+				//pass array to callback
+				add(suggestions);
+			});
+		},
+		//define select handler
+		select: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			jQuery("#competitor_search").val("");
+			addCompetitor(label, value);
+			return false;
+		},
+		focus: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			jQuery("#competitor_search").val(label);
+			return false;
+		},
+
+
+	});	
+
 	jQuery("#co_name").blur(function(){
 		checkCompany(jQuery("#co_name").val());
 	});
@@ -207,6 +290,7 @@ else{
 	<input type='hidden' name='sid' value="<?php echo sanitizeX($sid); ?>">
 	<?php
 }
+
 
 ?>
 <table width="100%" cellpadding="10px">
@@ -559,13 +643,17 @@ else{
 		</tr>	
 		<tr class='odd'>
 		  <td>Competitors:</td>
-		  <td><input type="text" size="50"/></td>
+		  <td>
+		  <input type="text" size="50" id="competitor_search" />
+			<div id="competitors_html" class='pad10'></div>
+
+		  </td>
 		</tr>
 	</table>
 </tr>
 <tr>
 	<td colspan="2" class='center'>
-		<input type="button" id='savebutton' value="Save" onclick="saveCompany()" style='width:200px;' />
+		<input type="button" id='savebutton' value="Save" onclick="saveCompany()" style='height:40px' />
 		<!--<input type="button" value="Back to Company List" onclick="self.location='<?php echo site_url(); ?>companies'" />-->
 		<?php 
 		if($company['id']){
@@ -583,6 +671,14 @@ if($company['id']){
 	<script>
 		<?php 
 		
+		if(is_array($competitors)){
+			foreach($competitors as $value){
+				?>
+				addCompetitor("<?php echo sanitizeX($value['label']); ?>", <?php echo $value['value']; ?>);
+				<?php
+			}
+
+		}
 		if(is_array($screenshots)){
 			?>
 			html = "";
@@ -601,7 +697,7 @@ if($company['id']){
 			<?php
 		}
 		foreach($company as $key=>$value){
-			if($key=="logo"){
+			if($key=="logo"&&trim($value)){
 				?>
 				jQuery('#logopath').val("<?php echo sanitizeX($value); ?>");
 				jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>/media/image.php?p=<?php echo $value ?>&mx=220' />");

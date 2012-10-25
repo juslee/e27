@@ -201,6 +201,9 @@ $user = $_SESSION['user'];
 	.center{
 		text-align:center;
 	}
+	.pad10{
+		padding: 10px;
+	}
 	
 	/* add company */
 	.hint{
@@ -215,7 +218,7 @@ $user = $_SESSION['user'];
 		border: 1px solid #aaaaaa;
     	border-radius: 3px 3px 3px 3px;
 		padding:4px;
-		width:200px;
+		width:220px;
 	}
 	input[name="name"]{
 		width:350px;
@@ -224,6 +227,10 @@ $user = $_SESSION['user'];
 		min-width: 80px;
 		min-height: 40px;
 		cursor:pointer;	
+	}
+	#savebutton{
+		width:200px;
+		height: 40px;
 	}
 	input[type="button"].button{
 		min-height: 20px;
