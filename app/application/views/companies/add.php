@@ -199,7 +199,7 @@ function addPerson(id, name, role, start_date, end_date){
 	thedate.setDate(thedate.getDate());
 	start_date = dateFormat(thedate, "mmm dd, yyyy");
 	
-	html += "<a href='<?php echo site_url()?>/people/edit/"+id+"' target=''>"+name+"</a> - "+role+" ( "+start_date+" to "+end_date+" )&nbsp;&nbsp;&nbsp<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delPerson(this, \""+id+"\")' >Delete</a></div>";
+	html += "<a href='<?php echo site_url()?>people/edit/"+id+"' target=''>"+name+"</a> - "+role+" ( "+start_date+" to "+end_date+" )&nbsp;&nbsp;&nbsp<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delPerson(this, \""+id+"\")' >Delete</a></div>";
 	
 	
 	jQuery("#peoplehtml").html(html);
@@ -374,7 +374,16 @@ jQuery(function(){
 			jQuery("#people_search").val(label);
 			return false;
 		},
-	});	
+	}).data( "autocomplete" )._renderItem = function( ul, item ) {
+		append = "";
+		if(item.desc){
+			append = "<div class='more'>" + item.desc + "</div>";
+		}
+		return $( "<li>" )
+			.data( "item.autocomplete", item )
+			.append( "<a>" + item.label + append + "</a>")
+			.appendTo( ul );
+	};
 	
 });
 </script>
@@ -400,27 +409,28 @@ else{
 <td colspan="2" class='center bold font14'>Fields with * are required.</td>
 </tr>
 -->
+<?php
+if(!$company['id']){
+	?>
+	<tr>
+	<td class='font18 bold'>Add New Company</td>
+	<td></td>
+	</tr>
+	<?php
+}
+else{
+	?>
+	<tr>
+	<td class='font18 bold'>Edit Company</td>
+	<td></td>
+	</tr>
+	<?php
+}
+?>
 <tr>
 <td width='50%'> 
   <table width="100%">
-  <?php
-	if(!$company['id']){
-		?>
-		<tr>
-		<td class='font18 bold'>Add New Company</td>
-		<td></td>
-		</tr>
-		<?php
-	}
-	else{
-		?>
-		<tr>
-		<td class='font18 bold'>Edit Company</td>
-		<td></td>
-		</tr>
-		<?php
-	}
-	?>
+
     <tr class="odd required">
       <td>* Company Name:</td>
       <td><input type="text" name="name" size="40" id='co_name'><div class='inline' style='padding-left:5px;' id='co_check'></div></td>

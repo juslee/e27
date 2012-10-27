@@ -95,7 +95,7 @@ class people extends CI_Controller {
 		$t  = count($people);
 		for($i=0; $i<$t; $i++){
 			//get the latest company
-			$sql = "select `a`.`name`, `b`.`role` from `companies` as `a`, `company_person` as `b` where 
+			$sql = "select `a`.`id`, `a`.`name`, `b`.`role` from `companies` as `a`, `company_person` as `b` where 
 			`a`.`id` = `b`.`company_id` and 
 			`b`.`person_id`='".$people[$i]['id']."' and 
 			(
@@ -135,6 +135,35 @@ class people extends CI_Controller {
 		$sql = "select `id` as `value`, `name` as `label` from `people` where `name` like ".$this->db->escape(trim($co_name))." limit 10" ;
 		$q = $this->db->query($sql);
 		$people = $q->result_array();
+		
+		$t = count($people);
+		for($i=0; $i<$t; $i++){
+			//get the latest company
+			$sql = "select `a`.`id`, `a`.`name`, `b`.`role` from `companies` as `a`, `company_person` as `b` where 
+			`a`.`id` = `b`.`company_id` and 
+			`b`.`person_id`='".$people[$i]['value']."' and 
+			(
+				(
+					`b`.`end_date_ts`<>0 and 
+					`b`.`end_date_ts`>=".time()."
+				)
+				or
+				`b`.`end_date_ts` = 0
+			)
+			order by `b`.`start_date_ts` desc
+			limit 1
+			";
+			$q = $this->db->query($sql);
+			$company_person = $q->result_array();
+			$current_company_id = $company_person[0]['id'];
+			$current_company = $company_person[0]['name'];
+			$current_role = $company_person[0]['role'];
+			$people[$i]['current_company_id'] = $current_company_id;
+			$people[$i]['current_company'] = $current_company;
+			$people[$i]['current_role'] = $current_role;
+			$people[$i]['desc'] = $current_company;
+		}
+
 		echo json_encode($people);
 		exit();
 	}

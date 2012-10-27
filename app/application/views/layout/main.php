@@ -50,10 +50,20 @@ $user = $_SESSION['user'];
 				*/
 			},
 		});
+		
+		jQuery( "#dialog" ).dialog({ autoOpen: false, closeOnEscape: true, title: "",
+			open: function(){
+				setTimeout(function(){jQuery("#dialog").dialog("close");}, 2000);
+			}
+		});
 	
 	});
 	function alertX(data){
-		jAlert(data);
+		//jAlert(data);
+		jQuery("#dialoghtml").html(data);
+		jQuery("#dialog").dialog("open"); 
+		
+        
 	}
 	
 	function confirmX(data){
@@ -315,6 +325,10 @@ $user = $_SESSION['user'];
 	#menus li:hover, #menus li.selected{
 		background:orange;
 	}
+	#dialoghtml{
+		text-align:center;
+		margin:auto;
+	}
 	
 	#content{
 		padding:10px;
@@ -360,6 +374,11 @@ $user = $_SESSION['user'];
 		font-style:italic;
 		color:#666666;
 		display:inline;
+		padding: 0px 5px 0px 5px;
+	}
+	.more{
+		font-size:10px;
+		color:#666666;
 		padding: 0px 5px 0px 5px;
 	}
 	
@@ -424,6 +443,9 @@ $user = $_SESSION['user'];
 	</style>
 </head>
 <body>
+<div id="dialog" title="">
+    <div id='dialoghtml'></div>
+</div>
 
 <div id="container">
 	<table cellpadding="0" cellspacing="0" width="100%">

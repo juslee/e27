@@ -174,7 +174,7 @@ function addInvestmentOrg(id, name, role, start_date, end_date){
 	thedate.setDate(thedate.getDate());
 	start_date = dateFormat(thedate, "mmm dd, yyyy");
 	
-	html += "<a href='<?php echo site_url()?>/investment_orgs/edit/"+id+"' target=''>"+name+"</a> - "+role+" ( "+start_date+" to "+end_date+" )&nbsp;&nbsp;&nbsp<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delInvestmentOrg(this, \""+id+"\")' >Delete</a></div>";
+	html += "<a href='<?php echo site_url()?>investment_orgs/edit/"+id+"' target=''>"+name+"</a> - "+role+" ( "+start_date+" to "+end_date+" )&nbsp;&nbsp;&nbsp<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delInvestmentOrg(this, \""+id+"\")' >Delete</a></div>";
 	
 	
 	jQuery("#investment_orghtml").html(html);
@@ -321,10 +321,7 @@ else{
 <td colspan="2" class='center bold font14'>Fields with * are required.</td>
 </tr>
 -->
-<tr>
-<td width='50%'> 
-  <table width="100%">
-  <?php
+<?php
 	if(!$person['id']){
 		?>
 		<tr>
@@ -341,7 +338,11 @@ else{
 		</tr>
 		<?php
 	}
-	?>
+?>
+<tr>
+<td width='50%'> 
+  <table width="100%">
+ 
     <tr class="odd required">
       <td>* Name:</td>
       <td><input type="text" name="name" size="40" id='person_name'><div class='inline' style='padding-left:5px;' id='co_check'></div></td>
