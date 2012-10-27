@@ -351,44 +351,13 @@ else{
       <td><input type="text" name="number_of_employees" size="5"></td>
     </tr>
    
-    <tr class="odd">
+    <tr class="even">
       <td>Year Founded:</td>
       <td>
 	  	<input type='text' class='datepicker' alt='founded' id='founded_pick' name='founded' /><div class='hint'>mm/dd/yyyy</div>
-		<?php /*<input type='hidden' name='founded' id='founded' > */ ?>
-	  	<?php
-		/*
-		// lowest year wanted
-		$cutoff = 1910;
-
-		// current year
-		$now = date('Y');
-
-		// build years menu
-		echo '<select name="found_year">' . PHP_EOL;
-		for ($y=$now; $y>=$cutoff; $y--) {
-			echo '  <option value="' . $y . '">' . $y . '</option>' . PHP_EOL;
-		}
-   		echo '</select>' . PHP_EOL;
-
-		// build months menu
-		echo '<select name="found_month">' . PHP_EOL;
-		for ($m=1; $m<=12; $m++) {
-			echo '  <option value="' . $m . '">' . date('M', mktime(0,0,0,$m)) . '</option>' . PHP_EOL;
-		}
-		echo '</select>' . PHP_EOL;
-
-		// build days menu
-		echo '<select name="found_day">' . PHP_EOL;
-		for ($d=1; $d<=31; $d++) {
-			echo '  <option value="' . $d . '">' . $d . '</option>' . PHP_EOL;
-		}
-		echo '</select>' . PHP_EOL;
-		*/
-		?>
       </td>
     </tr>
-    <tr class="even">
+    <tr class="odd">
       <td>Logo:</td>
       <td>
 	  <div id='logopathhtml'></div>
@@ -398,7 +367,7 @@ else{
 	  <br><div class='hint'>e.g. Image Suggestion 220 x 220 pixels .jpg file</div>
 	  </td>
     </tr>
-    <tr class="odd">
+    <tr class="even">
       <td>Country:</td>
       <td><select name="country">
       <?php
@@ -420,7 +389,7 @@ else{
     </tr>
     
     
-    <tr class="even">
+    <tr class="odd">
       <td>Tags:</td>
       <td><textarea name="tags" ></textarea>
       <br/>
@@ -428,7 +397,7 @@ else{
       </td>
     </tr>
     
-    <tr class="odd">
+    <tr class="even">
       <td>Status:</td>
       <td><select name="status">
           <option value="Live">Live</option>
@@ -436,7 +405,7 @@ else{
         </select>
       </td>
     </tr>
-    <tr class="even">
+    <tr class="odd">
       <td>Active?</td>
       <td><input type="checkbox" name="active" value="1" checked="checked" />
       </td>
