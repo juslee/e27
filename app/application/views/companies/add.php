@@ -586,12 +586,9 @@ else{
 <td width='50%'>
 	<table width="100%">
 		<tr class="odd">
-		  <td colspan="2">People</td>
-		</tr>
-		<tr class="">
-		  <td>People Search:</td>
+		  <td>People:</td>
 		  <td>
-		  <input type="text" size: "30" id="people_search" />
+		  <input type="text" size: "30" id="people_search" /><div class='hint'>Type in the name to search for people.</div>
 		  <div id='peopleadd' style='display:none'>
 		  	<input type='hidden' id='p_id' />
 		  	<table class='border margin10 pad10'>
@@ -621,9 +618,19 @@ else{
 		  </div>
 		  </td>
 		</tr>
-		<!--<tr class="even">
+		<tr class='even'>
+		  <td>Competitors:</td>
+		  <td>
+		  <input type="text" size="50" id="competitor_search" /><div class='hint'>Type in the company name to search for competitor.</div>
+			<div id="competitors_html" class='margin10 pad10'></div>
+
+		  </td>
+		</tr>
+		<tr class="odd">
 		  <td>Funding:</td>
-		  <td>Round Funding</td>
+		  <td></td>
+		</tr>
+		<!--
 		<tr>
 		  <td></td>
 		  <td><select>
@@ -705,14 +712,6 @@ else{
 		  </td>
 		</tr>
 		-->
-		<tr class='odd'>
-		  <td>Competitors:</td>
-		  <td>
-		  <input type="text" size="50" id="competitor_search" />
-			<div id="competitors_html" class='margin10 pad10'></div>
-
-		  </td>
-		</tr>
 	</table>
 </tr>
 <tr>
