@@ -95,7 +95,7 @@ function addCompetitor(label, value){
 	if($company['id']){
 		?>
 		if(value==<?php echo $company['id']; ?>){
-			alertX("Cannot add self as competitor.");
+			alert("Cannot add self as competitor.");
 			return false;
 		}
 		<?php
@@ -115,12 +115,13 @@ function addCompetitor(label, value){
 		jQuery("#competitors_html").html(html);
 	}
 	else{
-		alertX(label+" is already a competitor.");	
+		alert(label+" is already a competitor.");	
 	}
 }
 
 function delPerson(obj, pid){
 	if(confirm("Are you sure you want to delete this person?")){
+		pid = pid*1;
 		index = people.indexOf(pid);
 		people.splice(index, 1);
 		obj.parentElement.outerHTML = "";
@@ -140,6 +141,7 @@ function delSS(obj, filepath){
 }
 function delCompete(obj, value){
 	if(confirm("Are you sure you want to delete this competitor?")){
+		value = value*1;
 		index = competitors.indexOf(value);
 		competitors.splice(index, 1);
 		obj.parentElement.outerHTML = "";
@@ -149,9 +151,16 @@ function delCompete(obj, value){
 }
 
 function peoplePreAdd(label, value){
+	value = value*1;
+	if(people.indexOf(value)!=-1){
+		alert(label+" is already part of this company.");
+		return false;
+	}
+	
 	jQuery("#peopleadd").slideDown(200);
 	jQuery("#p_name").html(label);
 	jQuery("#p_id").val(value);
+	
 	
 }
 function addPerson(id, name, role, start_date, end_date){
@@ -159,9 +168,15 @@ function addPerson(id, name, role, start_date, end_date){
 		return false;
 	}
 	if(!start_date){
-		alertX("Must input a start date.");
+		alert("Must input a start date.");
 		return false;
 	}
+	id = id*1;
+	if(people.indexOf(id)!=-1){
+		alert(name+" is already part of this company.");
+		return false;
+	}
+	
 	people.push(id);
 	jQuery("#peopleadd").hide();
 	html = jQuery("#peoplehtml").html();
@@ -597,7 +612,8 @@ else{
 					<td><input type='text' id='p_end_date' class='datepicker' /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type='button' value='Add Person' class='button' onclick='addPerson(jQuery("#p_id").val(), jQuery("#p_name").html(), jQuery("#p_role").val(), jQuery("#p_start_date").val(), jQuery("#p_end_date").val())' ></td>
+					<td colspan="2" align="center"><input type='button' value='Add Person' class='button' onclick='addPerson(jQuery("#p_id").val(), jQuery("#p_name").html(), jQuery("#p_role").val(), jQuery("#p_start_date").val(), jQuery("#p_end_date").val())' >&nbsp;
+					<input type='button' value='Cancel' class='button' onclick='jQuery("#peopleadd").hide()' /></td>
 				</tr>
 			</table>
 		  </div>
