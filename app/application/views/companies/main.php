@@ -59,7 +59,7 @@ function searchCompany(){
 </script>
 <center>
 Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?php echo site_url(); ?>companies/add" >ADD NEW COMPANY</a> ]
-<div class='pad10' ><form action="<?php echo site_url(); ?>/companies/search/" class='inline' >Search: <input type='text' id='search' value="<?php echo sanitizeX($search); ?>" name='search' /><input type='button' class='button' value='search' onclick='searchCompany()'></form><div class='hint'>Name, E-mail, Website, Twitter Handle, Facebook Page, LinkedIn, Blog URL, Description, Tags</div></div>
+<div class='pad10' ><form action="<?php echo site_url(); ?>/companies/search/" class='inline' >Search: <input type='text' id='search' value="<?php echo sanitizeX($search); ?>" name='search' /><input type='button' class='button normal' value='search' onclick='searchCompany()'></form><div class='hint'>Name, E-mail, Website, Twitter Handle, Facebook Page, LinkedIn, Blog URL, Description, Tags</div></div>
 </center>
 <div class='list'>
 <table>

@@ -374,18 +374,20 @@ $user = $_SESSION['user'];
 	}
 	input[type="submit"], input[type="button"]{
 		min-width: 80px;
-		min-height: 40px;
 		cursor:pointer;	
+		padding-top:10px;
+		padding-bottom:10px;
 	}
 	
 	#savebutton{
 		width:200px;
-		height: 40px;
 	}
 	input[type="button"].button{
-		min-height: 25px;
 		min-width: 50px;
 		cursor:pointer;	
+	}
+	input[type="button"].normal{
+		padding:2px;
 	}
 	textarea{
 		width: 350px;

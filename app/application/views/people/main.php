@@ -56,7 +56,7 @@ function searchPeople(){
 </script>
 <center>
 Person Search: <input type='text' id='people_search' /> &nbsp; [ <a href="<?php echo site_url(); ?>people/add" >ADD NEW PERSON</a> ]
-<div class='pad10' ><form action="<?php echo site_url(); ?>people/search/" class='inline' >Search: <input type='text' id='search' value="<?php echo sanitizeX($search); ?>" name='search' /><input type='button' class='button' value='search' onclick='searchPeople()'></form><div class='hint'>Name, E-mail address, Twitter Handle, Facebook Page, LinkedIn, Blog URL, Description, Tags</div></div>
+<div class='pad10' ><form action="<?php echo site_url(); ?>people/search/" class='inline' >Search: <input type='text' id='search' value="<?php echo sanitizeX($search); ?>" name='search' /><input type='button' class='button normal' value='search' onclick='searchPeople()'></form><div class='hint'>Name, E-mail address, Twitter Handle, Facebook Page, LinkedIn, Blog URL, Description, Tags</div></div>
 </center>
 <div class='list'>
 <table>

@@ -284,7 +284,7 @@ else{
 	  <div id='profilepathhtml'></div>
 	  <input type='hidden' id='profilepath' name='profile_image' />
 	  <input type='text' id="profile_image" />
-	  <input type='button' class='button' value='Upload' onclick="jQuery('#profile_image').uploadifyUpload();" >
+	  <input type='button' class='button normal' value='Upload' onclick="jQuery('#profile_image').uploadifyUpload();" >
 	  <br><div class='hint'>e.g. Image Suggestion 220 x 220 pixels .jpg file</div>
 	  </td>
     </tr>
@@ -341,7 +341,7 @@ else{
 		</tr>
 		
 		<tr class="even">
-		  <td>Investment Organizations:</td>
+		  <td>Investment Orgs:</td>
 		  <td></td>
 		</tr>
 		<!--<tr>
@@ -429,7 +429,7 @@ else{
 </tr>
 <tr>
 	<td colspan="2" class='center'>
-		<input type="button" id='savebutton' value="Save" onclick="savePerson()" style='height:40px' />
+		<input type="button" id='savebutton' value="Save" onclick="savePerson()" />
 		<!--<input type="button" value="Back to Company List" onclick="self.location='<?php echo site_url(); ?>companies'" />-->
 		<?php 
 		if($person['id']){

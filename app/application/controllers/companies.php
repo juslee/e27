@@ -248,7 +248,7 @@ class companies extends CI_Controller {
 	}
 	
 	public function ajax_delete($company_id=""){
-		if(!company_id){
+		if(!$company_id){
 			$company_id = $_POST['id'];
 		}
 		$sql = "select * from `companies` where `id`=".$this->db->escape($company_id);
