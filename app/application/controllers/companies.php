@@ -486,7 +486,7 @@ class companies extends CI_Controller {
 			$q = $this->db->query($sql);
 			$competitors = $q->result_array();
 			
-			$sql = "select `a`.*, `b`.`name` as `name` from `company_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) where `company_id`=".$this->db->escape($company_id)." order by `name` asc";
+			$sql = "select `a`.*, `b`.`name` as `name` from `company_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) where `company_id`=".$this->db->escape($company_id)." and `name`<>'' order by `name` asc";
 			$q = $this->db->query($sql);
 			$people = $q->result_array();
 			

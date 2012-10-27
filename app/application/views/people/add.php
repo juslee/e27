@@ -61,6 +61,17 @@ function companyPreAdd(label, value){
 	jQuery("#c_id").val(value);
 }
 
+function delCompany(obj, cid){
+	if(confirm("Are you sure you want to delete this company?")){
+		cid = cid*1;
+		index = companies.indexOf(cid);
+		companies.splice(index, 1);
+		obj.parentElement.outerHTML = "";
+		return true;
+	}
+	return false;
+}
+
 function addCompany(id, name, role, start_date, end_date){
 	if(!id){
 		return false;
@@ -97,7 +108,7 @@ function addCompany(id, name, role, start_date, end_date){
 	thedate.setDate(thedate.getDate());
 	start_date = dateFormat(thedate, "mmm dd, yyyy");
 	
-	html += "<a href='<?php echo site_url()?>/companies/edit/"+id+"' target='_blank'>"+name+"</a> - "+role+" ( "+start_date+" to "+end_date+" )&nbsp;&nbsp;&nbsp<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delPerson(this, \""+id+"\")' >Delete</a></div>";
+	html += "<a href='<?php echo site_url()?>/companies/edit/"+id+"' target=''>"+name+"</a> - "+role+" ( "+start_date+" to "+end_date+" )&nbsp;&nbsp;&nbsp<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delCompany(this, \""+id+"\")' >Delete</a></div>";
 	
 	
 	jQuery("#companyhtml").html(html);
