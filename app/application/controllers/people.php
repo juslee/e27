@@ -21,6 +21,34 @@ class people extends CI_Controller {
 		$cnt = $q->result_array();
 		$pages = ceil($cnt[0]['cnt']/$limit);
 		
+		
+		$t  = count($people);
+		for($i=0; $i<$t; $i++){
+			//get the latest company
+			$sql = "select `a`.`id`, `a`.`name`, `b`.`role` from `companies` as `a`, `company_person` as `b` where 
+			`a`.`id` = `b`.`company_id` and 
+			`b`.`person_id`='".$people[$i]['id']."' and 
+			(
+				(
+					`b`.`end_date_ts`<>0 and 
+					`b`.`end_date_ts`>=".time()."
+				)
+				or
+				`b`.`end_date_ts` = 0
+			)
+			order by `b`.`start_date_ts` desc
+			limit 1
+			";
+			$q = $this->db->query($sql);
+			$company_person = $q->result_array();
+			$current_company_id = $company_person[0]['id'];
+			$current_company = $company_person[0]['name'];
+			$current_role = $company_person[0]['role'];
+			$people[$i]['current_company_id'] = $current_company_id;
+			$people[$i]['current_company'] = $current_company;
+			$people[$i]['current_role'] = $current_role;
+		}
+	
 		$data = array();
 		$data['people'] = $people;
 		$data['pages'] = $pages;
@@ -63,6 +91,33 @@ class people extends CI_Controller {
 		$q = $this->db->query($sql);
 		$cnt = $q->result_array();
 		$pages = ceil($cnt[0]['cnt']/$limit);
+		
+		$t  = count($people);
+		for($i=0; $i<$t; $i++){
+			//get the latest company
+			$sql = "select `a`.`name`, `b`.`role` from `companies` as `a`, `company_person` as `b` where 
+			`a`.`id` = `b`.`company_id` and 
+			`b`.`person_id`='".$people[$i]['id']."' and 
+			(
+				(
+					`b`.`end_date_ts`<>0 and 
+					`b`.`end_date_ts`>=".time()."
+				)
+				or
+				`b`.`end_date_ts` = 0
+			)
+			order by `b`.`start_date_ts` desc
+			limit 1
+			";
+			$q = $this->db->query($sql);
+			$company_person = $q->result_array();
+			$current_company_id = $company_person[0]['id'];
+			$current_company = $company_person[0]['name'];
+			$current_role = $company_person[0]['role'];
+			$people[$i]['current_company_id'] = $current_company_id;
+			$people[$i]['current_company'] = $current_company;
+			$people[$i]['current_role'] = $current_role;
+		}
 		
 		$data = array();
 		$data['people'] = $people;

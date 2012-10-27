@@ -199,7 +199,7 @@ function addPerson(id, name, role, start_date, end_date){
 	thedate.setDate(thedate.getDate());
 	start_date = dateFormat(thedate, "mmm dd, yyyy");
 	
-	html += "<a href='<?php echo site_url()?>/people/edit/"+id+"'>"+name+"</a> - "+role+" ( "+start_date+" to "+end_date+" )&nbsp;&nbsp;&nbsp<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delPerson(this, \""+id+"\")' >Delete</a></div>";
+	html += "<a href='<?php echo site_url()?>/people/edit/"+id+"' target='_blank'>"+name+"</a> - "+role+" ( "+start_date+" to "+end_date+" )&nbsp;&nbsp;&nbsp<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delPerson(this, \""+id+"\")' >Delete</a></div>";
 	
 	
 	jQuery("#peoplehtml").html(html);

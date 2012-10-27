@@ -206,12 +206,19 @@ class companies extends CI_Controller {
 			$this->db->query($sql);
 			if(is_array($_POST['p_ids'])){
 				foreach($_POST['p_ids'] as $key=>$value){
+					$start_date_ts = strtotime($_POST['p_start_dates'][$key]);
+					$end_date_ts = 0;
+					if($_POST['p_end_dates'][$key]){
+						$end_date_ts = strtotime($_POST['p_end_dates'][$key]);
+					}
 					$sql = "insert into `company_person` set 
 					`company_id`=".$this->db->escape($id).", 
 					`person_id`=".$this->db->escape($_POST['p_ids'][$key]).",
 					`role`=".$this->db->escape($_POST['p_roles'][$key]).",
 					`start_date`=".$this->db->escape($_POST['p_start_dates'][$key]).",
-					`end_date`=".$this->db->escape($_POST['p_end_dates'][$key]);
+					`start_date_ts`=".$this->db->escape($start_date_ts).",
+					`end_date`=".$this->db->escape($_POST['p_end_dates'][$key]).",
+					`end_date_ts`=".$this->db->escape($end_date_ts);
 					$this->db->query($sql);
 				}
 			}
@@ -387,12 +394,19 @@ class companies extends CI_Controller {
 				$sql = "delete from `company_person` where `company_id`=".$this->db->escape($id);
 				$this->db->query($sql);
 				foreach($_POST['p_ids'] as $key=>$value){
+					$start_date_ts = strtotime($_POST['p_start_dates'][$key]);
+					$end_date_ts = 0;
+					if($_POST['p_end_dates'][$key]){
+						$end_date_ts = strtotime($_POST['p_end_dates'][$key]);
+					}
 					$sql = "insert into `company_person` set 
 					`company_id`=".$this->db->escape($id).", 
 					`person_id`=".$this->db->escape($_POST['p_ids'][$key]).",
 					`role`=".$this->db->escape($_POST['p_roles'][$key]).",
 					`start_date`=".$this->db->escape($_POST['p_start_dates'][$key]).",
-					`end_date`=".$this->db->escape($_POST['p_end_dates'][$key]);
+					`start_date_ts`=".$this->db->escape($start_date_ts).",
+					`end_date`=".$this->db->escape($_POST['p_end_dates'][$key]).",
+					`end_date_ts`=".$this->db->escape($end_date_ts);
 					$this->db->query($sql);
 				}
 			}
