@@ -31,6 +31,52 @@ class companies extends CI_Controller {
 		$this->load->view('layout/main', $data);
 	}
 	
+	public function search(){
+		$start = $_GET['start'];
+		$start += 0;
+		$limit = 50;
+		$search = trim($_GET['search']);
+		
+		$sql = "select * from `companies` where 
+			`name` like '%".mysql_escape_string($search)."%' or
+			`email_address` like '%".mysql_escape_string($search)."%' or
+			`twitter_username` like '%".mysql_escape_string($search)."%' or
+			`website` like '%".mysql_escape_string($search)."%' or
+			`blog` like '%".mysql_escape_string($search)."%' or 
+			`facebook` like '%".mysql_escape_string($search)."%' or 
+			`linkedin` like '%".mysql_escape_string($search)."%' or 
+			`description` like '%".mysql_escape_string($search)."%' or 
+			`tags` like '%".mysql_escape_string($search)."%'
+		order by `name` asc limit $start, $limit" ;
+		$q = $this->db->query($sql);
+		$companies = $q->result_array();
+		
+		$sql = "select count(id) as `cnt` from `companies` where 
+			`name` like '%".mysql_escape_string($search)."%' or
+			`email_address` like '%".mysql_escape_string($search)."%' or
+			`twitter_username` like '%".mysql_escape_string($search)."%' or
+			`website` like '%".mysql_escape_string($search)."%' or
+			`blog` like '%".mysql_escape_string($search)."%' or 
+			`facebook` like '%".mysql_escape_string($search)."%' or 
+			`linkedin` like '%".mysql_escape_string($search)."%' or 
+			`description` like '%".mysql_escape_string($search)."%' or 
+			`tags` like '%".mysql_escape_string($search)."%' 
+		order by `name` asc" ;
+		$q = $this->db->query($sql);
+		$cnt = $q->result_array();
+		$pages = ceil($cnt[0]['cnt']/$limit);
+		
+		$data = array();
+		$data['companies'] = $companies;
+		$data['pages'] = $pages;
+		$data['start'] = $start;
+		$data['limit'] = $limit;
+		$data['search'] = $search;
+		$data['cnt'] = $cnt[0]['cnt'];
+		$data['content'] = $this->load->view('companies/main', $data, true);
+		$this->load->view('layout/main', $data);
+	}
+	
 	public function ajax_search(){
 		$co_name = $_GET['term']."%";
 		$sql = "select `id` as `value`, `name` as `label` from `companies` where `name` like ".$this->db->escape(trim($co_name))." limit 10" ;
@@ -122,7 +168,7 @@ class companies extends CI_Controller {
 				}
 			}
 			$sqlext = implode(", ", $arr);
-			$sql .= $sqlext;
+			$sql .= $sqlext.", `dateupdated`=NOW()";
 			$sql .= "where `id`=".$this->db->escape(trim($_POST['id']));
 			$q = $this->db->query($sql);
 			$id = trim($_POST['id']);
@@ -238,7 +284,7 @@ class companies extends CI_Controller {
 				}
 			}
 			$sqlext = implode(", ", $arr);
-			$sql .= $sqlext;
+			$sql .= $sqlext.", `dateadded`=NOW(), `dateupdated`=NOW()";
 			
 			$q = $this->db->query($sql);
 			$id = $this->db->insert_id();
@@ -396,6 +442,3 @@ class companies extends CI_Controller {
 		}
 	}
 }
-
-/* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */

@@ -53,9 +53,13 @@ function deleteCompany(co_id){
 		
 	}
 }
+function searchCompany(){
+	self.location = "<?php echo site_url(); ?>companies/search/?search="+jQuery("#search").val();
+}
 </script>
 <center>
 Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?php echo site_url(); ?>companies/add" >ADD NEW COMPANY</a> ]
+<div class='pad10' ><form action="<?php echo site_url(); ?>/companies/search/" class='inline' >Search: <input type='text' id='search' value="<?php echo sanitizeX($search); ?>" name='search' /><input type='button' class='button' value='search' onclick='searchCompany()'></form><div class='hint'>Name, E-mail, Website, Twitter Handle, Facebook Page, LinkedIn, Blog URL, Description, Tags</div></div>
 </center>
 <div class='list'>
 <table>
@@ -95,8 +99,19 @@ Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?ph
 		<tr>
 			<td colspan="6" class='center font12' >
 				There is a total of <?php echo $cnt; ?> <?php if($cnt>1) { echo "records"; } else{ echo "record"; }?> in the database. 
-				Go to Page: <select onchange='self.location="?start="+this.value'>
+				Go to Page:
 				<?php
+				if($search){
+					?>
+					<select onchange='self.location="?search=<?php echo sanitizeX($search); ?>&start="+this.value'>
+					<?php
+
+				}
+				else{
+					?>
+					<select onchange='self.location="?start="+this.value'>
+					<?php
+				}
 				for($i=0; $i<$pages; $i++){
 					if(($i*$limit)==$start){
 						?><option value="<?php echo $i*$limit?>" selected="selected"><?php echo $i+1; ?></option><?php

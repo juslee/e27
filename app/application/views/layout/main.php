@@ -108,7 +108,9 @@ $user = $_SESSION['user'];
 		padding: 0 10px 0 10px;
 		margin: 0px 0 0 0;
 	}
-	
+	form{
+		margin:0px;
+	}
 	#container{
 		margin: 10px;
 		border: 1px solid #D0D0D0;
@@ -228,12 +230,14 @@ $user = $_SESSION['user'];
 		min-height: 40px;
 		cursor:pointer;	
 	}
+	
 	#savebutton{
 		width:200px;
 		height: 40px;
 	}
 	input[type="button"].button{
-		min-height: 20px;
+		min-height: 25px;
+		min-width: 50px;
 		cursor:pointer;	
 	}
 	textarea{
@@ -260,6 +264,9 @@ $user = $_SESSION['user'];
 	}
 	.row:hover{
 		background:#FFDB96;
+	}
+	.inline{
+		display:inline;
 	}
 	</style>
 </head>

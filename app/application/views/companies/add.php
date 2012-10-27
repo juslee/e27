@@ -416,7 +416,7 @@ else{
       </td>
     </tr>
     <tr class="even">
-      <td>Upload your Company logo:</td>
+      <td>Upload Company logo:</td>
       <td>
 	  <div id='logopathhtml'></div>
 	  <input type='hidden' id='logopath' name='logo' />
@@ -640,7 +640,6 @@ else{
 			<input type="text"  size="30" />
 		  </td>
 		</tr>
-		</tr>	
 		<tr class='odd'>
 		  <td>Competitors:</td>
 		  <td>
