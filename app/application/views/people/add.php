@@ -48,6 +48,7 @@ function refreshProfile(profilepath){
 }
 
 var companies = [];
+var investment_orgs = [];
 
 function companyPreAdd(label, value){
 	value = value*1;
@@ -61,11 +62,34 @@ function companyPreAdd(label, value){
 	jQuery("#c_id").val(value);
 }
 
+function investmentOrgPreAdd(label, value){
+	value = value*1;
+	if(investment_orgs.indexOf(value)!=-1){
+		alert(label+" is already added as this person's investment organization.");
+		return false;
+	}
+	
+	jQuery("#investment_orgadd").slideDown(200);
+	jQuery("#io_name").html(label);
+	jQuery("#io_id").val(value);
+}
+
 function delCompany(obj, cid){
 	if(confirm("Are you sure you want to delete this company?")){
 		cid = cid*1;
 		index = companies.indexOf(cid);
 		companies.splice(index, 1);
+		obj.parentElement.outerHTML = "";
+		return true;
+	}
+	return false;
+}
+
+function delInvestmentOrg(obj, ioid){
+	if(confirm("Are you sure you want to delete this investment organization?")){
+		ioid = ioid*1;
+		index = investment_orgs.indexOf(ioid);
+		investment_orgs.splice(index, 1);
 		obj.parentElement.outerHTML = "";
 		return true;
 	}
@@ -112,6 +136,48 @@ function addCompany(id, name, role, start_date, end_date){
 	
 	
 	jQuery("#companyhtml").html(html);
+}
+
+function addInvestmentOrg(id, name, role, start_date, end_date){
+	if(!id){
+		return false;
+	}
+	if(!start_date){
+		alert("Must input a start date.");
+		return false;
+	}
+	id = id*1;
+	if(investment_orgs.indexOf(id)!=-1){
+		alert(name+" is already added as this person's investment organization.");
+		return false;
+	}
+	
+	investment_orgs.push(id);
+	jQuery("#investment_orgadd").hide();
+	html = jQuery("#investment_orghtml").html();
+	
+	html += "<div><input type='hidden' name='io_ids[]' value='"+id+"' />";
+	html += "<input type='hidden' name='iop_roles[]' value='"+role+"' />";
+	html += "<input type='hidden' name='iop_start_dates[]' value='"+start_date+"' />";
+	html += "<input type='hidden' name='iop_end_dates[]' value='"+end_date+"' />";
+	
+	if(!end_date){
+		end_date = "Present";
+	}
+	else{
+		thedate = new Date(end_date);
+		thedate.setDate(thedate.getDate());
+		end_date = dateFormat(thedate, "mmm dd, yyyy");
+	}
+	
+	thedate = new Date(start_date);
+	thedate.setDate(thedate.getDate());
+	start_date = dateFormat(thedate, "mmm dd, yyyy");
+	
+	html += "<a href='<?php echo site_url()?>/investment_orgs/edit/"+id+"' target=''>"+name+"</a> - "+role+" ( "+start_date+" to "+end_date+" )&nbsp;&nbsp;&nbsp<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delInvestmentOrg(this, \""+id+"\")' >Delete</a></div>";
+	
+	
+	jQuery("#investment_orghtml").html(html);
 }
 
 jQuery(function(){
@@ -196,6 +262,37 @@ jQuery(function(){
 			label = ui.item.label;
 			value = ui.item.value;
 			jQuery("#company_search").val(label);
+			return false;
+		},
+	});	
+	
+	jQuery("#investment_org_search").autocomplete({
+		//define callback to format results
+		source: function(req, add){
+			//pass request to server
+			jQuery.getJSON("<?php echo site_url(); ?>investment_orgs/ajax_search", req, function(data) {
+				//create array for response objects
+				var suggestions = [];
+				//process response
+				jQuery.each(data, function(i, val){								
+					suggestions.push(val);
+				});
+				//pass array to callback
+				add(suggestions);
+			});
+		},
+		//define select handler
+		select: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			jQuery("#investment_org_search").val("");
+			investmentOrgPreAdd(label, value);
+			return false;
+		},
+		focus: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			jQuery("#investment_org_search").val(label);
 			return false;
 		},
 	});	
@@ -342,89 +439,40 @@ else{
 		
 		<tr class="even">
 		  <td>Investment Orgs:</td>
-		  <td></td>
-		</tr>
-		<!--<tr>
-		  <td></td>
-		  <td><select>
-			  <option value="Seed">Seed</option>
-			  <option value="Angel">Angel</option>
-			  <option value="Series A">Series A</option>
-			  <option value="Series B">Series B</option>
-			  <option value="Series C">Series C</option>
-			  <option value="Series D">Series D</option>
-			  <option value="Series E">Series E</option>
-			  <option value="Series F">Series F</option>
-			  <option value="Series G">Series G</option>
-			  <option value="Series H">Series H</option>
-			  <option value="Grant">Grant</option>
-			  <option value="Debt">Debt</option>
-			  <option value="Venture Round">Venture Round</option>
-			  <option value="Post IPO Equity">Post IPO Equity</option>
-			  <option value="Post IPO Debt">Post IPO Debt</option>
-			</select></td>
-		</tr>
-		<td></td>
-		  <td>Amount</td>
-		<tr>
-		  <td></td>
-		  <td><select>
-			  <option value="PHP">PHP</option>
-			  <option value="YEN">YEN</option>
-			  <option value="SGD">SGD</option>
-			</select>
-			&nbsp;
-			<input type="text"/>
+		  <td>
+		  <input type="text" size: "30" id="investment_org_search" /><div class='hint'>Type in the investment organization name to search and add.</div>
+		  <div id='investment_orgadd' style='display:none'>
+		  	<input type='hidden' id='io_id' />
+		  	<table class='border margin10 pad10'>
+				<tr>
+					<td>Name:</td>
+					<td id='io_name'></td>
+				</tr>
+				<tr>
+					<td>Role:</td>
+					<td><input type='text' id='iop_role' /></td>
+				</tr>
+				<tr>
+					<td>Start Date:</td>
+					<td><input type='text' id='iop_start_date' class='datepicker' /><div class='hint'>mm/dd/yyyy</div></td>
+				</tr>
+				<tr>
+					<td>End Date:</td>
+					<td><input type='text' id='iop_end_date' class='datepicker' /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center"><input type='button' value='Add Investment Organization' class='button' onclick='addInvestmentOrg(jQuery("#io_id").val(), jQuery("#io_name").html(), jQuery("#iop_role").val(), jQuery("#iop_start_date").val(), jQuery("#iop_end_date").val())' >&nbsp;
+					<input type='button' value='Cancel' class='button' onclick='jQuery("#investment_orgadd").hide()' /></td>
+				</tr>
+			</table>
+		  </div>
+			<div class='margin10 pad10'>
+			  <div id='investment_orghtml' \>
+			  </div>
+			</div>
 		  </td>
 		</tr>
-		<td></td>
-		  <td>Date of Funding</td>
-		<tr>
-		  <td></td>
-		  <td><?php
-			// lowest year wanted
-			$cutoff = 1910;
-	
-			// current year
-			$now = date('Y');
-	
-			// build years menu
-			echo '<select>' . PHP_EOL;
-			for ($y=$now; $y>=$cutoff; $y--) {
-				echo '  <option value="' . $y . '">' . $y . '</option>' . PHP_EOL;
-			}
-			echo '</select>' . PHP_EOL;
-	
-			// build months menu
-			echo '<select>' . PHP_EOL;
-			for ($m=1; $m<=12; $m++) {
-				echo '  <option value="' . $m . '">' . date('M', mktime(0,0,0,$m)) . '</option>' . PHP_EOL;
-			}
-			echo '</select>' . PHP_EOL;
-	
-			// build days menu
-			echo '<select>' . PHP_EOL;
-			for ($d=1; $d<=31; $d++) {
-				echo '  <option value="' . $d . '">' . $d . '</option>' . PHP_EOL;
-			}
-			echo '</select>' . PHP_EOL;
-			?>
-		  </td>
-		</tr>
-		<td></td>
-		  <td>Type of Investor:</td>
-		<tr>
-		  <td></td>
-		  <td><select>
-			  <option value="Company">Company</option>
-			  <option value="Person">Person</option>
-			  <option value="Investment Organization">Investment Organization</option>
-			</select>
-			&nbsp;
-			<input type="text"  size="30" />
-		  </td>
-		</tr>
-		-->
+		
 	</table>
 </tr>
 <tr>
@@ -446,10 +494,18 @@ if($person['id']){
 	?>
 	<script>
 		<?php 
+		
 		if(is_array($companies)){
 			foreach($companies as $value){
 				?>
 				addCompany(<?php echo $value['company_id']?>, "<?php echo $value['name']?>", "<?php echo $value['role']?>", "<?php echo $value['start_date']?>", "<?php echo $value['end_date']?>");
+				<?php
+			}
+		}
+		if(is_array($investment_orgs)){
+			foreach($investment_orgs as $value){
+				?>
+				addInvestmentOrg(<?php echo $value['investment_org_id']?>, "<?php echo $value['name']?>", "<?php echo $value['role']?>", "<?php echo $value['start_date']?>", "<?php echo $value['end_date']?>");
 				<?php
 			}
 		}

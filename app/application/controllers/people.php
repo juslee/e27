@@ -199,6 +199,27 @@ class people extends CI_Controller {
 					$this->db->query($sql);
 				}
 			}
+			
+			$sql = "delete from `investment_org_person` where `person_id`=".$this->db->escape($id);
+			$this->db->query($sql);
+			if(is_array($_POST['io_ids'])){
+				foreach($_POST['io_ids'] as $key=>$value){
+					$start_date_ts = strtotime($_POST['iop_start_dates'][$key]);
+					$end_date_ts = 0;
+					if($_POST['iop_end_dates'][$key]){
+						$end_date_ts = strtotime($_POST['iop_end_dates'][$key]);
+					}
+					$sql = "insert into `investment_org_person` set 
+					`person_id`=".$this->db->escape($id).", 
+					`investment_org_id`=".$this->db->escape($_POST['io_ids'][$key]).",
+					`role`=".$this->db->escape($_POST['iop_roles'][$key]).",
+					`start_date`=".$this->db->escape($_POST['iop_start_dates'][$key]).",
+					`start_date_ts`=".$this->db->escape($start_date_ts).",
+					`end_date`=".$this->db->escape($_POST['iop_end_dates'][$key]).",
+					`end_date_ts`=".$this->db->escape($end_date_ts);
+					$this->db->query($sql);
+				}
+			}
 
 			?>
 			alertX("Successfully Updated Person '<?php echo htmlentities($_POST['name']); ?>'.");
@@ -283,6 +304,27 @@ class people extends CI_Controller {
 				}
 			}
 			
+			if(is_array($_POST['io_ids'])){
+				$sql = "delete from `investment_org_person` where `person_id`=".$this->db->escape($id);
+				$this->db->query($sql);
+				foreach($_POST['io_ids'] as $key=>$value){
+					$start_date_ts = strtotime($_POST['iop_start_dates'][$key]);
+					$end_date_ts = 0;
+					if($_POST['iop_end_dates'][$key]){
+						$end_date_ts = strtotime($_POST['iop_end_dates'][$key]);
+					}
+					$sql = "insert into `investment_org_person` set 
+					`person_id`=".$this->db->escape($id).", 
+					`investment_org_id`=".$this->db->escape($_POST['io_ids'][$key]).",
+					`role`=".$this->db->escape($_POST['iop_roles'][$key]).",
+					`start_date`=".$this->db->escape($_POST['iop_start_dates'][$key]).",
+					`start_date_ts`=".$this->db->escape($start_date_ts).",
+					`end_date`=".$this->db->escape($_POST['iop_end_dates'][$key]).",
+					`end_date_ts`=".$this->db->escape($end_date_ts);
+					$this->db->query($sql);
+				}
+			}
+			
 			//update profile_image url
 			$profile_image = $_POST['profile_image'];
 			if($profile_image){
@@ -336,6 +378,11 @@ class people extends CI_Controller {
 			$q = $this->db->query($sql);
 			$companies = $q->result_array();
 			
+			$sql = "select `a`.*, `b`.`name` as `name` from `investment_org_person` as `a` left join `investment_orgs` as `b` on (`a`.`investment_org_id`=`b`.`id`) where `person_id`=".$this->db->escape($person_id)." and `name`<>'' order by `name` asc";
+			$q = $this->db->query($sql);
+			$investment_orgs = $q->result_array();
+			
+			$data['investment_orgs'] = $investment_orgs;
 			$data['companies'] = $companies;
 			$data['person'] = $person[0];
 			$data['content'] = $this->load->view('people/add', $data, true);
