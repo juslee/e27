@@ -79,7 +79,7 @@ Person Search: <input type='text' id='people_search' /> &nbsp; [ <a href="<?php 
 			<td style='vertical-align:middle;'><?php if(trim($people[$i]['profile_image'])){ ?><img src='<?php echo site_url(); ?>/media/image.php?p=<?php echo $people[$i]['profile_image'] ?>&mx=25' /> <?php } ?></td>
 			<td><a href="<?php echo site_url(); ?>people/edit/<?php echo $people[$i]['id']?>" ><?php echo htmlentities($people[$i]['name']); ?></a></td>
 			<td><?php if(trim($people[$i]['email_address'])){ echo "<a href=\"mailto:".sanitizeX($people[$i]['email_address'])."\">".htmlentities($people[$i]['email_address'])."</a>"; }?></td>
-			<td><?php echo "<a target='_blank' href='".site_url()."/companies/edit/".$people[$i]['current_company_id']."'>".$people[$i]['current_company']."</a>"; ?></td>
+			<td><?php echo "<a target='' href='".site_url()."/companies/edit/".$people[$i]['current_company_id']."'>".$people[$i]['current_company']."</a>"; ?></td>
 			<td><?php echo $people[$i]['current_role']; ?></td>
 			<td><?php 
 					if($people[$i]['active']==1){
