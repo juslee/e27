@@ -183,7 +183,7 @@ else{
     </tr>
 
     <tr class="even">
-      <td>Upload Profile Image:</td>
+      <td>Profile Image:</td>
       <td>
 	  <div id='profilepathhtml'></div>
 	  <input type='hidden' id='profilepath' name='profile_image' />
