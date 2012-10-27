@@ -167,6 +167,12 @@ class companies extends CI_Controller {
 					$arr[] ="`".$key."`=".$this->db->escape(trim($value));
 				}
 			}
+			if($_POST['founded']){
+				$mdy = explode("/", $_POST['founded']);
+				$arr[] = "`found_month` = ".$this->db->escape(trim($mdy[0]));
+				$arr[] = "`found_day` = ".$this->db->escape(trim($mdy[1]));
+				$arr[] = "`found_year` = ".$this->db->escape(trim($mdy[2]));
+			}
 			$sqlext = implode(", ", $arr);
 			$sql .= $sqlext.", `dateupdated`=NOW()";
 			$sql .= "where `id`=".$this->db->escape(trim($_POST['id']));
@@ -192,6 +198,20 @@ class companies extends CI_Controller {
 					`company_id`=".$this->db->escape($id).", 
 					`title`=".$this->db->escape($_POST['screenshot_titles'][$key]).",
 					`screenshot`=".$this->db->escape($value);
+					$this->db->query($sql);
+				}
+			}
+			
+			$sql = "delete from `company_person` where `company_id`=".$this->db->escape($id);
+			$this->db->query($sql);
+			if(is_array($_POST['p_ids'])){
+				foreach($_POST['p_ids'] as $key=>$value){
+					$sql = "insert into `company_person` set 
+					`company_id`=".$this->db->escape($id).", 
+					`person_id`=".$this->db->escape($_POST['p_ids'][$key]).",
+					`role`=".$this->db->escape($_POST['p_roles'][$key]).",
+					`start_date`=".$this->db->escape($_POST['p_start_dates'][$key]).",
+					`end_date`=".$this->db->escape($_POST['p_end_dates'][$key]);
 					$this->db->query($sql);
 				}
 			}
@@ -283,6 +303,13 @@ class companies extends CI_Controller {
 					$arr[] ="`".$key."`=".$this->db->escape(trim($value));
 				}
 			}
+			if($_POST['founded']){
+				$mdy = explode("/", $_POST['founded']);
+				$arr[] = "`found_month` = ".$this->db->escape(trim($mdy[0]));
+				$arr[] = "`found_day` = ".$this->db->escape(trim($mdy[1]));
+				$arr[] = "`found_year` = ".$this->db->escape(trim($mdy[2]));
+			}
+			
 			$sqlext = implode(", ", $arr);
 			$sql .= $sqlext.", `dateadded`=NOW(), `dateupdated`=NOW()";
 			
@@ -350,6 +377,20 @@ class companies extends CI_Controller {
 					$sql = "insert into `competitors` set 
 					`company_id`=".$this->db->escape($id).", 
 					`competitor_id`=".$this->db->escape($_POST['competitors'][$key]);
+					$this->db->query($sql);
+				}
+			}
+					
+			if(is_array($_POST['p_ids'])){
+				$sql = "delete from `company_person` where `company_id`=".$this->db->escape($id);
+				$this->db->query($sql);
+				foreach($_POST['p_ids'] as $key=>$value){
+					$sql = "insert into `company_person` set 
+					`company_id`=".$this->db->escape($id).", 
+					`person_id`=".$this->db->escape($_POST['p_ids'][$key]).",
+					`role`=".$this->db->escape($_POST['p_roles'][$key]).",
+					`start_date`=".$this->db->escape($_POST['p_start_dates'][$key]).",
+					`end_date`=".$this->db->escape($_POST['p_end_dates'][$key]);
 					$this->db->query($sql);
 				}
 			}
@@ -429,6 +470,11 @@ class companies extends CI_Controller {
 			$q = $this->db->query($sql);
 			$competitors = $q->result_array();
 			
+			$sql = "select `a`.*, `b`.`name` as `name` from `company_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) where `company_id`=".$this->db->escape($company_id)." order by `name` asc";
+			$q = $this->db->query($sql);
+			$people = $q->result_array();
+			
+			$data['people'] = $people;
 			$data['competitors'] = $competitors;
 			$data['screenshots'] = $screenshots;	
 			$data['co_categories'] = $co_categories;	

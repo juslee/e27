@@ -19,7 +19,7 @@ jQuery(function(){
 		select: function(e, ui) {
 			label = ui.item.label;
 			value = ui.item.value;
-			jQuery("#company_search").val(label);
+			jQuery("#people_search").val(label);
 			self.location = "<?php echo site_url(); ?>people/edit/"+value;
 			return false;
 		},

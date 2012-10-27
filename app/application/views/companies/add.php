@@ -74,6 +74,7 @@ function refreshLogo(logopath){
 }
 var ss = [];
 var competitors = []; 
+var people = []; 
 
 function refreshScreenshots(filepath){
 	file = filepath.split(/\//g);
@@ -94,7 +95,7 @@ function addCompetitor(label, value){
 	if($company['id']){
 		?>
 		if(value==<?php echo $company['id']; ?>){
-			alert("Cannot add self as competitor.");
+			alertX("Cannot add self as competitor.");
 			return false;
 		}
 		<?php
@@ -114,8 +115,18 @@ function addCompetitor(label, value){
 		jQuery("#competitors_html").html(html);
 	}
 	else{
-		alert(label+" is already a competitor.");	
+		alertX(label+" is already a competitor.");	
 	}
+}
+
+function delPerson(obj, pid){
+	if(confirm("Are you sure you want to delete this person?")){
+		index = people.indexOf(pid);
+		people.splice(index, 1);
+		obj.parentElement.outerHTML = "";
+		return true;
+	}
+	return false;
 }
 
 function delSS(obj, filepath){
@@ -136,6 +147,50 @@ function delCompete(obj, value){
 	}
 	return false;
 }
+
+function peoplePreAdd(label, value){
+	jQuery("#peopleadd").slideDown(200);
+	jQuery("#p_name").html(label);
+	jQuery("#p_id").val(value);
+	
+}
+function addPerson(id, name, role, start_date, end_date){
+	if(!id){
+		return false;
+	}
+	if(!start_date){
+		alertX("Must input a start date.");
+		return false;
+	}
+	people.push(id);
+	jQuery("#peopleadd").hide();
+	html = jQuery("#peoplehtml").html();
+	
+	html += "<div><input type='hidden' name='p_ids[]' value='"+id+"' />";
+	html += "<input type='hidden' name='p_roles[]' value='"+role+"' />";
+	html += "<input type='hidden' name='p_start_dates[]' value='"+start_date+"' />";
+	html += "<input type='hidden' name='p_end_dates[]' value='"+end_date+"' />";
+	
+	if(!end_date){
+		end_date = "Present";
+	}
+	else{
+		thedate = new Date(end_date);
+		thedate.setDate(thedate.getDate());
+		end_date = dateFormat(thedate, "mmm dd, yyyy");
+	}
+	
+	thedate = new Date(start_date);
+	thedate.setDate(thedate.getDate());
+	start_date = dateFormat(thedate, "mmm dd, yyyy");
+	
+	html += "<a href='<?php echo site_url()?>/people/edit/"+id+"'>"+name+"</a> - "+role+" ( "+start_date+" to "+end_date+" )&nbsp;&nbsp;&nbsp<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delPerson(this, \""+id+"\")' >Delete</a></div>";
+	
+	
+	jQuery("#peoplehtml").html(html);
+}
+
+
 jQuery(function(){
 	jQuery("#competitor_search").autocomplete({
 		//define callback to format results
@@ -275,6 +330,37 @@ jQuery(function(){
 	});
 	
 	
+	jQuery("#people_search").autocomplete({
+		//define callback to format results
+		source: function(req, add){
+			//pass request to server
+			jQuery.getJSON("<?php echo site_url(); ?>people/ajax_search", req, function(data) {
+				//create array for response objects
+				var suggestions = [];
+				//process response
+				jQuery.each(data, function(i, val){								
+					suggestions.push(val);
+				});
+				//pass array to callback
+				add(suggestions);
+			});
+		},
+		//define select handler
+		select: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			jQuery("#people_search").val("");
+			peoplePreAdd(label, value);
+			return false;
+		},
+		focus: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			jQuery("#people_search").val(label);
+			return false;
+		},
+	});	
+	
 });
 </script>
 <form id='company_form'>
@@ -385,7 +471,11 @@ else{
     </tr>
     <tr class="odd">
       <td>Year Founded:</td>
-      <td><?php
+      <td>
+	  	<input type='text' class='datepicker' alt='founded' id='founded_pick' name='founded' /><div class='hint'>mm/dd/yyyy</div>
+		<?php /*<input type='hidden' name='founded' id='founded' > */ ?>
+	  	<?php
+		/*
 		// lowest year wanted
 		$cutoff = 1910;
 
@@ -412,6 +502,7 @@ else{
 			echo '  <option value="' . $d . '">' . $d . '</option>' . PHP_EOL;
 		}
 		echo '</select>' . PHP_EOL;
+		*/
 		?>
       </td>
     </tr>
@@ -480,84 +571,41 @@ else{
 <td width='50%'>
 	<table width="100%">
 		<tr class="odd">
-		  <td>People:</td>
-		  <td><input type="text" size: "30"/></td>
-		<tr>
-		  <td>Role:</td>
-		  <td><input type="text" size: "30"/></td>
+		  <td colspan="2">People</td>
 		</tr>
-		<tr>
-		  <td></td>
-		  <td>Start Date</td>
-		</tr>
-		<tr>
-		  <td></td>
-		  <td><?php
-			// lowest year wanted
-			$cutoff = 1910;
-	
-			// current year
-			$now = date('Y');
-	
-			// build years menu
-			echo '<select>' . PHP_EOL;
-			for ($y=$now; $y>=$cutoff; $y--) {
-				echo '  <option value="' . $y . '">' . $y . '</option>' . PHP_EOL;
-			}
-			echo '</select>' . PHP_EOL;
-	
-			// build months menu
-			echo '<select>' . PHP_EOL;
-			for ($m=1; $m<=12; $m++) {
-				echo '  <option value="' . $m . '">' . date('M', mktime(0,0,0,$m)) . '</option>' . PHP_EOL;
-			}
-			echo '</select>' . PHP_EOL;
-	
-			// build days menu
-			echo '<select>' . PHP_EOL;
-			for ($d=1; $d<=31; $d++) {
-				echo '  <option value="' . $d . '">' . $d . '</option>' . PHP_EOL;
-			}
-			echo '</select>' . PHP_EOL;
-			?>
+		<tr class="">
+		  <td>People Search:</td>
+		  <td>
+		  <input type="text" size: "30" id="people_search" />
+		  <div id='peopleadd' style='display:none'>
+		  	<input type='hidden' id='p_id' />
+		  	<table class='border margin10 pad10'>
+				<tr>
+					<td>Name</td>
+					<td id='p_name'></td>
+				</tr>
+				<tr>
+					<td>Role</td>
+					<td><input type='text' id='p_role' /></td>
+				</tr>
+				<tr>
+					<td>Start Date</td>
+					<td><input type='text' id='p_start_date' class='datepicker' /><div class='hint'>mm/dd/yyyy</div></td>
+				</tr>
+				<tr>
+					<td>End Date</td>
+					<td><input type='text' id='p_end_date' class='datepicker' /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center"><input type='button' value='Add Person' class='button' onclick='addPerson(jQuery("#p_id").val(), jQuery("#p_name").html(), jQuery("#p_role").val(), jQuery("#p_start_date").val(), jQuery("#p_end_date").val())' ></td>
+				</tr>
+			</table>
+		  </div>
+		  <div id='peoplehtml' class='margin10 pad10'>
+		  </div>
 		  </td>
 		</tr>
-		<tr>
-		  <td></td>
-		  <td>End Date</td>
-		</tr>
-		<tr>
-		  <td></td>
-		  <td><?php
-			// lowest year wanted
-			$cutoff = 1910;
-	
-			// current year
-			$now = date('Y');
-			
-			// build years menu
-			echo '<select>' . PHP_EOL;
-			for ($y=$now; $y>=$cutoff; $y--) {
-				echo '  <option value="' . $y . '">' . $y . '</option>' . PHP_EOL;
-			}
-			echo '</select>' . PHP_EOL;
-	
-			// build months menu
-			echo '<select>' . PHP_EOL;
-			for ($m=1; $m<=12; $m++) {
-				echo '  <option value="' . $m . '">' . date('M', mktime(0,0,0,$m)) . '</option>' . PHP_EOL;
-			}
-			echo '</select>' . PHP_EOL;
-	
-			// build days menu
-			echo '<select>' . PHP_EOL;
-			for ($d=1; $d<=31; $d++) {
-				echo '  <option value="' . $d . '">' . $d . '</option>' . PHP_EOL;
-			}
-			echo '</select>' . PHP_EOL;
-			?></td>
-		</tr>
-		<tr class="even">
+		<!--<tr class="even">
 		  <td>Funding:</td>
 		  <td>Round Funding</td>
 		<tr>
@@ -640,11 +688,12 @@ else{
 			<input type="text"  size="30" />
 		  </td>
 		</tr>
+		-->
 		<tr class='odd'>
 		  <td>Competitors:</td>
 		  <td>
 		  <input type="text" size="50" id="competitor_search" />
-			<div id="competitors_html" class='pad10'></div>
+			<div id="competitors_html" class='margin10 pad10'></div>
 
 		  </td>
 		</tr>
@@ -695,8 +744,22 @@ if($company['id']){
 			jQuery("#sspathhtml").html(html);
 			<?php
 		}
+		if(is_array($people)){
+			foreach($people as $value){
+				?>
+				addPerson(<?php echo $value['person_id']?>, "<?php echo $value['name']?>", "<?php echo $value['role']?>", "<?php echo $value['start_date']?>", "<?php echo $value['end_date']?>");
+				<?php
+			}
+		}
 		foreach($company as $key=>$value){
-			if($key=="logo"&&trim($value)){
+			if($key=='founded'&&0){
+				?>
+				thedate = new Date("<?php echo $value; ?>");
+				thedate.setDate(thedate.getDate());
+				jQuery("#founded_pick").val(dateFormat(thedate, "mmm dd, yyyy"));
+				<?php
+			}
+			else if($key=="logo"&&trim($value)){
 				?>
 				jQuery('#logopath').val("<?php echo sanitizeX($value); ?>");
 				jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>/media/image.php?p=<?php echo $value ?>&mx=220' />");
