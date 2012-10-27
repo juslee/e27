@@ -145,8 +145,10 @@ class people extends CI_Controller {
 		$person = $q->result_array();
 		$sql = "delete from `people` where `id`=".$this->db->escape($person_id);
 		$q = $this->db->query($sql);
+		$sql = "delete from `company_person` where `person_id`=".$this->db->escape($person_id);
+		$this->db->query($sql);
 		?>
-		alertX("Successfully deleted <?php echo htmlentities($company[0]['name']); ?>");
+		alertX("Successfully deleted <?php echo htmlentities($person[0]['name']); ?>");
 		<?php
 	}
 	

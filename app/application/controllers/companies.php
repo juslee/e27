@@ -251,11 +251,13 @@ class companies extends CI_Controller {
 		$q = $this->db->query($sql);
 		$sql = "delete from `company_category` where `company_id`=".$this->db->escape($company_id);
 		$q = $this->db->query($sql);
-		$sql = "delete from `screenshots` where `company_id`=".$this->db->escape($id);
+		$sql = "delete from `screenshots` where `company_id`=".$this->db->escape($company_id);
 		$this->db->query($sql);
-		$sql = "delete from `competitors` where `company_id`=".$this->db->escape($id);
+		$sql = "delete from `competitors` where `company_id`=".$this->db->escape($company_id);
 		$this->db->query($sql);
-		$sql = "delete from `competitors` where `competitor_id`=".$this->db->escape($id);
+		$sql = "delete from `competitors` where `competitor_id`=".$this->db->escape($company_id);
+		$this->db->query($sql);
+		$sql = "delete from `company_person` where `company_id`=".$this->db->escape($company_id);
 		$this->db->query($sql);
 		?>
 		alertX("Successfully deleted <?php echo htmlentities($company[0]['name']); ?>");
