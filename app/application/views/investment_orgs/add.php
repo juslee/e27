@@ -487,7 +487,7 @@ else{
 		<!--<input type="button" value="Back to Company List" onclick="self.location='<?php echo site_url(); ?>companies'" />-->
 		<?php 
 		if($investment_org['id']){
-			?><input type="button" style='background:red; color:white' value="Delete" onclick="deleteCompany('<?php echo $investment_org['id']; ?>')" /><?php
+			?><input type="button" style='background:red; color:white' value="Delete" onclick="deleteInvestmentOrg('<?php echo $investment_org['id']; ?>')" /><?php
 		}
 		?>
 	</td>

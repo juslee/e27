@@ -425,8 +425,8 @@ else{
 					<td><input type='text' id='p_end_date' class='datepicker' /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type='button' value='Add Company' class='button' onclick='addCompany(jQuery("#c_id").val(), jQuery("#c_name").html(), jQuery("#p_role").val(), jQuery("#p_start_date").val(), jQuery("#p_end_date").val())' >&nbsp;
-					<input type='button' value='Cancel' class='button' onclick='jQuery("#companyadd").hide()' /></td>
+					<td colspan="2" align="center"><input type='button' value='Add Company' class='button normal' onclick='addCompany(jQuery("#c_id").val(), jQuery("#c_name").html(), jQuery("#p_role").val(), jQuery("#p_start_date").val(), jQuery("#p_end_date").val())' >&nbsp;
+					<input type='button' value='Cancel' class='button normal' onclick='jQuery("#companyadd").hide()' /></td>
 				</tr>
 			</table>
 		  </div>
@@ -461,8 +461,8 @@ else{
 					<td><input type='text' id='iop_end_date' class='datepicker' /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type='button' value='Add Investment Organization' class='button' onclick='addInvestmentOrg(jQuery("#io_id").val(), jQuery("#io_name").html(), jQuery("#iop_role").val(), jQuery("#iop_start_date").val(), jQuery("#iop_end_date").val())' >&nbsp;
-					<input type='button' value='Cancel' class='button' onclick='jQuery("#investment_orgadd").hide()' /></td>
+					<td colspan="2" align="center"><input type='button' value='Add Investment Organization' class='button normal' onclick='addInvestmentOrg(jQuery("#io_id").val(), jQuery("#io_name").html(), jQuery("#iop_role").val(), jQuery("#iop_start_date").val(), jQuery("#iop_end_date").val())' >&nbsp;
+					<input type='button' value='Cancel' class='button normal' onclick='jQuery("#investment_orgadd").hide()' /></td>
 				</tr>
 			</table>
 		  </div>

@@ -90,7 +90,7 @@ Investment Organization Search: <input type='text' id='investment_org_search' />
 					}		
 			?></td>
 			<td>[ <a href="<?php echo site_url(); ?>investment_orgs/edit/<?php echo $investment_orgs[$i]['id']?>" >Edit</a> ] 
-			[ <a style='color: red; cursor:pointer; text-decoration: underline' onclick='deleteCompany("<?php echo htmlentities($investment_orgs[$i]['id']) ?>"); ' >Delete</a> ]</td>
+			[ <a style='color: red; cursor:pointer; text-decoration: underline' onclick='deleteInvestmentOrg("<?php echo htmlentities($investment_orgs[$i]['id']) ?>"); ' >Delete</a> ]</td>
 		</tr>
 		<?php
 	}
