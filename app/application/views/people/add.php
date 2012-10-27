@@ -341,7 +341,7 @@ else{
 		</tr>
 		
 		<tr class="even">
-		  <td>Funding:</td>
+		  <td>Investment Organizations:</td>
 		  <td></td>
 		</tr>
 		<!--<tr>
