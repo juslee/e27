@@ -593,19 +593,19 @@ else{
 		  	<input type='hidden' id='p_id' />
 		  	<table class='border margin10 pad10'>
 				<tr>
-					<td>Name</td>
+					<td>Name:</td>
 					<td id='p_name'></td>
 				</tr>
 				<tr>
-					<td>Role</td>
+					<td>Role:</td>
 					<td><input type='text' id='p_role' /></td>
 				</tr>
 				<tr>
-					<td>Start Date</td>
+					<td>Start Date:</td>
 					<td><input type='text' id='p_start_date' class='datepicker' /><div class='hint'>mm/dd/yyyy</div></td>
 				</tr>
 				<tr>
-					<td>End Date</td>
+					<td>End Date:</td>
 					<td><input type='text' id='p_end_date' class='datepicker' /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
 				</tr>
 				<tr>

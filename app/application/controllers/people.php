@@ -178,6 +178,27 @@ class people extends CI_Controller {
 			$sql .= "where `id`=".$this->db->escape(trim($_POST['id']));
 			$q = $this->db->query($sql);
 			$id = trim($_POST['id']);
+			
+			$sql = "delete from `company_person` where `person_id`=".$this->db->escape($id);
+			$this->db->query($sql);
+			if(is_array($_POST['c_ids'])){
+				foreach($_POST['c_ids'] as $key=>$value){
+					$start_date_ts = strtotime($_POST['p_start_dates'][$key]);
+					$end_date_ts = 0;
+					if($_POST['p_end_dates'][$key]){
+						$end_date_ts = strtotime($_POST['p_end_dates'][$key]);
+					}
+					$sql = "insert into `company_person` set 
+					`person_id`=".$this->db->escape($id).", 
+					`company_id`=".$this->db->escape($_POST['c_ids'][$key]).",
+					`role`=".$this->db->escape($_POST['p_roles'][$key]).",
+					`start_date`=".$this->db->escape($_POST['p_start_dates'][$key]).",
+					`start_date_ts`=".$this->db->escape($start_date_ts).",
+					`end_date`=".$this->db->escape($_POST['p_end_dates'][$key]).",
+					`end_date_ts`=".$this->db->escape($end_date_ts);
+					$this->db->query($sql);
+				}
+			}
 
 			?>
 			alertX("Successfully Updated Person '<?php echo htmlentities($_POST['name']); ?>'.");
@@ -240,6 +261,27 @@ class people extends CI_Controller {
 			
 			$q = $this->db->query($sql);
 			$id = $this->db->insert_id();
+				
+			if(is_array($_POST['c_ids'])){
+				$sql = "delete from `company_person` where `person_id`=".$this->db->escape($id);
+				$this->db->query($sql);
+				foreach($_POST['c_ids'] as $key=>$value){
+					$start_date_ts = strtotime($_POST['p_start_dates'][$key]);
+					$end_date_ts = 0;
+					if($_POST['p_end_dates'][$key]){
+						$end_date_ts = strtotime($_POST['p_end_dates'][$key]);
+					}
+					$sql = "insert into `company_person` set 
+					`person_id`=".$this->db->escape($id).", 
+					`company_id`=".$this->db->escape($_POST['c_ids'][$key]).",
+					`role`=".$this->db->escape($_POST['p_roles'][$key]).",
+					`start_date`=".$this->db->escape($_POST['p_start_dates'][$key]).",
+					`start_date_ts`=".$this->db->escape($start_date_ts).",
+					`end_date`=".$this->db->escape($_POST['p_end_dates'][$key]).",
+					`end_date_ts`=".$this->db->escape($end_date_ts);
+					$this->db->query($sql);
+				}
+			}
 			
 			//update profile_image url
 			$profile_image = $_POST['profile_image'];
@@ -290,6 +332,11 @@ class people extends CI_Controller {
 		$person = $q->result_array();	
 		if($person[0]['id']){
 			$data = array();
+			$sql = "select `a`.*, `b`.`name` as `name` from `company_person` as `a` left join `companies` as `b` on (`a`.`company_id`=`b`.`id`) where `person_id`=".$this->db->escape($person_id)." order by `name` asc";
+			$q = $this->db->query($sql);
+			$companies = $q->result_array();
+			
+			$data['companies'] = $companies;
 			$data['person'] = $person[0];
 			$data['content'] = $this->load->view('people/add', $data, true);
 			$this->load->view('layout/main', $data);
