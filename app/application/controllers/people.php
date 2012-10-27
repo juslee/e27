@@ -332,7 +332,7 @@ class people extends CI_Controller {
 		$person = $q->result_array();	
 		if($person[0]['id']){
 			$data = array();
-			$sql = "select `a`.*, `b`.`name` as `name` from `company_person` as `a` left join `companies` as `b` on (`a`.`company_id`=`b`.`id`) where `person_id`=".$this->db->escape($person_id)." and `name`<>'' order by `start_date_ts` desc";
+			$sql = "select `a`.*, `b`.`name` as `name` from `company_person` as `a` left join `companies` as `b` on (`a`.`company_id`=`b`.`id`) where `person_id`=".$this->db->escape($person_id)." and `name`<>'' order by `name` asc";
 			$q = $this->db->query($sql);
 			$companies = $q->result_array();
 			

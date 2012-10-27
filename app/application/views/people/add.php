@@ -305,9 +305,9 @@ else{
 <td width='50%'>
 	<table width="100%">
 		<tr class="odd">
-		  <td>Company:</td>
+		  <td>Companies:</td>
 		  <td>
-		  <input type="text" size: "30" id="company_search" /><div class='hint'>Type in the company name to search for company.</div>
+		  <input type="text" size: "30" id="company_search" /><div class='hint'>Type in the company name to search and add a company.</div>
 		  <div id='companyadd' style='display:none'>
 		  	<input type='hidden' id='c_id' />
 		  	<table class='border margin10 pad10'>
@@ -333,8 +333,10 @@ else{
 				</tr>
 			</table>
 		  </div>
-		  <div id='companyhtml' class='margin10 pad10'>
-		  </div>
+			<div class='margin10 pad10'>
+			  <div id='companyhtml' \>
+			  </div>
+			</div>
 		  </td>
 		</tr>
 		
