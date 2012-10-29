@@ -215,7 +215,7 @@ $user = $_SESSION['user'];
 
 	body {
 		background-color: #f0f0f0;
-		margin: 40px;
+		margin: 30px;
 		margin-top: 0px;
 		font: 13px/20px normal Helvetica, Arial, sans-serif;
 		color: black;
@@ -399,7 +399,7 @@ $user = $_SESSION['user'];
 	}
 	
 	#savebutton{
-		width:200px;
+		width:100%;
 	}
 	input[type="button"].button{
 		min-width: 50px;
@@ -440,6 +440,14 @@ $user = $_SESSION['user'];
 		border: 1px solid #CCCCCC;
 		border-radius: 3px 3px 3px 3px;
 	}
+	#peoplehtml table, #companyhtml table, #investment_orghtml table, #competitors_html table{
+		border-collapse:collapse;
+	}
+	#peoplehtml table td, #companyhtml table td, #investment_orghtml table td, #competitors_html table td{
+		padding: 2px 5px 2px 5px;
+		border: 1px solid #AAAAAA;
+	}
+	
 	</style>
 </head>
 <body>

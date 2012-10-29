@@ -79,7 +79,7 @@ function delCompany(obj, cid){
 		cid = cid*1;
 		index = companies.indexOf(cid);
 		companies.splice(index, 1);
-		obj.parentElement.outerHTML = "";
+		obj.parentElement.parentElement.outerHTML = "";
 		return true;
 	}
 	return false;
@@ -90,7 +90,7 @@ function delInvestmentOrg(obj, ioid){
 		ioid = ioid*1;
 		index = investment_orgs.indexOf(ioid);
 		investment_orgs.splice(index, 1);
-		obj.parentElement.outerHTML = "";
+		obj.parentElement.parentElement.outerHTML = "";
 		return true;
 	}
 	return false;
@@ -112,9 +112,9 @@ function addCompany(id, name, role, start_date, end_date){
 	
 	companies.push(id);
 	jQuery("#companyadd").hide();
-	html = jQuery("#companyhtml").html();
+	html = jQuery("#companyhtml table tbody").html();
 	
-	html += "<div><input type='hidden' name='c_ids[]' value='"+id+"' />";
+	html += "<tr><td><input type='hidden' name='c_ids[]' value='"+id+"' />";
 	html += "<input type='hidden' name='p_roles[]' value='"+role+"' />";
 	html += "<input type='hidden' name='p_start_dates[]' value='"+start_date+"' />";
 	html += "<input type='hidden' name='p_end_dates[]' value='"+end_date+"' />";
@@ -132,10 +132,10 @@ function addCompany(id, name, role, start_date, end_date){
 	thedate.setDate(thedate.getDate());
 	start_date = dateFormat(thedate, "mmm dd, yyyy");
 	
-	html += "<a href='<?php echo site_url()?>/companies/edit/"+id+"' target=''>"+name+"</a> - "+role+" ( "+start_date+" to "+end_date+" )&nbsp;&nbsp;&nbsp<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delCompany(this, \""+id+"\")' >Delete</a></div>";
+	html += "<a href='<?php echo site_url()?>/companies/edit/"+id+"' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delCompany(this, \""+id+"\")' >Delete</a></td></tr>";
 	
 	
-	jQuery("#companyhtml").html(html);
+	jQuery("#companyhtml table tbody").html(html);
 }
 
 function addInvestmentOrg(id, name, role, start_date, end_date){
@@ -154,9 +154,9 @@ function addInvestmentOrg(id, name, role, start_date, end_date){
 	
 	investment_orgs.push(id);
 	jQuery("#investment_orgadd").hide();
-	html = jQuery("#investment_orghtml").html();
+	html = jQuery("#investment_orghtml table tbody").html();
 	
-	html += "<div><input type='hidden' name='io_ids[]' value='"+id+"' />";
+	html += "<tr><td><input type='hidden' name='io_ids[]' value='"+id+"' />";
 	html += "<input type='hidden' name='iop_roles[]' value='"+role+"' />";
 	html += "<input type='hidden' name='iop_start_dates[]' value='"+start_date+"' />";
 	html += "<input type='hidden' name='iop_end_dates[]' value='"+end_date+"' />";
@@ -174,10 +174,10 @@ function addInvestmentOrg(id, name, role, start_date, end_date){
 	thedate.setDate(thedate.getDate());
 	start_date = dateFormat(thedate, "mmm dd, yyyy");
 	
-	html += "<a href='<?php echo site_url()?>investment_orgs/edit/"+id+"' target=''>"+name+"</a> - "+role+" ( "+start_date+" to "+end_date+" )&nbsp;&nbsp;&nbsp<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delInvestmentOrg(this, \""+id+"\")' >Delete</a></div>";
+	html += "<a href='<?php echo site_url()?>investment_orgs/edit/"+id+"' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delInvestmentOrg(this, \""+id+"\")' >Delete</a></td></tr>";
 	
 	
-	jQuery("#investment_orghtml").html(html);
+	jQuery("#investment_orghtml table tbody").html(html);
 }
 
 jQuery(function(){
@@ -432,8 +432,7 @@ else{
 			</table>
 		  </div>
 			<div class='margin10 pad10'>
-			  <div id='companyhtml' \>
-			  </div>
+			  <div id='companyhtml' ><table cellspacing=0><tbody></tbody></table></div>
 			</div>
 		  </td>
 		</tr>
@@ -468,8 +467,7 @@ else{
 			</table>
 		  </div>
 			<div class='margin10 pad10'>
-			  <div id='investment_orghtml' \>
-			  </div>
+			  <div id='investment_orghtml'><table cellspacing=0><tbody></tbody></table></div>
 			</div>
 		  </td>
 		</tr>
@@ -478,13 +476,18 @@ else{
 </tr>
 <tr>
 	<td colspan="2" class='center'>
+		<table width='100%'>
+		<tr>
+		<td width='100%'>
 		<input type="button" id='savebutton' value="Save" onclick="savePerson()" />
-		<!--<input type="button" value="Back to Company List" onclick="self.location='<?php echo site_url(); ?>companies'" />-->
+		</td>
 		<?php 
 		if($person['id']){
-			?><input type="button" style='background:red; color:white' value="Delete" onclick="deletePerson('<?php echo $person['id']; ?>')" /><?php
+			?><td><input type="button" style='background:red; color:white' value="Delete" onclick="deletePerson('<?php echo $person['id']; ?>')" /></td><?php
 		}
 		?>
+		</tr>
+		</table>
 	</td>
 </tr>
 </td>

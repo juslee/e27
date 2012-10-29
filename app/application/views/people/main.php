@@ -31,7 +31,16 @@ jQuery(function(){
 		},
 
 
-	});	
+	}).data( "autocomplete" )._renderItem = function( ul, item ) {
+		append = "";
+		if(item.desc){
+			append = "<div class='more'>" + item.desc + "</div>";
+		}
+		return $( "<li>" )
+			.data( "item.autocomplete", item )
+			.append( "<a>" + item.label + append + "</a>")
+			.appendTo( ul );
+	};
 });
 
 function deletePerson(person_id){

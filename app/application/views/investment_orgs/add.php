@@ -80,7 +80,7 @@ function delPerson(obj, pid){
 		pid = pid*1;
 		index = people.indexOf(pid);
 		people.splice(index, 1);
-		obj.parentElement.outerHTML = "";
+		obj.parentElement.parentElement.outerHTML = "";
 		return true;
 	}
 	return false;
@@ -115,9 +115,9 @@ function addPerson(id, name, role, start_date, end_date){
 	
 	people.push(id);
 	jQuery("#peopleadd").hide();
-	html = jQuery("#peoplehtml").html();
+	html = jQuery("#peoplehtml table tbody").html();
 	
-	html += "<div><input type='hidden' name='p_ids[]' value='"+id+"' />";
+	html += "<tr><td><input type='hidden' name='p_ids[]' value='"+id+"' />";
 	html += "<input type='hidden' name='p_roles[]' value='"+role+"' />";
 	html += "<input type='hidden' name='p_start_dates[]' value='"+start_date+"' />";
 	html += "<input type='hidden' name='p_end_dates[]' value='"+end_date+"' />";
@@ -135,10 +135,10 @@ function addPerson(id, name, role, start_date, end_date){
 	thedate.setDate(thedate.getDate());
 	start_date = dateFormat(thedate, "mmm dd, yyyy");
 	
-	html += "<a href='<?php echo site_url()?>people/edit/"+id+"' target=''>"+name+"</a> - "+role+" ( "+start_date+" to "+end_date+" )&nbsp;&nbsp;&nbsp<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delPerson(this, \""+id+"\")' >Delete</a></div>";
+	html += "<a href='<?php echo site_url()?>people/edit/"+id+"' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delPerson(this, \""+id+"\")' >Delete</a></td></tr>";
 	
 	
-	jQuery("#peoplehtml").html(html);
+	jQuery("#peoplehtml table tbody").html(html);
 }
 
 
@@ -454,7 +454,7 @@ else{
 			</table>
 		  </div>
 		  <div class='margin10 pad10'>
-		  	<div id='peoplehtml'></div>
+		  	<div id='peoplehtml'><table cellspacing=0><tbody></tbody></table></div>
 		  </div>
 		  </td>
 		</tr>
@@ -462,13 +462,16 @@ else{
 </tr>
 <tr>
 	<td colspan="2" class='center'>
-		<input type="button" id='savebutton' value="Save" onclick="saveInvestmentOrg()" />
-		<!--<input type="button" value="Back to Company List" onclick="self.location='<?php echo site_url(); ?>companies'" />-->
+		<table width='100%'>
+		<tr>
+		<td width='100%'><input type="button" id='savebutton' value="Save" onclick="saveInvestmentOrg()" /></td>
 		<?php 
 		if($investment_org['id']){
-			?><input type="button" style='background:red; color:white' value="Delete" onclick="deleteInvestmentOrg('<?php echo $investment_org['id']; ?>')" /><?php
+			?><td><input type="button" style='background:red; color:white' value="Delete" onclick="deleteInvestmentOrg('<?php echo $investment_org['id']; ?>')" /></td><?php
 		}
 		?>
+		</tr>
+		</table>
 	</td>
 </tr>
 </td>
