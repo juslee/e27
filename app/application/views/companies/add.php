@@ -181,7 +181,7 @@ function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_com
 	html += "<td>";
 		html += "<input type='hidden' name='f_rounds[]' value='"+f_round+"' />";
 		html += "<input type='hidden' name='f_currencies[]' value='"+f_currency+"' />";
-		html += "<input type='hidden' name='f_fund_amounts[]' value='"+f_fund_amount+"' />";
+		html += "<input type='hidden' name='f_fund_amounts[]' value='"+uNum(f_fund_amount)+"' />";
 		html += "<input type='hidden' name='f_dates[]' value='"+f_date+"' />";
 		html += "<input type='hidden' name='f_companies[]' value='"+f_company+"' />";
 		html += "<input type='hidden' name='f_company_vals[]' value='"+f_company_val+"' />";
@@ -902,7 +902,12 @@ else{
 						<?php
 						$t = count($currencies);
 						for($i=0; $i<$t; $i++){
-							?><option value="<?php echo sanitizeX($currencies[$i]['code']) ?>"><?php echo sanitizeX($currencies[$i]['currency']." (".$currencies[$i]['code'].")") ?></option><?php
+							if($currencies[$i]['code']=="SGD"){
+								?><option selected="selected" value="<?php echo sanitizeX($currencies[$i]['code']) ?>"><?php echo sanitizeX($currencies[$i]['currency']." (".$currencies[$i]['code'].")") ?></option><?php
+							}
+							else{
+								?><option value="<?php echo sanitizeX($currencies[$i]['code']) ?>"><?php echo sanitizeX($currencies[$i]['currency']." (".$currencies[$i]['code'].")") ?></option><?php
+							}
 						}
 						?>
 						</select>
@@ -942,7 +947,7 @@ else{
 					</td>
 				</tr>
 				<tr>
-					<td align="center" colspan="2"><input type='button' class='button normal' value='   Add Funding   ' onclick='addFunding(jQuery("#f_round").val(), jQuery("#f_currency").val(), jQuery("#f_fund_amount").val(), jQuery("#f_date").val(), jQuery("#f_company").val(), jQuery("#f_company_val").val(), jQuery("#f_person").val(), jQuery("#f_person_val").val(), jQuery("#f_investment_org").val(), jQuery("#f_investment_org_val").val());'></td>
+					<td align="center" colspan="2"><input type='button' class='button normal' value='   Add Funding   ' onclick='addFunding(jQuery("#f_round").val(), jQuery("#f_currency").val(), jQuery("#f_fund_amount").val(), jQuery("#f_date").val(), jQuery("#f_company").val(), jQuery("#f_company_val").val(), jQuery("#f_person").val(), jQuery("#f_person_val").val(), jQuery("#f_investment_org").val(), jQuery("#f_investment_org_val").val());'>&nbsp;&nbsp;<input type='button' class='button normal' value='Cancel' onclick='jQuery("#fundingadd").fadeOut(200)'> </td>
 				</tr>
 			</table>
 			<div id="fundinghtml" class='pad10'><table cellspacing=0 width="100%"><tbody></tbody></table></div>
