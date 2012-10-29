@@ -149,6 +149,39 @@ $user = $_SESSION['user'];
 		});
 	};
 	}();
+	
+	
+	/********************************** number formating *****************************/
+	
+	function addCommas(nStr){
+		nStr += '';
+		x = nStr.split('.');
+		x1 = x[0];
+		x2 = x.length > 1 ? '.' + x[1] : '';
+		var rgx = /(\d+)(\d{3})/;
+		while (rgx.test(x1)) {
+			x1 = x1.replace(rgx, '$1' + ',' + '$2');
+		}
+		return x1 + x2;
+	}
+	
+	function fNum(num){
+		num = uNum(num);
+		num = num.toFixed(2);
+		return addCommas(num);
+	}
+	function uNum(num){
+		if(!num){
+			num = 0;
+		}
+		else if(isNaN(num)){
+			num = num.replace(/[^0-9\.]/g, "");
+			if(isNaN(num)){
+				num = 0;
+			}
+		}
+		return num*1;
+	}
 
 	// Some common format strings
 	dateFormat.masks = {
@@ -440,12 +473,42 @@ $user = $_SESSION['user'];
 		border: 1px solid #CCCCCC;
 		border-radius: 3px 3px 3px 3px;
 	}
+	.hidden{
+		display:none;
+	}
+	.cursor{
+		cursor:pointer;
+	}
+	
 	#peoplehtml table, #companyhtml table, #investment_orghtml table, #competitors_html table{
 		border-collapse:collapse;
 	}
 	#peoplehtml table td, #companyhtml table td, #investment_orghtml table td, #competitors_html table td{
 		padding: 2px 5px 2px 5px;
 		border: 1px solid #AAAAAA;
+	}
+	
+	
+	#funding .label{
+		background:#AAAAAA;
+		width:15%;
+	}
+	#funding .value1{
+		width:20%;
+	}
+	#funding .value2{
+		width:50%;
+	}
+	#fundinghtml{
+		width:100%;
+	}
+	.fundingtable{
+		width:90%;
+		border:1px solid #CCCCCC;
+		margin-bottom:10px;
+	}
+	.fundingtable td{
+		padding:4px;
 	}
 	
 	</style>

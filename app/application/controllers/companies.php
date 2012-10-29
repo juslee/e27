@@ -235,6 +235,28 @@ class companies extends CI_Controller {
 					$this->db->query($sql);
 				}
 			}
+			
+			$sql = "delete from `company_fundings` where `company_id`=".$this->db->escape($id);
+			$this->db->query($sql);
+			if(is_array($_POST['f_rounds'])){
+				foreach($_POST['f_rounds'] as $key=>$value){
+					$sql = "insert into `company_fundings` set 
+					`round`=".$this->db->escape($value).", 
+					`company_id`=".$this->db->escape($id).", 
+					`currency`=".$this->db->escape($_POST['f_currencies'][$key]).", 
+					`amount`=".$this->db->escape($_POST['f_fund_amounts'][$key]).", 
+					`date`=".$this->db->escape($_POST['f_dates'][$key]).",
+					`date_ts`=".$this->db->escape(strtotime($_POST['f_dates'][$key])).",
+					`company2`=".$this->db->escape($_POST['f_companies'][$key]).",
+					`company2_id`=".$this->db->escape($_POST['f_company_vals'][$key]).",
+					`person`=".$this->db->escape($_POST['f_people'][$key]).",
+					`person_id`=".$this->db->escape($_POST['f_person_vals'][$key]).",
+					`investment_org`=".$this->db->escape($_POST['f_investment_orgs'][$key]).",
+					`investment_org_id`=".$this->db->escape($_POST['f_investment_org_vals'][$key])."
+					";
+					$this->db->query($sql);
+				}
+			}
 			?>
 			alertX("Successfully Updated Company '<?php echo htmlentities($_POST['name']); ?>'.");
 			<?php
@@ -265,6 +287,8 @@ class companies extends CI_Controller {
 		$sql = "delete from `competitors` where `competitor_id`=".$this->db->escape($company_id);
 		$this->db->query($sql);
 		$sql = "delete from `company_person` where `company_id`=".$this->db->escape($company_id);
+		$this->db->query($sql);
+		$sql = "delete from `company_fundings` where `company_id`=".$this->db->escape($company_id);
 		$this->db->query($sql);
 		?>
 		alertX("Successfully deleted <?php echo htmlentities($company[0]['name']); ?>");
@@ -410,6 +434,29 @@ class companies extends CI_Controller {
 					$this->db->query($sql);
 				}
 			}
+			
+			
+			if(is_array($_POST['f_rounds'])){
+				$sql = "delete from `company_fundings` where `company_id`=".$this->db->escape($id);
+				$this->db->query($sql);
+				foreach($_POST['f_rounds'] as $key=>$value){
+					$sql = "insert into `company_fundings` set 
+					`round`=".$this->db->escape($value).", 
+					`company_id`=".$this->db->escape($id).", 
+					`currency`=".$this->db->escape($_POST['f_currencies'][$key]).", 
+					`amount`=".$this->db->escape($_POST['f_fund_amounts'][$key]).", 
+					`date`=".$this->db->escape($_POST['f_dates'][$key]).",
+					`date_ts`=".$this->db->escape(strtotime($_POST['f_dates'][$key])).",
+					`company2`=".$this->db->escape($_POST['f_companies'][$key]).",
+					`company2_id`=".$this->db->escape($_POST['f_company_vals'][$key]).",
+					`person`=".$this->db->escape($_POST['f_people'][$key]).",
+					`person_id`=".$this->db->escape($_POST['f_person_vals'][$key]).",
+					`investment_org`=".$this->db->escape($_POST['f_investment_orgs'][$key]).",
+					`investment_org_id`=".$this->db->escape($_POST['f_investment_org_vals'][$key])."
+					";
+					$this->db->query($sql);
+				}
+			}
 
 			if($_POST['sid']){
 				$dir = dirname(__FILE__)."/../../media/uploads/temp/".$_POST['sid'];
@@ -439,6 +486,14 @@ class companies extends CI_Controller {
 		$sql = "select * from `countries`";
 		$q = $this->db->query($sql);
 		$countries = $q->result_array();	
+		$sql = "select distinct `code`, `currency` from `currencies` where `currency` not like 'uses%'";
+		$q = $this->db->query($sql);
+		$currencies = $q->result_array();	
+		$sql = "select * from `funding_rounds`";
+		$q = $this->db->query($sql);
+		$funding_rounds = $q->result_array();	
+		$data['funding_rounds'] = $funding_rounds;
+		$data['currencies'] = $currencies;
 		$data['countries'] = $countries;
 		$data['content'] = $this->load->view('companies/add', $data, true);
 		$this->load->view('layout/main', $data);
@@ -489,7 +544,43 @@ class companies extends CI_Controller {
 			$sql = "select `a`.*, `b`.`name` as `name` from `company_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) where `company_id`=".$this->db->escape($company_id)." and `name`<>'' order by `name` asc";
 			$q = $this->db->query($sql);
 			$people = $q->result_array();
+			$sql = "select distinct `code`, `currency` from `currencies` where `currency` not like 'uses%'";
+			$q = $this->db->query($sql);
+			$currencies = $q->result_array();
+			$sql = "select * from `funding_rounds`";
+			$q = $this->db->query($sql);
+			$funding_rounds = $q->result_array();	
 			
+			$sql = "select * from `company_fundings` where `company_id`=".$this->db->escape($company_id)." order by date_ts desc";
+			$q = $this->db->query($sql);
+			$company_fundings = $q->result_array();
+			foreach($company_fundings as $key=>$value){
+				$sql = "select `name` from `companies` where `id`=".$this->db->escape($value['company2_id']);
+				$q = $this->db->query($sql);
+				$company2 = $q->result_array();
+				if($company2[0]){
+					$company_fundings[$key]['company2'] = $company2[0]['name'];
+				}
+				
+				$sql = "select `name` from `people` where `id`=".$this->db->escape($value['person_id']);
+				$q = $this->db->query($sql);
+				$person = $q->result_array();
+				if($person[0]){
+					$company_fundings[$key]['person'] = $person[0]['name'];
+				}
+				
+				$sql = "select `name` from `investment_orgs` where `id`=".$this->db->escape($value['investment_org_is']);
+				$q = $this->db->query($sql);
+				$investment_org = $q->result_array();
+				if($investment_org[0]){
+					$company_fundings[$key]['investment_org'] = $investment_org[0]['name'];
+				}
+			}
+			
+			
+			$data['company_fundings'] = $company_fundings;	
+			$data['funding_rounds'] = $funding_rounds;				
+			$data['currencies'] = $currencies;
 			$data['people'] = $people;
 			$data['competitors'] = $competitors;
 			$data['screenshots'] = $screenshots;	

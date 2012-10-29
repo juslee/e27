@@ -163,6 +163,127 @@ function peoplePreAdd(label, value){
 	
 	
 }
+
+function delFunding(idx){
+	if(confirm("Are you sure you want to delete this funding record?")){
+		jQuery("#"+idx)[0].outerHTML = "";
+		return true;
+	}
+	return false;
+}
+
+fundingindex = 0;
+
+function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_company_val, f_person, f_person_val, f_investment_org, f_investment_org_val){
+	html = jQuery("#fundinghtml table tbody").html();
+	
+	html += "<tr id='fundingtr"+fundingindex+"'>";
+	html += "<td>";
+		html += "<input type='hidden' name='f_rounds[]' value='"+f_round+"' />";
+		html += "<input type='hidden' name='f_currencies[]' value='"+f_currency+"' />";
+		html += "<input type='hidden' name='f_fund_amounts[]' value='"+f_fund_amount+"' />";
+		html += "<input type='hidden' name='f_dates[]' value='"+f_date+"' />";
+		html += "<input type='hidden' name='f_companies[]' value='"+f_company+"' />";
+		html += "<input type='hidden' name='f_company_vals[]' value='"+f_company_val+"' />";
+		html += "<input type='hidden' name='f_people[]' value='"+f_person+"' />";
+		html += "<input type='hidden' name='f_person_vals[]' value='"+f_person_val+"' />";
+		html += "<input type='hidden' name='f_investment_orgs[]' value='"+f_investment_org+"' />";
+		html += "<input type='hidden' name='f_investment_org_vals[]' value='"+f_investment_org_val+"' />";
+		html += "<table class='fundingtable'>";
+		
+		html += "<tr>";
+		html += "<td class='label'>Round:</td>";
+		html += "<td class='value1'>"+f_round+"</td>";
+		if(f_company){
+			html += "<td class='label'>Company:</td>";
+			f_company_val = f_company_val*1;
+			if(f_company_val){
+				html += "<td class='value2'><a href='<?php echo site_url()?>companies/edit/"+f_company_val+"'>"+f_company+"</a></td>";
+			}
+			else{
+				html += "<td class='value2'>"+f_company+"</td>";
+			}
+		}
+		else{
+			html += "<td class=''>&nbsp;</td>";
+			html += "<td class=''>&nbsp;</td>";
+		}
+		html += "</tr>";
+		
+		f_fund_amount = uNum(f_fund_amount);
+		f_fund_amount = fNum(f_fund_amount);
+		html += "<tr>";
+		html += "<td class='label'>Amount:</td>";
+		html += "<td class='value1'>"+f_currency+" "+f_fund_amount+"</td>";
+		if(f_person){
+			html += "<td class='label'>Person:</td>";
+			f_person_val = f_person_val*1;
+			if(f_person_val){
+				html += "<td class='value2'><a href='<?php echo site_url()?>people/edit/"+f_person_val+"'>"+f_person+"</a></td>";
+			}
+			else{
+				html += "<td class='value2'>"+f_person+"</td>";
+			}
+		}
+		else{
+			html += "<td class=''>&nbsp;</td>";
+			html += "<td class=''>&nbsp;</td>";
+		}
+		html += "</tr>";
+		
+		try{
+			thedate = new Date(f_date);
+			thedate.setDate(thedate.getDate());
+			f_date = dateFormat(thedate, "mmm dd, yyyy");
+		}
+		catch(e){
+			alert("Invalid Date.");
+			return false;
+		}
+		html += "<tr>";
+		html += "<td class='label'>Date:</td>";
+		html += "<td class='value1'>"+f_date+"</td>";
+		if(f_investment_org){
+			html += "<td class='label'>Investment Org:</td>";
+			f_investment_org_val = f_investment_org_val*1;
+			if(f_investment_org_val){
+				html += "<td class='value2'><a href='<?php echo site_url()?>investment_orgs/edit/"+f_investment_org_val+"'>"+f_investment_org+"</a></td>";
+			}
+			else{
+				html += "<td class='value2'>"+f_investment_org+"</td>";
+			}
+		}
+		else{
+			html += "<td class=''>&nbsp;</td>";
+			html += "<td class=''>&nbsp;</td>";
+		}
+		html += "</tr>";
+		
+		html += "<tr>";
+		html += "<td colspan='4' align='center'><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delFunding(\"fundingtr"+fundingindex+"\")' >Delete</a></td>"
+		html += "</tr>";
+		html += "</table>";
+	
+	html += "</td>";
+	html += "</tr>";
+	
+	//f_round, f_currency, f_fund_amount, f_date, f_company, f_company_val, f_person, f_person_val, f_investment_org, f_investment_org_val
+	jQuery("#f_fund_amount").val("");
+	jQuery("#f_date").val("");
+	jQuery("#f_company").val("");
+	jQuery("#f_company_val").val("");
+	jQuery("#f_person").val("");
+	jQuery("#f_person_val").val("");
+	jQuery("#f_investment_org").val("");
+	jQuery("#f_investment_org_val").val("");
+	
+	jQuery("#fundinghtml table tbody").html(html);
+	
+	fundingindex+=1;
+	
+	jQuery("#fundingadd").fadeOut(200);
+}
+
 function addPerson(id, name, role, start_date, end_date){
 	if(!id){
 		return false;
@@ -201,12 +322,17 @@ function addPerson(id, name, role, start_date, end_date){
 	
 	html += "<a href='<?php echo site_url()?>people/edit/"+id+"' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delPerson(this, \""+id+"\")' >Delete</a></td></tr>";
 	
-	
 	jQuery("#peoplehtml table tbody").html(html);
 }
 
 
 jQuery(function(){
+	jQuery("#f_fund_amount").blur(function(){
+		v = jQuery("#f_fund_amount").val();
+		v = uNum(v);
+		v = fNum(v);
+		jQuery("#f_fund_amount").val(v);
+	});
 	jQuery("#competitor_search").autocomplete({
 		//define callback to format results
 		source: function(req, add){
@@ -236,8 +362,82 @@ jQuery(function(){
 			jQuery("#competitor_search").val(label);
 			return false;
 		},
-
-
+	});	
+	
+	/*
+	jQuery("#f_company").keydown(function(){
+		jQuery("#f_company_val").val("");
+	});
+	
+	jQuery("#f_person").keydown(function(){
+		jQuery("#f_person_val").val("");
+	});
+	
+	jQuery("#f_investment_org").keydown(function(){
+		jQuery("#f_investment_org_val").val("");
+	});
+	*/
+	
+	jQuery("#f_company").autocomplete({
+		//define callback to format results
+		source: function(req, add){
+			//pass request to server
+			jQuery.getJSON("<?php echo site_url(); ?>companies/ajax_search", req, function(data) {
+				//create array for response objects
+				var suggestions = [];
+				//process response
+				jQuery.each(data, function(i, val){								
+					suggestions.push(val);
+				});
+				//pass array to callback
+				add(suggestions);
+			});
+		},
+		//define select handler
+		select: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			jQuery("#f_company").val(label);
+			jQuery("#f_company_val").val(value);
+			return false;
+		},
+		focus: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			jQuery("#f_company").val(label);
+			return false;
+		},
+	});
+	
+	jQuery("#f_investment_org").autocomplete({
+		//define callback to format results
+		source: function(req, add){
+			//pass request to server
+			jQuery.getJSON("<?php echo site_url(); ?>investment_orgs/ajax_search", req, function(data) {
+				//create array for response objects
+				var suggestions = [];
+				//process response
+				jQuery.each(data, function(i, val){								
+					suggestions.push(val);
+				});
+				//pass array to callback
+				add(suggestions);
+			});
+		},
+		//define select handler
+		select: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			jQuery("#f_investment_org").val(label);
+			jQuery("#f_investment_org_val").val(value);
+			return false;
+		},
+		focus: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			jQuery("#f_investment_org").val(label);
+			return false;
+		},
 	});	
 
 	jQuery("#co_name").blur(function(){
@@ -372,6 +572,46 @@ jQuery(function(){
 			label = ui.item.label;
 			value = ui.item.value;
 			jQuery("#people_search").val(label);
+			return false;
+		},
+	}).data( "autocomplete" )._renderItem = function( ul, item ) {
+		append = "";
+		if(item.desc){
+			append = "<div class='more'>" + item.desc + "</div>";
+		}
+		return $( "<li>" )
+			.data( "item.autocomplete", item )
+			.append( "<a>" + item.label + append + "</a>")
+			.appendTo( ul );
+	};
+	
+	jQuery("#f_person").autocomplete({
+		//define callback to format results
+		source: function(req, add){
+			//pass request to server
+			jQuery.getJSON("<?php echo site_url(); ?>people/ajax_search", req, function(data) {
+				//create array for response objects
+				var suggestions = [];
+				//process response
+				jQuery.each(data, function(i, val){								
+					suggestions.push(val);
+				});
+				//pass array to callback
+				add(suggestions);
+			});
+		},
+		//define select handler
+		select: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			jQuery("#f_person").val(label);
+			jQuery("#f_person_val").val(value);
+			return false;
+		},
+		focus: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			jQuery("#f_person").val(label);
 			return false;
 		},
 	}).data( "autocomplete" )._renderItem = function( ul, item ) {
@@ -638,9 +878,75 @@ else{
 
 		  </td>
 		</tr>
-		<tr class="odd">
-		  <td>Funding:</td>
-		  <td></td>
+		<tr class="odd" id="funding">
+		  <td>Funding:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class='cursor' onclick='jQuery("#fundingadd").slideDown(200)'>[+]</a></td>
+		  <td>
+		  	<table class='border margin10 pad10 hidden' id='fundingadd' >
+				<tr>
+					<td>Round:</td>
+					<td>
+						<select id='f_round'>
+						<?php
+						$t = count($funding_rounds);
+						for($i=0; $i<$t; $i++){
+							?><option value="<?php echo sanitizeX($funding_rounds[$i]['round']) ?>"><?php echo sanitizeX($funding_rounds[$i]['round']) ?></option><?php
+						}
+						?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Currency:</td>
+					<td>
+						<select id='f_currency'>
+						<?php
+						$t = count($currencies);
+						for($i=0; $i<$t; $i++){
+							?><option value="<?php echo sanitizeX($currencies[$i]['code']) ?>"><?php echo sanitizeX($currencies[$i]['currency']." (".$currencies[$i]['code'].")") ?></option><?php
+						}
+						?>
+						</select>
+					</td>
+				</tr>				
+				<tr>
+					<td>Amount:</td>
+					<td>
+						<input type='text' id='f_fund_amount' />
+					</td>
+				</tr>
+				<tr>
+					<td>Date:</td>
+					<td>
+						<input type='text' id='f_date' class='datepicker' /><div class='hint'>mm/dd/yyyy</div>
+					</td>
+				</tr>
+				<tr>
+					<td>Company:</td>
+					<td>
+						<input type='text' id='f_company' >
+						<input type='hidden' id='f_company_val' > 
+					</td>
+				</tr>
+				<tr>
+					<td>Person:</td>
+					<td>
+						<input type='text' id='f_person' > 
+						<input type='hidden' id='f_person_val' >
+					</td>
+				</tr>
+				<tr>
+					<td>Investment Org:</td>
+					<td>
+						<input type='text' id='f_investment_org' > 
+						<input type='hidden' id='f_investment_org_val'  >
+					</td>
+				</tr>
+				<tr>
+					<td align="center" colspan="2"><input type='button' class='button normal' value='   Add Funding   ' onclick='addFunding(jQuery("#f_round").val(), jQuery("#f_currency").val(), jQuery("#f_fund_amount").val(), jQuery("#f_date").val(), jQuery("#f_company").val(), jQuery("#f_company_val").val(), jQuery("#f_person").val(), jQuery("#f_person_val").val(), jQuery("#f_investment_org").val(), jQuery("#f_investment_org_val").val());'></td>
+				</tr>
+			</table>
+			<div id="fundinghtml" class='pad10'><table cellspacing=0 width="100%"><tbody></tbody></table></div>
+		  </td>
 		</tr>
 		<!--
 		<tr>
@@ -751,6 +1057,11 @@ if($company['id']){
 	<script>
 		<?php 
 		
+		if(is_array($company_fundings)){
+			foreach($company_fundings as $value){
+				?>addFunding("<?php echo sanitizeX($value['round']); ?>", "<?php echo sanitizeX($value['currency']); ?>", "<?php echo sanitizeX($value['amount']); ?>", "<?php echo sanitizeX($value['date']); ?>", "<?php echo sanitizeX($value['company2']); ?>", "<?php echo sanitizeX($value['company2_id']); ?>", "<?php echo sanitizeX($value['person']); ?>", "<?php echo sanitizeX($value['person_id']); ?>", "<?php echo sanitizeX($value['investment_org']); ?>", "<?php echo sanitizeX($value['investment_org_id']); ?>");<?php
+			}
+		}
 		if(is_array($competitors)){
 			foreach($competitors as $value){
 				?>
