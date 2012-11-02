@@ -703,7 +703,25 @@ class companies extends CI_Controller {
 				}
 			}
 			
-			
+			$sql = "select 
+			`a`.`round`,
+			`a`.`currency`,
+			`a`.`amount`,
+			`a`.`date_ts`,
+			`a`.`company_id`,
+			`b`.`name` as `company_name`
+			from
+			`company_fundings` as `a` left join `companies` as `b` on (`a`.`company_id` = `b`.`id`) where `a`.`id` in (
+				select distinct `company_funding_id` from `company_fundings_ipc`
+				where 
+				`ipc_id`=".$this->db->escape($company_id)." and 
+				`type`='company'
+				)
+			order by `date_ts` desc	
+			";
+			$q = $this->db->query($sql);
+			$milestones = $q->result_array();
+			$data['milestones'] = $milestones;
 			$data['company_fundings'] = $company_fundings;	
 			$data['funding_rounds'] = $funding_rounds;				
 			$data['currencies'] = $currencies;

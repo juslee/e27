@@ -1093,6 +1093,30 @@ else{
 		 	
 		  </td>
 		</tr>
+		
+		<tr class="even">
+		  <td>Investments:</td>
+		  <td>
+			<div class='margin10 pad10'>
+		  		<div id='milestoneshtml'>
+				<?php
+				if(is_array($milestones)){
+					?><table cellspacing=0><?php
+					foreach($milestones as $value){
+						echo "<tr>";
+						?><td><a href="<?php echo site_url()?>companies/edit/<?php echo $value['company_id']; ?>"><?php echo $value['company_name']; ?></a></td><?php
+						?><td><?php echo ucfirst($value['round']) ?></td><?php
+						?><td><?php echo $value['currency']; ?> <?php echo number_format($value['amount'],2); ?></td><?php
+						?><td><?php echo date("M d, Y", $value['date_ts']); ?></td><?php
+						echo "</tr>";
+					}
+					?></table><?php
+				}
+				?>
+				</div>
+			</div>
+		  </td>
+		</tr>		
 		</table>
 </tr>
 <tr>

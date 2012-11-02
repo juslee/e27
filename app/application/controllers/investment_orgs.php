@@ -370,6 +370,25 @@ class investment_orgs extends CI_Controller {
 			$q = $this->db->query($sql);
 			$people = $q->result_array();
 			
+			$sql = "select 
+			`a`.`round`,
+			`a`.`currency`,
+			`a`.`amount`,
+			`a`.`date_ts`,
+			`a`.`company_id`,
+			`b`.`name` as `company_name`
+			from
+			`company_fundings` as `a` left join `companies` as `b` on (`a`.`company_id` = `b`.`id`) where `a`.`id` in (
+				select distinct `company_funding_id` from `company_fundings_ipc`
+				where 
+				`ipc_id`=".$this->db->escape($investment_org_id)." and 
+				`type`='investment_org'
+				)
+			order by `date_ts` desc	
+			";
+			$q = $this->db->query($sql);
+			$milestones = $q->result_array();
+			$data['milestones'] = $milestones;
 			$data['people'] = $people;
 			$data['countries'] = $countries;
 			$data['investment_org'] = $investment_org[0];

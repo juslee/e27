@@ -480,10 +480,20 @@ $user = $_SESSION['user'];
 		cursor:pointer;
 	}
 	
-	#peoplehtml table, #companyhtml table, #investment_orghtml table, #competitors_html table{
+	#peoplehtml table, 
+	#companyhtml table, 
+	#investment_orghtml table, 
+	#competitors_html table,
+	#milestoneshtml table
+	{
 		border-collapse:collapse;
 	}
-	#peoplehtml table td, #companyhtml table td, #investment_orghtml table td, #competitors_html table td{
+	#peoplehtml table td, 
+	#companyhtml table td, 
+	#investment_orghtml table td, 
+	#competitors_html table td,
+	#milestoneshtml table td
+	{
 		padding: 2px 5px 2px 5px;
 		border: 1px solid #AAAAAA;
 	}
@@ -519,6 +529,13 @@ $user = $_SESSION['user'];
 	
 	.underline{
 		text-decoration:underline;
+	}
+	
+	.milestone{
+		padding:5px;
+		margin:5px;
+		background:white;
+		font-size:11px;
 	}
 	
 	</style>
