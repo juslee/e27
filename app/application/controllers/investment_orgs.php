@@ -224,6 +224,8 @@ class investment_orgs extends CI_Controller {
 		$q = $this->db->query($sql);
 		$sql = "delete from `investment_org_person` where `investment_org_id`=".$this->db->escape($investment_org_id);
 		$this->db->query($sql);
+		$sql = "delete from `company_fundings_ipc` where `type`='investment_org' `ipc_id`=".$this->db->escape($investment_org_id);
+		$this->db->query($sql);
 		?>
 		alertX("Successfully deleted <?php echo htmlentities($investment_org[0]['name']); ?>");
 		<?php
