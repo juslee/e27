@@ -947,7 +947,7 @@ else{
 					</td>
 				</tr>
 				<tr>
-					<td align="center" colspan="2"><input type='button' class='button normal' value='   Add Funding   ' onclick='addFunding(jQuery("#f_round").val(), jQuery("#f_currency").val(), jQuery("#f_fund_amount").val(), jQuery("#f_date").val(), jQuery("#f_company").val(), jQuery("#f_company_val").val(), jQuery("#f_person").val(), jQuery("#f_person_val").val(), jQuery("#f_investment_org").val(), jQuery("#f_investment_org_val").val());'>&nbsp;&nbsp;<input type='button' class='button normal' value='Cancel' onclick='jQuery("#fundingadd").fadeOut(200)'> </td>
+					<td align="center" colspan="2"><input type='button' class='button normal' value='   Add Funding   ' onclick='addFunding(jQuery("#f_round").val(), jQuery("#f_currency").val(), jQuery("#f_fund_amount").val(), jQuery("#f_date").val(), jQuery("#f_company").val(), jQuery("#f_company_val").val(), jQuery("#f_person").val(), jQuery("#f_person_val").val(), jQuery("#f_investment_org").val(), jQuery("#f_investment_org_val").val());'>&nbsp;&nbsp;<input type='button' class='button normal' value='Cancel' onclick='jQuery("#fundingadd").hide()'> </td>
 				</tr>
 			</table>
 			<div id="fundinghtml" class='pad10'><table cellspacing=0 width="100%"><tbody></tbody></table></div>
