@@ -330,7 +330,7 @@ class companies extends CI_Controller {
 		$this->db->query($sql);
 		$sql = "delete from `company_person` where `company_id`=".$this->db->escape($company_id);
 		$this->db->query($sql);
-		$sql = "delete from `company_fundings_ipc` where `type`='company' `ipc_id`=".$this->db->escape($company_id);
+		$sql = "delete from `company_fundings_ipc` where `type`='company' and `ipc_id`=".$this->db->escape($company_id);
 		$this->db->query($sql);
 		$sql = "delete from `company_fundings` where `company_id`=".$this->db->escape($company_id);
 		$this->db->query($sql);
