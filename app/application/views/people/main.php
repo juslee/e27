@@ -47,7 +47,7 @@ function deletePerson(person_id){
 	if(confirm("Are you sure you want to delete this person?")){
 		formdata = "id="+person_id;
 		jQuery.ajax({
-			url: "<?php echo site_url(); ?>/people/ajax_delete/"+person_id,
+			url: "<?php echo site_url(); ?>people/ajax_delete/"+person_id,
 			type: "POST",
 			data: formdata,
 			dataType: "script",
@@ -85,7 +85,7 @@ Person Search: <input type='text' id='people_search' /> &nbsp; [ <a href="<?php 
 		?>
 		<tr id="tr<?php echo htmlentities($people[$i]['id']); ?>" class="row" >
 			<td><?php echo $start+$i+1; ?></td>
-			<td style='vertical-align:middle;'><?php if(trim($people[$i]['profile_image'])){ ?><img src='<?php echo site_url(); ?>/media/image.php?p=<?php echo $people[$i]['profile_image'] ?>&mx=25' /> <?php } ?></td>
+			<td style='vertical-align:middle;'><?php if(trim($people[$i]['profile_image'])){ ?><img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $people[$i]['profile_image'] ?>&mx=25' /> <?php } ?></td>
 			<td><a href="<?php echo site_url(); ?>people/edit/<?php echo $people[$i]['id']?>" ><?php echo htmlentities($people[$i]['name']); ?></a></td>
 			<td><?php if(trim($people[$i]['email_address'])){ echo "<a href=\"mailto:".sanitizeX($people[$i]['email_address'])."\">".htmlentities($people[$i]['email_address'])."</a>"; }?></td>
 			<td><?php echo "<a target='' href='".site_url()."/companies/edit/".$people[$i]['current_company_id']."'>".$people[$i]['current_company']."</a>"; ?></td>

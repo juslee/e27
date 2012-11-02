@@ -41,7 +41,7 @@ function deleteCompany(co_id){
 	if(confirm("Are you sure you want to delete this company?")){
 		formdata = "id="+co_id;
 		jQuery.ajax({
-			url: "<?php echo site_url(); ?>/companies/ajax_delete/"+co_id,
+			url: "<?php echo site_url(); ?>companies/ajax_delete/"+co_id,
 			type: "POST",
 			data: formdata,
 			dataType: "script",
@@ -59,7 +59,7 @@ function searchCompany(){
 </script>
 <center>
 Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?php echo site_url(); ?>companies/add" >ADD NEW COMPANY</a> ]
-<div class='pad10' ><form action="<?php echo site_url(); ?>/companies/search/" class='inline' >Search: <input type='text' id='search' value="<?php echo sanitizeX($search); ?>" name='search' /><input type='button' class='button normal' value='search' onclick='searchCompany()'></form><div class='hint'>Name, E-mail, Website, Twitter Handle, Facebook Page, LinkedIn, Blog URL, Description, Tags</div></div>
+<div class='pad10' ><form action="<?php echo site_url(); ?>companies/search/" class='inline' >Search: <input type='text' id='search' value="<?php echo sanitizeX($search); ?>" name='search' /><input type='button' class='button normal' value='search' onclick='searchCompany()'></form><div class='hint'>Name, E-mail, Website, Twitter Handle, Facebook Page, LinkedIn, Blog URL, Description, Tags</div></div>
 </center>
 <div class='list'>
 <table>
@@ -78,7 +78,7 @@ Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?ph
 		<tr id="tr<?php echo htmlentities($companies[$i]['id']); ?>" class="row" >
 			<td><?php echo $start+$i+1; ?></td>
 			<!--<td><?php echo htmlentities($companies[$i]['id']); ?></td>-->
-			<td style='vertical-align:middle;'><?php if(trim($companies[$i]['logo'])){ ?><img src='<?php echo site_url(); ?>/media/image.php?p=<?php echo $companies[$i]['logo'] ?>&mx=25' /> <?php } ?></td>
+			<td style='vertical-align:middle;'><?php if(trim($companies[$i]['logo'])){ ?><img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $companies[$i]['logo'] ?>&mx=25' /> <?php } ?></td>
 			<td><a href="<?php echo site_url(); ?>companies/edit/<?php echo $companies[$i]['id']?>" ><?php echo htmlentities($companies[$i]['name']); ?></a></td>
 			<td><?php if(trim($companies[$i]['email_address'])){ echo "<a href=\"mailto:".sanitizeX($companies[$i]['email_address'])."\">".htmlentities($companies[$i]['email_address'])."</a>"; }?></td>
 			<td><?php 

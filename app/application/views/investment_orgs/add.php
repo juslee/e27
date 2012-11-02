@@ -29,12 +29,12 @@ function deleteInvestmentOrg(io_id){
 	if(confirm("Are you sure you want to delete this investment organization?")){
 		formdata = "id="+io_id;
 		jQuery.ajax({
-			url: "<?php echo site_url(); ?>/companies/ajax_delete/"+io_id,
+			url: "<?php echo site_url(); ?>companies/ajax_delete/"+io_id,
 			type: "POST",
 			data: formdata,
 			dataType: "script",
 			success: function(){
-				self.location = "<?php echo site_url(); ?>/companies";
+				self.location = "<?php echo site_url(); ?>investment_orgs";
 			}
 		});
 		
@@ -49,7 +49,7 @@ function checkInvestmentOrg(io_name){
 				?>formdata += "&id=<?php echo $investment_org['id']; ?>";<?php
 			}
 		?>
-		jQuery("#io_check").html("<img src='<?php echo site_url(); ?>/media/ajax-loader.gif' />");
+		jQuery("#io_check").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
 		
 		jQuery.ajax({
 			url: "<?php echo site_url(); ?>investment_orgs/ajax_check_company",
@@ -69,7 +69,7 @@ function checkInvestmentOrg(io_name){
 
 function refreshLogo(logopath){
 	logopath = escape(logopath);
-	jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>/media/image.php?p="+logopath+"&mx=220&_="+(new Date().getTime())+"' />");
+	jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>media/image.php?p="+logopath+"&mx=220&_="+(new Date().getTime())+"' />");
 	jQuery("#logopath").val(logopath);
 }
 
@@ -501,7 +501,7 @@ if($investment_org['id']){
 				ss.push(filepath);
 				file = "<?php echo sanitizeX(urldecode(basename($value['screenshot']))); ?>";
 				title = "<?php echo sanitizeX($value['title']); ?>";
-				html += "<div><a target='_blank' href='<?php echo site_url(); ?>/media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' value='"+title+"' /><input type='hidden' name='screenshots[]' value='"+filepath+"' />&nbsp;&nbsp;&nbsp;<a onclick='this.parentElement.outerHTML=\"\"' style='cursor:pointer; text-decoration:underline' >Delete</a></div>";
+				html += "<div><a target='_blank' href='<?php echo site_url(); ?>media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' value='"+title+"' /><input type='hidden' name='screenshots[]' value='"+filepath+"' />&nbsp;&nbsp;&nbsp;<a onclick='this.parentElement.outerHTML=\"\"' style='cursor:pointer; text-decoration:underline' >Delete</a></div>";
 				<?php
 			}
 			?>
@@ -526,7 +526,7 @@ if($investment_org['id']){
 			else if($key=="logo"&&trim($value)){
 				?>
 				jQuery('#logopath').val("<?php echo sanitizeX($value); ?>");
-				jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>/media/image.php?p=<?php echo $value ?>&mx=220' />");
+				jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $value ?>&mx=220' />");
 				<?php
 			}
 			else if($key=="active"){

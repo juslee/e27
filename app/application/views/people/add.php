@@ -10,10 +10,10 @@ function savePerson(){
 	jQuery.ajax({
 		<?php
 		if($person['id']){
-			?>url: "<?php echo site_url(); ?>/people/ajax_edit",<?php
+			?>url: "<?php echo site_url(); ?>people/ajax_edit",<?php
 		}
 		else{
-			?>url: "<?php echo site_url(); ?>/people/ajax_add",<?php
+			?>url: "<?php echo site_url(); ?>people/ajax_add",<?php
 		}
 		?>
 		type: "POST",
@@ -29,12 +29,12 @@ function deletePerson(id){
 	if(confirm("Are you sure you want to delete this person?")){
 		formdata = "id="+id;
 		jQuery.ajax({
-			url: "<?php echo site_url(); ?>/people/ajax_delete/"+id,
+			url: "<?php echo site_url(); ?>people/ajax_delete/"+id,
 			type: "POST",
 			data: formdata,
 			dataType: "script",
 			success: function(){
-				self.location = "<?php echo site_url(); ?>/people";
+				self.location = "<?php echo site_url(); ?>people";
 			}
 		});
 		
@@ -43,7 +43,7 @@ function deletePerson(id){
 
 function refreshProfile(profilepath){
 	profilepath = escape(profilepath);
-	jQuery("#profilepathhtml").html("<img src='<?php echo site_url(); ?>/media/image.php?p="+profilepath+"&mx=220&_="+(new Date().getTime())+"' />");
+	jQuery("#profilepathhtml").html("<img src='<?php echo site_url(); ?>media/image.php?p="+profilepath+"&mx=220&_="+(new Date().getTime())+"' />");
 	jQuery("#profilepath").val(profilepath);
 }
 
@@ -517,7 +517,7 @@ if($person['id']){
 			if($key=="profile_image"&&trim($value)){
 				?>
 				jQuery('#profilepath').val("<?php echo sanitizeX($value); ?>");
-				jQuery("#profilepathhtml").html("<img src='<?php echo site_url(); ?>/media/image.php?p=<?php echo $value ?>&mx=220' />");
+				jQuery("#profilepathhtml").html("<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $value ?>&mx=220' />");
 				<?php
 			}
 			else if($key=="active"){
