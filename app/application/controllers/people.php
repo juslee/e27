@@ -252,6 +252,7 @@ class people extends CI_Controller {
 
 			?>
 			alertX("Successfully Updated Person '<?php echo htmlentities($_POST['name']); ?>'.");
+			self.location = self.location; //refresh
 			<?php
 		}
 		
@@ -384,7 +385,7 @@ class people extends CI_Controller {
 			
 			?>
 			alertX("Successfully Added Person '<?php echo htmlentities($_POST['name']); ?>'.");
-			self.location = "<?php echo site_url(); ?>/people/add";
+			self.location = "<?php echo site_url(); ?>people/add";
 			<?php
 		}
 		

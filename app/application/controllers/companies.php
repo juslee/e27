@@ -96,12 +96,12 @@ class companies extends CI_Controller {
 			if(!trim($co_id)){
 				if($company[0]['id']){
 					?>
-					jQuery("#co_check").html("<img src='<?php echo site_url(); ?>/media/x.png' title='Company already exists in the database.' alt='Company already exists in the database.' />");
+					jQuery("#co_check").html("<img src='<?php echo site_url(); ?>media/x.png' title='Company already exists in the database.' alt='Company already exists in the database.' />");
 					<?php
 				}
 				else{
 					?>
-					jQuery("#co_check").html("<img src='<?php echo site_url(); ?>/media/check.png' />");
+					jQuery("#co_check").html("<img src='<?php echo site_url(); ?>media/check.png' />");
 					<?php
 				}
 
@@ -109,12 +109,12 @@ class companies extends CI_Controller {
 			else{
 				if(trim($company[0]['id'])&&$company[0]['id']!=$co_id){
 					?>
-					jQuery("#co_check").html("<img src='<?php echo site_url(); ?>/media/x.png' title='Company already exists in the database.' alt='Company already exists in the database.' />");
+					jQuery("#co_check").html("<img src='<?php echo site_url(); ?>media/x.png' title='Company already exists in the database.' alt='Company already exists in the database.' />");
 					<?php
 				}
 				else{
 					?>
-					jQuery("#co_check").html("<img src='<?php echo site_url(); ?>/media/check.png' />");
+					jQuery("#co_check").html("<img src='<?php echo site_url(); ?>media/check.png' />");
 					<?php
 				}
 			}
@@ -301,12 +301,14 @@ class companies extends CI_Controller {
 			}
 			?>
 			alertX("Successfully Updated Company '<?php echo htmlentities($_POST['name']); ?>'.");
+			self.location = self.location; //refresh
 			<?php
 		}
 		
 		?>
 		jQuery("#savebutton").val("Save");
 		jQuery("#company_form *").attr("disabled", false);
+		
 		<?php		
 		exit();
 	}
@@ -553,8 +555,8 @@ class companies extends CI_Controller {
 			
 			?>
 			alertX("Successfully Added Company '<?php echo htmlentities($_POST['name']); ?>'.");
-			//self.location = "<?php echo site_url(); ?>/companies/edit/<?php echo $id; ?>";
-			self.location = "<?php echo site_url(); ?>/companies/add";
+			//self.location = "<?php echo site_url(); ?>companies/edit/<?php echo $id; ?>";
+			self.location = "<?php echo site_url(); ?>companies/add";
 			<?php
 		}
 		

@@ -99,7 +99,7 @@ function peoplePreAdd(label, value){
 	
 	
 }
-function addPerson(id, name, role, start_date, end_date){
+function addPerson(id, name, role, start_date, end_date, add){
 	if(!id){
 		return false;
 	}
@@ -115,9 +115,15 @@ function addPerson(id, name, role, start_date, end_date){
 	
 	people.push(id);
 	jQuery("#peopleadd").hide();
-	html = jQuery("#peoplehtml table tbody").html();
+	html = "";
 	
-	html += "<tr><td><input type='hidden' name='p_ids[]' value='"+id+"' />";
+	if(add){
+		html += "<tr class='lightgreen'><td><input type='hidden' name='p_ids[]' value='"+id+"' />";
+	}
+	else{
+		html += "<tr><td><input type='hidden' name='p_ids[]' value='"+id+"' />";
+	}
+
 	html += "<input type='hidden' name='p_roles[]' value='"+role+"' />";
 	html += "<input type='hidden' name='p_start_dates[]' value='"+start_date+"' />";
 	html += "<input type='hidden' name='p_end_dates[]' value='"+end_date+"' />";
@@ -137,44 +143,20 @@ function addPerson(id, name, role, start_date, end_date){
 	
 	html += "<a href='<?php echo site_url()?>people/edit/"+id+"' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delPerson(this, \""+id+"\")' >Delete</a></td></tr>";
 	
+	htmlorig = jQuery("#peoplehtml table tbody").html();
+	
+	if(add){
+		html = html + htmlorig;
+	}
+	else{
+		html = htmlorig + html;
+	}
 	
 	jQuery("#peoplehtml table tbody").html(html);
 }
 
 
 jQuery(function(){
-	jQuery("#competitor_search").autocomplete({
-		//define callback to format results
-		source: function(req, add){
-			//pass request to server
-			jQuery.getJSON("<?php echo site_url(); ?>companies/ajax_search", req, function(data) {
-				//create array for response objects
-				var suggestions = [];
-				//process response
-				jQuery.each(data, function(i, val){								
-					suggestions.push(val);
-				});
-				//pass array to callback
-				add(suggestions);
-			});
-		},
-		//define select handler
-		select: function(e, ui) {
-			label = ui.item.label;
-			value = ui.item.value;
-			jQuery("#competitor_search").val("");
-			addCompetitor(label, value);
-			return false;
-		},
-		focus: function(e, ui) {
-			label = ui.item.label;
-			value = ui.item.value;
-			jQuery("#competitor_search").val(label);
-			return false;
-		},
-
-
-	});	
 
 	jQuery("#io_name").blur(function(){
 		checkInvestmentOrg(jQuery("#io_name").val());
@@ -448,7 +430,7 @@ else{
 					<td><input type='text' id='p_end_date' class='datepicker' /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type='button' value='Add Person' class='button normal' onclick='addPerson(jQuery("#p_id").val(), jQuery("#p_name").html(), jQuery("#p_role").val(), jQuery("#p_start_date").val(), jQuery("#p_end_date").val())' >&nbsp;
+					<td colspan="2" align="center"><input type='button' value='Add Person' class='button normal' onclick='addPerson(jQuery("#p_id").val(), jQuery("#p_name").html(), jQuery("#p_role").val(), jQuery("#p_start_date").val(), jQuery("#p_end_date").val(), true)' >&nbsp;
 					<input type='button' value='Cancel' class='button normal' onclick='jQuery("#peopleadd").hide()' /></td>
 				</tr>
 			</table>
@@ -506,14 +488,6 @@ if($investment_org['id']){
 	<script>
 		<?php 
 		
-		if(is_array($competitors)){
-			foreach($competitors as $value){
-				?>
-				addCompetitor("<?php echo sanitizeX($value['label']); ?>", <?php echo $value['value']; ?>);
-				<?php
-			}
-
-		}
 		if(is_array($screenshots)){
 			?>
 			html = "";

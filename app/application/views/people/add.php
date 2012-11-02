@@ -96,7 +96,7 @@ function delInvestmentOrg(obj, ioid){
 	return false;
 }
 
-function addCompany(id, name, role, start_date, end_date){
+function addCompany(id, name, role, start_date, end_date, add){
 	if(!id){
 		return false;
 	}
@@ -112,9 +112,15 @@ function addCompany(id, name, role, start_date, end_date){
 	
 	companies.push(id);
 	jQuery("#companyadd").hide();
-	html = jQuery("#companyhtml table tbody").html();
+	html = "";
 	
-	html += "<tr><td><input type='hidden' name='c_ids[]' value='"+id+"' />";
+	if(add){
+		html += "<tr class='lightgreen' ><td><input type='hidden' name='c_ids[]' value='"+id+"' />";
+	}
+	else{
+		html += "<tr><td><input type='hidden' name='c_ids[]' value='"+id+"' />";
+	}
+	
 	html += "<input type='hidden' name='p_roles[]' value='"+role+"' />";
 	html += "<input type='hidden' name='p_start_dates[]' value='"+start_date+"' />";
 	html += "<input type='hidden' name='p_end_dates[]' value='"+end_date+"' />";
@@ -134,11 +140,18 @@ function addCompany(id, name, role, start_date, end_date){
 	
 	html += "<a href='<?php echo site_url()?>/companies/edit/"+id+"' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delCompany(this, \""+id+"\")' >Delete</a></td></tr>";
 	
+	htmlorig = jQuery("#companyhtml table tbody").html();
 	
+	if(add){
+		html = html + htmlorig;
+	}
+	else{
+		html = htmlorig + html;
+	}	
 	jQuery("#companyhtml table tbody").html(html);
 }
 
-function addInvestmentOrg(id, name, role, start_date, end_date){
+function addInvestmentOrg(id, name, role, start_date, end_date, add){
 	if(!id){
 		return false;
 	}
@@ -154,9 +167,14 @@ function addInvestmentOrg(id, name, role, start_date, end_date){
 	
 	investment_orgs.push(id);
 	jQuery("#investment_orgadd").hide();
-	html = jQuery("#investment_orghtml table tbody").html();
+	html = "";
 	
-	html += "<tr><td><input type='hidden' name='io_ids[]' value='"+id+"' />";
+	if(add){
+		html += "<tr class='lightgreen'><td><input type='hidden' name='io_ids[]' value='"+id+"' />";
+	}
+	else{
+		html += "<tr><td><input type='hidden' name='io_ids[]' value='"+id+"' />";
+	}
 	html += "<input type='hidden' name='iop_roles[]' value='"+role+"' />";
 	html += "<input type='hidden' name='iop_start_dates[]' value='"+start_date+"' />";
 	html += "<input type='hidden' name='iop_end_dates[]' value='"+end_date+"' />";
@@ -176,6 +194,13 @@ function addInvestmentOrg(id, name, role, start_date, end_date){
 	
 	html += "<a href='<?php echo site_url()?>investment_orgs/edit/"+id+"' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delInvestmentOrg(this, \""+id+"\")' >Delete</a></td></tr>";
 	
+	htmlorig = jQuery("#investment_orghtml table tbody").html();
+	if(add){
+		html = html + htmlorig;
+	}
+	else{
+		html = htmlorig + html;
+	}
 	
 	jQuery("#investment_orghtml table tbody").html(html);
 }
@@ -426,7 +451,7 @@ else{
 					<td><input type='text' id='p_end_date' class='datepicker' /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type='button' value='Add Company' class='button normal' onclick='addCompany(jQuery("#c_id").val(), jQuery("#c_name").html(), jQuery("#p_role").val(), jQuery("#p_start_date").val(), jQuery("#p_end_date").val())' >&nbsp;
+					<td colspan="2" align="center"><input type='button' value='Add Company' class='button normal' onclick='addCompany(jQuery("#c_id").val(), jQuery("#c_name").html(), jQuery("#p_role").val(), jQuery("#p_start_date").val(), jQuery("#p_end_date").val(), true)' >&nbsp;
 					<input type='button' value='Cancel' class='button normal' onclick='jQuery("#companyadd").hide()' /></td>
 				</tr>
 			</table>
@@ -461,7 +486,7 @@ else{
 					<td><input type='text' id='iop_end_date' class='datepicker' /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type='button' value='Add Investment Organization' class='button normal' onclick='addInvestmentOrg(jQuery("#io_id").val(), jQuery("#io_name").html(), jQuery("#iop_role").val(), jQuery("#iop_start_date").val(), jQuery("#iop_end_date").val())' >&nbsp;
+					<td colspan="2" align="center"><input type='button' value='Add Investment Organization' class='button normal' onclick='addInvestmentOrg(jQuery("#io_id").val(), jQuery("#io_name").html(), jQuery("#iop_role").val(), jQuery("#iop_start_date").val(), jQuery("#iop_end_date").val(), true)' >&nbsp;
 					<input type='button' value='Cancel' class='button normal' onclick='jQuery("#investment_orgadd").hide()' /></td>
 				</tr>
 			</table>

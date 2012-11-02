@@ -96,12 +96,12 @@ class investment_orgs extends CI_Controller {
 			if(!trim($io_id)){
 				if($investment_org[0]['id']){
 					?>
-					jQuery("#io_check").html("<img src='<?php echo site_url(); ?>/media/x.png' title='Investment organization already exists in the database.' alt='Investment organization already exists in the database.' />");
+					jQuery("#io_check").html("<img src='<?php echo site_url(); ?>media/x.png' title='Investment organization already exists in the database.' alt='Investment organization already exists in the database.' />");
 					<?php
 				}
 				else{
 					?>
-					jQuery("#io_check").html("<img src='<?php echo site_url(); ?>/media/check.png' />");
+					jQuery("#io_check").html("<img src='<?php echo site_url(); ?>media/check.png' />");
 					<?php
 				}
 
@@ -109,12 +109,12 @@ class investment_orgs extends CI_Controller {
 			else{
 				if(trim($investment_org[0]['id'])&&$investment_org[0]['id']!=$io_id){
 					?>
-					jQuery("#io_check").html("<img src='<?php echo site_url(); ?>/media/x.png' title='Company already exists in the database.' alt='Company already exists in the database.' />");
+					jQuery("#io_check").html("<img src='<?php echo site_url(); ?>media/x.png' title='Company already exists in the database.' alt='Company already exists in the database.' />");
 					<?php
 				}
 				else{
 					?>
-					jQuery("#io_check").html("<img src='<?php echo site_url(); ?>/media/check.png' />");
+					jQuery("#io_check").html("<img src='<?php echo site_url(); ?>media/check.png' />");
 					<?php
 				}
 			}
@@ -203,6 +203,7 @@ class investment_orgs extends CI_Controller {
 
 			?>
 			alertX("Successfully Updated Investment Organization '<?php echo htmlentities($_POST['name']); ?>'.");
+			self.location = self.location; //refresh
 			<?php
 		}
 		
@@ -333,8 +334,8 @@ class investment_orgs extends CI_Controller {
 			
 			?>
 			alertX("Successfully Added Investment Organization '<?php echo htmlentities($_POST['name']); ?>'.");
-			//self.location = "<?php echo site_url(); ?>/investment_orgs/edit/<?php echo $id; ?>";
-			self.location = "<?php echo site_url(); ?>/investment_orgs/add";
+			//self.location = "<?php echo site_url(); ?>investment_orgs/edit/<?php echo $id; ?>";
+			self.location = "<?php echo site_url(); ?>investment_orgs/add";
 			<?php
 		}
 		

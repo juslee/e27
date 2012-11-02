@@ -89,7 +89,7 @@ function refreshScreenshots(filepath){
 	//jQuery("#logopath").val(filepath);
 }
 
-function addCompetitor(label, value){
+function addCompetitor(label, value, add){
 
 	<?php
 	if($company['id']){
@@ -105,13 +105,26 @@ function addCompetitor(label, value){
 	
 	if(competitors.indexOf(value)==-1){
 		competitors.push(value);
-		html = jQuery("#competitors_html table tbody").html();
-		htmladd = "<tr class='compete' id='compete"+value+"' style='display:'><td>";
+		if(add){
+			htmladd = "<tr class='compete lightgreen' id='compete"+value+"' style='display:'><td>";
+		}
+		else{
+			htmladd = "<tr class='compete' id='compete"+value+"' style='display:'><td>";
+		}
 		htmladd += "<a target='' href='<?php echo site_url(); ?>companies/edit/"+value+"'>"+label+"</a>";
 		htmladd += "<input type='hidden' name='competitors[]' value='"+value+"' /></td>";
 		htmladd += "<td><a class='red delete' onclick='delCompete(this, "+value+")' style='cursor:pointer; text-decoration:underline' >Delete</a></td>";
 		htmladd += "</tr>";
-		html += htmladd;
+		
+		html = jQuery("#competitors_html table tbody").html();
+		
+		if(add){
+			html = htmladd + html;
+		}
+		else{
+			html = html + htmladd;
+		}
+		
 		jQuery("#competitors_html table tbody").html(html);
 	}
 	else{
@@ -174,15 +187,18 @@ function delFunding(idx){
 
 fundingindex = 0;
 
-function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_company_val, f_person, f_person_val, f_investment_org, f_investment_org_val){
-	html = jQuery("#fundinghtml table tbody").html();
+function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_company_val, f_person, f_person_val, f_investment_org, f_investment_org_val, add){
+	html = "";
+	if(add){
+		html += "<tr id='fundingtr"+fundingindex+"'>";
+		html += "<td id='fundingtd"+fundingindex+"'>";
+	}
+	else{
+		html += "<tr id='fundingtr"+fundingindex+"'>";
+		html += "<td id='fundingtd"+fundingindex+"'>";
+	}
 	
-	html += "<tr id='fundingtr"+fundingindex+"'>";
-	html += "<td>";
-		html += "<input type='hidden' name='f_rounds["+fundingindex+"]' value='"+f_round+"' />";
-		html += "<input type='hidden' name='f_currencies["+fundingindex+"]' value='"+f_currency+"' />";
-		html += "<input type='hidden' name='f_fund_amounts["+fundingindex+"]' value='"+uNum(f_fund_amount)+"' />";
-		html += "<input type='hidden' name='f_dates["+fundingindex+"]' value='"+f_date+"' />";
+		
 		
 		for(i=0; i<f_company.length; i++){
 			company = f_company[i];
@@ -204,27 +220,40 @@ function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_com
 			html += "<input type='hidden' name='f_investment_orgs"+fundingindex+"[]' value='"+investment_org+"' />";
 			html += "<input type='hidden' name='f_investment_org_vals"+fundingindex+"[]' value='"+investment_org_val+"' />";
 		}
-		html += "<table class='fundingtable'>";
+		if(add){
+			html += "<table class='fundingtable lightgreen' >";
+		}
+		else{
+			html += "<table class='fundingtable'>";
+		}
 		html += "<tr>";
 		html += "<td class='label'>Round:</td>";
-		html += "<td class='value0'>"+f_round+"</td>";
+		html += "<td class='value0'><span id='round"+fundingindex+"'>"+f_round+"</span>";
+		html += "<input type='hidden' id='round"+fundingindex+"' class='hiddenform' name='f_rounds["+fundingindex+"]' value='"+f_round+"' />";
+		html +="</td>";
 		
 		f_fund_amount = uNum(f_fund_amount);
 		f_fund_amount = fNum(f_fund_amount);
 		html += "<td class='label'>Amount:</td>";
-		html += "<td class='value1'>"+f_currency+" "+f_fund_amount+"</td>";
+		html += "<td class='value1'><span id='currency"+fundingindex+"' >"+f_currency+"</span>";
+		html += "<input type='hidden' id='f_currency"+fundingindex+"' class='hiddenform' name='f_currencies["+fundingindex+"]' value='"+f_currency+"' />";
+		html += "<span id='fund_amount"+fundingindex+"'>"+f_fund_amount+"</span>";
+		html += "<input type='hidden' id='f_fund_amount"+fundingindex+"' class='hiddenform' name='f_fund_amounts["+fundingindex+"]' value='"+uNum(f_fund_amount)+"' />";
+		html += "</td>";
 		
 		try{
 			thedate = new Date(f_date);
 			thedate.setDate(thedate.getDate());
-			f_date = dateFormat(thedate, "mmm dd, yyyy");
+			f_date_formated = dateFormat(thedate, "mmm dd, yyyy");
 		}
 		catch(e){
 			alert("Invalid Date.");
 			return false;
 		}
 		html += "<td class='label'>Date:</td>";
-		html += "<td class='value1'>"+f_date+"</td>";
+		html += "<td class='value1'><span id='date"+fundingindex+"'>"+f_date_formated+"</span>";
+		html += "<input type='hidden' id='f_date"+fundingindex+"' class='hiddenform' name='f_dates["+fundingindex+"]' value='"+f_date+"' />";
+		html += "</td>";
 		html += "</tr>";
 		
 		
@@ -294,14 +323,20 @@ function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_com
 	jQuery("#f_investment_org").val("");
 	jQuery("#f_investment_org_val").val("");
 	
-	jQuery("#fundinghtml table tbody").html(html);
+	htmlorig = jQuery("#fundinghtml table tbody").html();
 	
+	if(add){
+		jQuery("#fundinghtml table tbody").html(html+htmlorig);
+	}
+	else{
+		jQuery("#fundinghtml table tbody").html(htmlorig+html);
+	}
 	fundingindex+=1;
 	
 	jQuery("#fundingadd").fadeOut(200);
 }
 
-function addPerson(id, name, role, start_date, end_date){
+function addPerson(id, name, role, start_date, end_date, add){
 	if(!id){
 		return false;
 	}
@@ -317,9 +352,14 @@ function addPerson(id, name, role, start_date, end_date){
 	
 	people.push(id);
 	jQuery("#peopleadd").hide();
-	html = jQuery("#peoplehtml table tbody").html();
+	html = "";
 	
-	html += "<tr><td><input type='hidden' name='p_ids[]' value='"+id+"' />";
+	if(add){
+		html += "<tr class='lightgreen'><td><input type='hidden' name='p_ids[]' value='"+id+"' />";
+	}
+	else{
+		html += "<tr><td><input type='hidden' name='p_ids[]' value='"+id+"' />";
+	}
 	html += "<input type='hidden' name='p_roles[]' value='"+role+"' />";
 	html += "<input type='hidden' name='p_start_dates[]' value='"+start_date+"' />";
 	html += "<input type='hidden' name='p_end_dates[]' value='"+end_date+"' />";
@@ -339,6 +379,14 @@ function addPerson(id, name, role, start_date, end_date){
 	
 	html += "<a href='<?php echo site_url()?>people/edit/"+id+"' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delPerson(this, \""+id+"\")' >Delete</a></td></tr>";
 	
+	htmlorig = jQuery("#peoplehtml table tbody").html();
+	
+	if(add){
+		html = html + htmlorig;
+	}
+	else{
+		html = htmlorig + html;
+	}
 	jQuery("#peoplehtml table tbody").html(html);
 }
 
@@ -488,7 +536,7 @@ jQuery(function(){
 			label = ui.item.label;
 			value = ui.item.value;
 			jQuery("#competitor_search").val("");
-			addCompetitor(label, value);
+			addCompetitor(label, value, true);
 			return false;
 		},
 		focus: function(e, ui) {
@@ -897,7 +945,7 @@ else{
 					<td><input type='text' id='p_end_date' class='datepicker' /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type='button' value='Add Person' class='button normal' onclick='addPerson(jQuery("#p_id").val(), jQuery("#p_name").html(), jQuery("#p_role").val(), jQuery("#p_start_date").val(), jQuery("#p_end_date").val())' >&nbsp;
+					<td colspan="2" align="center"><input type='button' value='Add Person' class='button normal' onclick='addPerson(jQuery("#p_id").val(), jQuery("#p_name").html(), jQuery("#p_role").val(), jQuery("#p_start_date").val(), jQuery("#p_end_date").val(), true)' >&nbsp;
 					<input type='button' value='Cancel' class='button normal' onclick='jQuery("#peopleadd").hide()' /></td>
 				</tr>
 			</table>
@@ -1021,7 +1069,8 @@ else{
 							person,
 							person_val,
 							investment,
-							investment_val
+							investment_val,
+							true
 						);
 					}
 					function deleteIPC(obj){
@@ -1089,7 +1138,7 @@ else{
 					<td align="center" colspan="2" style='padding-top:10px;'><input type='button' class='button normal' value='   Add Funding   ' onclick='addFJS()'>&nbsp;&nbsp;<input type='button' class='button normal' value='Cancel' onclick='jQuery("#fundingadd").hide()'> </td>
 				</tr>
 			</table>
-			<div id="fundinghtml" class='pad10'><table cellspacing=0 width="100%"><tbody></tbody></table></div>
+			<div id="fundinghtml" class='pad10'><table cellspacing=0 width="90%"><tbody></tbody></table></div>
 		 	
 		  </td>
 		</tr>

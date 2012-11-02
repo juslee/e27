@@ -503,23 +503,29 @@ $user = $_SESSION['user'];
 		background:#505050;
 		width:15%;
 		color:#FFFFFF;
+		font-size:11px;
 	}
 	
 	#funding .label_ipc{
 		background:#CCCCCC;
 	}
 	
+	#funding .value0{
+		font-size:11px;
+	}
 	#funding .value1{
 		width:20%;
+		font-size:11px;
 	}
 	#funding .value2{
 		width:50%;
+		
 	}
 	#fundinghtml{
 		width:100%;
 	}
 	.fundingtable{
-		width:90%;
+		width:100%;
 		border:1px solid #CCCCCC;
 		margin-bottom:10px;
 	}
@@ -536,6 +542,10 @@ $user = $_SESSION['user'];
 		margin:5px;
 		background:white;
 		font-size:11px;
+	}
+	
+	.lightgreen{
+		background: #E4FFE4;
 	}
 	
 	</style>
