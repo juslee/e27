@@ -490,9 +490,15 @@ $user = $_SESSION['user'];
 	
 	
 	#funding .label{
-		background:#AAAAAA;
+		background:#505050;
 		width:15%;
+		color:#FFFFFF;
 	}
+	
+	#funding .label_ipc{
+		background:#CCCCCC;
+	}
+	
 	#funding .value1{
 		width:20%;
 	}
@@ -509,6 +515,10 @@ $user = $_SESSION['user'];
 	}
 	.fundingtable td{
 		padding:4px;
+	}
+	
+	.underline{
+		text-decoration:underline;
 	}
 	
 	</style>

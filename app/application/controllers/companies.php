@@ -236,6 +236,8 @@ class companies extends CI_Controller {
 				}
 			}
 			
+			$sql = "delete from `company_fundings_ipc` where `company_funding_id` in (select `id` from `company_fundings` where `company_id`=".$this->db->escape($id).")";
+			$this->db->query($sql);
 			$sql = "delete from `company_fundings` where `company_id`=".$this->db->escape($id);
 			$this->db->query($sql);
 			if(is_array($_POST['f_rounds'])){
@@ -246,15 +248,55 @@ class companies extends CI_Controller {
 					`currency`=".$this->db->escape($_POST['f_currencies'][$key]).", 
 					`amount`=".$this->db->escape($_POST['f_fund_amounts'][$key]).", 
 					`date`=".$this->db->escape($_POST['f_dates'][$key]).",
-					`date_ts`=".$this->db->escape(strtotime($_POST['f_dates'][$key])).",
-					`company2`=".$this->db->escape($_POST['f_companies'][$key]).",
-					`company2_id`=".$this->db->escape($_POST['f_company_vals'][$key]).",
-					`person`=".$this->db->escape($_POST['f_people'][$key]).",
-					`person_id`=".$this->db->escape($_POST['f_person_vals'][$key]).",
-					`investment_org`=".$this->db->escape($_POST['f_investment_orgs'][$key]).",
-					`investment_org_id`=".$this->db->escape($_POST['f_investment_org_vals'][$key])."
+					`date_ts`=".$this->db->escape(strtotime($_POST['f_dates'][$key]))."
 					";
 					$this->db->query($sql);
+					
+					$cfid = $this->db->insert_id();
+					$fid = $key;
+					
+					
+					//companies
+					if(is_array($_POST['f_companies'.$fid])){
+						foreach($_POST['f_companies'.$fid] as $key=>$name){
+							$ipc_id = $_POST['f_company_vals'.$fid][$key];
+							$sql = "insert into `company_fundings_ipc` set 
+							`company_funding_id` = ".$this->db->escape($cfid).",
+							`name` = ".$this->db->escape($name).",
+							`ipc_id` = ".$this->db->escape($ipc_id).",
+							`type` = 'company'
+							";
+							$this->db->query($sql);
+						}
+					}
+					
+					//people
+					if(is_array($_POST['f_people'.$fid])){
+						foreach($_POST['f_people'.$fid] as $key=>$name){
+							$ipc_id = $_POST['f_person_vals'.$fid][$key];
+							$sql = "insert into `company_fundings_ipc` set 
+							`company_funding_id` = ".$this->db->escape($cfid).",
+							`name` = ".$this->db->escape($name).",
+							`ipc_id` = ".$this->db->escape($ipc_id).",
+							`type` = 'person'
+							";
+							$this->db->query($sql);
+						}
+					}
+					
+					//investment_orgs
+					if(is_array($_POST['f_investment_orgs'.$fid])){
+						foreach($_POST['f_investment_orgs'.$fid] as $key=>$name){
+							$ipc_id = $_POST['f_investment_org_vals'.$fid][$key];
+							$sql = "insert into `company_fundings_ipc` set 
+							`company_funding_id` = ".$this->db->escape($cfid).",
+							`name` = ".$this->db->escape($name).",
+							`ipc_id` = ".$this->db->escape($ipc_id).",
+							`type` = 'investment_org'
+							";
+							$this->db->query($sql);
+						}
+					}
 				}
 			}
 			?>
@@ -437,24 +479,68 @@ class companies extends CI_Controller {
 			
 			
 			if(is_array($_POST['f_rounds'])){
+				$sql = "delete from `company_fundings_ipc` where `company_funding_id` in (select `id` from `company_fundings` where `company_id`=".$this->db->escape($id).")";
+				$this->db->query($sql);
 				$sql = "delete from `company_fundings` where `company_id`=".$this->db->escape($id);
 				$this->db->query($sql);
-				foreach($_POST['f_rounds'] as $key=>$value){
-					$sql = "insert into `company_fundings` set 
-					`round`=".$this->db->escape($value).", 
-					`company_id`=".$this->db->escape($id).", 
-					`currency`=".$this->db->escape($_POST['f_currencies'][$key]).", 
-					`amount`=".$this->db->escape($_POST['f_fund_amounts'][$key]).", 
-					`date`=".$this->db->escape($_POST['f_dates'][$key]).",
-					`date_ts`=".$this->db->escape(strtotime($_POST['f_dates'][$key])).",
-					`company2`=".$this->db->escape($_POST['f_companies'][$key]).",
-					`company2_id`=".$this->db->escape($_POST['f_company_vals'][$key]).",
-					`person`=".$this->db->escape($_POST['f_people'][$key]).",
-					`person_id`=".$this->db->escape($_POST['f_person_vals'][$key]).",
-					`investment_org`=".$this->db->escape($_POST['f_investment_orgs'][$key]).",
-					`investment_org_id`=".$this->db->escape($_POST['f_investment_org_vals'][$key])."
-					";
-					$this->db->query($sql);
+				if(is_array($_POST['f_rounds'])){
+					foreach($_POST['f_rounds'] as $key=>$value){
+						$sql = "insert into `company_fundings` set 
+						`round`=".$this->db->escape($value).", 
+						`company_id`=".$this->db->escape($id).", 
+						`currency`=".$this->db->escape($_POST['f_currencies'][$key]).", 
+						`amount`=".$this->db->escape($_POST['f_fund_amounts'][$key]).", 
+						`date`=".$this->db->escape($_POST['f_dates'][$key]).",
+						`date_ts`=".$this->db->escape(strtotime($_POST['f_dates'][$key]))."
+						";
+						$this->db->query($sql);
+						
+						$cfid = $this->db->insert_id();
+						$fid = $key;
+						
+						
+						//companies
+						if(is_array($_POST['f_companies'.$fid])){
+							foreach($_POST['f_companies'.$fid] as $key=>$name){
+								$ipc_id = $_POST['f_company_vals'.$fid][$key];
+								$sql = "insert into `company_fundings_ipc` set 
+								`company_funding_id` = ".$this->db->escape($cfid).",
+								`name` = ".$this->db->escape($name).",
+								`ipc_id` = ".$this->db->escape($ipc_id).",
+								`type` = 'company'
+								";
+								$this->db->query($sql);
+							}
+						}
+						
+						//people
+						if(is_array($_POST['f_people'.$fid])){
+							foreach($_POST['f_people'.$fid] as $key=>$name){
+								$ipc_id = $_POST['f_person_vals'.$fid][$key];
+								$sql = "insert into `company_fundings_ipc` set 
+								`company_funding_id` = ".$this->db->escape($cfid).",
+								`name` = ".$this->db->escape($name).",
+								`ipc_id` = ".$this->db->escape($ipc_id).",
+								`type` = 'person'
+								";
+								$this->db->query($sql);
+							}
+						}
+						
+						//investment_orgs
+						if(is_array($_POST['f_investment_orgs'.$fid])){
+							foreach($_POST['f_investment_orgs'.$fid] as $key=>$name){
+								$ipc_id = $_POST['f_investment_org_vals'.$fid][$key];
+								$sql = "insert into `company_fundings_ipc` set 
+								`company_funding_id` = ".$this->db->escape($cfid).",
+								`name` = ".$this->db->escape($name).",
+								`ipc_id` = ".$this->db->escape($ipc_id).",
+								`type` = 'investment_org'
+								";
+								$this->db->query($sql);
+							}
+						}
+					}
 				}
 			}
 
@@ -554,26 +640,64 @@ class companies extends CI_Controller {
 			$sql = "select * from `company_fundings` where `company_id`=".$this->db->escape($company_id)." order by date_ts desc";
 			$q = $this->db->query($sql);
 			$company_fundings = $q->result_array();
-			foreach($company_fundings as $key=>$value){
-				$sql = "select `name` from `companies` where `id`=".$this->db->escape($value['company2_id']);
+			foreach($company_fundings as $cfkey=>$cf){
+					
+				$sql = "select * from `company_fundings_ipc` where `company_funding_id`='".$cf['id']."'";
 				$q = $this->db->query($sql);
-				$company2 = $q->result_array();
-				if($company2[0]){
-					$company_fundings[$key]['company2'] = $company2[0]['name'];
-				}
+				$company_fundings_ipc = $q->result_array();
 				
-				$sql = "select `name` from `people` where `id`=".$this->db->escape($value['person_id']);
-				$q = $this->db->query($sql);
-				$person = $q->result_array();
-				if($person[0]){
-					$company_fundings[$key]['person'] = $person[0]['name'];
-				}
+				$company_fundings[$cfkey]['companies'] = array();
+				$company_fundings[$cfkey]['people'] = array();
+				$company_fundings[$cfkey]['investment_orgs'] = array();
 				
-				$sql = "select `name` from `investment_orgs` where `id`=".$this->db->escape($value['investment_org_is']);
-				$q = $this->db->query($sql);
-				$investment_org = $q->result_array();
-				if($investment_org[0]){
-					$company_fundings[$key]['investment_org'] = $investment_org[0]['name'];
+				foreach($company_fundings_ipc as $cfikey=>$cfi){
+					if($cfi['type']=='company'){
+						$sql = "select `id`, `name` from `companies` where `id`=".$this->db->escape($cfi['ipc_id']);
+						$q = $this->db->query($sql);
+						$result = $q->result_array();
+						$push = array();
+						if($result[0]){
+							$push['name'] = $result[0]['name'];
+							$push['id'] = $result[0]['id'];
+						}
+						else{
+							$push['name'] = $cfi['name'];
+							$push['id'] = $cfi['ipc_id'];
+						}
+						$company_fundings[$cfkey]['companies'][] = $push;
+					}
+					
+					if($cfi['type']=='person'){
+						$sql = "select `id`, `name` from `people` where `id`=".$this->db->escape($cfi['ipc_id']);
+						$q = $this->db->query($sql);
+						$result = $q->result_array();
+						$push = array();
+						if($result[0]){
+							$push['name'] = $result[0]['name'];
+							$push['id'] = $result[0]['id'];
+						}
+						else{
+							$push['name'] = $cfi['name'];
+							$push['id'] = $cfi['ipc_id'];
+						}
+						$company_fundings[$cfkey]['people'][] = $push;
+					}
+					
+					if($cfi['type']=='investment_org'){
+						$sql = "select `id`, `name` from `investment_orgs` where `id`=".$this->db->escape($cfi['ipc_id']);
+						$q = $this->db->query($sql);
+						$result = $q->result_array();
+						$push = array();
+						if($result[0]){
+							$push['name'] = $result[0]['name'];
+							$push['id'] = $result[0]['id'];
+						}
+						else{
+							$push['name'] = $cfi['name'];
+							$push['id'] = $cfi['ipc_id'];
+						}
+						$company_fundings[$cfkey]['investment_orgs'][] = $push;
+					}
 				}
 			}
 			

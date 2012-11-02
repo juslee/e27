@@ -10,10 +10,10 @@ function saveCompany(){
 	jQuery.ajax({
 		<?php
 		if($company['id']){
-			?>url: "<?php echo site_url(); ?>/companies/ajax_edit",<?php
+			?>url: "<?php echo site_url(); ?>companies/ajax_edit",<?php
 		}
 		else{
-			?>url: "<?php echo site_url(); ?>/companies/ajax_add",<?php
+			?>url: "<?php echo site_url(); ?>companies/ajax_add",<?php
 		}
 		?>
 		type: "POST",
@@ -29,12 +29,12 @@ function deleteCompany(co_id){
 	if(confirm("Are you sure you want to delete this company?")){
 		formdata = "id="+co_id;
 		jQuery.ajax({
-			url: "<?php echo site_url(); ?>/companies/ajax_delete/"+co_id,
+			url: "<?php echo site_url(); ?>companies/ajax_delete/"+co_id,
 			type: "POST",
 			data: formdata,
 			dataType: "script",
 			success: function(){
-				self.location = "<?php echo site_url(); ?>/companies";
+				self.location = "<?php echo site_url(); ?>companies";
 			}
 		});
 		
@@ -49,10 +49,10 @@ function checkCompany(co_name){
 				?>formdata += "&id=<?php echo $company['id']; ?>";<?php
 			}
 		?>
-		jQuery("#co_check").html("<img src='<?php echo site_url(); ?>/media/ajax-loader.gif' />");
+		jQuery("#co_check").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
 		
 		jQuery.ajax({
-			url: "<?php echo site_url(); ?>/companies/ajax_check_company",
+			url: "<?php echo site_url(); ?>companies/ajax_check_company",
 			type: "POST",
 			data: formdata,
 			dataType: "script",
@@ -69,7 +69,7 @@ function checkCompany(co_name){
 
 function refreshLogo(logopath){
 	logopath = escape(logopath);
-	jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>/media/image.php?p="+logopath+"&mx=220&_="+(new Date().getTime())+"' />");
+	jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>media/image.php?p="+logopath+"&mx=220&_="+(new Date().getTime())+"' />");
 	jQuery("#logopath").val(logopath);
 }
 var ss = [];
@@ -83,7 +83,7 @@ function refreshScreenshots(filepath){
 	if(ss.indexOf(filepath)==-1){
 		ss.push(filepath);
 		html = jQuery("#sspathhtml").html();	
-		html += "<div><a target='_blank' href='<?php echo site_url(); ?>/media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' /><input type='hidden' name='screenshots[]' value='"+filepath+"' />&nbsp;&nbsp;&nbsp;<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delSS(this, \""+filepath+"\")' >Delete</a></div>";
+		html += "<div><a target='_blank' href='<?php echo site_url(); ?>media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' /><input type='hidden' name='screenshots[]' value='"+filepath+"' />&nbsp;&nbsp;&nbsp;<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delSS(this, \""+filepath+"\")' >Delete</a></div>";
 		jQuery("#sspathhtml").html(html);
 	}
 	//jQuery("#logopath").val(filepath);
@@ -101,7 +101,7 @@ function addCompetitor(label, value){
 		<?php
 	}
 	?>
-	value = value*1;
+	value = uNum(value);
 	
 	if(competitors.indexOf(value)==-1){
 		competitors.push(value);
@@ -121,7 +121,7 @@ function addCompetitor(label, value){
 
 function delPerson(obj, pid){
 	if(confirm("Are you sure you want to delete this person?")){
-		pid = pid*1;
+		pid = uNum(pid);
 		index = people.indexOf(pid);
 		people.splice(index, 1);
 		obj.parentElement.parentElement.outerHTML = "";
@@ -141,7 +141,7 @@ function delSS(obj, filepath){
 }
 function delCompete(obj, value){
 	if(confirm("Are you sure you want to delete this competitor?")){
-		value = value*1;
+		value = uNum(value);
 		index = competitors.indexOf(value);
 		competitors.splice(index, 1);
 		obj.parentElement.parentElement.outerHTML = "";
@@ -151,7 +151,7 @@ function delCompete(obj, value){
 }
 
 function peoplePreAdd(label, value){
-	value = value*1;
+	value = uNum(value);
 	if(people.indexOf(value)!=-1){
 		alert(label+" is already part of this company.");
 		return false;
@@ -179,57 +179,40 @@ function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_com
 	
 	html += "<tr id='fundingtr"+fundingindex+"'>";
 	html += "<td>";
-		html += "<input type='hidden' name='f_rounds[]' value='"+f_round+"' />";
-		html += "<input type='hidden' name='f_currencies[]' value='"+f_currency+"' />";
-		html += "<input type='hidden' name='f_fund_amounts[]' value='"+uNum(f_fund_amount)+"' />";
-		html += "<input type='hidden' name='f_dates[]' value='"+f_date+"' />";
-		html += "<input type='hidden' name='f_companies[]' value='"+f_company+"' />";
-		html += "<input type='hidden' name='f_company_vals[]' value='"+f_company_val+"' />";
-		html += "<input type='hidden' name='f_people[]' value='"+f_person+"' />";
-		html += "<input type='hidden' name='f_person_vals[]' value='"+f_person_val+"' />";
-		html += "<input type='hidden' name='f_investment_orgs[]' value='"+f_investment_org+"' />";
-		html += "<input type='hidden' name='f_investment_org_vals[]' value='"+f_investment_org_val+"' />";
-		html += "<table class='fundingtable'>";
+		html += "<input type='hidden' name='f_rounds["+fundingindex+"]' value='"+f_round+"' />";
+		html += "<input type='hidden' name='f_currencies["+fundingindex+"]' value='"+f_currency+"' />";
+		html += "<input type='hidden' name='f_fund_amounts["+fundingindex+"]' value='"+uNum(f_fund_amount)+"' />";
+		html += "<input type='hidden' name='f_dates["+fundingindex+"]' value='"+f_date+"' />";
 		
+		for(i=0; i<f_company.length; i++){
+			company = f_company[i];
+			company_val = f_company_val[i];
+			html += "<input type='hidden' name='f_companies"+fundingindex+"[]' value='"+company+"' />";
+			html += "<input type='hidden' name='f_company_vals"+fundingindex+"[]' value='"+company_val+"' />";
+		}
+		
+		for(i=0; i<f_person.length; i++){
+			person = f_person[i];
+			person_val = f_person_val[i];
+			html += "<input type='hidden' name='f_people"+fundingindex+"[]' value='"+person+"' />";
+			html += "<input type='hidden' name='f_person_vals"+fundingindex+"[]' value='"+person_val+"' />";
+		}
+		
+		for(i=0; i<f_investment_org.length; i++){
+			investment_org = f_investment_org[i];
+			investment_org_val = f_investment_org_val[i];
+			html += "<input type='hidden' name='f_investment_orgs"+fundingindex+"[]' value='"+investment_org+"' />";
+			html += "<input type='hidden' name='f_investment_org_vals"+fundingindex+"[]' value='"+investment_org_val+"' />";
+		}
+		html += "<table class='fundingtable'>";
 		html += "<tr>";
 		html += "<td class='label'>Round:</td>";
-		html += "<td class='value1'>"+f_round+"</td>";
-		if(f_company){
-			html += "<td class='label'>Company:</td>";
-			f_company_val = f_company_val*1;
-			if(f_company_val){
-				html += "<td class='value2'><a href='<?php echo site_url()?>companies/edit/"+f_company_val+"'>"+f_company+"</a></td>";
-			}
-			else{
-				html += "<td class='value2'>"+f_company+"</td>";
-			}
-		}
-		else{
-			html += "<td class=''>&nbsp;</td>";
-			html += "<td class=''>&nbsp;</td>";
-		}
-		html += "</tr>";
+		html += "<td class='value0'>"+f_round+"</td>";
 		
 		f_fund_amount = uNum(f_fund_amount);
 		f_fund_amount = fNum(f_fund_amount);
-		html += "<tr>";
 		html += "<td class='label'>Amount:</td>";
 		html += "<td class='value1'>"+f_currency+" "+f_fund_amount+"</td>";
-		if(f_person){
-			html += "<td class='label'>Person:</td>";
-			f_person_val = f_person_val*1;
-			if(f_person_val){
-				html += "<td class='value2'><a href='<?php echo site_url()?>people/edit/"+f_person_val+"'>"+f_person+"</a></td>";
-			}
-			else{
-				html += "<td class='value2'>"+f_person+"</td>";
-			}
-		}
-		else{
-			html += "<td class=''>&nbsp;</td>";
-			html += "<td class=''>&nbsp;</td>";
-		}
-		html += "</tr>";
 		
 		try{
 			thedate = new Date(f_date);
@@ -240,27 +223,61 @@ function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_com
 			alert("Invalid Date.");
 			return false;
 		}
-		html += "<tr>";
 		html += "<td class='label'>Date:</td>";
 		html += "<td class='value1'>"+f_date+"</td>";
-		if(f_investment_org){
-			html += "<td class='label'>Investment Org:</td>";
-			f_investment_org_val = f_investment_org_val*1;
-			if(f_investment_org_val){
-				html += "<td class='value2'><a href='<?php echo site_url()?>investment_orgs/edit/"+f_investment_org_val+"'>"+f_investment_org+"</a></td>";
-			}
-			else{
-				html += "<td class='value2'>"+f_investment_org+"</td>";
-			}
-		}
-		else{
-			html += "<td class=''>&nbsp;</td>";
-			html += "<td class=''>&nbsp;</td>";
-		}
 		html += "</tr>";
 		
+		
+		for(i=0; i<f_investment_org.length; i++){
+			investment_org = f_investment_org[i];
+			investment_org_val = f_investment_org_val[i];
+			investment_org_val = uNum(investment_org_val);
+			html += "<tr>";
+			html += "<td class='label_ipc' colspan='2'>Investment Org:</td>";
+			if(investment_org_val){
+				html += "<td colspan='4'><a href='<?php echo site_url()?>investment_orgs/edit/"+investment_org_val+"'>"+investment_org+"</a></td>";
+			}
+			else{
+				html += "<td colspan='4'>"+investment_org+"</td>";
+			}
+			html += "</tr>";
+		}
+		
+		for(i=0; i<f_person.length; i++){
+			person = f_person[i];
+			person_val = f_person_val[i];
+			person_val = uNum(person_val);
+			html += "<tr>";
+			html += "<td class='label_ipc' colspan='2'>Person:</td>";
+			if(person_val){
+				html += "<td colspan='4'><a href='<?php echo site_url()?>people/edit/"+person_val+"'>"+person+"</a></td>";
+			}
+			else{
+				html += "<td colspan='4'>"+person+"</td>";
+			}
+			html += "</tr>";
+		}
+		
+		
+		for(i=0; i<f_company.length; i++){
+			company = f_company[i];
+			company_val = f_company_val[i];
+			company_val = uNum(company_val);
+			html += "<tr>";
+			html += "<td class='label_ipc' colspan='2'>Company:</td>";
+			if(company_val){
+				html += "<td colspan='4'><a href='<?php echo site_url()?>companies/edit/"+company_val+"'>"+company+"</a></td>";
+			}
+			else{
+				html += "<td colspan='4'>"+company+"</td>";
+			}
+			html += "</tr>";
+		}
+		
+		
+		
 		html += "<tr>";
-		html += "<td colspan='4' align='center'><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delFunding(\"fundingtr"+fundingindex+"\")' >Delete</a></td>"
+		html += "<td colspan='6' align='center'><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delFunding(\"fundingtr"+fundingindex+"\")' >Delete</a></td>"
 		html += "</tr>";
 		html += "</table>";
 	
@@ -292,7 +309,7 @@ function addPerson(id, name, role, start_date, end_date){
 		alert("Must input a start date.");
 		return false;
 	}
-	id = id*1;
+	id = uNum(id);
 	if(people.indexOf(id)!=-1){
 		alert(name+" is already part of this company.");
 		return false;
@@ -326,6 +343,124 @@ function addPerson(id, name, role, start_date, end_date){
 }
 
 
+function ipcEvent(){
+	try{
+		jQuery(".f_company").autocomplete({
+			//define callback to format results
+			source: function(req, add){
+				//pass request to server
+				jQuery.getJSON("<?php echo site_url(); ?>companies/ajax_search", req, function(data) {
+					//create array for response objects
+					var suggestions = [];
+					//process response
+					jQuery.each(data, function(i, val){								
+						suggestions.push(val);
+					});
+					//pass array to callback
+					add(suggestions);
+				});
+			},
+			//define select handler
+			select: function(e, ui) {
+				label = ui.item.label;
+				value = ui.item.value;
+				jQuery(this).val(label)
+				idx = jQuery(this).attr("alt");
+				jQuery("#"+idx).val(value);
+				return false;
+			},
+			focus: function(e, ui) {
+				label = ui.item.label;
+				value = ui.item.value;
+				jQuery(this).val(label)
+				return false;
+			},
+		});
+	}
+	catch(e){
+	}
+	
+	try{
+		jQuery(".f_investment_org").autocomplete({
+			//define callback to format results
+			source: function(req, add){
+				//pass request to server
+				jQuery.getJSON("<?php echo site_url(); ?>investment_orgs/ajax_search", req, function(data) {
+					//create array for response objects
+					var suggestions = [];
+					//process response
+					jQuery.each(data, function(i, val){								
+						suggestions.push(val);
+					});
+					//pass array to callback
+					add(suggestions);
+				});
+			},
+			//define select handler
+			select: function(e, ui) {
+				label = ui.item.label;
+				value = ui.item.value;
+				jQuery(this).val(label)
+				idx = jQuery(this).attr("alt");
+				jQuery("#"+idx).val(value);
+				return false;
+			},
+			focus: function(e, ui) {
+				label = ui.item.label;
+				value = ui.item.value;
+				jQuery(this).val(label)
+				return false;
+			},
+		});	
+	}
+	catch(e){
+	}
+	
+	try{
+		jQuery(".f_person").autocomplete({
+			//define callback to format results
+			source: function(req, add){
+				//pass request to server
+				jQuery.getJSON("<?php echo site_url(); ?>people/ajax_search", req, function(data) {
+					//create array for response objects
+					var suggestions = [];
+					//process response
+					jQuery.each(data, function(i, val){								
+						suggestions.push(val);
+					});
+					//pass array to callback
+					add(suggestions);
+				});
+			},
+			//define select handler
+			select: function(e, ui) {
+				label = ui.item.label;
+				value = ui.item.value;
+				jQuery(this).val(label)
+				idx = jQuery(this).attr("alt");
+				jQuery("#"+idx).val(value);
+				return false;
+			},
+			focus: function(e, ui) {
+				label = ui.item.label;
+				value = ui.item.value;
+				jQuery(this).val(label)
+				return false;
+			},
+		}).data( "autocomplete" )._renderItem = function( ul, item ) {
+			append = "";
+			if(item.desc){
+				append = "<div class='more'>" + item.desc + "</div>";
+			}
+			return $( "<li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + item.label + append + "</a>")
+				.appendTo( ul );
+		};
+	}
+	catch(e){
+	}
+}
 jQuery(function(){
 	jQuery("#f_fund_amount").blur(function(){
 		v = jQuery("#f_fund_amount").val();
@@ -378,67 +513,7 @@ jQuery(function(){
 	});
 	*/
 	
-	jQuery("#f_company").autocomplete({
-		//define callback to format results
-		source: function(req, add){
-			//pass request to server
-			jQuery.getJSON("<?php echo site_url(); ?>companies/ajax_search", req, function(data) {
-				//create array for response objects
-				var suggestions = [];
-				//process response
-				jQuery.each(data, function(i, val){								
-					suggestions.push(val);
-				});
-				//pass array to callback
-				add(suggestions);
-			});
-		},
-		//define select handler
-		select: function(e, ui) {
-			label = ui.item.label;
-			value = ui.item.value;
-			jQuery("#f_company").val(label);
-			jQuery("#f_company_val").val(value);
-			return false;
-		},
-		focus: function(e, ui) {
-			label = ui.item.label;
-			value = ui.item.value;
-			jQuery("#f_company").val(label);
-			return false;
-		},
-	});
-	
-	jQuery("#f_investment_org").autocomplete({
-		//define callback to format results
-		source: function(req, add){
-			//pass request to server
-			jQuery.getJSON("<?php echo site_url(); ?>investment_orgs/ajax_search", req, function(data) {
-				//create array for response objects
-				var suggestions = [];
-				//process response
-				jQuery.each(data, function(i, val){								
-					suggestions.push(val);
-				});
-				//pass array to callback
-				add(suggestions);
-			});
-		},
-		//define select handler
-		select: function(e, ui) {
-			label = ui.item.label;
-			value = ui.item.value;
-			jQuery("#f_investment_org").val(label);
-			jQuery("#f_investment_org_val").val(value);
-			return false;
-		},
-		focus: function(e, ui) {
-			label = ui.item.label;
-			value = ui.item.value;
-			jQuery("#f_investment_org").val(label);
-			return false;
-		},
-	});	
+	ipcEvent();
 
 	jQuery("#co_name").blur(function(){
 		checkCompany(jQuery("#co_name").val());
@@ -585,45 +660,7 @@ jQuery(function(){
 			.appendTo( ul );
 	};
 	
-	jQuery("#f_person").autocomplete({
-		//define callback to format results
-		source: function(req, add){
-			//pass request to server
-			jQuery.getJSON("<?php echo site_url(); ?>people/ajax_search", req, function(data) {
-				//create array for response objects
-				var suggestions = [];
-				//process response
-				jQuery.each(data, function(i, val){								
-					suggestions.push(val);
-				});
-				//pass array to callback
-				add(suggestions);
-			});
-		},
-		//define select handler
-		select: function(e, ui) {
-			label = ui.item.label;
-			value = ui.item.value;
-			jQuery("#f_person").val(label);
-			jQuery("#f_person_val").val(value);
-			return false;
-		},
-		focus: function(e, ui) {
-			label = ui.item.label;
-			value = ui.item.value;
-			jQuery("#f_person").val(label);
-			return false;
-		},
-	}).data( "autocomplete" )._renderItem = function( ul, item ) {
-		append = "";
-		if(item.desc){
-			append = "<div class='more'>" + item.desc + "</div>";
-		}
-		return $( "<li>" )
-			.data( "item.autocomplete", item )
-			.append( "<a>" + item.label + append + "</a>")
-			.appendTo( ul );
-	};
+	
 	
 });
 </script>
@@ -925,117 +962,138 @@ else{
 						<input type='text' id='f_date' class='datepicker' /><div class='hint'>mm/dd/yyyy</div>
 					</td>
 				</tr>
+				
 				<tr>
-					<td>Company:</td>
-					<td>
-						<input type='text' id='f_company' >
-						<input type='hidden' id='f_company_val' > 
+					<td colspan="2" align="center" class='pad10'>
+					<script>
+					function addFJS(){
+						ios = jQuery(".f_investment_org");
+						iosv = jQuery(".f_investment_org_val");
+						ips = jQuery(".f_person");
+						ipsv = jQuery(".f_person_val");
+						ics = jQuery(".f_company");
+						icsv = jQuery(".f_company_val");
+						
+						company = [];
+						company_val = [];
+						person = [];
+						person_val = [];
+						investment = [];
+						investment_val = [];
+							
+						for(i=0; i<ics.length; i++){
+							icsv[i].value = uNum(icsv[i].value);
+							if(ics[i].value){
+								if(!icsv[i].value||(icsv[i].value&&company_val.indexOf(icsv[i].value)==-1)){
+									company.push(ics[i].value);
+									company_val.push(icsv[i].value);
+								}
+							}
+						}
+						
+						for(i=0; i<ips.length; i++){
+							ipsv[i].value = uNum(ipsv[i].value);
+							if(ips[i].value){
+								if(!ipsv[i].value||(ipsv[i].value&&person_val.indexOf(ipsv[i].value)==-1)){
+									person.push(ips[i].value);
+									person_val.push(ipsv[i].value);
+								}
+							}
+						}
+						
+						for(i=0; i<ios.length; i++){
+							iosv[i].value = uNum(iosv[i].value);
+							if(ios[i].value){
+								if(!iosv[i].value||(iosv[i].value&&investment_val.indexOf(iosv[i].value)==-1)){
+									investment.push(ios[i].value);
+									investment_val.push(iosv[i].value);
+								}
+							}
+						}
+						
+						addFunding(
+							jQuery("#f_round").val(),
+							jQuery("#f_currency").val(),
+							jQuery("#f_fund_amount").val(),
+							jQuery("#f_date").val(),
+							company,
+							company_val,
+							person,
+							person_val,
+							investment,
+							investment_val
+						);
+					}
+					function deleteIPC(obj){
+						obj.parentElement.parentElement.outerHTML = "";
+					}
+					fi = 0;
+					function addFI(){
+						fi += 1;
+						html = "";
+						html += "<tr>";
+						html += "<td>Investment Org:</td>";
+						html += "<td>";
+						html += "<input type='text' class='f_investment_org' alt='fi"+fi+"'>";
+						html += "<input type='hidden' class='f_investment_org_val' id='fi"+fi+"'>";
+						html += "&nbsp;<a class='red cursor' onclick='deleteIPC(this)'>[ x ]</a>";
+						html += "</td>";
+						html += "</tr>";
+						jQuery("#ipc tbody").append(html);
+						ipcEvent();
+					}
+					
+					pi = 0;
+					function addFP(){
+						pi += 1;
+						html = "";
+						html += "<tr>";
+						html += "<td>Person:</td>";
+						html += "<td>";
+						html += "<input type='text' class='f_person' alt='pi"+pi+"'>";
+						html += "<input type='hidden' class='f_person_val' id='pi"+pi+"'>";
+						html += "&nbsp;<a class='red cursor' onclick='deleteIPC(this)'>[ x ]</a>";
+						html += "</td>";
+						html += "</tr>";
+						jQuery("#ipc tbody").append(html);
+						ipcEvent();
+					}
+					
+					ci = 0;
+					function addFC(){
+						ci += 1;
+						html = "";
+						html += "<tr>";
+						html += "<td>Company:</td>";
+						html += "<td>";
+						html += "<input type='text' class='f_company' alt='ci"+ci+"'>";
+						html += "<input type='hidden' class='f_company_val' id='ci"+ci+"'>";
+						html += "&nbsp;<a class='red cursor' onclick='deleteIPC(this)'>[ x ]</a>";
+						html += "</td>";
+						html += "</tr>";
+						jQuery("#ipc tbody").append(html);
+						ipcEvent();
+					}
+					</script>
+					<a class='cursor bold underline font14' onclick='addFI()'>Investment Org</a>&nbsp;&nbsp;&nbsp;
+					<a class='cursor bold underline font14' onclick='addFP()'>Person</a>&nbsp;&nbsp;&nbsp
+					<a class='cursor bold underline font14' onclick='addFC()'>Company</a>
+					
+					<table id='ipc' width="100%">
+						<tbody>
+						</tbody>
+					</table>
 					</td>
 				</tr>
 				<tr>
-					<td>Person:</td>
-					<td>
-						<input type='text' id='f_person' > 
-						<input type='hidden' id='f_person_val' >
-					</td>
-				</tr>
-				<tr>
-					<td>Investment Org:</td>
-					<td>
-						<input type='text' id='f_investment_org' > 
-						<input type='hidden' id='f_investment_org_val'  >
-					</td>
-				</tr>
-				<tr>
-					<td align="center" colspan="2"><input type='button' class='button normal' value='   Add Funding   ' onclick='addFunding(jQuery("#f_round").val(), jQuery("#f_currency").val(), jQuery("#f_fund_amount").val(), jQuery("#f_date").val(), jQuery("#f_company").val(), jQuery("#f_company_val").val(), jQuery("#f_person").val(), jQuery("#f_person_val").val(), jQuery("#f_investment_org").val(), jQuery("#f_investment_org_val").val());'>&nbsp;&nbsp;<input type='button' class='button normal' value='Cancel' onclick='jQuery("#fundingadd").hide()'> </td>
+					<td align="center" colspan="2" style='padding-top:10px;'><input type='button' class='button normal' value='   Add Funding   ' onclick='addFJS()'>&nbsp;&nbsp;<input type='button' class='button normal' value='Cancel' onclick='jQuery("#fundingadd").hide()'> </td>
 				</tr>
 			</table>
 			<div id="fundinghtml" class='pad10'><table cellspacing=0 width="100%"><tbody></tbody></table></div>
+		 	
 		  </td>
 		</tr>
-		<!--
-		<tr>
-		  <td></td>
-		  <td><select>
-			  <option value="Seed">Seed</option>
-			  <option value="Angel">Angel</option>
-			  <option value="Series A">Series A</option>
-			  <option value="Series B">Series B</option>
-			  <option value="Series C">Series C</option>
-			  <option value="Series D">Series D</option>
-			  <option value="Series E">Series E</option>
-			  <option value="Series F">Series F</option>
-			  <option value="Series G">Series G</option>
-			  <option value="Series H">Series H</option>
-			  <option value="Grant">Grant</option>
-			  <option value="Debt">Debt</option>
-			  <option value="Venture Round">Venture Round</option>
-			  <option value="Post IPO Equity">Post IPO Equity</option>
-			  <option value="Post IPO Debt">Post IPO Debt</option>
-			</select></td>
-		</tr>
-		<td></td>
-		  <td>Amount</td>
-		<tr>
-		  <td></td>
-		  <td><select>
-			  <option value="PHP">PHP</option>
-			  <option value="YEN">YEN</option>
-			  <option value="SGD">SGD</option>
-			</select>
-			&nbsp;
-			<input type="text"/>
-		  </td>
-		</tr>
-		<td></td>
-		  <td>Date of Funding</td>
-		<tr>
-		  <td></td>
-		  <td><?php
-			// lowest year wanted
-			$cutoff = 1910;
-	
-			// current year
-			$now = date('Y');
-	
-			// build years menu
-			echo '<select>' . PHP_EOL;
-			for ($y=$now; $y>=$cutoff; $y--) {
-				echo '  <option value="' . $y . '">' . $y . '</option>' . PHP_EOL;
-			}
-			echo '</select>' . PHP_EOL;
-	
-			// build months menu
-			echo '<select>' . PHP_EOL;
-			for ($m=1; $m<=12; $m++) {
-				echo '  <option value="' . $m . '">' . date('M', mktime(0,0,0,$m)) . '</option>' . PHP_EOL;
-			}
-			echo '</select>' . PHP_EOL;
-	
-			// build days menu
-			echo '<select>' . PHP_EOL;
-			for ($d=1; $d<=31; $d++) {
-				echo '  <option value="' . $d . '">' . $d . '</option>' . PHP_EOL;
-			}
-			echo '</select>' . PHP_EOL;
-			?>
-		  </td>
-		</tr>
-		<td></td>
-		  <td>Type of Investor:</td>
-		<tr>
-		  <td></td>
-		  <td><select>
-			  <option value="Company">Company</option>
-			  <option value="Person">Person</option>
-			  <option value="Investment Organization">Investment Organization</option>
-			</select>
-			&nbsp;
-			<input type="text"  size="30" />
-		  </td>
-		</tr>
-		-->
-	</table>
+		</table>
 </tr>
 <tr>
 	<td colspan="2" class='center'>
@@ -1063,8 +1121,48 @@ if($company['id']){
 		<?php 
 		
 		if(is_array($company_fundings)){
-			foreach($company_fundings as $value){
-				?>addFunding("<?php echo sanitizeX($value['round']); ?>", "<?php echo sanitizeX($value['currency']); ?>", "<?php echo sanitizeX($value['amount']); ?>", "<?php echo sanitizeX($value['date']); ?>", "<?php echo sanitizeX($value['company2']); ?>", "<?php echo sanitizeX($value['company2_id']); ?>", "<?php echo sanitizeX($value['person']); ?>", "<?php echo sanitizeX($value['person_id']); ?>", "<?php echo sanitizeX($value['investment_org']); ?>", "<?php echo sanitizeX($value['investment_org_id']); ?>");<?php
+			foreach($company_fundings as $cf){
+				?>
+				company = [];
+				company_val = [];
+				person = [];
+				person_val = [];
+				investment = [];
+				investment_val = [];
+				<?php
+				foreach($cf['companies'] as $f_company){
+					?>
+					company.push("<?php echo sanitizeX($f_company['name']); ?>");
+					company_val.push("<?php echo sanitizeX($f_company['id']); ?>");
+					<?php
+				}
+				foreach($cf['people'] as $f_people){
+					?>
+					person.push("<?php echo sanitizeX($f_people['name']); ?>");
+					person_val.push("<?php echo sanitizeX($f_people['id']); ?>");
+					<?php
+				}
+				foreach($cf['investment_orgs'] as $f_investment_org){
+					?>
+					investment.push("<?php echo sanitizeX($f_investment_org['name']); ?>");
+					investment_val.push("<?php echo sanitizeX($f_investment_org['id']); ?>");
+					<?php
+				}
+				
+				?>
+				addFunding(
+					"<?php echo sanitizeX($cf['round'])?>",
+					"<?php echo sanitizeX($cf['currency'])?>",
+					"<?php echo sanitizeX($cf['amount'])?>",
+					"<?php echo sanitizeX($cf['date'])?>",
+					company,
+					company_val,
+					person,
+					person_val,
+					investment,
+					investment_val
+				);
+				<?php
 			}
 		}
 		if(is_array($competitors)){
@@ -1085,7 +1183,7 @@ if($company['id']){
 				ss.push(filepath);
 				file = "<?php echo sanitizeX(urldecode(basename($value['screenshot']))); ?>";
 				title = "<?php echo sanitizeX($value['title']); ?>";
-				html += "<div><a target='_blank' href='<?php echo site_url(); ?>/media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' value='"+title+"' /><input type='hidden' name='screenshots[]' value='"+filepath+"' />&nbsp;&nbsp;&nbsp;<a onclick='this.parentElement.outerHTML=\"\"' style='cursor:pointer; text-decoration:underline' >Delete</a></div>";
+				html += "<div><a target='_blank' href='<?php echo site_url(); ?>media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' value='"+title+"' /><input type='hidden' name='screenshots[]' value='"+filepath+"' />&nbsp;&nbsp;&nbsp;<a onclick='this.parentElement.outerHTML=\"\"' style='cursor:pointer; text-decoration:underline' >Delete</a></div>";
 				<?php
 			}
 			?>
@@ -1110,7 +1208,7 @@ if($company['id']){
 			else if($key=="logo"&&trim($value)){
 				?>
 				jQuery('#logopath').val("<?php echo sanitizeX($value); ?>");
-				jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>/media/image.php?p=<?php echo $value ?>&mx=220' />");
+				jQuery("#logopathhtml").html("<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $value ?>&mx=220' />");
 				<?php
 			}
 			else if($key=="active"){
