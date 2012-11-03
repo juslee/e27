@@ -390,7 +390,19 @@ function addPerson(id, name, role, start_date, end_date, add){
 	jQuery("#peoplehtml table tbody").html(html);
 }
 
-
+function addCompetitorShortcut(company_name){
+	jQuery("#competitor_search").attr("disabled", true);
+	jQuery("#competitor_add_loader").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
+	jQuery.ajax({
+		url: "<?php echo site_url(); ?>companies/ajax_add_competitor_shortcut",
+		type: "POST",
+		data: "name="+escape(company_name),
+		dataType: "script",
+		success: function(data){
+			
+		}
+	});
+}
 function ipcEvent(){
 	try{
 		jQuery(".f_company").autocomplete({
@@ -527,6 +539,11 @@ jQuery(function(){
 				jQuery.each(data, function(i, val){								
 					suggestions.push(val);
 				});
+				val = [];
+				val.label = "Add Company";
+				val.value = -1;
+				suggestions.push(val);
+				
 				//pass array to callback
 				add(suggestions);
 			});
@@ -535,17 +552,59 @@ jQuery(function(){
 		select: function(e, ui) {
 			label = ui.item.label;
 			value = ui.item.value;
-			jQuery("#competitor_search").val("");
-			addCompetitor(label, value, true);
+			if(value!=-1){
+				jQuery("#competitor_search").val("");
+				addCompetitor(label, value, true);
+			}
+			else{
+				addCompetitorShortcut(this.value);
+			}
 			return false;
 		},
 		focus: function(e, ui) {
 			label = ui.item.label;
 			value = ui.item.value;
-			jQuery("#competitor_search").val(label);
+			if(value!=-1){
+				jQuery("#competitor_search").val(label);
+			}
 			return false;
-		},
-	});	
+		}
+	}).data( "autocomplete" )._renderItem = function( ul, item ) {
+		value = item.value;
+		label = item.label;
+		append = "";
+		if(item.value==-1){
+			append = "<div class='additem'>"+label+"</div>";
+			return $( "<li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + append + "</a>")
+				.appendTo( ul );
+		}
+		else{
+			if(item.desc){
+				append = "<div class='more'>" + item.desc + "</div>";
+			}
+			return $( "<li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + item.label + append + "</a>")
+				.appendTo( ul );
+		}
+		
+	};	
+	
+	/*
+	jQuery("#competitor_search").blur(function(){
+		v = jQuery("#competitor_search").val();
+		y = jQuery("#competitor_search").data("autocomplete").selectedItem;
+		alert(v);
+		alert(y);
+		str = "";
+		for(x in y){
+			str += x+"\n";
+		}
+		alert(str);
+	});
+	*/
 	
 	/*
 	jQuery("#f_company").keydown(function(){
@@ -958,7 +1017,7 @@ else{
 		<tr class='even'>
 		  <td>Competitors:</td>
 		  <td>
-		  <input type="text" size="50" id="competitor_search" /><div class='hint'>Type in the company name to search and add competitor.</div>
+		  <input type="text" size="50" id="competitor_search" /><div class='inline' id='competitor_add_loader'></div><div class='hint'>Type in the company name to search and add competitor.</div>
 			<div id="competitors_html" class='margin10 pad10'><table cellspacing=0><tbody></tbody></table></div>
 
 		  </td>

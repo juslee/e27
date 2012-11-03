@@ -341,6 +341,52 @@ class companies extends CI_Controller {
 		<?php
 	}
 	
+	public function ajax_add_competitor_shortcut(){
+		if(trim($_POST['name'])){
+			//check if company already exists
+			$sql = "select `id` from `companies` where `name`=".$this->db->escape(trim($_POST['name']));
+			$q = $this->db->query($sql);
+			$company = $q->result_array();	
+		}
+		
+		$err = 0;
+		if(!trim($_POST['name'])){
+			$err = 1;
+			?>
+			alertX("Please input a Company Name.");
+			<?php
+		}
+		else if($company[0]['id']){
+			$err = 1;
+			?>
+			alertX("Company already exists in the database.");
+			<?php
+		}
+		
+		if(!$err){
+			$sql = "insert into `companies` set `name`=".$this->db->escape(trim($_POST['name']));
+			$sql .= ", active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
+			$q = $this->db->query($sql);
+			$id = $this->db->insert_id();
+			?>
+			label = "<?php echo sanitizeX(trim($_POST['name'])); ?>";
+			value = "<?php echo sanitizeX($id); ?>";
+			addCompetitor(label, value, true);
+			jQuery("#competitor_add_loader").html("");
+			jQuery("#competitor_search").attr("disabled", false);
+			jQuery("#competitor_search").val("");
+			
+			<?php
+		}
+		else{
+			?>
+			jQuery("#competitor_add_loader").html("");
+			jQuery("#competitor_search").attr("disabled", false);
+			jQuery("#competitor_search").val("");
+			<?php
+		}
+		
+	}
 	public function ajax_add(){
 		if(trim($_POST['name'])){
 			//check if company already exists

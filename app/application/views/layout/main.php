@@ -548,6 +548,11 @@ $user = $_SESSION['user'];
 		background: #E4FFE4;
 	}
 	
+	.additem{
+		font-style:italic;
+		font-weight:bold;
+	}
+	
 	</style>
 </head>
 <body>

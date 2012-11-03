@@ -111,7 +111,6 @@ $.widget( "ui.autocomplete", {
 				if ( self.options.disabled ) {
 					return;
 				}
-
 				self.selectedItem = null;
 				self.previous = self.element.val();
 			})
