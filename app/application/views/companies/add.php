@@ -427,7 +427,7 @@ function addCompanyShortcutIPC(name, obj){
 			if(obj&&success){
 				obj.attr("disabled", false);
 				idx = obj.attr("alt");
-				jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+				jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' title='Item is in the database.' alt='Item is in the database.' />");
 				jQuery("#"+idx).val(insert_id);
 			}
 			else if(obj){
@@ -448,7 +448,7 @@ function addPersonShortcutIPC(name, obj){
 			if(obj&&success){
 				obj.attr("disabled", false);
 				idx = obj.attr("alt");
-				jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+				jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' title='Item is in the database.' alt='Item is in the database.' />");
 				jQuery("#"+idx).val(insert_id);
 			}
 			else if(obj){
@@ -469,7 +469,7 @@ function addInvestmentOrgShortcutIPC(name, obj){
 			if(obj&&success){
 				obj.attr("disabled", false);
 				idx = obj.attr("alt");
-				jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+				jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' title='Item is in the database.' alt='Item is in the database.' />");
 				jQuery("#"+idx).val(insert_id);
 			}
 			else if(obj){
@@ -511,7 +511,7 @@ function ipcEvent(){
 					if(value!=-1){
 						jQuery(this).val(label)
 						idx = jQuery(this).attr("alt");
-						jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+						jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' title='Item is in the database.' alt='Item is in the database.' />");
 						jQuery("#"+idx).val(value);
 					}
 					else{
@@ -593,7 +593,7 @@ function ipcEvent(){
 					if(value!=-1){
 						jQuery(this).val(label)
 						idx = jQuery(this).attr("alt");
-						jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+						jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' title='Item is in the database.' alt='Item is in the database.' />");
 						jQuery("#"+idx).val(value);
 					}
 					else{					
@@ -674,7 +674,7 @@ function ipcEvent(){
 					if(value!=-1){
 						jQuery(this).val(label)
 						idx = jQuery(this).attr("alt");
-						jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+						jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' title='Item is in the database.' alt='Item is in the database.' />");
 						jQuery("#"+idx).val(value);
 					}
 					else{
