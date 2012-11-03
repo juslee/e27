@@ -569,7 +569,9 @@ $user = $_SESSION['user'];
 	.f_delete{
 		padding-left:18px;
 	}
-	
+	#ipc{
+		margin-top:10px;
+	}
 	</style>
 </head>
 <body>

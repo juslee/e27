@@ -239,6 +239,10 @@ function editFIntro(idx){
 	}
 	i=0;
 	jQuery(".f_investment_org").each(function(){
+		altid = jQuery(this).attr("alt");
+		if(f_investment_org_val[i]!=0){
+			jQuery("#check_"+altid).html("<img src='<?php echo site_url(); ?>media/check.png' title='Item is in the database.' alt='Item is in the database.' />");
+		}
 		jQuery(this).val(f_investment_org[i]);
 		i++;
 	});
@@ -249,6 +253,10 @@ function editFIntro(idx){
 	});
 	i=0;
 	jQuery(".f_company").each(function(){
+		altid = jQuery(this).attr("alt");
+		if(f_company_val[i]!=0){
+			jQuery("#check_"+altid).html("<img src='<?php echo site_url(); ?>media/check.png' title='Item is in the database.' alt='Item is in the database.' />");
+		}
 		jQuery(this).val(f_company[i]);
 		i++;
 	});
@@ -259,6 +267,10 @@ function editFIntro(idx){
 	});
 	i=0;
 	jQuery(".f_person").each(function(){
+		altid = jQuery(this).attr("alt");
+		if(f_person[i]!=0){
+			jQuery("#check_"+altid).html("<img src='<?php echo site_url(); ?>media/check.png' title='Item is in the database.' alt='Item is in the database.' />");
+		}
 		jQuery(this).val(f_person[i]);
 		i++;
 	});
