@@ -431,9 +431,6 @@ $user = $_SESSION['user'];
 		padding-bottom:10px;
 	}
 	
-	#savebutton{
-		width:100%;
-	}
 	input[type="button"].button{
 		min-width: 50px;
 		cursor:pointer;	
@@ -441,6 +438,13 @@ $user = $_SESSION['user'];
 	input[type="button"].normal{
 		padding:2px;
 	}
+	
+	#savebutton{
+		width:100%;
+		padding-top:10px;
+		padding-bottom:10px;
+	}
+	
 	textarea{
 		width: 350px;
 		height: 80px;
@@ -499,31 +503,33 @@ $user = $_SESSION['user'];
 	}
 	
 	
-	#funding .label{
+	
+	#fundinghtml{
+		width:100%;
+	}
+	#fundinghtml .label{
 		background:#505050;
 		width:15%;
 		color:#FFFFFF;
 		font-size:11px;
 	}
 	
-	#funding .label_ipc{
+	#fundinghtml .label_ipc{
 		background:#CCCCCC;
 	}
 	
-	#funding .value0{
+	#fundinghtml .value0{
 		font-size:11px;
 	}
-	#funding .value1{
+	#fundinghtml .value1{
 		width:20%;
 		font-size:11px;
 	}
-	#funding .value2{
+	#fundinghtml .value2{
 		width:50%;
 		
 	}
-	#fundinghtml{
-		width:100%;
-	}
+	
 	.fundingtable{
 		width:100%;
 		border:1px solid #CCCCCC;

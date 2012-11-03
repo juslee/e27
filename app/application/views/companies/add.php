@@ -332,7 +332,7 @@ function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_com
 		jQuery("#fundinghtml table tbody").html(htmlorig+html);
 	}
 	fundingindex+=1;
-	
+	jQuery("#ipc tbody").html("");
 	jQuery("#fundingadd").fadeOut(200);
 }
 
@@ -1340,6 +1340,7 @@ else{
 							investment_val,
 							true
 						);
+						
 					}
 					function deleteIPC(obj){
 						obj.parentElement.parentElement.outerHTML = "";
@@ -1406,9 +1407,14 @@ else{
 					<td align="center" colspan="2" style='padding-top:10px;'><input type='button' class='button normal' value='   Add Funding   ' onclick='addFJS()'>&nbsp;&nbsp;<input type='button' class='button normal' value='Cancel' onclick='jQuery("#fundingadd").hide()'> </td>
 				</tr>
 			</table>
-			<div id="fundinghtml" class='pad10'><table cellspacing=0 width="90%"><tbody></tbody></table></div>
+			
 		 	
 		  </td>
+		</tr>
+		<tr class="odd">
+			<td colspan="2" align="center">
+				<div id="fundinghtml" class='pad10'><table cellspacing=0 width="90%"><tbody></tbody></table></div>
+			</td>
 		</tr>
 		
 		<tr class="even">
