@@ -573,6 +573,11 @@ $user = $_SESSION['user'];
 	</style>
 </head>
 <body>
+<div id='imagepreload' class='hidden'>
+	<img src='<?php echo site_url(); ?>media/check.png' />
+	<img src='<?php echo site_url(); ?>media/x.png' />
+	<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />
+</div>
 <div id="dialog" title="">
     <div id='dialoghtml'></div>
 </div>
