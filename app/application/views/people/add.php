@@ -301,7 +301,7 @@ jQuery(function(){
 					suggestions.push(val);
 				});
 				val = [];
-				val.label = "Add Company to Database";
+				val.label = "Create";
 				val.value = -1;
 				suggestions.push(val);
 				//pass array to callback
@@ -330,12 +330,15 @@ jQuery(function(){
 			}
 			return false;
 		},
+		search: function(e, ui) {
+			jQuery("#tempcreatelabel").val( jQuery(this).val());
+		}
 	}).data( "autocomplete" )._renderItem = function( ul, item ) {
 		value = item.value;
 		label = item.label;
 		append = "";
 		if(item.value==-1){
-			append = "<div class='additem'>"+label+"</div>";
+			append = "<div class='additem'>"+label+" '"+jQuery("#tempcreatelabel").val()+"'</div>";
 			return $( "<li>" )
 				.data( "item.autocomplete", item )
 				.append( "<a>" + append + "</a>")
@@ -365,7 +368,7 @@ jQuery(function(){
 					suggestions.push(val);
 				});
 				val = [];
-				val.label = "Add Investment Org to Database";
+				val.label = "Create";
 				val.value = -1;
 				suggestions.push(val);
 				//pass array to callback
@@ -394,12 +397,15 @@ jQuery(function(){
 			}
 			return false;
 		},
+		search: function(e, ui) {
+			jQuery("#tempcreatelabel").val( jQuery(this).val());
+		}
 	}).data( "autocomplete" )._renderItem = function( ul, item ) {
 		value = item.value;
 		label = item.label;
 		append = "";
 		if(item.value==-1){
-			append = "<div class='additem'>"+label+"</div>";
+			append = "<div class='additem'>"+label+" '"+jQuery("#tempcreatelabel").val()+"'</div>";
 			return $( "<li>" )
 				.data( "item.autocomplete", item )
 				.append( "<a>" + append + "</a>")
@@ -419,6 +425,7 @@ jQuery(function(){
 	
 });
 </script>
+<input type='hidden' id='tempcreatelabel' />
 <form id='person_form'>
 
 <?php

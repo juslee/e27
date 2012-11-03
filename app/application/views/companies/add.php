@@ -482,231 +482,246 @@ function addInvestmentOrgShortcutIPC(name, obj){
 }
 
 function ipcEvent(){
-	try{
-		jQuery(".f_company").autocomplete({
-			//define callback to format results
-			source: function(req, add){
-				//pass request to server
-				jQuery.getJSON("<?php echo site_url(); ?>companies/ajax_search", req, function(data) {
-					//create array for response objects
-					var suggestions = [];
-					//process response
-					jQuery.each(data, function(i, val){								
+	try{		
+		jQuery(".f_company").each(function(){
+			jQuery(this).autocomplete({
+				//define callback to format results
+				source: function(req, add){
+					//pass request to server
+					jQuery.getJSON("<?php echo site_url(); ?>companies/ajax_search", req, function(data) {
+						//create array for response objects
+						var suggestions = [];
+						//process response
+						jQuery.each(data, function(i, val){								
+							suggestions.push(val);
+						});
+						val = [];
+						val.label = "Create";
+						val.value = -1;
 						suggestions.push(val);
+						
+						//pass array to callback
+						add(suggestions);
 					});
-					val = [];
-					val.label = "Add Company to Database";
-					val.value = -1;
-					suggestions.push(val);
-					
-					//pass array to callback
-					add(suggestions);
-				});
-			},
-			//define select handler
-			select: function(e, ui) {
-				label = ui.item.label;
-				value = ui.item.value;
-				if(value!=-1){
-					jQuery(this).val(label)
+				},
+				//define select handler
+				select: function(e, ui) {
+					label = ui.item.label;
+					value = ui.item.value;
+					if(value!=-1){
+						jQuery(this).val(label)
+						idx = jQuery(this).attr("alt");
+						jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+						jQuery("#"+idx).val(value);
+					}
+					else{
+						idx = jQuery(this).attr("alt");
+						jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
+						jQuery(this).attr("disabled", true);
+						addCompanyShortcutIPC(this.value, jQuery(this));
+					}
+					return false;
+				},
+				focus: function(e, ui) {
 					idx = jQuery(this).attr("alt");
-					jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
-					jQuery("#"+idx).val(value);
+					jQuery("#check_"+idx).html("");
+					label = ui.item.label;
+					value = ui.item.value;
+					if(value!=-1){
+						jQuery(this).val(label)
+					}
+					return false;
+				},
+				search: function(e, ui) {
+					jQuery("#tempcreatelabel").val( jQuery(this).val());
+					idx = jQuery(this).attr("alt");
+					jQuery("#check_"+idx).html("");
+				}
+			}).data( "autocomplete" )._renderItem = function( ul, item ) {
+				value = item.value;
+				label = item.label;
+				append = "";
+				if(item.value==-1){
+					append = "<div class='additem'>"+label+" '"+jQuery("#tempcreatelabel").val()+"'</div>";
+					return $( "<li>" )
+						.data( "item.autocomplete", item )
+						.append( "<a>" + append + "</a>")
+						.appendTo( ul );
 				}
 				else{
-					jQuery(this).attr("disabled", true);
-					addCompanyShortcutIPC(this.value, jQuery(this));
+					if(item.desc){
+						append = "<div class='more'>" + item.desc + "</div>";
+					}
+					return $( "<li>" )
+						.data( "item.autocomplete", item )
+						.append( "<a>" + item.label + append + "</a>")
+						.appendTo( ul );
 				}
-				return false;
-			},
-			focus: function(e, ui) {
-				idx = jQuery(this).attr("alt");
-				jQuery("#check_"+idx).html("");
-				label = ui.item.label;
-				value = ui.item.value;
-				if(value!=-1){
-					jQuery(this).val(label)
-				}
-				return false;
-			},
-			search: function(e, ui) {
-				idx = jQuery(this).attr("alt");
-				jQuery("#check_"+idx).html("");
-			}
-		}).data( "autocomplete" )._renderItem = function( ul, item ) {
-			value = item.value;
-			label = item.label;
-			append = "";
-			if(item.value==-1){
-				append = "<div class='additem'>"+label+"</div>";
-				return $( "<li>" )
-					.data( "item.autocomplete", item )
-					.append( "<a>" + append + "</a>")
-					.appendTo( ul );
-			}
-			else{
-				if(item.desc){
-					append = "<div class='more'>" + item.desc + "</div>";
-				}
-				return $( "<li>" )
-					.data( "item.autocomplete", item )
-					.append( "<a>" + item.label + append + "</a>")
-					.appendTo( ul );
-			}
-		};	
+			};	
+		});
 	}
 	catch(e){
 		
 	}
 
 	try{
-		jQuery(".f_investment_org").autocomplete({
-			//define callback to format results
-			source: function(req, add){
-				//pass request to server
-				jQuery.getJSON("<?php echo site_url(); ?>investment_orgs/ajax_search", req, function(data) {
-					//create array for response objects
-					var suggestions = [];
-					//process response
-					jQuery.each(data, function(i, val){								
+		jQuery(".f_investment_org").each(function(){
+			jQuery(this).autocomplete({
+				//define callback to format results
+				source: function(req, add){
+					//pass request to server
+					jQuery.getJSON("<?php echo site_url(); ?>investment_orgs/ajax_search", req, function(data) {
+						//create array for response objects
+						var suggestions = [];
+						//process response
+						jQuery.each(data, function(i, val){								
+							suggestions.push(val);
+						});
+						val = [];
+						val.label = "Create";
+						val.value = -1;
 						suggestions.push(val);
+						
+						//pass array to callback
+						add(suggestions);
 					});
-					val = [];
-					val.label = "Add Investment Organization to Database";
-					val.value = -1;
-					suggestions.push(val);
-					
-					//pass array to callback
-					add(suggestions);
-				});
-			},
-			//define select handler
-			select: function(e, ui) {
-				label = ui.item.label;
-				value = ui.item.value;
-				if(value!=-1){
-					jQuery(this).val(label)
+				},
+				//define select handler
+				select: function(e, ui) {
+					label = ui.item.label;
+					value = ui.item.value;
+					if(value!=-1){
+						jQuery(this).val(label)
+						idx = jQuery(this).attr("alt");
+						jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+						jQuery("#"+idx).val(value);
+					}
+					else{					
+						idx = jQuery(this).attr("alt");
+						jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
+						jQuery(this).attr("disabled", true);
+						addInvestmentOrgShortcutIPC(this.value, jQuery(this));
+					}
+					return false;
+				},
+				focus: function(e, ui) {
 					idx = jQuery(this).attr("alt");
-					jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
-					jQuery("#"+idx).val(value);
+					jQuery("#check_"+idx).html("");
+					label = ui.item.label;
+					value = ui.item.value;
+					if(value!=-1){
+						jQuery(this).val(label)
+					}
+					return false;
+				},
+				search: function(e, ui) {
+					jQuery("#tempcreatelabel").val( jQuery(this).val());
+					idx = jQuery(this).attr("alt");
+					jQuery("#check_"+idx).html("");
+				}
+			}).data( "autocomplete" )._renderItem = function( ul, item ) {
+				value = item.value;
+				label = item.label;
+				append = "";
+				if(item.value==-1){
+					append = "<div class='additem'>"+label+" '"+jQuery("#tempcreatelabel").val()+"'</div>";
+					return $( "<li>" )
+						.data( "item.autocomplete", item )
+						.append( "<a>" + append + "</a>")
+						.appendTo( ul );
 				}
 				else{
-					jQuery(this).attr("disabled", true);
-					addInvestmentOrgShortcutIPC(this.value, jQuery(this));
+					if(item.desc){
+						append = "<div class='more'>" + item.desc + "</div>";
+					}
+					return $( "<li>" )
+						.data( "item.autocomplete", item )
+						.append( "<a>" + item.label + append + "</a>")
+						.appendTo( ul );
 				}
-				return false;
-			},
-			focus: function(e, ui) {
-				idx = jQuery(this).attr("alt");
-				jQuery("#check_"+idx).html("");
-				label = ui.item.label;
-				value = ui.item.value;
-				if(value!=-1){
-					jQuery(this).val(label)
-				}
-				return false;
-			},
-			search: function(e, ui) {
-				idx = jQuery(this).attr("alt");
-				jQuery("#check_"+idx).html("");
-			}
-		}).data( "autocomplete" )._renderItem = function( ul, item ) {
-			value = item.value;
-			label = item.label;
-			append = "";
-			if(item.value==-1){
-				append = "<div class='additem'>"+label+"</div>";
-				return $( "<li>" )
-					.data( "item.autocomplete", item )
-					.append( "<a>" + append + "</a>")
-					.appendTo( ul );
-			}
-			else{
-				if(item.desc){
-					append = "<div class='more'>" + item.desc + "</div>";
-				}
-				return $( "<li>" )
-					.data( "item.autocomplete", item )
-					.append( "<a>" + item.label + append + "</a>")
-					.appendTo( ul );
-			}
-		};	
+			};	
+		});
 	}
 	catch(e){
 	}
 	
 	try{
-		jQuery(".f_person").autocomplete({
-			//define callback to format results
-			source: function(req, add){
-				//pass request to server
-				jQuery.getJSON("<?php echo site_url(); ?>people/ajax_search", req, function(data) {
-					//create array for response objects
-					var suggestions = [];
-					//process response
-					jQuery.each(data, function(i, val){								
+		jQuery(".f_person").each(function(){
+			jQuery(this).autocomplete({
+				//define callback to format results
+				source: function(req, add){
+					//pass request to server
+					jQuery.getJSON("<?php echo site_url(); ?>people/ajax_search", req, function(data) {
+						//create array for response objects
+						var suggestions = [];
+						//process response
+						jQuery.each(data, function(i, val){								
+							suggestions.push(val);
+						});
+						val = [];
+						val.label = "Create";
+						val.value = -1;
 						suggestions.push(val);
+						
+						//pass array to callback
+						add(suggestions);
 					});
-					val = [];
-					val.label = "Add Person to Database";
-					val.value = -1;
-					suggestions.push(val);
-					
-					//pass array to callback
-					add(suggestions);
-				});
-			},
-			//define select handler
-			select: function(e, ui) {
-				label = ui.item.label;
-				value = ui.item.value;
-				if(value!=-1){
-					jQuery(this).val(label)
+				},
+				//define select handler
+				select: function(e, ui) {
+					label = ui.item.label;
+					value = ui.item.value;
+					if(value!=-1){
+						jQuery(this).val(label)
+						idx = jQuery(this).attr("alt");
+						jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+						jQuery("#"+idx).val(value);
+					}
+					else{
+						idx = jQuery(this).attr("alt");
+						jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
+						jQuery(this).attr("disabled", true);
+						addPersonShortcutIPC(this.value, jQuery(this));
+					}
+					return false;
+				},
+				focus: function(e, ui) {
 					idx = jQuery(this).attr("alt");
-					jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
-					jQuery("#"+idx).val(value);
+					jQuery("#check_"+idx).html("");
+					label = ui.item.label;
+					value = ui.item.value;
+					if(value!=-1){
+						jQuery(this).val(label)
+					}
+					return false;
+				},
+				search: function(e, ui) {
+					jQuery("#tempcreatelabel").val( jQuery(this).val());
+					idx = jQuery(this).attr("alt");
+					jQuery("#check_"+idx).html("");
+				}
+			}).data( "autocomplete" )._renderItem = function( ul, item ) {
+				value = item.value;
+				label = item.label;
+				append = "";
+				if(item.value==-1){
+					append = "<div class='additem'>"+label+" '"+jQuery("#tempcreatelabel").val()+"'</div>";
+					return $( "<li>" )
+						.data( "item.autocomplete", item )
+						.append( "<a>" + append + "</a>")
+						.appendTo( ul );
 				}
 				else{
-					jQuery(this).attr("disabled", true);
-					addPersonShortcutIPC(this.value, jQuery(this));
+					if(item.desc){
+						append = "<div class='more'>" + item.desc + "</div>";
+					}
+					return $( "<li>" )
+						.data( "item.autocomplete", item )
+						.append( "<a>" + item.label + append + "</a>")
+						.appendTo( ul );
 				}
-				return false;
-			},
-			focus: function(e, ui) {
-				idx = jQuery(this).attr("alt");
-				jQuery("#check_"+idx).html("");
-				label = ui.item.label;
-				value = ui.item.value;
-				if(value!=-1){
-					jQuery(this).val(label)
-				}
-				return false;
-			},
-			search: function(e, ui) {
-				idx = jQuery(this).attr("alt");
-				jQuery("#check_"+idx).html("");
-			}
-		}).data( "autocomplete" )._renderItem = function( ul, item ) {
-			value = item.value;
-			label = item.label;
-			append = "";
-			if(item.value==-1){
-				append = "<div class='additem'>"+label+"</div>";
-				return $( "<li>" )
-					.data( "item.autocomplete", item )
-					.append( "<a>" + append + "</a>")
-					.appendTo( ul );
-			}
-			else{
-				if(item.desc){
-					append = "<div class='more'>" + item.desc + "</div>";
-				}
-				return $( "<li>" )
-					.data( "item.autocomplete", item )
-					.append( "<a>" + item.label + append + "</a>")
-					.appendTo( ul );
-			}
-		};	
+			};	
+		});
 	}
 	catch(e){
 	}
@@ -730,7 +745,7 @@ jQuery(function(){
 					suggestions.push(val);
 				});
 				val = [];
-				val.label = "Add Company to Database";
+				val.label = "Create";
 				val.value = -1;
 				suggestions.push(val);
 				
@@ -758,13 +773,16 @@ jQuery(function(){
 				jQuery("#competitor_search").val(label);
 			}
 			return false;
+		},
+		search: function(e, ui) {
+			jQuery("#tempcreatelabel").val( jQuery(this).val());
 		}
 	}).data( "autocomplete" )._renderItem = function( ul, item ) {
 		value = item.value;
 		label = item.label;
 		append = "";
 		if(item.value==-1){
-			append = "<div class='additem'>"+label+"</div>";
+			append = "<div class='additem'>"+label+" '"+jQuery("#tempcreatelabel").val()+"'</div>";
 			return $( "<li>" )
 				.data( "item.autocomplete", item )
 				.append( "<a>" + append + "</a>")
@@ -795,7 +813,7 @@ jQuery(function(){
 					suggestions.push(val);
 				});
 				val = [];
-				val.label = "Add Person to Database";
+				val.label = "Create";
 				val.value = -1;
 				suggestions.push(val);
 				//pass array to callback
@@ -824,12 +842,15 @@ jQuery(function(){
 			}
 			return false;
 		},
+		search: function(e, ui) {
+			jQuery("#tempcreatelabel").val( jQuery(this).val());
+		}
 	}).data( "autocomplete" )._renderItem = function( ul, item ) {
 		value = item.value;
 		label = item.label;
 		append = "";
 		if(item.value==-1){
-			append = "<div class='additem'>"+label+"</div>";
+			append = "<div class='additem'>"+label+" '"+jQuery("#tempcreatelabel").val()+"'</div>";
 			return $( "<li>" )
 				.data( "item.autocomplete", item )
 				.append( "<a>" + append + "</a>")
@@ -958,6 +979,7 @@ jQuery(function(){
 	
 });
 </script>
+<input type='hidden' id='tempcreatelabel' />
 <form id='company_form'>
 
 <?php
