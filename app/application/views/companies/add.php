@@ -179,9 +179,24 @@ function peoplePreAdd(label, value){
 	
 }
 
+function setFFormDefaults(){ //set funding form defaults
+	jQuery("#f_round").val("Seed");
+	jQuery("#f_currency").val("SGD");
+	jQuery("#f_fund_amount").val("");
+	jQuery("#f_date").val("");
+	jQuery("#ipc tbody").html(""); //clear ipc
+}
+
 function delFunding(idx){
 	if(confirm("Are you sure you want to delete this funding record?")){
 		jQuery("#"+idx)[0].outerHTML = "";
+		
+		//set defaults
+		setFFormDefaults();
+		
+		jQuery("#fundingadd").fadeOut(200, function(){
+			
+		});
 		return true;
 	}
 	return false;
@@ -189,6 +204,7 @@ function delFunding(idx){
 
 fundingindex = 0;
 function editFIntro(idx){
+	setFFormDefaults();
 	f_data = jQuery("#f_data"+idx).val();
 	f_data = JSON.parse(f_data);
 	/*
@@ -261,6 +277,7 @@ function editFIntro(idx){
 		
 	//scroll to
 	jQuery("#f_save_button").attr("alt", idx);
+	jQuery("#f_cancel_button").attr("alt", idx);
 	jQuery("#f_save_button").show();
 	jQuery("#f_add_button").hide();
 	jQuery("#fundingadd").slideDown(200, function(){
@@ -417,13 +434,16 @@ function editFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_co
 	jQuery("#fundingtr"+idx)[0].outerHTML = html;
 	jQuery("#f_data"+idx).val(f_datastr);
 	
-	jQuery('html, body').animate({
-		scrollTop: jQuery("#fundingtr"+idx+" .fundingtable").offset().top
-	}, 500);
-			
-			
 	jQuery("#ipc tbody").html("");
-	jQuery("#fundingadd").fadeOut(200);
+	jQuery("#fundingadd").fadeOut(200, function(){
+		jQuery('html, body').animate({
+			scrollTop: jQuery("#fundingtr"+idx+" .fundingtable").offset().top
+		}, 500);
+	});
+	
+		
+			
+	
 }
 
 function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_company_val, f_person, f_person_val, f_investment_org, f_investment_org_val, add){
@@ -1254,10 +1274,23 @@ jQuery(function(){
 });
 
 function addFIntro(){
+	setFFormDefaults();
 	jQuery("#f_save_button").hide();
 	jQuery("#f_add_button").show();
 	jQuery("#fundingadd").slideDown(200);
 	jQuery("#ipc tbody").html("");
+	jQuery("#f_cancel_button").attr("alt", "");
+}
+
+function cancelFJS(idx){
+	setFFormDefaults();
+	jQuery("#fundingadd").fadeOut(200, function(){
+		if(idx!=""){
+			jQuery('html, body').animate({
+				scrollTop: jQuery("#fundingtr"+idx+" .fundingtable").offset().top
+			}, 500);
+		}
+	});
 }
 
 function editFJS(idx){
@@ -1744,7 +1777,7 @@ else{
 					</td>
 				</tr>
 				<tr>
-					<td align="center" colspan="2" style='padding-top:10px;'><input id='f_save_button' type='button' class='button normal hidden' value='   Save   ' onclick='editFJS(this.alt)'>&nbsp;&nbsp;<input id='f_add_button' type='button' class='button normal' value='   Add Funding   ' onclick='addFJS()'>&nbsp;&nbsp;<input type='button' class='button normal' id='f_cancel_button' value='Cancel' onclick='jQuery("#fundingadd").hide(); jQuery("#ipc tbody").html("");'> </td>
+					<td align="center" colspan="2" style='padding-top:10px;'><input id='f_save_button' type='button' class='button normal hidden' value='   Save   ' onclick='editFJS(this.alt)'>&nbsp;&nbsp;<input id='f_add_button' type='button' class='button normal' value='   Add Funding   ' onclick='addFJS()'>&nbsp;&nbsp;<input type='button' class='button normal' id='f_cancel_button' value='Cancel' onclick='cancelFJS(this.alt)'> </td>
 				</tr>
 			</table>
 			
