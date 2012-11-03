@@ -96,6 +96,20 @@ function delInvestmentOrg(obj, ioid){
 	return false;
 }
 
+function addCompanyShortcut(company_name){
+	jQuery("#company_search").attr("disabled", true);
+	jQuery("#company_add_loader").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
+	jQuery.ajax({
+		url: "<?php echo site_url(); ?>companies/ajax_add_company_shortcut",
+		type: "POST",
+		data: "name="+escape(company_name),
+		dataType: "script",
+		success: function(data){
+			
+		}
+	});
+}
+
 function addCompany(id, name, role, start_date, end_date, add){
 	if(!id){
 		return false;
@@ -138,7 +152,7 @@ function addCompany(id, name, role, start_date, end_date, add){
 	thedate.setDate(thedate.getDate());
 	start_date = dateFormat(thedate, "mmm dd, yyyy");
 	
-	html += "<a href='<?php echo site_url()?>/companies/edit/"+id+"' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delCompany(this, \""+id+"\")' >Delete</a></td></tr>";
+	html += "<a href='<?php echo site_url(); ?>companies/edit/"+id+"' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delCompany(this, \""+id+"\")' >Delete</a></td></tr>";
 	
 	htmlorig = jQuery("#companyhtml table tbody").html();
 	
@@ -271,6 +285,10 @@ jQuery(function(){
 				jQuery.each(data, function(i, val){								
 					suggestions.push(val);
 				});
+				val = [];
+				val.label = "Add Company to Database";
+				val.value = -1;
+				suggestions.push(val);
 				//pass array to callback
 				add(suggestions);
 			});
@@ -279,17 +297,46 @@ jQuery(function(){
 		select: function(e, ui) {
 			label = ui.item.label;
 			value = ui.item.value;
-			jQuery("#company_search").val("");
-			companyPreAdd(label, value);
+			
+			if(value!=-1){
+				jQuery("#company_search").val("");
+				companyPreAdd(label, value);
+			}
+			else{
+				addCompanyShortcut(this.value);
+			}
 			return false;
 		},
 		focus: function(e, ui) {
 			label = ui.item.label;
 			value = ui.item.value;
-			jQuery("#company_search").val(label);
+			if(value!=-1){
+				jQuery("#company_search").val(label);
+			}
 			return false;
 		},
-	});	
+	}).data( "autocomplete" )._renderItem = function( ul, item ) {
+		value = item.value;
+		label = item.label;
+		append = "";
+		if(item.value==-1){
+			append = "<div class='additem'>"+label+"</div>";
+			return $( "<li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + append + "</a>")
+				.appendTo( ul );
+		}
+		else{
+			if(item.desc){
+				append = "<div class='more'>" + item.desc + "</div>";
+			}
+			return $( "<li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + item.label + append + "</a>")
+				.appendTo( ul );
+		}
+		
+	};
 	
 	jQuery("#investment_org_search").autocomplete({
 		//define callback to format results
@@ -430,7 +477,7 @@ else{
 		<tr class="odd">
 		  <td>Companies:</td>
 		  <td>
-		  <input type="text" size: "30" id="company_search" /><div class='hint'>Type in the company name to search and add a company.</div>
+		  <input type="text" size: "30" id="company_search" /><div class='inline' id='company_add_loader' ></div><div class='hint'>Type in the company name to search and add a company.</div>
 		  <div id='companyadd' style='display:none'>
 		  	<input type='hidden' id='c_id' />
 		  	<table class='border margin10 pad10'>

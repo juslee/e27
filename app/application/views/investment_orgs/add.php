@@ -86,6 +86,20 @@ function delPerson(obj, pid){
 	return false;
 }
 
+function addPersonShortcut(name){
+	jQuery("#people_search").attr("disabled", true);
+	jQuery("#person_add_loader").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
+	jQuery.ajax({
+		url: "<?php echo site_url(); ?>people/ajax_add_person_shortcut",
+		type: "POST",
+		data: "name="+escape(name),
+		dataType: "script",
+		success: function(data){
+			
+		}
+	});
+}
+
 function peoplePreAdd(label, value){
 	value = value*1;
 	if(people.indexOf(value)!=-1){
@@ -227,6 +241,10 @@ jQuery(function(){
 				jQuery.each(data, function(i, val){								
 					suggestions.push(val);
 				});
+				val = [];
+				val.label = "Add Person to Database";
+				val.value = -1;
+				suggestions.push(val);
 				//pass array to callback
 				add(suggestions);
 			});
@@ -235,25 +253,45 @@ jQuery(function(){
 		select: function(e, ui) {
 			label = ui.item.label;
 			value = ui.item.value;
-			jQuery("#people_search").val("");
-			peoplePreAdd(label, value);
+			
+			if(value!=-1){
+				jQuery("#people_search").val("");
+				peoplePreAdd(label, value);
+			}
+			else{
+				addPersonShortcut(this.value);
+			}
 			return false;
 		},
 		focus: function(e, ui) {
 			label = ui.item.label;
 			value = ui.item.value;
-			jQuery("#people_search").val(label);
+			if(value!=-1){
+				jQuery("#people_search").val(label);
+			}
 			return false;
 		},
 	}).data( "autocomplete" )._renderItem = function( ul, item ) {
+		value = item.value;
+		label = item.label;
 		append = "";
-		if(item.desc){
-			append = "<div class='more'>" + item.desc + "</div>";
+		if(item.value==-1){
+			append = "<div class='additem'>"+label+"</div>";
+			return $( "<li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + append + "</a>")
+				.appendTo( ul );
 		}
-		return $( "<li>" )
-			.data( "item.autocomplete", item )
-			.append( "<a>" + item.label + append + "</a>")
-			.appendTo( ul );
+		else{
+			if(item.desc){
+				append = "<div class='more'>" + item.desc + "</div>";
+			}
+			return $( "<li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + item.label + append + "</a>")
+				.appendTo( ul );
+		}
+		
 	};
 	
 });
@@ -409,7 +447,7 @@ else{
 		<tr class="odd">
 		  <td>People:</td>
 		  <td>
-		  <input type="text" size: "30" id="people_search" /><div class='hint'>Type in the name to search and add people.</div>
+		  <input type="text" size: "30" id="people_search" /><div class='inline' id='person_add_loader'></div><div class='hint'>Type in the name to search and add people.</div>
 		  <div id='peopleadd' style='display:none'>
 		  	<input type='hidden' id='p_id' />
 		  	<table class='border margin10 pad10'>

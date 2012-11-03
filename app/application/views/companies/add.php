@@ -403,6 +403,20 @@ function addCompetitorShortcut(company_name){
 		}
 	});
 }
+
+function addPersonShortcut(name){
+	jQuery("#people_search").attr("disabled", true);
+	jQuery("#person_add_loader").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
+	jQuery.ajax({
+		url: "<?php echo site_url(); ?>people/ajax_add_person_shortcut",
+		type: "POST",
+		data: "name="+escape(name),
+		dataType: "script",
+		success: function(data){
+			
+		}
+	});
+}
 function ipcEvent(){
 	try{
 		jQuery(".f_company").autocomplete({
@@ -540,7 +554,7 @@ jQuery(function(){
 					suggestions.push(val);
 				});
 				val = [];
-				val.label = "Add Company";
+				val.label = "Add Company to Database";
 				val.value = -1;
 				suggestions.push(val);
 				
@@ -591,34 +605,71 @@ jQuery(function(){
 		}
 		
 	};	
+
 	
-	/*
-	jQuery("#competitor_search").blur(function(){
-		v = jQuery("#competitor_search").val();
-		y = jQuery("#competitor_search").data("autocomplete").selectedItem;
-		alert(v);
-		alert(y);
-		str = "";
-		for(x in y){
-			str += x+"\n";
+	jQuery("#people_search").autocomplete({
+		//define callback to format results
+		source: function(req, add){
+			//pass request to server
+			jQuery.getJSON("<?php echo site_url(); ?>people/ajax_search", req, function(data) {
+				//create array for response objects
+				var suggestions = [];
+				//process response
+				jQuery.each(data, function(i, val){								
+					suggestions.push(val);
+				});
+				val = [];
+				val.label = "Add Person";
+				val.value = -1;
+				suggestions.push(val);
+				//pass array to callback
+				add(suggestions);
+			});
+		},
+		//define select handler
+		select: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			
+			if(value!=-1){
+				jQuery("#people_search").val("");
+				peoplePreAdd(label, value);
+			}
+			else{
+				addPersonShortcut(this.value);
+			}
+			return false;
+		},
+		focus: function(e, ui) {
+			label = ui.item.label;
+			value = ui.item.value;
+			if(value!=-1){
+				jQuery("#people_search").val(label);
+			}
+			return false;
+		},
+	}).data( "autocomplete" )._renderItem = function( ul, item ) {
+		value = item.value;
+		label = item.label;
+		append = "";
+		if(item.value==-1){
+			append = "<div class='additem'>"+label+"</div>";
+			return $( "<li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + append + "</a>")
+				.appendTo( ul );
 		}
-		alert(str);
-	});
-	*/
-	
-	/*
-	jQuery("#f_company").keydown(function(){
-		jQuery("#f_company_val").val("");
-	});
-	
-	jQuery("#f_person").keydown(function(){
-		jQuery("#f_person_val").val("");
-	});
-	
-	jQuery("#f_investment_org").keydown(function(){
-		jQuery("#f_investment_org_val").val("");
-	});
-	*/
+		else{
+			if(item.desc){
+				append = "<div class='more'>" + item.desc + "</div>";
+			}
+			return $( "<li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + item.label + append + "</a>")
+				.appendTo( ul );
+		}
+		
+	};
 	
 	ipcEvent();
 
@@ -726,46 +777,6 @@ jQuery(function(){
 		}	
 	});
 	
-	
-	jQuery("#people_search").autocomplete({
-		//define callback to format results
-		source: function(req, add){
-			//pass request to server
-			jQuery.getJSON("<?php echo site_url(); ?>people/ajax_search", req, function(data) {
-				//create array for response objects
-				var suggestions = [];
-				//process response
-				jQuery.each(data, function(i, val){								
-					suggestions.push(val);
-				});
-				//pass array to callback
-				add(suggestions);
-			});
-		},
-		//define select handler
-		select: function(e, ui) {
-			label = ui.item.label;
-			value = ui.item.value;
-			jQuery("#people_search").val("");
-			peoplePreAdd(label, value);
-			return false;
-		},
-		focus: function(e, ui) {
-			label = ui.item.label;
-			value = ui.item.value;
-			jQuery("#people_search").val(label);
-			return false;
-		},
-	}).data( "autocomplete" )._renderItem = function( ul, item ) {
-		append = "";
-		if(item.desc){
-			append = "<div class='more'>" + item.desc + "</div>";
-		}
-		return $( "<li>" )
-			.data( "item.autocomplete", item )
-			.append( "<a>" + item.label + append + "</a>")
-			.appendTo( ul );
-	};
 	
 	
 	
@@ -983,7 +994,7 @@ else{
 		<tr class="odd">
 		  <td>People:</td>
 		  <td>
-		  <input type="text" size: "30" id="people_search" /><div class='hint'>Type in the name to search and add people.</div>
+		  <input type="text" size: "30" id="people_search" /><div class='inline' id='person_add_loader'></div><div class='hint'>Type in the name to search and add people.</div>
 		  <div id='peopleadd' style='display:none'>
 		  	<input type='hidden' id='p_id' />
 		  	<table class='border margin10 pad10'>
