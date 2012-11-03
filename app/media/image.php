@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_ALL ^ E_NOTICE);
 function createThumb($src, $dest, $thumbWidth, $thumbHeight) 
 {
 	$info = pathinfo($src);
@@ -73,7 +73,11 @@ function showThumb($src, $thumbWidth, $thumbHeight)
 	$info = pathinfo($src);
 
 	// load image and get image size
-	$img = @imagecreatefromjpeg( $src );
+	//$src = str_replace("%20", "", $src);
+	//$src  = "http://google.com";
+	//echo file_get_contents($src);
+	//exit();
+	$img = imagecreatefromjpeg( $src );
 	if(!$img){
 		$img = @imagecreatefrompng ( $src );
 	}
@@ -153,12 +157,14 @@ if($_GET['b'])
 else
 {
 	$p = urldecode($_GET['p']);
-	$p = dirname($p)."/".urlencode(basename($p));
-
+	$p = dirname($p)."/".rawurlencode(basename($p));
+	//$p = str_replace("//", "/", $p);
+	//$p = str_replace("http:/", "http://", $p);
+	//echo $p;
+	//exit();
 }
 
-if($mx)
-{
+if($mx){
 	header('Content-Type: image/jpeg');
 	showThumb($p, $mx, $mx);	
 }
