@@ -174,20 +174,31 @@ class people extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input a Name.");
+			alertX("<div class='red'>Please input a Name.</div>");
 			<?php
 		}
 		else if(!trim($_POST['description'])){
 			$err = 1;
 			?>
-			alertX("Please input a Description.");
+			alertX("<div class='red'>Please input a Description.</div>");
 			<?php
 		}
 		else if(!checkEmail($_POST['email_address'])){
 			$err = 1;
 			?>
-			alertX("Please input a valid E-mail.");
+			alertX("<div class='red'>Please input a valid E-mail.</div>");
 			<?php
+		}
+		else{
+			$sql = "select * from `people` where `id`=".$this->db->escape(trim($_POST['id']));
+			$q = $this->db->query($sql);
+			$people = $q->result_array();	
+			if(!$people[0]){
+				$err = 1;
+				?>
+				alertX("<div class='red'><div class='red'>Person doesnt exists in the database.</div></div>");
+				<?php
+			}
 		}
 		
 		if(!$err){
@@ -288,7 +299,7 @@ class people extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input a Name.");
+			alertX("<div class='red'>Please input a Name.</div>");
 			<?php
 		}
 		
@@ -318,7 +329,7 @@ class people extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input a Name.");
+			alertX("<div class='red'>Please input a Name.</div>");
 			<?php
 		}
 		
@@ -349,19 +360,19 @@ class people extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input a Name.");
+			alertX("<div class='red'>Please input a Name.</div>");
 			<?php
 		}
 		else if(!trim($_POST['description'])){
 			$err = 1;
 			?>
-			alertX("Please input a Description.");
+			alertX("<div class='red'>Please input a Description.</div>");
 			<?php
 		}
 		else if(!checkEmail($_POST['email_address'])){
 			$err = 1;
 			?>
-			alertX("Please input a valid E-mail.");
+			alertX("<div class='red'>Please input a valid E-mail.</div>");
 			<?php
 		}
 		if(!$err){

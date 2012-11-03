@@ -133,27 +133,39 @@ class investment_orgs extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input a Company Name.");
+			alertX("<div class='red'>Please input a Company Name.</div>");
 			<?php
 		}
 		else if($investment_org[0]['id']!=""&&$investment_org[0]['id']!=$_POST['id']){
 			$err = 1;
 			?>
-			alertX("Company name already exists in the database.");
+			alertX("<div class='red'>Company name already exists in the database.</div>");
 			<?php
 		}
 		else if(!trim($_POST['description'])){
 			$err = 1;
 			?>
-			alertX("Please input a Company Description.");
+			alertX("<div class='red'>Please input a Company Description.</div>");
 			<?php
 		}
 		else if(!checkEmail($_POST['email_address'])){
 			$err = 1;
 			?>
-			alertX("Please input a valid E-mail.");
+			alertX("<div class='red'>Please input a valid E-mail.</div>");
 			<?php
 		}
+		else{
+			$sql = "select * from `investment_orgs` where `id`=".$this->db->escape(trim($_POST['id']));
+			$q = $this->db->query($sql);
+			$investment_orgs = $q->result_array();	
+			if(!$investment_orgs[0]){
+				$err = 1;
+				?>
+				alertX("<div class='red'>Investment Organization doesnt exists in the database.</div>");
+				<?php
+			}
+		}
+
 		
 		if(!$err){
 			$sql = "update `investment_orgs` set ";
@@ -237,7 +249,7 @@ class investment_orgs extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input a Name.");
+			alertX("<div class='red'>Please input a Name.</div>");
 			<?php
 		}
 		
@@ -274,13 +286,13 @@ class investment_orgs extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input a Investment Organization Name.");
+			alertX("<div class='red'>Please input a Investment Organization Name.</div>");
 			<?php
 		}
 		else if($investment_org[0]['id']){
 			$err = 1;
 			?>
-			alertX("Investment Organization already exists in the database.");
+			alertX("<div class='red'>Investment Organization already exists in the database.</div>");
 			<?php
 		}
 		
@@ -321,25 +333,25 @@ class investment_orgs extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input a Name.");
+			alertX("<div class='red'>Please input a Name.</div>");
 			<?php
 		}
 		else if($investment_org[0]['id']){
 			$err = 1;
 			?>
-			alertX("Investment organization already exists in the database.");
+			alertX("<div class='red'>Investment organization already exists in the database.</div>");
 			<?php
 		}
 		else if(!trim($_POST['description'])){
 			$err = 1;
 			?>
-			alertX("Please input a Investment organization description.");
+			alertX("<div class='red'>Please input a Investment organization description.</div>");
 			<?php
 		}
 		else if(!checkEmail($_POST['email_address'])){
 			$err = 1;
 			?>
-			alertX("Please input a valid E-mail.");
+			alertX("<div class='red'>Please input a valid E-mail.</div>");
 			<?php
 		}
 		if(!$err){

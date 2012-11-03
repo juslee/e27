@@ -133,29 +133,42 @@ class companies extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input a Company Name.");
+			alertX("<div class='red'>Please input a Company Name.</div>");
 			<?php
 		}
 		else if($company[0]['id']!=""&&$company[0]['id']!=$_POST['id']){
 			$err = 1;
 			?>
-			alertX("Company name already exists in the database.");
+			alertX("<div class='red'>Company name already exists in the database.</div>");
 			<?php
 		}
 		else if(!trim($_POST['description'])){
 			$err = 1;
 			?>
-			alertX("Please input a Company Description.");
+			alertX("<div class='red'>Please input a Company Description.</div>");
 			<?php
 		}
 		else if(!checkEmail($_POST['email_address'])){
 			$err = 1;
 			?>
-			alertX("Please input a valid E-mail.");
+			alertX("<div class='red'>Please input a valid E-mail.</div>");
 			<?php
+		}
+		else{
+			$sql = "select * from `companies` where `id`=".$this->db->escape(trim($_POST['id']));
+			$q = $this->db->query($sql);
+			$company = $q->result_array();	
+			if(!$company[0]){
+				$err = 1;
+				?>
+				alertX("<div class='red'>Company doesnt exists in the database.</div>");
+				<?php
+			}
 		}
 		
 		if(!$err){
+			
+			
 			$sql = "update `companies` set ";
 			$arr = array();
 			$post = $_POST;
@@ -353,13 +366,13 @@ class companies extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input a Company Name.");
+			alertX("<div class='red'>Please input a Company Name.</div>");
 			<?php
 		}
 		else if($company[0]['id']){
 			$err = 1;
 			?>
-			alertX("Company already exists in the database.");
+			alertX("<div class='red'>Company already exists in the database.</div>");
 			<?php
 		}
 		
@@ -396,13 +409,13 @@ class companies extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input a Company Name.");
+			alertX("<div class='red'>Please input a Company Name.</div>");
 			<?php
 		}
 		else if($company[0]['id']){
 			$err = 1;
 			?>
-			alertX("Company already exists in the database.");
+			alertX("<div class='red'>Company already exists in the database.</div>");
 			<?php
 		}
 		
@@ -443,13 +456,13 @@ class companies extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input a Company Name.");
+			alertX("<div class='red'>Please input a Company Name.</div>");
 			<?php
 		}
 		else if($company[0]['id']){
 			$err = 1;
 			?>
-			alertX("Company already exists in the database.");
+			alertX("<div class='red'>Company already exists in the database.</div>");
 			<?php
 		}
 		
@@ -489,25 +502,25 @@ class companies extends CI_Controller {
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
-			alertX("Please input a Company Name.");
+			alertX("<div class='red'>Please input a Company Name.</div>");
 			<?php
 		}
 		else if($company[0]['id']){
 			$err = 1;
 			?>
-			alertX("Company already exists in the database.");
+			alertX("<div class='red'>Company already exists in the database.</div>");
 			<?php
 		}
 		else if(!trim($_POST['description'])){
 			$err = 1;
 			?>
-			alertX("Please input a Company Description.");
+			alertX("<div class='red'>Please input a Company Description.</div>");
 			<?php
 		}
 		else if(!checkEmail($_POST['email_address'])){
 			$err = 1;
 			?>
-			alertX("Please input a valid E-mail.");
+			alertX("<div class='red'>Please input a valid E-mail.</div>");
 			<?php
 		}
 		if(!$err){
