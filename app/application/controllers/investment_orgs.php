@@ -232,6 +232,36 @@ class investment_orgs extends CI_Controller {
 		<?php
 	}
 	
+	public function ajax_add_investment_org_shortcut_ipc(){	
+		$err = 0;
+		if(!trim($_POST['name'])){
+			$err = 1;
+			?>
+			alertX("Please input a Name.");
+			<?php
+		}
+		
+		if(!$err){
+			$sql = "insert into `investment_orgs` set `name`=".$this->db->escape(trim($_POST['name']));
+			$sql .= ", active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
+			$q = $this->db->query($sql);
+			$id = $this->db->insert_id();
+			?>
+			insert_id = "<?php echo sanitizeX($id); ?>";
+			insert_id = uNum(insert_id);
+			success = true;
+			<?php
+		}
+		else{
+			?>
+			insert_id = "";
+			insert_id = uNum(insert_id);
+			success = false;
+			<?php
+		}
+		
+	}
+	
 	public function ajax_add_investment_org_shortcut(){
 		if(trim($_POST['name'])){
 			//check if company already exists

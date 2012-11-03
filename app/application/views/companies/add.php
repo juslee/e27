@@ -417,6 +417,70 @@ function addPersonShortcut(name){
 		}
 	});
 }
+function addCompanyShortcutIPC(name, obj){
+	jQuery.ajax({
+		url: "<?php echo site_url(); ?>companies/ajax_add_company_shortcut_ipc",
+		type: "POST",
+		data: "name="+escape(name),
+		dataType: "script",
+		success: function(data){
+			if(obj&&success){
+				obj.attr("disabled", false);
+				idx = obj.attr("alt");
+				jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+				jQuery("#"+idx).val(insert_id);
+			}
+			else if(obj){
+				obj.attr("disabled", false);
+				idx = obj.attr("alt");
+				jQuery("#check_"+idx).html("");
+			}
+		}
+	});
+}
+function addPersonShortcutIPC(name, obj){
+	jQuery.ajax({
+		url: "<?php echo site_url(); ?>people/ajax_add_person_shortcut_ipc",
+		type: "POST",
+		data: "name="+escape(name),
+		dataType: "script",
+		success: function(data){
+			if(obj&&success){
+				obj.attr("disabled", false);
+				idx = obj.attr("alt");
+				jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+				jQuery("#"+idx).val(insert_id);
+			}
+			else if(obj){
+				obj.attr("disabled", false);
+				idx = obj.attr("alt");
+				jQuery("#check_"+idx).html("");
+			}
+		}
+	});
+}
+function addInvestmentOrgShortcutIPC(name, obj){
+	jQuery.ajax({
+		url: "<?php echo site_url(); ?>investment_orgs/ajax_add_investment_org_shortcut_ipc",
+		type: "POST",
+		data: "name="+escape(name),
+		dataType: "script",
+		success: function(data){
+			if(obj&&success){
+				obj.attr("disabled", false);
+				idx = obj.attr("alt");
+				jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+				jQuery("#"+idx).val(insert_id);
+			}
+			else if(obj){
+				obj.attr("disabled", false);
+				idx = obj.attr("alt");
+				jQuery("#check_"+idx).html("");
+			}
+		}
+	});
+}
+
 function ipcEvent(){
 	try{
 		jQuery(".f_company").autocomplete({
@@ -430,6 +494,11 @@ function ipcEvent(){
 					jQuery.each(data, function(i, val){								
 						suggestions.push(val);
 					});
+					val = [];
+					val.label = "Add Company to Database";
+					val.value = -1;
+					suggestions.push(val);
+					
 					//pass array to callback
 					add(suggestions);
 				});
@@ -438,22 +507,58 @@ function ipcEvent(){
 			select: function(e, ui) {
 				label = ui.item.label;
 				value = ui.item.value;
-				jQuery(this).val(label)
-				idx = jQuery(this).attr("alt");
-				jQuery("#"+idx).val(value);
+				if(value!=-1){
+					jQuery(this).val(label)
+					idx = jQuery(this).attr("alt");
+					jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+					jQuery("#"+idx).val(value);
+				}
+				else{
+					jQuery(this).attr("disabled", true);
+					addCompanyShortcutIPC(this.value, jQuery(this));
+				}
 				return false;
 			},
 			focus: function(e, ui) {
+				idx = jQuery(this).attr("alt");
+				jQuery("#check_"+idx).html("");
 				label = ui.item.label;
 				value = ui.item.value;
-				jQuery(this).val(label)
+				if(value!=-1){
+					jQuery(this).val(label)
+				}
 				return false;
 			},
-		});
+			search: function(e, ui) {
+				idx = jQuery(this).attr("alt");
+				jQuery("#check_"+idx).html("");
+			}
+		}).data( "autocomplete" )._renderItem = function( ul, item ) {
+			value = item.value;
+			label = item.label;
+			append = "";
+			if(item.value==-1){
+				append = "<div class='additem'>"+label+"</div>";
+				return $( "<li>" )
+					.data( "item.autocomplete", item )
+					.append( "<a>" + append + "</a>")
+					.appendTo( ul );
+			}
+			else{
+				if(item.desc){
+					append = "<div class='more'>" + item.desc + "</div>";
+				}
+				return $( "<li>" )
+					.data( "item.autocomplete", item )
+					.append( "<a>" + item.label + append + "</a>")
+					.appendTo( ul );
+			}
+		};	
 	}
 	catch(e){
+		
 	}
-	
+
 	try{
 		jQuery(".f_investment_org").autocomplete({
 			//define callback to format results
@@ -466,6 +571,11 @@ function ipcEvent(){
 					jQuery.each(data, function(i, val){								
 						suggestions.push(val);
 					});
+					val = [];
+					val.label = "Add Investment Organization to Database";
+					val.value = -1;
+					suggestions.push(val);
+					
 					//pass array to callback
 					add(suggestions);
 				});
@@ -474,18 +584,53 @@ function ipcEvent(){
 			select: function(e, ui) {
 				label = ui.item.label;
 				value = ui.item.value;
-				jQuery(this).val(label)
-				idx = jQuery(this).attr("alt");
-				jQuery("#"+idx).val(value);
+				if(value!=-1){
+					jQuery(this).val(label)
+					idx = jQuery(this).attr("alt");
+					jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+					jQuery("#"+idx).val(value);
+				}
+				else{
+					jQuery(this).attr("disabled", true);
+					addInvestmentOrgShortcutIPC(this.value, jQuery(this));
+				}
 				return false;
 			},
 			focus: function(e, ui) {
+				idx = jQuery(this).attr("alt");
+				jQuery("#check_"+idx).html("");
 				label = ui.item.label;
 				value = ui.item.value;
-				jQuery(this).val(label)
+				if(value!=-1){
+					jQuery(this).val(label)
+				}
 				return false;
 			},
-		});	
+			search: function(e, ui) {
+				idx = jQuery(this).attr("alt");
+				jQuery("#check_"+idx).html("");
+			}
+		}).data( "autocomplete" )._renderItem = function( ul, item ) {
+			value = item.value;
+			label = item.label;
+			append = "";
+			if(item.value==-1){
+				append = "<div class='additem'>"+label+"</div>";
+				return $( "<li>" )
+					.data( "item.autocomplete", item )
+					.append( "<a>" + append + "</a>")
+					.appendTo( ul );
+			}
+			else{
+				if(item.desc){
+					append = "<div class='more'>" + item.desc + "</div>";
+				}
+				return $( "<li>" )
+					.data( "item.autocomplete", item )
+					.append( "<a>" + item.label + append + "</a>")
+					.appendTo( ul );
+			}
+		};	
 	}
 	catch(e){
 	}
@@ -502,6 +647,11 @@ function ipcEvent(){
 					jQuery.each(data, function(i, val){								
 						suggestions.push(val);
 					});
+					val = [];
+					val.label = "Add Person to Database";
+					val.value = -1;
+					suggestions.push(val);
+					
 					//pass array to callback
 					add(suggestions);
 				});
@@ -510,27 +660,53 @@ function ipcEvent(){
 			select: function(e, ui) {
 				label = ui.item.label;
 				value = ui.item.value;
-				jQuery(this).val(label)
-				idx = jQuery(this).attr("alt");
-				jQuery("#"+idx).val(value);
+				if(value!=-1){
+					jQuery(this).val(label)
+					idx = jQuery(this).attr("alt");
+					jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/check.png' />");
+					jQuery("#"+idx).val(value);
+				}
+				else{
+					jQuery(this).attr("disabled", true);
+					addPersonShortcutIPC(this.value, jQuery(this));
+				}
 				return false;
 			},
 			focus: function(e, ui) {
+				idx = jQuery(this).attr("alt");
+				jQuery("#check_"+idx).html("");
 				label = ui.item.label;
 				value = ui.item.value;
-				jQuery(this).val(label)
+				if(value!=-1){
+					jQuery(this).val(label)
+				}
 				return false;
 			},
-		}).data( "autocomplete" )._renderItem = function( ul, item ) {
-			append = "";
-			if(item.desc){
-				append = "<div class='more'>" + item.desc + "</div>";
+			search: function(e, ui) {
+				idx = jQuery(this).attr("alt");
+				jQuery("#check_"+idx).html("");
 			}
-			return $( "<li>" )
-				.data( "item.autocomplete", item )
-				.append( "<a>" + item.label + append + "</a>")
-				.appendTo( ul );
-		};
+		}).data( "autocomplete" )._renderItem = function( ul, item ) {
+			value = item.value;
+			label = item.label;
+			append = "";
+			if(item.value==-1){
+				append = "<div class='additem'>"+label+"</div>";
+				return $( "<li>" )
+					.data( "item.autocomplete", item )
+					.append( "<a>" + append + "</a>")
+					.appendTo( ul );
+			}
+			else{
+				if(item.desc){
+					append = "<div class='more'>" + item.desc + "</div>";
+				}
+				return $( "<li>" )
+					.data( "item.autocomplete", item )
+					.append( "<a>" + item.label + append + "</a>")
+					.appendTo( ul );
+			}
+		};	
 	}
 	catch(e){
 	}
@@ -1155,7 +1331,7 @@ else{
 						html += "<td>";
 						html += "<input type='text' class='f_investment_org' alt='fi"+fi+"'>";
 						html += "<input type='hidden' class='f_investment_org_val' id='fi"+fi+"'>";
-						html += "&nbsp;<a class='red cursor' onclick='deleteIPC(this)'>[ x ]</a>";
+						html += "<div class='inline f_check' id='check_fi"+fi+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
 						html += "</td>";
 						html += "</tr>";
 						jQuery("#ipc tbody").append(html);
@@ -1171,7 +1347,7 @@ else{
 						html += "<td>";
 						html += "<input type='text' class='f_person' alt='pi"+pi+"'>";
 						html += "<input type='hidden' class='f_person_val' id='pi"+pi+"'>";
-						html += "&nbsp;<a class='red cursor' onclick='deleteIPC(this)'>[ x ]</a>";
+						html += "<div class='inline f_check' id='check_pi"+pi+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
 						html += "</td>";
 						html += "</tr>";
 						jQuery("#ipc tbody").append(html);
@@ -1187,7 +1363,7 @@ else{
 						html += "<td>";
 						html += "<input type='text' class='f_company' alt='ci"+ci+"'>";
 						html += "<input type='hidden' class='f_company_val' id='ci"+ci+"'>";
-						html += "&nbsp;<a class='red cursor' onclick='deleteIPC(this)'>[ x ]</a>";
+						html += "<div class='inline f_check' id='check_ci"+ci+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
 						html += "</td>";
 						html += "</tr>";
 						jQuery("#ipc tbody").append(html);

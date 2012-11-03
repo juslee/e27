@@ -341,6 +341,49 @@ class companies extends CI_Controller {
 		<?php
 	}
 	
+	public function ajax_add_company_shortcut_ipc(){
+		if(trim($_POST['name'])){
+			//check if company already exists
+			$sql = "select `id` from `companies` where `name`=".$this->db->escape(trim($_POST['name']));
+			$q = $this->db->query($sql);
+			$company = $q->result_array();	
+		}
+		
+		$err = 0;
+		if(!trim($_POST['name'])){
+			$err = 1;
+			?>
+			alertX("Please input a Company Name.");
+			<?php
+		}
+		else if($company[0]['id']){
+			$err = 1;
+			?>
+			alertX("Company already exists in the database.");
+			<?php
+		}
+		
+		if(!$err){
+			$sql = "insert into `companies` set `name`=".$this->db->escape(trim($_POST['name']));
+			$sql .= ", active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
+			$q = $this->db->query($sql);
+			$id = $this->db->insert_id();
+			?>
+			insert_id = "<?php echo sanitizeX($id); ?>";
+			insert_id = uNum(insert_id);
+			success = true;
+			<?php
+		}
+		else{
+			?>
+			insert_id = "";
+			insert_id = uNum(insert_id);
+			success = false;
+			<?php
+		}
+		
+	}
+	
 	public function ajax_add_company_shortcut(){
 		if(trim($_POST['name'])){
 			//check if company already exists

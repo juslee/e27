@@ -553,6 +553,17 @@ $user = $_SESSION['user'];
 		font-weight:bold;
 	}
 	
+	.f_check{
+		position:relative;
+	}
+	.f_check img{
+		position:absolute;
+		top:-3px;
+	}
+	.f_delete{
+		padding-left:18px;
+	}
+	
 	</style>
 </head>
 <body>
