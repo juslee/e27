@@ -110,6 +110,21 @@ function addCompanyShortcut(company_name){
 	});
 }
 
+function addInvestmentOrgShortcut(name){
+	jQuery("#investment_org_search").attr("disabled", true);
+	jQuery("#investment_org_add_loader").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
+	jQuery.ajax({
+		url: "<?php echo site_url(); ?>investment_orgs/ajax_add_investment_org_shortcut",
+		type: "POST",
+		data: "name="+escape(name),
+		dataType: "script",
+		success: function(data){
+			
+		}
+	});
+}
+
+
 function addCompany(id, name, role, start_date, end_date, add){
 	if(!id){
 		return false;
@@ -349,6 +364,10 @@ jQuery(function(){
 				jQuery.each(data, function(i, val){								
 					suggestions.push(val);
 				});
+				val = [];
+				val.label = "Add Investment Org to Database";
+				val.value = -1;
+				suggestions.push(val);
 				//pass array to callback
 				add(suggestions);
 			});
@@ -357,17 +376,46 @@ jQuery(function(){
 		select: function(e, ui) {
 			label = ui.item.label;
 			value = ui.item.value;
-			jQuery("#investment_org_search").val("");
-			investmentOrgPreAdd(label, value);
+			
+			if(value!=-1){
+				jQuery("#investment_org_search").val("");
+				investmentOrgPreAdd(label, value);
+			}
+			else{
+				addInvestmentOrgShortcut(this.value);
+			}
 			return false;
 		},
 		focus: function(e, ui) {
 			label = ui.item.label;
 			value = ui.item.value;
-			jQuery("#investment_org_search").val(label);
+			if(value!=-1){
+				jQuery("#investment_org_search").val(label);
+			}
 			return false;
 		},
-	});	
+	}).data( "autocomplete" )._renderItem = function( ul, item ) {
+		value = item.value;
+		label = item.label;
+		append = "";
+		if(item.value==-1){
+			append = "<div class='additem'>"+label+"</div>";
+			return $( "<li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + append + "</a>")
+				.appendTo( ul );
+		}
+		else{
+			if(item.desc){
+				append = "<div class='more'>" + item.desc + "</div>";
+			}
+			return $( "<li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + item.label + append + "</a>")
+				.appendTo( ul );
+		}
+		
+	};
 	
 });
 </script>
@@ -512,7 +560,7 @@ else{
 		<tr class="even">
 		  <td>Investment Orgs:</td>
 		  <td>
-		  <input type="text" size: "30" id="investment_org_search" /><div class='hint'>Type in the investment organization name to search and add.</div>
+		  <input type="text" size: "30" id="investment_org_search" /><div class='inline' id='investment_org_add_loader'></div><div class='hint'>Type in the investment organization name to search and add.</div>
 		  <div id='investment_orgadd' style='display:none'>
 		  	<input type='hidden' id='io_id' />
 		  	<table class='border margin10 pad10'>

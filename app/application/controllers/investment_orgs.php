@@ -85,7 +85,7 @@ class investment_orgs extends CI_Controller {
 		echo json_encode($companies);
 		exit();
 	}
-	function ajax_check_company(){
+	function ajax_check_investment_org(){
 		$io_name = $_POST['name'];
 		$io_id = $_POST['id'];
 		if(strlen($io_name)>0){
@@ -230,6 +230,53 @@ class investment_orgs extends CI_Controller {
 		?>
 		alertX("Successfully deleted <?php echo htmlentities($investment_org[0]['name']); ?>");
 		<?php
+	}
+	
+	public function ajax_add_investment_org_shortcut(){
+		if(trim($_POST['name'])){
+			//check if company already exists
+			$sql = "select `id` from `investment_orgs` where `name`=".$this->db->escape(trim($_POST['name']));
+			$q = $this->db->query($sql);
+			$investment_org = $q->result_array();	
+		}
+		
+		$err = 0;
+		if(!trim($_POST['name'])){
+			$err = 1;
+			?>
+			alertX("Please input a Investment Organization Name.");
+			<?php
+		}
+		else if($investment_org[0]['id']){
+			$err = 1;
+			?>
+			alertX("Investment Organization already exists in the database.");
+			<?php
+		}
+		
+		if(!$err){
+			$sql = "insert into `investment_orgs` set `name`=".$this->db->escape(trim($_POST['name']));
+			$sql .= ", active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
+			$q = $this->db->query($sql);
+			$id = $this->db->insert_id();
+			?>
+			label = "<?php echo sanitizeX(trim($_POST['name'])); ?>";
+			value = "<?php echo sanitizeX($id); ?>";
+			investmentOrgPreAdd(label, value);
+			jQuery("#investment_org_add_loader").html("");
+			jQuery("#investment_org_search").attr("disabled", false);
+			jQuery("#investment_org_search").val("");
+			
+			<?php
+		}
+		else{
+			?>
+			jQuery("#investment_org_add_loader").html("");
+			jQuery("#investment_org_search").attr("disabled", false);
+			jQuery("#investment_org_search").val("");
+			<?php
+		}
+		
 	}
 	
 	public function ajax_add(){

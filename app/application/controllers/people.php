@@ -283,6 +283,38 @@ class people extends CI_Controller {
 		<?php
 	}
 	
+	
+	public function ajax_add_person_shortcut(){
+		$err = 0;
+		if(!trim($_POST['name'])){
+			$err = 1;
+			?>
+			alertX("Please input a Name.");
+			<?php
+		}
+		
+		if(!$err){
+			$sql = "insert into `people` set `name`=".$this->db->escape(trim($_POST['name']));
+			$sql .= ", active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
+			$q = $this->db->query($sql);
+			$id = $this->db->insert_id();
+			?>
+			label = "<?php echo sanitizeX(trim($_POST['name'])); ?>";
+			value = "<?php echo sanitizeX($id); ?>"
+			peoplePreAdd(label, value);
+			jQuery("#person_add_loader").html("");
+			jQuery("#people_search").attr("disabled", false);
+			jQuery("#people_search").val("")
+			<?php
+		}
+		else{
+			?>
+			jQuery("#person_add_loader").html("");
+			jQuery("#people_search").attr("disabled", false);
+			jQuery("#people_search").val("");
+			<?php
+		}
+	}
 	public function ajax_add(){
 		$err = 0;
 		if(!trim($_POST['name'])){

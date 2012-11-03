@@ -52,7 +52,7 @@ function checkInvestmentOrg(io_name){
 		jQuery("#io_check").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
 		
 		jQuery.ajax({
-			url: "<?php echo site_url(); ?>investment_orgs/ajax_check_company",
+			url: "<?php echo site_url(); ?>investment_orgs/ajax_check_investment_org",
 			type: "POST",
 			data: formdata,
 			dataType: "script",

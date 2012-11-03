@@ -619,7 +619,7 @@ jQuery(function(){
 					suggestions.push(val);
 				});
 				val = [];
-				val.label = "Add Person";
+				val.label = "Add Person to Database";
 				val.value = -1;
 				suggestions.push(val);
 				//pass array to callback
