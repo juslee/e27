@@ -3,6 +3,8 @@
 $sid = session_id()."_".time();
 ?>
 <script>
+
+
 function saveCompany(){
 	jQuery("#savebutton").val("Saving...");
 	formdata = jQuery("#company_form").serialize();
@@ -186,8 +188,260 @@ function delFunding(idx){
 }
 
 fundingindex = 0;
+function editFIntro(idx){
+	f_data = jQuery("#f_data"+idx).val();
+	f_data = JSON.parse(f_data);
+	/*
+	f_data.f_round = f_round;
+	f_data.f_currency = f_currency;
+	f_data.f_fund_amount = f_fund_amount;
+	f_data.f_date = f_date;
+	f_data.f_company = f_company;
+	f_data.f_company_val = f_company_val;
+	f_data.f_person = f_person;
+	f_data.f_person_val = f_person_val;
+	f_data.f_investment_org = f_investment_org;
+	f_data.f_investment_org_val = f_investment_org_val;
+	*/
+
+	for(x in f_data){
+		eval(x+" = f_data."+x+";");
+	}
+	jQuery("#f_round").val(f_round);
+	jQuery("#f_currency").val(f_currency);
+	jQuery("#f_fund_amount").val(fNum(uNum(f_fund_amount)));
+	jQuery("#f_date").val(f_date);
+	jQuery("#ipc tbody").html(""); //clear ipc
+	for(i=0; i<f_investment_org.length; i++){
+		addFI();
+	}
+	for(i=0; i<f_company.length; i++){
+		addFC();
+	}
+	for(i=0; i<f_person.length; i++){
+		addFP();
+	}
+	i=0;
+	jQuery(".f_investment_org").each(function(){
+		jQuery(this).val(f_investment_org[i]);
+		i++;
+	});
+	i=0;
+	jQuery(".f_investment_org_val").each(function(){
+		jQuery(this).val(f_investment_org_val[i]);
+		i++;
+	});
+	i=0;
+	jQuery(".f_company").each(function(){
+		jQuery(this).val(f_company[i]);
+		i++;
+	});
+	i=0;
+	jQuery(".f_company_val").each(function(){
+		jQuery(this).val(f_company_val[i]);
+		i++;
+	});
+	i=0;
+	jQuery(".f_person").each(function(){
+		jQuery(this).val(f_person[i]);
+		i++;
+	});
+	i=0;
+	jQuery(".f_person_val").each(function(){
+		jQuery(this).val(f_person_val[i]);
+		i++;
+	});
+	
+	//jQuery("#f_company").val(f_company);
+	//jQuery("#f_company_val").val(f_company_val);
+	//jQuery("#f_person").val(f_person);
+	//jQuery("#f_person_val").val(f_person_val);
+	//jQuery("#f_investment_org").val(f_investment_org);
+	//jQuery("#f_investment_org_val").val(f_investment_org_val);
+		
+	//scroll to
+	jQuery("#f_save_button").attr("alt", idx);
+	jQuery("#f_save_button").show();
+	jQuery("#f_add_button").hide();
+	jQuery("#fundingadd").slideDown(200, function(){
+			jQuery('html, body').animate({
+				scrollTop: jQuery("#fundingadd").parent().offset().top
+			}, 500);
+		}
+	);
+	
+	
+	//alert(idx);
+}
+function editFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_company_val, f_person, f_person_val, f_investment_org, f_investment_org_val, idx){
+	
+	f_data = {};
+	f_data.f_round = f_round;
+	f_data.f_currency = f_currency;
+	f_data.f_fund_amount = f_fund_amount;
+	f_data.f_date = f_date;
+	f_data.f_company = f_company;
+	f_data.f_company_val = f_company_val;
+	f_data.f_person = f_person;
+	f_data.f_person_val = f_person_val;
+	f_data.f_investment_org = f_investment_org;
+	f_data.f_investment_org_val = f_investment_org_val;
+	f_datastr = JSON.stringify(f_data);
+	
+	
+	html = "";
+	html += "<tr id='fundingtr"+idx+"'>";
+	html += "<td id='fundingtd"+idx+"'>";
+
+
+	
+	
+	for(i=0; i<f_company.length; i++){
+		company = f_company[i];
+		company_val = f_company_val[i];
+		html += "<input type='hidden' name='f_companies"+idx+"[]' value='"+company+"' />";
+		html += "<input type='hidden' name='f_company_vals"+idx+"[]' value='"+company_val+"' />";
+	}
+	
+	for(i=0; i<f_person.length; i++){
+		person = f_person[i];
+		person_val = f_person_val[i];
+		html += "<input type='hidden' name='f_people"+idx+"[]' value='"+person+"' />";
+		html += "<input type='hidden' name='f_person_vals"+idx+"[]' value='"+person_val+"' />";
+	}
+	
+	for(i=0; i<f_investment_org.length; i++){
+		investment_org = f_investment_org[i];
+		investment_org_val = f_investment_org_val[i];
+		html += "<input type='hidden' name='f_investment_orgs"+idx+"[]' value='"+investment_org+"' />";
+		html += "<input type='hidden' name='f_investment_org_vals"+idx+"[]' value='"+investment_org_val+"' />";
+	}
+	html += "<table class='fundingtable lightgreen' >";
+	html += "<tr>";
+	html += "<td class='label'><input type='hidden' id='f_data"+idx+"' />Round:</td>";
+	html += "<td class='value0'><span id='round"+idx+"'>"+f_round+"</span>";
+	html += "<input type='hidden' id='round"+idx+"' class='hiddenform' name='f_rounds["+idx+"]' value='"+f_round+"' />";
+	html +="</td>";
+	
+	f_fund_amount = uNum(f_fund_amount);
+	f_fund_amount = fNum(f_fund_amount);
+	html += "<td class='label'>Amount:</td>";
+	html += "<td class='value1'><span id='currency"+idx+"' >"+f_currency+"</span>";
+	html += "<input type='hidden' id='f_currency"+idx+"' class='hiddenform' name='f_currencies["+idx+"]' value='"+f_currency+"' />";
+	html += "<span id='fund_amount"+idx+"'>"+f_fund_amount+"</span>";
+	html += "<input type='hidden' id='f_fund_amount"+idx+"' class='hiddenform' name='f_fund_amounts["+idx+"]' value='"+uNum(f_fund_amount)+"' />";
+	html += "</td>";
+	
+	try{
+		thedate = new Date(f_date);
+		thedate.setDate(thedate.getDate());
+		f_date_formated = dateFormat(thedate, "mmm dd, yyyy");
+	}
+	catch(e){
+		alert("Invalid Date.");
+		return false;
+	}
+	html += "<td class='label'>Date:</td>";
+	html += "<td class='value1'><span id='date"+idx+"'>"+f_date_formated+"</span>";
+	html += "<input type='hidden' id='f_date"+idx+"' class='hiddenform' name='f_dates["+idx+"]' value='"+f_date+"' />";
+	html += "</td>";
+	html += "</tr>";
+	
+	
+	for(i=0; i<f_investment_org.length; i++){
+		investment_org = f_investment_org[i];
+		investment_org_val = f_investment_org_val[i];
+		investment_org_val = uNum(investment_org_val);
+		html += "<tr>";
+		html += "<td class='label_ipc' colspan='2'>Investment Org:</td>";
+		if(investment_org_val){
+			html += "<td colspan='4'><a href='<?php echo site_url()?>investment_orgs/edit/"+investment_org_val+"'>"+investment_org+"</a></td>";
+		}
+		else{
+			html += "<td colspan='4'>"+investment_org+"</td>";
+		}
+		html += "</tr>";
+	}
+	
+	for(i=0; i<f_person.length; i++){
+		person = f_person[i];
+		person_val = f_person_val[i];
+		person_val = uNum(person_val);
+		html += "<tr>";
+		html += "<td class='label_ipc' colspan='2'>Person:</td>";
+		if(person_val){
+			html += "<td colspan='4'><a href='<?php echo site_url()?>people/edit/"+person_val+"'>"+person+"</a></td>";
+		}
+		else{
+			html += "<td colspan='4'>"+person+"</td>";
+		}
+		html += "</tr>";
+	}
+	
+	
+	for(i=0; i<f_company.length; i++){
+		company = f_company[i];
+		company_val = f_company_val[i];
+		company_val = uNum(company_val);
+		html += "<tr>";
+		html += "<td class='label_ipc' colspan='2'>Company:</td>";
+		if(company_val){
+			html += "<td colspan='4'><a href='<?php echo site_url()?>companies/edit/"+company_val+"'>"+company+"</a></td>";
+		}
+		else{
+			html += "<td colspan='4'>"+company+"</td>";
+		}
+		html += "</tr>";
+	}
+	
+	
+	
+	html += "<tr>";
+	html += "<td colspan='6' align='center'><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delFunding(\"fundingtr"+idx+"\")' >Delete</a>&nbsp;&nbsp;&nbsp;<a style='cursor:pointer; text-decoration:underline' class='underline pointer' onclick='editFIntro(\""+idx+"\")' >Edit</a></td>"
+	html += "</tr>";
+	html += "</table>";
+	
+	html += "</td>";
+	html += "</tr>";
+	
+	//f_round, f_currency, f_fund_amount, f_date, f_company, f_company_val, f_person, f_person_val, f_investment_org, f_investment_org_val
+	jQuery("#f_fund_amount").val("");
+	jQuery("#f_date").val("");
+	jQuery("#f_company").val("");
+	jQuery("#f_company_val").val("");
+	jQuery("#f_person").val("");
+	jQuery("#f_person_val").val("");
+	jQuery("#f_investment_org").val("");
+	jQuery("#f_investment_org_val").val("");
+	
+	jQuery("#fundingtr"+idx)[0].outerHTML = html;
+	jQuery("#f_data"+idx).val(f_datastr);
+	
+	jQuery('html, body').animate({
+		scrollTop: jQuery("#fundingtr"+idx+" .fundingtable").offset().top
+	}, 500);
+			
+			
+	jQuery("#ipc tbody").html("");
+	jQuery("#fundingadd").fadeOut(200);
+}
 
 function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_company_val, f_person, f_person_val, f_investment_org, f_investment_org_val, add){
+	
+	f_data = {};
+	f_data.f_round = f_round;
+	f_data.f_currency = f_currency;
+	f_data.f_fund_amount = f_fund_amount;
+	f_data.f_date = f_date;
+	f_data.f_company = f_company;
+	f_data.f_company_val = f_company_val;
+	f_data.f_person = f_person;
+	f_data.f_person_val = f_person_val;
+	f_data.f_investment_org = f_investment_org;
+	f_data.f_investment_org_val = f_investment_org_val;
+	f_datastr = JSON.stringify(f_data);
+	
+	
 	html = "";
 	if(add){
 		html += "<tr id='fundingtr"+fundingindex+"'>";
@@ -227,7 +481,7 @@ function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_com
 			html += "<table class='fundingtable'>";
 		}
 		html += "<tr>";
-		html += "<td class='label'>Round:</td>";
+		html += "<td class='label'><input type='hidden' id='f_data"+fundingindex+"' />Round:</td>";
 		html += "<td class='value0'><span id='round"+fundingindex+"'>"+f_round+"</span>";
 		html += "<input type='hidden' id='round"+fundingindex+"' class='hiddenform' name='f_rounds["+fundingindex+"]' value='"+f_round+"' />";
 		html +="</td>";
@@ -306,7 +560,7 @@ function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_com
 		
 		
 		html += "<tr>";
-		html += "<td colspan='6' align='center'><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delFunding(\"fundingtr"+fundingindex+"\")' >Delete</a></td>"
+		html += "<td colspan='6' align='center'><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delFunding(\"fundingtr"+fundingindex+"\")' >Delete</a>&nbsp;&nbsp;&nbsp;<a style='cursor:pointer; text-decoration:underline' class='underline pointer' onclick='editFIntro(\""+fundingindex+"\")' >Edit</a></td>"
 		html += "</tr>";
 		html += "</table>";
 	
@@ -331,6 +585,7 @@ function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_com
 	else{
 		jQuery("#fundinghtml table tbody").html(htmlorig+html);
 	}
+	jQuery("#f_data"+fundingindex).val(f_datastr);
 	fundingindex+=1;
 	jQuery("#ipc tbody").html("");
 	jQuery("#fundingadd").fadeOut(200);
@@ -997,6 +1252,183 @@ jQuery(function(){
 	
 	
 });
+
+function addFIntro(){
+	jQuery("#f_save_button").hide();
+	jQuery("#f_add_button").show();
+	jQuery("#fundingadd").slideDown(200);
+	jQuery("#ipc tbody").html("");
+}
+
+function editFJS(idx){
+	ios = jQuery(".f_investment_org");
+	iosv = jQuery(".f_investment_org_val");
+	ips = jQuery(".f_person");
+	ipsv = jQuery(".f_person_val");
+	ics = jQuery(".f_company");
+	icsv = jQuery(".f_company_val");
+	
+	company = [];
+	company_val = [];
+	person = [];
+	person_val = [];
+	investment = [];
+	investment_val = [];
+		
+	for(i=0; i<ics.length; i++){
+		icsv[i].value = uNum(icsv[i].value);
+		if(ics[i].value){
+			if(!icsv[i].value||(icsv[i].value&&company_val.indexOf(icsv[i].value)==-1)){
+				company.push(ics[i].value);
+				company_val.push(icsv[i].value);
+			}
+		}
+	}
+	
+	for(i=0; i<ips.length; i++){
+		ipsv[i].value = uNum(ipsv[i].value);
+		if(ips[i].value){
+			if(!ipsv[i].value||(ipsv[i].value&&person_val.indexOf(ipsv[i].value)==-1)){
+				person.push(ips[i].value);
+				person_val.push(ipsv[i].value);
+			}
+		}
+	}
+	
+	for(i=0; i<ios.length; i++){
+		iosv[i].value = uNum(iosv[i].value);
+		if(ios[i].value){
+			if(!iosv[i].value||(iosv[i].value&&investment_val.indexOf(iosv[i].value)==-1)){
+				investment.push(ios[i].value);
+				investment_val.push(iosv[i].value);
+			}
+		}
+	}
+	
+	editFunding(
+		jQuery("#f_round").val(),
+		jQuery("#f_currency").val(),
+		jQuery("#f_fund_amount").val(),
+		jQuery("#f_date").val(),
+		company,
+		company_val,
+		person,
+		person_val,
+		investment,
+		investment_val,
+		idx
+	);
+}
+
+function addFJS(){
+	ios = jQuery(".f_investment_org");
+	iosv = jQuery(".f_investment_org_val");
+	ips = jQuery(".f_person");
+	ipsv = jQuery(".f_person_val");
+	ics = jQuery(".f_company");
+	icsv = jQuery(".f_company_val");
+	
+	company = [];
+	company_val = [];
+	person = [];
+	person_val = [];
+	investment = [];
+	investment_val = [];
+		
+	for(i=0; i<ics.length; i++){
+		icsv[i].value = uNum(icsv[i].value);
+		if(ics[i].value){
+			if(!icsv[i].value||(icsv[i].value&&company_val.indexOf(icsv[i].value)==-1)){
+				company.push(ics[i].value);
+				company_val.push(icsv[i].value);
+			}
+		}
+	}
+	
+	for(i=0; i<ips.length; i++){
+		ipsv[i].value = uNum(ipsv[i].value);
+		if(ips[i].value){
+			if(!ipsv[i].value||(ipsv[i].value&&person_val.indexOf(ipsv[i].value)==-1)){
+				person.push(ips[i].value);
+				person_val.push(ipsv[i].value);
+			}
+		}
+	}
+	
+	for(i=0; i<ios.length; i++){
+		iosv[i].value = uNum(iosv[i].value);
+		if(ios[i].value){
+			if(!iosv[i].value||(iosv[i].value&&investment_val.indexOf(iosv[i].value)==-1)){
+				investment.push(ios[i].value);
+				investment_val.push(iosv[i].value);
+			}
+		}
+	}
+	
+	addFunding(
+		jQuery("#f_round").val(),
+		jQuery("#f_currency").val(),
+		jQuery("#f_fund_amount").val(),
+		jQuery("#f_date").val(),
+		company,
+		company_val,
+		person,
+		person_val,
+		investment,
+		investment_val,
+		true
+	);
+}
+function deleteIPC(obj){
+	obj.parentElement.parentElement.outerHTML = "";
+}
+fi = 0;
+function addFI(){
+	fi += 1;
+	html = "";
+	html += "<tr>";
+	html += "<td>Investment Org:</td>";
+	html += "<td>";
+	html += "<input type='text' class='f_investment_org' alt='fi"+fi+"'>";
+	html += "<input type='hidden' class='f_investment_org_val' id='fi"+fi+"'>";
+	html += "<div class='inline f_check' id='check_fi"+fi+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
+	html += "</td>";
+	html += "</tr>";
+	jQuery("#ipc tbody").append(html);
+	ipcEvent();
+}
+
+pi = 0;
+function addFP(){
+	pi += 1;
+	html = "";
+	html += "<tr>";
+	html += "<td>Person:</td>";
+	html += "<td>";
+	html += "<input type='text' class='f_person' alt='pi"+pi+"'>";
+	html += "<input type='hidden' class='f_person_val' id='pi"+pi+"'>";
+	html += "<div class='inline f_check' id='check_pi"+pi+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
+	html += "</td>";
+	html += "</tr>";
+	jQuery("#ipc tbody").append(html);
+	ipcEvent();
+}
+
+ci = 0;
+function addFC(){
+	ci += 1;
+	html = "";
+	html += "<tr>";
+	html += "<td>Company:</td>";
+	html += "<td>";
+	html += "<input type='text' class='f_company' alt='ci"+ci+"'>";
+	html += "<input type='hidden' class='f_company_val' id='ci"+ci+"'>";
+	html += "<div class='inline f_check' id='check_ci"+ci+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
+	html += "</td>";
+	html += "</tr>";
+	jQuery("#ipc tbody").append(html);
+	ipcEvent();
+}
 </script>
 <input type='hidden' id='tempcreatelabel' />
 <form id='company_form'>
@@ -1251,7 +1683,7 @@ else{
 		  </td>
 		</tr>
 		<tr class="odd" id="funding">
-		  <td>Funding:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class='cursor' onclick='jQuery("#fundingadd").slideDown(200)'>[+]</a></td>
+		  <td>Funding:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class='cursor' onclick='addFIntro()'>[+]</a></td>
 		  <td>
 		  	<table class='border margin10 pad10 hidden' id='fundingadd' >
 				<tr>
@@ -1300,118 +1732,7 @@ else{
 				
 				<tr>
 					<td colspan="2" align="center" class='pad10'>
-					<script>
-					function addFJS(){
-						ios = jQuery(".f_investment_org");
-						iosv = jQuery(".f_investment_org_val");
-						ips = jQuery(".f_person");
-						ipsv = jQuery(".f_person_val");
-						ics = jQuery(".f_company");
-						icsv = jQuery(".f_company_val");
-						
-						company = [];
-						company_val = [];
-						person = [];
-						person_val = [];
-						investment = [];
-						investment_val = [];
-							
-						for(i=0; i<ics.length; i++){
-							icsv[i].value = uNum(icsv[i].value);
-							if(ics[i].value){
-								if(!icsv[i].value||(icsv[i].value&&company_val.indexOf(icsv[i].value)==-1)){
-									company.push(ics[i].value);
-									company_val.push(icsv[i].value);
-								}
-							}
-						}
-						
-						for(i=0; i<ips.length; i++){
-							ipsv[i].value = uNum(ipsv[i].value);
-							if(ips[i].value){
-								if(!ipsv[i].value||(ipsv[i].value&&person_val.indexOf(ipsv[i].value)==-1)){
-									person.push(ips[i].value);
-									person_val.push(ipsv[i].value);
-								}
-							}
-						}
-						
-						for(i=0; i<ios.length; i++){
-							iosv[i].value = uNum(iosv[i].value);
-							if(ios[i].value){
-								if(!iosv[i].value||(iosv[i].value&&investment_val.indexOf(iosv[i].value)==-1)){
-									investment.push(ios[i].value);
-									investment_val.push(iosv[i].value);
-								}
-							}
-						}
-						
-						addFunding(
-							jQuery("#f_round").val(),
-							jQuery("#f_currency").val(),
-							jQuery("#f_fund_amount").val(),
-							jQuery("#f_date").val(),
-							company,
-							company_val,
-							person,
-							person_val,
-							investment,
-							investment_val,
-							true
-						);
-						
-					}
-					function deleteIPC(obj){
-						obj.parentElement.parentElement.outerHTML = "";
-					}
-					fi = 0;
-					function addFI(){
-						fi += 1;
-						html = "";
-						html += "<tr>";
-						html += "<td>Investment Org:</td>";
-						html += "<td>";
-						html += "<input type='text' class='f_investment_org' alt='fi"+fi+"'>";
-						html += "<input type='hidden' class='f_investment_org_val' id='fi"+fi+"'>";
-						html += "<div class='inline f_check' id='check_fi"+fi+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
-						html += "</td>";
-						html += "</tr>";
-						jQuery("#ipc tbody").append(html);
-						ipcEvent();
-					}
 					
-					pi = 0;
-					function addFP(){
-						pi += 1;
-						html = "";
-						html += "<tr>";
-						html += "<td>Person:</td>";
-						html += "<td>";
-						html += "<input type='text' class='f_person' alt='pi"+pi+"'>";
-						html += "<input type='hidden' class='f_person_val' id='pi"+pi+"'>";
-						html += "<div class='inline f_check' id='check_pi"+pi+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
-						html += "</td>";
-						html += "</tr>";
-						jQuery("#ipc tbody").append(html);
-						ipcEvent();
-					}
-					
-					ci = 0;
-					function addFC(){
-						ci += 1;
-						html = "";
-						html += "<tr>";
-						html += "<td>Company:</td>";
-						html += "<td>";
-						html += "<input type='text' class='f_company' alt='ci"+ci+"'>";
-						html += "<input type='hidden' class='f_company_val' id='ci"+ci+"'>";
-						html += "<div class='inline f_check' id='check_ci"+ci+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
-						html += "</td>";
-						html += "</tr>";
-						jQuery("#ipc tbody").append(html);
-						ipcEvent();
-					}
-					</script>
 					<a class='cursor bold underline font14' onclick='addFI()'>Investment Org</a>&nbsp;&nbsp;&nbsp;
 					<a class='cursor bold underline font14' onclick='addFP()'>Person</a>&nbsp;&nbsp;&nbsp
 					<a class='cursor bold underline font14' onclick='addFC()'>Company</a>
@@ -1423,7 +1744,7 @@ else{
 					</td>
 				</tr>
 				<tr>
-					<td align="center" colspan="2" style='padding-top:10px;'><input type='button' class='button normal' value='   Add Funding   ' onclick='addFJS()'>&nbsp;&nbsp;<input type='button' class='button normal' value='Cancel' onclick='jQuery("#fundingadd").hide()'> </td>
+					<td align="center" colspan="2" style='padding-top:10px;'><input id='f_save_button' type='button' class='button normal hidden' value='   Save   ' onclick='editFJS(this.alt)'>&nbsp;&nbsp;<input id='f_add_button' type='button' class='button normal' value='   Add Funding   ' onclick='addFJS()'>&nbsp;&nbsp;<input type='button' class='button normal' id='f_cancel_button' value='Cancel' onclick='jQuery("#fundingadd").hide(); jQuery("#ipc tbody").html("");'> </td>
 				</tr>
 			</table>
 			
