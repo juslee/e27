@@ -292,6 +292,7 @@ jQuery(function(){
 	jQuery("#company_search").autocomplete({
 		//define callback to format results
 		source: function(req, add){
+			jQuery("#company_add_loader").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
 			//pass request to server
 			jQuery.getJSON("<?php echo site_url(); ?>companies/ajax_search", req, function(data) {
 				//create array for response objects
@@ -306,6 +307,7 @@ jQuery(function(){
 				suggestions.push(val);
 				//pass array to callback
 				add(suggestions);
+				jQuery("#company_add_loader").html("");
 			});
 		},
 		//define select handler
@@ -359,6 +361,7 @@ jQuery(function(){
 	jQuery("#investment_org_search").autocomplete({
 		//define callback to format results
 		source: function(req, add){
+			jQuery("#investment_org_add_loader").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
 			//pass request to server
 			jQuery.getJSON("<?php echo site_url(); ?>investment_orgs/ajax_search", req, function(data) {
 				//create array for response objects
@@ -373,6 +376,7 @@ jQuery(function(){
 				suggestions.push(val);
 				//pass array to callback
 				add(suggestions);
+				jQuery("#investment_org_add_loader").html("");
 			});
 		},
 		//define select handler

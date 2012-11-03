@@ -484,9 +484,12 @@ function addInvestmentOrgShortcutIPC(name, obj){
 function ipcEvent(){
 	try{		
 		jQuery(".f_company").each(function(){
+			var objx = jQuery(this);
 			jQuery(this).autocomplete({
 				//define callback to format results
 				source: function(req, add){
+					idx = objx.attr("alt");
+					jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
 					//pass request to server
 					jQuery.getJSON("<?php echo site_url(); ?>companies/ajax_search", req, function(data) {
 						//create array for response objects
@@ -502,6 +505,8 @@ function ipcEvent(){
 						
 						//pass array to callback
 						add(suggestions);
+						idx = objx.attr("alt");
+						jQuery("#check_"+idx).html("");
 					});
 				},
 				//define select handler
@@ -566,9 +571,12 @@ function ipcEvent(){
 
 	try{
 		jQuery(".f_investment_org").each(function(){
+			var objx = jQuery(this);
 			jQuery(this).autocomplete({
 				//define callback to format results
 				source: function(req, add){
+					idx = objx.attr("alt");
+					jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
 					//pass request to server
 					jQuery.getJSON("<?php echo site_url(); ?>investment_orgs/ajax_search", req, function(data) {
 						//create array for response objects
@@ -584,6 +592,8 @@ function ipcEvent(){
 						
 						//pass array to callback
 						add(suggestions);
+						idx = objx.attr("alt");
+						jQuery("#check_"+idx).html("");
 					});
 				},
 				//define select handler
@@ -647,10 +657,13 @@ function ipcEvent(){
 	
 	try{
 		jQuery(".f_person").each(function(){
+			var objx = jQuery(this);
 			jQuery(this).autocomplete({
 				//define callback to format results
 				source: function(req, add){
 					//pass request to server
+					idx = objx.attr("alt");
+					jQuery("#check_"+idx).html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
 					jQuery.getJSON("<?php echo site_url(); ?>people/ajax_search", req, function(data) {
 						//create array for response objects
 						var suggestions = [];
@@ -665,6 +678,8 @@ function ipcEvent(){
 						
 						//pass array to callback
 						add(suggestions);
+						idx = objx.attr("alt");
+						jQuery("#check_"+idx).html("");
 					});
 				},
 				//define select handler
@@ -737,6 +752,7 @@ jQuery(function(){
 		//define callback to format results
 		source: function(req, add){
 			//pass request to server
+			jQuery("#competitor_add_loader").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
 			jQuery.getJSON("<?php echo site_url(); ?>companies/ajax_search", req, function(data) {
 				//create array for response objects
 				var suggestions = [];
@@ -751,6 +767,7 @@ jQuery(function(){
 				
 				//pass array to callback
 				add(suggestions);
+				jQuery("#competitor_add_loader").html("");
 			});
 		},
 		//define select handler
@@ -805,6 +822,7 @@ jQuery(function(){
 		//define callback to format results
 		source: function(req, add){
 			//pass request to server
+			jQuery("#person_add_loader").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
 			jQuery.getJSON("<?php echo site_url(); ?>people/ajax_search", req, function(data) {
 				//create array for response objects
 				var suggestions = [];
@@ -818,6 +836,7 @@ jQuery(function(){
 				suggestions.push(val);
 				//pass array to callback
 				add(suggestions);
+				jQuery("#person_add_loader").html("");
 			});
 		},
 		//define select handler

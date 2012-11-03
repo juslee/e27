@@ -234,6 +234,7 @@ jQuery(function(){
 		//define callback to format results
 		source: function(req, add){
 			//pass request to server
+			jQuery("#person_add_loader").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
 			jQuery.getJSON("<?php echo site_url(); ?>people/ajax_search", req, function(data) {
 				//create array for response objects
 				var suggestions = [];
@@ -247,6 +248,7 @@ jQuery(function(){
 				suggestions.push(val);
 				//pass array to callback
 				add(suggestions);
+				jQuery("#person_add_loader").html("");
 			});
 		},
 		//define select handler
