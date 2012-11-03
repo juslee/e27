@@ -1789,7 +1789,7 @@ else{
 					</td>
 				</tr>
 				<tr>
-					<td align="center" colspan="2" style='padding-top:10px;'><input id='f_save_button' type='button' class='button normal hidden' value='   Save   ' onclick='editFJS(this.alt)'>&nbsp;&nbsp;<input id='f_add_button' type='button' class='button normal' value='   Add Funding   ' onclick='addFJS()'>&nbsp;&nbsp;<input type='button' class='button normal' id='f_cancel_button' value='Cancel' onclick='cancelFJS(this.alt)'> </td>
+					<td align="center" colspan="2" style='padding-top:10px;'><input id='f_save_button' type='button' class='button normal hidden' value='   Done Editing   ' onclick='editFJS(this.alt)'>&nbsp;&nbsp;<input id='f_add_button' type='button' class='button normal' value='   Add Funding   ' onclick='addFJS()'>&nbsp;&nbsp;<input type='button' class='button normal' id='f_cancel_button' value='Cancel' onclick='cancelFJS(this.alt)'> </td>
 				</tr>
 			</table>
 			
