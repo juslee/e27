@@ -681,9 +681,13 @@ $user = $_SESSION['user'];
 					$this->load->view("layout/login");
 				}
 				else{
+					ob_end_clean();
 					?>
-					hello world
+					<script>
+						self.location = "<?php echo site_url(); ?>latest";
+					</script>
 					<?php
+					exit();
 				}
 				?>
 			</td>

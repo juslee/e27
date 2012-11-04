@@ -31,7 +31,7 @@ foreach($logsbydate as $key=>$logs){
 			$what = "investment organization";
 		}
 		echo "<tr>";
-		echo "<td class='log_time'>".date("[ H:i ]", $log['dateadded_ts'])."</td>";
+		echo "<td class='log_time'>".date("[ H:i ", $log['dateadded_ts'])." UTC+8 ]</td>";
 		if($log['action']=='deleted'){
 			echo "<td class='log'><b>".$log['username']."</b> <a class='red'>".$log['action']."</a> ".$what." '<b>".$log['name']."</b>'.</td>";
 		}
