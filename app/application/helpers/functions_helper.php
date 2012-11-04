@@ -3,7 +3,8 @@ define('MAGPIE_CACHE_ON', true);
 include_once(dirname(__FILE__)."/magpie_0.72/rss_fetch.inc");
 
 function site_url(){
-	return "http://".$_SERVER['HTTP_HOST']."/_e27/app/";
+	$host = $_SERVER['HTTP_HOST'];
+	return "http://".$host."/_e27/app/";
 }
 function redirect_to($url){
 	ob_end_clean();
