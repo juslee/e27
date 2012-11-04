@@ -378,7 +378,7 @@ class companies extends CI_Controller {
 		
 		if(!$err){
 			$sql = "insert into `companies` set `name`=".$this->db->escape(trim($_POST['name']));
-			$sql .= ", active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
+			$sql .= ", country='Singapore', active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
 			$q = $this->db->query($sql);
 			$id = $this->db->insert_id();
 			?>
@@ -421,7 +421,7 @@ class companies extends CI_Controller {
 		
 		if(!$err){
 			$sql = "insert into `companies` set `name`=".$this->db->escape(trim($_POST['name']));
-			$sql .= ", active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
+			$sql .= ", country='Singapore', active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
 			$q = $this->db->query($sql);
 			$id = $this->db->insert_id();
 			?>
@@ -468,7 +468,7 @@ class companies extends CI_Controller {
 		
 		if(!$err){
 			$sql = "insert into `companies` set `name`=".$this->db->escape(trim($_POST['name']));
-			$sql .= ", active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
+			$sql .= ", country='Singapore', active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
 			$q = $this->db->query($sql);
 			$id = $this->db->insert_id();
 			?>
@@ -744,6 +744,8 @@ class companies extends CI_Controller {
 		$company = $q->result_array();	
 		if($company[0]['id']){
 			$data = array();
+			$time = time();
+			
 			$sql = "select * from `categories`";
 			$q = $this->db->query($sql);
 			$categories = $q->result_array();	
@@ -780,7 +782,12 @@ class companies extends CI_Controller {
 			$q = $this->db->query($sql);
 			$competitors = $q->result_array();
 			
-			$sql = "select `a`.*, `b`.`name` as `name` from `company_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) where `company_id`=".$this->db->escape($company_id)." and `name`<>'' order by `name` asc";
+			$sql = "select 
+			`a`.*, 
+			if(`a`.`end_date_ts`=0, $time, `a`.`end_date_ts`) as `end_date_ts2`,
+			`b`.`name` as `name` from `company_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) 
+			where `company_id`=".$this->db->escape($company_id)." and `name`<>'' 
+			order by `name` asc, `end_date_ts2` desc, `start_date_ts` desc";
 			$q = $this->db->query($sql);
 			$people = $q->result_array();
 			$sql = "select distinct `code`, `currency` from `currencies` where `currency` not like 'uses%'";
@@ -868,7 +875,7 @@ class companies extends CI_Controller {
 				`ipc_id`=".$this->db->escape($company_id)." and 
 				`type`='company'
 				)
-			order by `date_ts` desc	
+			order by `date_ts` desc, `company_name` asc
 			";
 			$q = $this->db->query($sql);
 			$milestones = $q->result_array();

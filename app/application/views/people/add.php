@@ -52,10 +52,12 @@ var investment_orgs = [];
 
 function companyPreAdd(label, value){
 	value = value*1;
+	/*
 	if(companies.indexOf(value)!=-1){
 		alert(label+" is already added as this person's company.");
 		return false;
 	}
+	*/
 	
 	jQuery("#companyadd").slideDown(200);
 	jQuery("#c_name").html(label);
@@ -64,10 +66,12 @@ function companyPreAdd(label, value){
 
 function investmentOrgPreAdd(label, value){
 	value = value*1;
+	/*
 	if(investment_orgs.indexOf(value)!=-1){
 		alert(label+" is already added as this person's investment organization.");
 		return false;
 	}
+	*/
 	
 	jQuery("#investment_orgadd").slideDown(200);
 	jQuery("#io_name").html(label);
@@ -134,10 +138,12 @@ function addCompany(id, name, role, start_date, end_date, add){
 		return false;
 	}
 	id = id*1;
+	/*
 	if(companies.indexOf(id)!=-1){
 		alert(name+" is already added as this person's company.");
 		return false;
 	}
+	*/
 	
 	companies.push(id);
 	jQuery("#companyadd").hide();
@@ -189,10 +195,12 @@ function addInvestmentOrg(id, name, role, start_date, end_date, add){
 		return false;
 	}
 	id = id*1;
+	/*
 	if(investment_orgs.indexOf(id)!=-1){
 		alert(name+" is already added as this person's investment organization.");
 		return false;
 	}
+	*/
 	
 	investment_orgs.push(id);
 	jQuery("#investment_orgadd").hide();

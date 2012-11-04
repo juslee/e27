@@ -255,7 +255,7 @@ class investment_orgs extends CI_Controller {
 		
 		if(!$err){
 			$sql = "insert into `investment_orgs` set `name`=".$this->db->escape(trim($_POST['name']));
-			$sql .= ", active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
+			$sql .= ", country='Singapore', active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
 			$q = $this->db->query($sql);
 			$id = $this->db->insert_id();
 			?>
@@ -298,7 +298,7 @@ class investment_orgs extends CI_Controller {
 		
 		if(!$err){
 			$sql = "insert into `investment_orgs` set `name`=".$this->db->escape(trim($_POST['name']));
-			$sql .= ", active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
+			$sql .= ", country='Singapore', active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
 			$q = $this->db->query($sql);
 			$id = $this->db->insert_id();
 			?>
@@ -451,12 +451,18 @@ class investment_orgs extends CI_Controller {
 		$investment_org = $q->result_array();	
 		if($investment_org[0]['id']){
 			$data = array();
+			$time = time();
 			$sql = "select * from `countries`";
 			$q = $this->db->query($sql);
 			$countries = $q->result_array();
 			
 			
-			$sql = "select `a`.*, `b`.`name` as `name` from `investment_org_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) where `investment_org_id`=".$this->db->escape($investment_org_id)." and `name`<>'' order by `name` asc";
+			$sql = "select 
+			`a`.*, 
+			if(`a`.`end_date_ts`=0, $time, `a`.`end_date_ts`) as `end_date_ts2`,
+			`b`.`name` as `name` from `investment_org_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) 
+			where `investment_org_id`=".$this->db->escape($investment_org_id)." and `name`<>'' 
+			order by `end_date_ts2` desc, `start_date_ts` desc, `name` asc";
 			$q = $this->db->query($sql);
 			$people = $q->result_array();
 			

@@ -480,11 +480,24 @@ class people extends CI_Controller {
 		$person = $q->result_array();	
 		if($person[0]['id']){
 			$data = array();
-			$sql = "select `a`.*, `b`.`name` as `name` from `company_person` as `a` left join `companies` as `b` on (`a`.`company_id`=`b`.`id`) where `person_id`=".$this->db->escape($person_id)." and `name`<>'' order by `name` asc";
+			$time = time();
+			
+			$sql = "select 
+			`a`.*, 
+			if(`a`.`end_date_ts`=0, $time, `a`.`end_date_ts`) as `end_date_ts2`,
+			`b`.`name` as `name` 
+			from `company_person` as `a` left join `companies` as `b` on (`a`.`company_id`=`b`.`id`) 
+			where `person_id`=".$this->db->escape($person_id)." and `name`<>'' 
+			order by `end_date_ts2` desc, `start_date_ts` desc, `name` asc";
 			$q = $this->db->query($sql);
 			$companies = $q->result_array();
 			
-			$sql = "select `a`.*, `b`.`name` as `name` from `investment_org_person` as `a` left join `investment_orgs` as `b` on (`a`.`investment_org_id`=`b`.`id`) where `person_id`=".$this->db->escape($person_id)." and `name`<>'' order by `name` asc";
+			$sql = "select 
+			`a`.*,
+			if(`a`.`end_date_ts`=0, $time, `a`.`end_date_ts`) as `end_date_ts2`,
+			`b`.`name` as `name` from `investment_org_person` as `a` left join `investment_orgs` as `b` on (`a`.`investment_org_id`=`b`.`id`) 
+			where `person_id`=".$this->db->escape($person_id)." and `name`<>'' 
+			order by `end_date_ts2` desc, `start_date_ts` desc, `name` asc";
 			$q = $this->db->query($sql);
 			$investment_orgs = $q->result_array();
 			
@@ -502,7 +515,7 @@ class people extends CI_Controller {
 				`ipc_id`=".$this->db->escape($person_id)." and 
 				`type`='person'
 				)
-			order by `date_ts` desc	
+			order by `date_ts` desc, `company_name` asc
 			";
 			$q = $this->db->query($sql);
 			$milestones = $q->result_array();

@@ -167,10 +167,12 @@ function delCompete(obj, value){
 
 function peoplePreAdd(label, value){
 	value = uNum(value);
+	/*
 	if(people.indexOf(value)!=-1){
 		alert(label+" is already part of this company.");
 		return false;
 	}
+	*/
 	
 	jQuery("#peopleadd").slideDown(200);
 	jQuery("#p_name").html(label);
@@ -632,10 +634,12 @@ function addPerson(id, name, role, start_date, end_date, add){
 		return false;
 	}
 	id = uNum(id);
+	/*
 	if(people.indexOf(id)!=-1){
 		alert(name+" is already part of this company.");
 		return false;
 	}
+	*/
 	
 	people.push(id);
 	jQuery("#peopleadd").hide();
