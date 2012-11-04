@@ -1,5 +1,5 @@
 <?php
-define('MAGPIE_CACHE_ON', false);
+define('MAGPIE_CACHE_ON', true);
 include_once(dirname(__FILE__)."/magpie_0.72/rss_fetch.inc");
 
 function site_url(){
@@ -15,7 +15,10 @@ function redirect_to($url){
 	exit();
 }
 function sanitizeX($str){
-	return addslashes($str);
+	$str = addslashes($str);
+	$str = str_replace("\n", "\\n", $str);
+	$str = str_replace("\r", "\\r", $str);
+	return $str;
 }
 
 function checkEmail($email) {

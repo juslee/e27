@@ -135,7 +135,8 @@ class Snoopy
 			$URI_PARTS["query"] = '';
 		if (empty($URI_PARTS["path"]))
 			$URI_PARTS["path"] = '';
-				
+		
+		//echo "<br>here 0.6 $URI<br>";
 		switch(strtolower($URI_PARTS["scheme"]))
 		{
 			case "http":
@@ -155,6 +156,7 @@ class Snoopy
 						// no proxy, send only the path
 						$this->_httprequest($path, $fp, $URI, $this->_httpmethod);
 					}
+					
 					
 					$this->_disconnect($fp);
 
@@ -894,6 +896,12 @@ class Snoopy
 				}
 				else
 					$this->_redirectaddr = $matches[2];
+				
+				//echo $URI." = ".$this->_redirectaddr."<---<br>";
+				//jairus
+				//if($this->_redirectaddr==$URI){
+				//	$this->_redirectaddr = false;
+				//}
 			}
 		
 			if(preg_match("|^HTTP/|",$currentHeader))
@@ -916,7 +924,7 @@ class Snoopy
     		}
     		$results .= $_data;
 		} while(true);
-
+		
 		if ($this->read_timeout > 0 && $this->_check_timeout($fp))
 		{
 			$this->status=-100;

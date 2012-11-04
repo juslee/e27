@@ -17,6 +17,10 @@ class blogs_rss extends CI_Controller {
 		$start += 0;
 		$limit = 50;
 		
+		$shuffle = "";
+		if($_GET['shuffle']){
+			$shuffle = "rand(), ";
+		}
 		$sqlwhere = "`blog`<>''";
 		$search = trim($_GET['search']);
 		if($search){
@@ -46,11 +50,11 @@ class blogs_rss extends CI_Controller {
 			";
 		}
 		
-		$sql = "select * from `people` where $sqlwhere order by `name` asc limit $start, $limit" ;
+		$sql = "select * from `people` where $sqlwhere order by $shuffle `name` asc limit $start, $limit" ;
 		$q = $this->db->query($sql);
 		$list = $q->result_array();
 		
-		$sql = "select count(id) as `cnt` from `people` where $sqlwhere order by `name` asc" ;
+		$sql = "select count(id) as `cnt` from `people` where $sqlwhere order by $shuffle `name` asc" ;
 		$q = $this->db->query($sql);
 		$cnt = $q->result_array();
 		$pages = ceil($cnt[0]['cnt']/$limit);
@@ -65,8 +69,9 @@ class blogs_rss extends CI_Controller {
 				if(strpos(strtolower($url), "http://")!==0&&strpos(strtolower($url), "https://")!==0){
 					$url = "http://".$url;
 				}
+				//echo "fetching...".$url;
 				$rss = @fetch_rss( $url );
-				$items = @array_slice($rss->items, 0, 10);
+				$items = array_slice($rss->items, 0, 10);
 				$list[$i]['feed'] = array();
 				$list[$i]['feed']['rss'] = $rss;
 				$list[$i]['feed']['items'] = $items;
@@ -91,6 +96,11 @@ class blogs_rss extends CI_Controller {
 		$start += 0;
 		$limit = 50;
 		
+		$shuffle = "";
+		if($_GET['shuffle']){
+			$shuffle = "rand(), ";
+		}
+		
 		$sqlwhere = "`blog`<>''";
 		$search = trim($_GET['search']);
 		if($search){
@@ -120,11 +130,11 @@ class blogs_rss extends CI_Controller {
 			";
 		}
 		
-		$sql = "select * from `companies` where $sqlwhere order by `name` asc limit $start, $limit" ;
+		$sql = "select * from `companies` where $sqlwhere order by $shuffle `name` asc limit $start, $limit" ;
 		$q = $this->db->query($sql);
 		$list = $q->result_array();
 		
-		$sql = "select count(id) as `cnt` from `companies` where $sqlwhere order by `name` asc" ;
+		$sql = "select count(id) as `cnt` from `companies` where $sqlwhere order by $shuffle `name` asc" ;
 		$q = $this->db->query($sql);
 		$cnt = $q->result_array();
 		$pages = ceil($cnt[0]['cnt']/$limit);
@@ -134,6 +144,7 @@ class blogs_rss extends CI_Controller {
 		for($i=0; $i<$t; $i++){
 			$url = trim($list[$i]['blog']);
 			$list[$i]['list_type'] = 'companies';
+			//echo "fetching...".$url;
 			if ( $url ) {
 				//if not http or https
 				if(strpos(strtolower($url), "http://")!==0&&strpos(strtolower($url), "https://")!==0){
@@ -165,6 +176,11 @@ class blogs_rss extends CI_Controller {
 		$start += 0;
 		$limit = 50;
 		
+		$shuffle = "";
+		if($_GET['shuffle']){
+			$shuffle = "rand(), ";
+		}
+		
 		$sqlwhere = "`blog`<>''";
 		$search = trim($_GET['search']);
 		if($search){
@@ -194,11 +210,11 @@ class blogs_rss extends CI_Controller {
 			";
 		}
 		
-		$sql = "select * from `investment_orgs` where $sqlwhere order by `name` asc limit $start, $limit" ;
+		$sql = "select * from `investment_orgs` where $sqlwhere order by $shuffle `name` asc limit $start, $limit" ;
 		$q = $this->db->query($sql);
 		$list = $q->result_array();
 		
-		$sql = "select count(id) as `cnt` from `investment_orgs` where $sqlwhere order by `name` asc" ;
+		$sql = "select count(id) as `cnt` from `investment_orgs` where $sqlwhere order by $shuffle `name` asc" ;
 		$q = $this->db->query($sql);
 		$cnt = $q->result_array();
 		$pages = ceil($cnt[0]['cnt']/$limit);
@@ -246,6 +262,10 @@ class blogs_rss extends CI_Controller {
 		
 		$time = time();
 		
+		$shuffle = "";
+		if($_GET['shuffle']){
+			$shuffle = "rand(), ";
+		}
 		
 		$sqlwhere = "`blog`<>''";
 		$search = trim($_GET['search']);
@@ -277,11 +297,11 @@ class blogs_rss extends CI_Controller {
 		}
 		
 		foreach($list_types as $list_type){
-			$sql = "select * from `$list_type` where $sqlwhere order by `name` asc limit $start, $limit" ;
+			$sql = "select * from `$list_type` where $sqlwhere order by $shuffle `name` asc limit $start, $limit" ;
 			$q = $this->db->query($sql);
 			$list = $q->result_array();
 	
-			$sql = "select count(id) as `cnt` from `$list_type` where $sqlwhere order by `name` asc" ;
+			$sql = "select count(id) as `cnt` from `$list_type` where $sqlwhere order by $shuffle `name` asc" ;
 			$q = $this->db->query($sql);
 			$cnt = $q->result_array();
 			$cnt = $cnt[0]['cnt'];	

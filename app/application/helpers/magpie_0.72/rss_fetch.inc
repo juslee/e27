@@ -93,14 +93,20 @@ function fetch_rss ($url) {
         error("fetch_rss called without a url");
         return false;
     }
-    
     // if cache is disabled //jairus
     if ( !MAGPIE_CACHE_ON) {
         // fetch file, and parse it
-        $resp = _fetch_remote_file( $url );
+        //echo "<br>here 0.4<br>";
+		$resp = _fetch_remote_file( $url );
+		//jairus
 		//echo $url ,"-", $resp->status."<br>";
-		if ( is_success( $resp->status ) || trim($resp->results) ) {
-            return _response_to_rss( $resp );
+		//echo trim($resp->results);
+		if(!trim($resp->results)){
+			$results = file_get_contents($url);
+			//echo "here...".$results."<br>";
+		}
+		if ( is_success( $resp->status ) || trim($resp->results) || $results  ) {
+            return _response_to_rss( $resp, $results );
         }
         else {
             error("Failed to fetch $url and cache is off");
@@ -162,6 +168,13 @@ function fetch_rss ($url) {
         
         $resp = _fetch_remote_file( $url, $request_headers );
         
+		//jairus
+		//echo trim($resp->results);
+		
+		if(!trim($resp->results)){
+			$results = file_get_contents($url);
+		}
+		
         if (isset($resp) and $resp) {
           if ($resp->status == '304' ) {
                 // we have the most current copy
@@ -173,8 +186,8 @@ function fetch_rss ($url) {
                 return $rss;
             }
 			//jairus
-            elseif ( is_success( $resp->status || trim($resp->results) ) ) {
-                $rss = _response_to_rss( $resp );
+            elseif ( is_success( $resp->status ) || trim($resp->results) || $results ) {
+                $rss = _response_to_rss( $resp, $results);
                 if ( $rss ) {
                     if (MAGPIE_DEBUG > 1) {
                         debug("Fetch successful");
@@ -275,8 +288,8 @@ function _fetch_remote_file ($url, $headers = "" ) {
     if (is_array($headers) ) {
         $client->rawheaders = $headers;
     }
-    
-    @$client->fetch($url);
+	//echo "<br>here 0.5<br>";
+    $client->fetch($url);
     return $client;
 
 }
@@ -287,9 +300,13 @@ function _fetch_remote_file ($url, $headers = "" ) {
     Input:      an HTTP response object (see Snoopy)
     Output:     parsed RSS object (see rss_parse)
 \*=======================================================================*/
-function _response_to_rss ($resp) {
-    $rss = new MagpieRSS( $resp->results, MAGPIE_OUTPUT_ENCODING, MAGPIE_INPUT_ENCODING, MAGPIE_DETECT_ENCODING );
-    
+function _response_to_rss ($resp, $results="") {
+	if($results){
+		$rss = new MagpieRSS( $results, MAGPIE_OUTPUT_ENCODING, MAGPIE_INPUT_ENCODING, MAGPIE_DETECT_ENCODING );
+	}
+	else{
+    	$rss = new MagpieRSS( $resp->results, MAGPIE_OUTPUT_ENCODING, MAGPIE_INPUT_ENCODING, MAGPIE_DETECT_ENCODING );
+    }
     // if RSS parsed successfully       
     if ( $rss and !$rss->ERROR) {
         
