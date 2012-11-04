@@ -79,7 +79,9 @@ class blogs_rss extends CI_Controller {
 				$list[$i]['feed']['time'] = $time;
  			}
 		}
-	
+		
+		$list = $this->bubbleSort($list);
+		
 		$data = array();
 		$data['search'] = $search;
 		$data['list'] = $list;
@@ -160,6 +162,8 @@ class blogs_rss extends CI_Controller {
  			}
 		}
 	
+		$list = $this->bubbleSort($list);
+		
 		$data = array();
 		$data['search'] = $search;
 		$data['list'] = $list;
@@ -238,6 +242,8 @@ class blogs_rss extends CI_Controller {
 				$list[$i]['feed']['time'] = $time;
  			}
 		}
+		
+		$list = $this->bubbleSort($list);
 	
 		$data = array();
 		$data['search'] = $search;
