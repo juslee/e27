@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+@session_start();
 class investment_orgs extends CI_Controller {
 	
 	public function __construct(){
@@ -217,12 +217,23 @@ class investment_orgs extends CI_Controller {
 			alertX("Successfully Updated Investment Organization '<?php echo htmlentities($_POST['name']); ?>'.");
 			self.location = self.location; //refresh
 			<?php
+			$sql = "insert into `logs` set 
+				`action` = 'edited',
+				`table` = 'investment_orgs',
+				`ipc_id` = ".$this->db->escape(trim($_POST['id'])).",
+				`name` = ".$this->db->escape(trim($_POST['name'])).",
+				`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+				`dateadded_ts` = ".time().",
+				`dateadded` = NOW()
+			";
+			$this->db->query($sql);
 		}
 		
 		?>
 		jQuery("#savebutton").val("Save");
 		jQuery("#investment_org_form *").attr("disabled", false);
 		<?php		
+		
 		exit();
 	}
 	
@@ -239,9 +250,27 @@ class investment_orgs extends CI_Controller {
 		$this->db->query($sql);
 		$sql = "delete from `company_fundings_ipc` where `type`='investment_org' and `ipc_id`=".$this->db->escape($investment_org_id);
 		$this->db->query($sql);
-		?>
-		alertX("Successfully deleted <?php echo htmlentities($investment_org[0]['name']); ?>");
-		<?php
+		if(trim($investment_org[0]['name'])){
+			?>
+			alertX("Successfully deleted <?php echo htmlentities($investment_org[0]['name']); ?>");
+			<?php
+			
+			$sql = "insert into `logs` set 
+				`action` = 'deleted',
+				`table` = 'investment_orgs',
+				`ipc_id` = ".$this->db->escape(trim($_POST['id'])).",
+				`name` = ".$this->db->escape(trim($investment_org[0]['name'])).",
+				`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+				`dateadded_ts` = ".time().",
+				`dateadded` = NOW()
+			";
+			$this->db->query($sql);
+		}
+		else{
+			?>
+			alertX("The record is already deleted in the database.");
+			<?php
+		}
 	}
 	
 	public function ajax_add_investment_org_shortcut_ipc(){	
@@ -263,6 +292,16 @@ class investment_orgs extends CI_Controller {
 			insert_id = uNum(insert_id);
 			success = true;
 			<?php
+			$sql = "insert into `logs` set 
+				`action` = 'added',
+				`table` = 'investment_orgs',
+				`ipc_id` = ".$this->db->escape($id).",
+				`name` = ".$this->db->escape(trim($_POST['name'])).",
+				`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+				`dateadded_ts` = ".time().",
+				`dateadded` = NOW()
+			";
+			$this->db->query($sql);
 		}
 		else{
 			?>
@@ -310,6 +349,16 @@ class investment_orgs extends CI_Controller {
 			jQuery("#investment_org_search").val("");
 			
 			<?php
+			$sql = "insert into `logs` set 
+				`action` = 'added',
+				`table` = 'investment_orgs',
+				`ipc_id` = ".$this->db->escape($id).",
+				`name` = ".$this->db->escape(trim($_POST['name'])).",
+				`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+				`dateadded_ts` = ".time().",
+				`dateadded` = NOW()
+			";
+			$this->db->query($sql);
 		}
 		else{
 			?>
@@ -318,6 +367,7 @@ class investment_orgs extends CI_Controller {
 			jQuery("#investment_org_search").val("");
 			<?php
 		}
+		
 		
 	}
 	
@@ -426,12 +476,24 @@ class investment_orgs extends CI_Controller {
 			//self.location = "<?php echo site_url(); ?>investment_orgs/edit/<?php echo $id; ?>";
 			self.location = "<?php echo site_url(); ?>investment_orgs/add";
 			<?php
+		
+			$sql = "insert into `logs` set 
+				`action` = 'added',
+				`table` = 'investment_orgs',
+				`ipc_id` = ".$this->db->escape($id).",
+				`name` = ".$this->db->escape(trim($_POST['name'])).",
+				`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+				`dateadded_ts` = ".time().",
+				`dateadded` = NOW()
+			";
+			$this->db->query($sql);
 		}
 		
 		?>
 		jQuery("#savebutton").val("Save");
 		jQuery("#investment_org_form *").attr("disabled", false);
-		<?php		
+		<?php
+		
 		exit();
 	}
 	

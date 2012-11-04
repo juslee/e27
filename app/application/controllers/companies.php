@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+@session_start();
 class companies extends CI_Controller {
 	
 	public function __construct(){
@@ -167,8 +167,6 @@ class companies extends CI_Controller {
 		}
 		
 		if(!$err){
-			
-			
 			$sql = "update `companies` set ";
 			$arr = array();
 			$post = $_POST;
@@ -316,6 +314,16 @@ class companies extends CI_Controller {
 			alertX("Successfully Updated Company '<?php echo htmlentities($_POST['name']); ?>'.");
 			self.location = self.location; //refresh
 			<?php
+			$sql = "insert into `logs` set 
+				`action` = 'edited',
+				`table` = 'companies',
+				`ipc_id` = ".$this->db->escape(trim($_POST['id'])).",
+				`name` = ".$this->db->escape(trim($_POST['name'])).",
+				`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+				`dateadded_ts` = ".time().",
+				`dateadded` = NOW()
+			";
+			$this->db->query($sql);
 		}
 		
 		?>
@@ -323,6 +331,8 @@ class companies extends CI_Controller {
 		jQuery("#company_form *").attr("disabled", false);
 		
 		<?php		
+		
+		
 		exit();
 	}
 	
@@ -349,9 +359,27 @@ class companies extends CI_Controller {
 		$this->db->query($sql);
 		$sql = "delete from `company_fundings` where `company_id`=".$this->db->escape($company_id);
 		$this->db->query($sql);
-		?>
-		alertX("Successfully deleted <?php echo htmlentities($company[0]['name']); ?>");
-		<?php
+		if(trim($company[0]['name'])){
+			?>
+			alertX("Successfully deleted <?php echo htmlentities($company[0]['name']); ?>");
+			<?php
+			$sql = "insert into `logs` set 
+				`action` = 'deleted',
+				`table` = 'companies',
+				`ipc_id` = ".$this->db->escape(trim($_POST['id'])).",
+				`name` = ".$this->db->escape(trim($company[0]['name'])).",
+				`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+				`dateadded_ts` = ".time().",
+				`dateadded` = NOW()
+			";
+			$this->db->query($sql);
+		}
+		else{
+			?>
+			alertX("The record is already deleted in the database.");
+			<?php
+		}
+		exit();
 	}
 	
 	public function ajax_add_company_shortcut_ipc(){
@@ -386,6 +414,16 @@ class companies extends CI_Controller {
 			insert_id = uNum(insert_id);
 			success = true;
 			<?php
+			$sql = "insert into `logs` set 
+				`action` = 'added',
+				`table` = 'companies',
+				`ipc_id` = ".$this->db->escape($id).",
+				`name` = ".$this->db->escape(trim($_POST['name'])).",
+				`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+				`dateadded_ts` = ".time().",
+				`dateadded` = NOW()
+			";
+			$this->db->query($sql);
 		}
 		else{
 			?>
@@ -394,6 +432,7 @@ class companies extends CI_Controller {
 			success = false;
 			<?php
 		}
+		
 		
 	}
 	
@@ -433,6 +472,16 @@ class companies extends CI_Controller {
 			jQuery("#company_search").val("");
 			
 			<?php
+			$sql = "insert into `logs` set 
+				`action` = 'added',
+				`table` = 'companies',
+				`ipc_id` = ".$this->db->escape($id).",
+				`name` = ".$this->db->escape(trim($_POST['name'])).",
+				`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+				`dateadded_ts` = ".time().",
+				`dateadded` = NOW()
+			";
+			$this->db->query($sql);
 		}
 		else{
 			?>
@@ -441,7 +490,6 @@ class companies extends CI_Controller {
 			jQuery("#company_search").val("");
 			<?php
 		}
-		
 	}
 	
 	public function ajax_add_competitor_shortcut(){
@@ -478,8 +526,17 @@ class companies extends CI_Controller {
 			jQuery("#competitor_add_loader").html("");
 			jQuery("#competitor_search").attr("disabled", false);
 			jQuery("#competitor_search").val("");
-			
 			<?php
+			$sql = "insert into `logs` set 
+				`action` = 'added',
+				`table` = 'companies',
+				`ipc_id` = ".$this->db->escape($id).",
+				`name` = ".$this->db->escape(trim($_POST['name'])).",
+				`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+				`dateadded_ts` = ".time().",
+				`dateadded` = NOW()
+			";
+			$this->db->query($sql);
 		}
 		else{
 			?>
@@ -488,6 +545,8 @@ class companies extends CI_Controller {
 			jQuery("#competitor_search").val("");
 			<?php
 		}
+		
+		
 		
 	}
 	public function ajax_add(){
@@ -707,12 +766,23 @@ class companies extends CI_Controller {
 			//self.location = "<?php echo site_url(); ?>companies/edit/<?php echo $id; ?>";
 			self.location = "<?php echo site_url(); ?>companies/add";
 			<?php
+		
+			$sql = "insert into `logs` set 
+				`action` = 'added',
+				`table` = 'companies',
+				`ipc_id` = ".$this->db->escape($id).",
+				`name` = ".$this->db->escape(trim($_POST['name'])).",
+				`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+				`dateadded_ts` = ".time().",
+				`dateadded` = NOW()
+			";
+			$this->db->query($sql);
 		}
 		
 		?>
 		jQuery("#savebutton").val("Save");
 		jQuery("#company_form *").attr("disabled", false);
-		<?php		
+		<?php	
 		exit();
 	}
 	

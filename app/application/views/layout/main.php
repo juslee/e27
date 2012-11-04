@@ -601,6 +601,31 @@ $user = $_SESSION['user'];
 	ul.items{
 		margin-top:0px;
 	}
+	
+	/**********LATEST UPDATES**********/
+	.logs_container{
+		padding:20px;
+	}
+	.log_date{
+		font-size:14px;
+		font-weight:bold;
+		background:orange;
+		padding:10px;
+		color:white;
+	}
+	.logs{
+		padding:10px;
+	}
+	.log_time{
+		font-size:14px;
+		padding-left:40px;
+		padding-top:5px;
+		color:green;
+	}
+	.log, .log a, .log b{
+		font-size:14px;
+		padding-top:5px;
+	}
 	</style>
 </head>
 <body>
