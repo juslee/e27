@@ -1,4 +1,6 @@
 <?php
+define('MAGPIE_CACHE_ON', false);
+include_once(dirname(__FILE__)."/magpie_0.72/rss_fetch.inc");
 
 function site_url(){
 	return "http://".$_SERVER['HTTP_HOST']."/_e27/app/";

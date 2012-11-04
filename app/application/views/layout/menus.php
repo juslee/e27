@@ -14,7 +14,7 @@ $controller = $this->router->class;
 	<li <?php if($controller=="investment_orgs"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."investment_orgs";?>"'>
 		Investment Organizations
 	</li>
-	<li <?php if($controller=="blogs_rss"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."blogs_rss";?>"'>
+	<li <?php if($controller=="blogs_rss"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."blogs_rss/all";?>"'>
 		Blogs RSS Feeds
 	</li>
 </ul>

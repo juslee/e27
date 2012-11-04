@@ -572,12 +572,42 @@ $user = $_SESSION['user'];
 	#ipc{
 		margin-top:10px;
 	}
+	
+	
+	/**********BLOGS RSS**********/
+	.new{
+		/*background:green;*/
+	}
+	.submenus{
+		color:white;
+		padding:0px;
+		height: 34px;
+	}
+	.submenus ul{
+		margin-top:10px;
+		padding:0px;
+	}
+	.submenus li{
+		margin:0px;
+		list-style:none;
+		display:inline;
+		cursor:pointer;
+		background:black;
+		padding:10px;
+	}
+	.submenus li:hover, .submenus li.selected{
+		background:orange;
+	}
+	ul.items{
+		margin-top:0px;
+	}
 	</style>
 </head>
 <body>
 <div id='imagepreload' class='hidden'>
 	<img src='<?php echo site_url(); ?>media/check.png' />
 	<img src='<?php echo site_url(); ?>media/x.png' />
+	<img src='<?php echo site_url(); ?>media/new.png' />
 	<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />
 </div>
 <div id="dialog" title="">

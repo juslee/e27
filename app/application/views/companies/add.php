@@ -1564,9 +1564,9 @@ else{
         <div class='hint'>e.g. http://www.yourcompany.com</div></td>
     </tr>
     <tr class="even">
-      <td>Blog URL:</td>
+      <td>Blog RSS feed URL:</td>
       <td><input type="text" name="blog" size="30">
-        <div class='hint'>e.g. http://feeds.feedsburner.com/e27/Kabk</div></td>
+        <div class='hint'>e.g. http://e27.sg/feed</div></td>
     </tr>
     <tr class="odd">
       <td>Twitter Username:</td>

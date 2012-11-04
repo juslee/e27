@@ -66,27 +66,27 @@ class people extends CI_Controller {
 		$search = trim($_GET['search']);
 		
 		$sql = "select * from `people` where 
-			`name` like '%".mysql_escape_string($search)."%' or
-			`email_address` like '%".mysql_escape_string($search)."%' or
-			`twitter_username` like '%".mysql_escape_string($search)."%' or 
-			`blog` like '%".mysql_escape_string($search)."%' or 
-			`facebook` like '%".mysql_escape_string($search)."%' or 
-			`linkedin` like '%".mysql_escape_string($search)."%' or 
-			`description` like '%".mysql_escape_string($search)."%' or 
-			`tags` like '%".mysql_escape_string($search)."%'
+			`name` like '%".mysql_real_escape_string($search)."%' or
+			`email_address` like '%".mysql_real_escape_string($search)."%' or
+			`twitter_username` like '%".mysql_real_escape_string($search)."%' or 
+			`blog` like '%".mysql_real_escape_string($search)."%' or 
+			`facebook` like '%".mysql_real_escape_string($search)."%' or 
+			`linkedin` like '%".mysql_real_escape_string($search)."%' or 
+			`description` like '%".mysql_real_escape_string($search)."%' or 
+			`tags` like '%".mysql_real_escape_string($search)."%'
 		order by `name` asc limit $start, $limit" ;
 		$q = $this->db->query($sql);
 		$people = $q->result_array();
 		
 		$sql = "select count(id) as `cnt` from `people` where 
-			`name` like '%".mysql_escape_string($search)."%' or
-			`email_address` like '%".mysql_escape_string($search)."%' or
-			`twitter_username` like '%".mysql_escape_string($search)."%' or
-			`blog` like '%".mysql_escape_string($search)."%' or 
-			`facebook` like '%".mysql_escape_string($search)."%' or 
-			`linkedin` like '%".mysql_escape_string($search)."%' or 
-			`description` like '%".mysql_escape_string($search)."%' or 
-			`tags` like '%".mysql_escape_string($search)."%' 
+			`name` like '%".mysql_real_escape_string($search)."%' or
+			`email_address` like '%".mysql_real_escape_string($search)."%' or
+			`twitter_username` like '%".mysql_real_escape_string($search)."%' or
+			`blog` like '%".mysql_real_escape_string($search)."%' or 
+			`facebook` like '%".mysql_real_escape_string($search)."%' or 
+			`linkedin` like '%".mysql_real_escape_string($search)."%' or 
+			`description` like '%".mysql_real_escape_string($search)."%' or 
+			`tags` like '%".mysql_real_escape_string($search)."%' 
 		order by `name` asc" ;
 		$q = $this->db->query($sql);
 		$cnt = $q->result_array();
