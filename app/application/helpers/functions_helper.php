@@ -2,6 +2,9 @@
 define('MAGPIE_CACHE_ON', true);
 include_once(dirname(__FILE__)."/magpie_0.72/rss_fetch.inc");
 
+function seoIze($str){
+	return preg_replace("/[^a-zA-Z0-9]/iUs", "_", $str);
+}
 function site_url(){
 	$host = $_SERVER['HTTP_HOST'];
 	return "http://".$host."/_e27/app/";
