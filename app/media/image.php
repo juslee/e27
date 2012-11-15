@@ -65,7 +65,7 @@ function createThumb($src, $dest, $thumbWidth, $thumbHeight)
 	imagecopyresampled( $tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
 	
 	// save thumbnail into a file
-	imagejpeg( $tmp_img, $dest );
+	imagejpeg( $tmp_img, $dest, 100 );
 }
 
 function showThumb($src, $thumbWidth, $thumbHeight) 
@@ -138,7 +138,7 @@ function showThumb($src, $thumbWidth, $thumbHeight)
 	imagecopyresampled( $tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
 	
 	// save thumbnail into a file
-	imagejpeg( $tmp_img );
+	imagejpeg( $tmp_img , null, 100);
 }
 $mx = $_GET['mx']*1;
 if($_GET['b'])
