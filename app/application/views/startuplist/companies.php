@@ -20,7 +20,7 @@ function loadMore(){
 
 }
 </script>
-<table cellpadding="0" cellspacing="0" class="p100 contentshead">
+<table cellpadding="0" cellspacing="0" class="contentshead">
 	<tr>
 		<td class="contentsheadleft">
 			<!--<img src="<?php echo site_url(); ?>media/startuplist/newlyaddedstartups.png">-->
@@ -48,7 +48,7 @@ function loadMore(){
 <?php
 if($cnt){
 	?>
-	<table cellpadding="0" cellspacing="0" class="p100" id="companies">
+	<table cellpadding="0" cellspacing="0" class="" id="companies">
 		<?php
 		
 		for($i=0; $i<$t; $i++){
@@ -56,14 +56,21 @@ if($cnt){
 			<tr>
 			<?php 
 			for($n=0; $n<4; $n++){
-				
+				$class="";
+				if($n==0){
+					$class = "first";
+				}
+				else if($n==3){
+					$class = "last";
+				}
 				
 				if($companies[$i]['id']){
 					?>
-					<td width="25%">
+					<td class="companyblockcontainer <?php echo $class; ?>">
 						<?php 
 						$data = array();
 						$data['company'] = $companies[$i];
+						$data['n'] = $n;
 						$this->load->view("startuplist/company_block", $data);
 						?>
 					</td>
@@ -71,7 +78,7 @@ if($cnt){
 				}
 				else{
 					?>
-					<td width="25%" class="emptycontentblock">
+					<td class="emptycontentblock companyblockcontainer <?php echo $class; ?>">
 						
 					</td>
 					<?php

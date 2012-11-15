@@ -6,18 +6,20 @@
 <script language="javascript" src="<?php echo site_url(); ?>media/js/jquery-1.7.2.min.js"></script>
 <style>
 body{
-	margin:0px;
+	margin-top:-2px;
 	background:#fff;
 }
 td{
 	vertical-align:top;
 	text-align:left;
+	font-weight:500;
 }
-
+*{
+	
+}
 .font{
 	font-family:Verdana, Arial, Helvetica, sans-serif;
 	font-size:12px;
-	
 }
 .bar{
 	width:100%;
@@ -41,7 +43,6 @@ td{
 	bottom:-13px;
 }
 .maindiv{
-	width:100%;
 }
 .maintable{
 	width:1200px;
@@ -52,11 +53,17 @@ td{
 	border-radius: 5px 5px 5px 5px;
 	box-shadow: 0 4px 10px #F0F0F0;
 	background:white;
+	border-top:0px;
 }
 .banner{
 	vertical-align:top;
 	height:133px;
 	background:white;
+}
+.bannercontentcontainer{
+	background:white;
+	height:133px;
+	width: 1198px;
 }
 .bannercontent{
 	width:100%;
@@ -76,9 +83,13 @@ td{
 	padding-right:50px;
 }
 .search{
+	height:53px;
+	background:white;
+}
+.searchcontentcontainer{
+	width:1198px;
 	background: url(<?php echo site_url(); ?>media/startuplist/searchbg.png);
 	background-repeat:repeat-x;
-	height:53px;
 }
 .searchleft{
 	padding-left:48px;
@@ -100,12 +111,14 @@ td{
 }
 .contents{
 	height:500px;
-	width:840px;
+	width:790px;
 	background:#FFFFFF;
 	padding-left:50px;
 }
+
 .contentshead{
 	margin-bottom:10px;
+	width:770px;
 }
 .contentsheadleft {
 	width:50%;
@@ -118,44 +131,19 @@ td{
 	width:50%;
 	padding-top:5px;
 }
-
-.sidebar{
-	background:white;
-	width:380px;
-}
-.sidebarblock{
-	border-radius: 3px 3px 3px 3px;
-	margin:15px;
-	border: 1px solid #eeeeee;
-	width:300px;
-	margin-left:30px;
-	margin-right:0px;
-	
-}
-.sidebarblock .head{
-	background:  #f8f8f8;
-	padding:7px;
-	color: #21913f;
-	border-bottom: 1px solid #eeeeee
-	font-size:13px;
-}
-.sidebarblock .content{
-	padding:10px;
-	font-family:Arial, Helvetica, sans-serif;
-	color: #666666;
-}
-
 .contentblock{
-	border-radius: 3px 3px 3px 3px;
-	margin:15px;
+	border-radius: 6px 6px 6px 6px;
 	border: 1px solid #eeeeee;
 	width:170px;
 }
+.companyblockcontainer{
+	padding:15px;
+}
 .first{
-	margin-left:0px;
+	padding-left:0px;
 }
 .last{
-	margin-right:0px;
+	padding-right:0px;
 }
 .contentblock .head{
 	background:  #f8f8f8;
@@ -165,7 +153,8 @@ td{
 	font-size:13px;
 }
 .contentblock .head a:link, .contentblock .head a:hover, .contentblock .head a:visited{
-	color: #4c8bdc;
+	color: #21913e;
+	text-decoration: none;
 }
 .contentblock .head a{
 	color: #21913f;
@@ -181,6 +170,7 @@ td{
 	width:168px;
 	padding: 5px 0px 5px 0px;
 	vertical-align:middle;
+	text-align:center;
 }
 .contentblock .label{
 	padding-right:10px;
@@ -197,13 +187,65 @@ td{
 	color: #7caae5;
 }
 
-
 .loadmore{
 	margin:20px;
 	text-align:center;
 }
 
-/****************/
+
+/********* sidebar ************/
+
+.sidebar{
+	background:white;
+	width:360px;
+}
+.sidebarblockcontainer{
+
+}
+
+.sidebarblock{
+	border-radius: 6px 6px 6px 6px;
+	margin:15px;
+	border: 1px solid #eeeeee;
+	width:300px;
+	margin-left:30px;
+	margin-right:0px;
+}
+.sidebarblock .head{
+	background:  #f8f8f8;
+	padding:7px;
+	color: #21913f;
+	border-bottom: 1px solid #eeeeee
+	font-size:13px;
+}
+.sidebarblock .content{
+	padding:10px;
+	font-family:Arial, Helvetica, sans-serif;
+	color: #666666;
+}
+
+.sidebarblock a:link, .sidebarblock a:hover, .sidebarblock a:visited{
+	color: #7caae5;
+}
+
+/********* newly funded ************/
+
+.nflogo{
+	height:50px;
+}
+
+.newlyfunded{
+	margin-bottom:5px;
+}
+
+.seeall{
+	text-align:right;
+	margin:5px;
+	margin-top:10px;
+	color: #21913e;
+}
+
+/********* common ************/
 
 .absolute{
 	position:relative;
@@ -240,8 +282,25 @@ td{
 	cursor:pointer;
 }
 
+img.rounded{
+    background-clip: padding-box;
+    border-radius: 20% 20% 20% 20%;
+    height: auto
+}
 
-/********************/
+.pad3{
+	padding:3px;
+}
+
+.pad5{
+	padding:5px;
+}
+
+.pad10{
+	padding:10px;
+}
+
+/********* main page filter ************/
 
 
 ul ul {
@@ -304,15 +363,211 @@ ul {
 					background: #21913f;
 					text-decoration:underline;
 				}
-				
+
+
+
+
+.company_left{
+	width: 230px;
+	padding-top:10px;
+	padding-right:10px;
+	padding-bottom:10px;
+}
+.company_right{
+	padding:10px;
+}
+.company_name{
+	font-size:24px;
+	color: #21913f;
+	padding-top:5px;
+}
+
 </style>
+<script>
+/********************************** number formating *****************************/
+	
+function addCommas(nStr){
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
+}
+
+function fNum(num){
+	num = uNum(num);
+	num = num.toFixed(2);
+	return addCommas(num);
+}
+function uNum(num){
+	if(!num){
+		num = 0;
+	}
+	else if(isNaN(num)){
+		num = num.replace(/[^0-9\.]/g, "");
+		if(isNaN(num)){
+			num = 0;
+		}
+	}
+	return num*1;
+}
+
+jQuery(function(){
+	sbcposition = jQuery(".sidebarblockcontainer").position();
+	sbcheight = jQuery(".sidebarblockcontainer").height();
+	
+	jQuery(window).resize(function () {
+		pos = jQuery(".sidebarblockcontainer").position();
+		wh = uNum(jQuery(window).height());
+		sh = uNum(jQuery(window).scrollTop())+uNum(jQuery(window).height()); //scroll plus window height
+		ht = uNum(sbcheight )+uNum(sbcposition.top);
+		st = uNum(jQuery(window).scrollTop());
+		sl = uNum(jQuery(window).scrollLeft());
+
+		jQuery(".sidebarblockcontainer").each(function(){
+			if(jQuery(this).css("position")=="fixed"){
+				//set to static
+				jQuery(this).css("position", "static");
+				//get position
+				sbcposition = jQuery(".sidebarblockcontainer").position();
+				//set back to fixed
+				jQuery(this).css("position", "fixed");
+			}
+			jQuery(this).css("left", sbcposition.left-sl);
+		});
+		if(sbcheight>wh){
+			if(sh-50>=ht){
+				jQuery(".sidebarblockcontainer").each(function(){
+					//pos = jQuery(this).position();
+					//console.log("sbc top = ", sbcposition .top);
+					//return false;
+					if(jQuery(this).css("position")=="static"){
+						jQuery(this).css("position", "fixed");
+						//jQuery(this).css("top", (sbcheight-wh-sbcposition.top)-st));
+						jQuery(this).css("top", (Math.abs(sbcheight-wh)*-1)-20); //-20 is some space at the bottom
+						//jQuery(this).css("left", pos.left);
+					}
+					
+				});
+				//jQuery(".sidebarblockcontainer").css("top", "0px");
+			}
+			else{
+				jQuery(".sidebarblockcontainer").each(function(){
+					position = jQuery(this).position();
+					jQuery(this).css("position", "static");
+					//console.log(position.top);
+				});
+			}
+		}
+		else{
+			
+			if(jQuery(window).scrollTop()+15>sbcposition.top){
+				jQuery(".sidebarblockcontainer").each(function(){
+					if(jQuery(this).css("position")=="static"){
+						position = jQuery(this).position();
+						if(jQuery(this).css("position")=="static"){
+							jQuery(this).css("top", 0);
+							jQuery(this).css("position", "fixed");
+							
+						}
+					}
+					
+				});
+				//jQuery(".sidebarblockcontainer").css("top", "0px");
+			}
+			else{
+				jQuery(".sidebarblockcontainer").each(function(){
+					position = jQuery(this).position();
+					jQuery(this).css("position", "static");
+					//console.log(position.top);
+				});
+			}
+		}
+	
+	});
+	jQuery(window).scroll(function () { 
+		
+		pos = jQuery(".sidebarblockcontainer").position();
+		wh = uNum(jQuery(window).height());
+		sh = uNum(jQuery(window).scrollTop())+uNum(jQuery(window).height()); //scroll plus window height
+		ht = uNum(sbcheight )+uNum(sbcposition.top);
+		st = uNum(jQuery(window).scrollTop());
+		sl = uNum(jQuery(window).scrollLeft());
+
+		jQuery(".sidebarblockcontainer").each(function(){
+			if(jQuery(this).css("position")=="fixed"){
+				//set to static
+				jQuery(this).css("position", "static");
+				//get position
+				sbcposition = jQuery(".sidebarblockcontainer").position();
+				//set back to fixed
+				jQuery(this).css("position", "fixed");
+			}
+			jQuery(this).css("left", sbcposition.left-sl);
+		});
+		if(sbcheight>wh){
+			if(sh-50>=ht){
+				jQuery(".sidebarblockcontainer").each(function(){
+					//pos = jQuery(this).position();
+					//console.log("sbc top = ", sbcposition .top);
+					//return false;
+					if(jQuery(this).css("position")=="static"){
+						jQuery(this).css("position", "fixed");
+						//jQuery(this).css("top", (sbcheight-wh-sbcposition.top)-st));
+						jQuery(this).css("top", (Math.abs(sbcheight-wh)*-1)-20); //-20 is some space at the bottom
+						//jQuery(this).css("left", pos.left);
+					}
+					
+				});
+				//jQuery(".sidebarblockcontainer").css("top", "0px");
+			}
+			else{
+				jQuery(".sidebarblockcontainer").each(function(){
+					position = jQuery(this).position();
+					jQuery(this).css("position", "static");
+					//console.log(position.top);
+				});
+			}
+		}
+		else{
+			
+			if(jQuery(window).scrollTop()+15>sbcposition.top){
+				jQuery(".sidebarblockcontainer").each(function(){
+					if(jQuery(this).css("position")=="static"){
+						position = jQuery(this).position();
+						if(jQuery(this).css("position")=="static"){
+							jQuery(this).css("top", 0);
+							jQuery(this).css("position", "fixed");
+							
+						}
+					}
+					
+				});
+				//jQuery(".sidebarblockcontainer").css("top", "0px");
+			}
+			else{
+				jQuery(".sidebarblockcontainer").each(function(){
+					position = jQuery(this).position();
+					jQuery(this).css("position", "static");
+					//console.log(position.top);
+				});
+			}
+		}
+		
+	});
+
+});
+</script>
 </head>
 <body class="font">
-<table class="bar" cellpadding="0" cellspacing="0"><tr><td>Add a Hello Bar to your website in minutes! <a href="#">Give it a Try</a><div class="barbottom absolute"></div></td></tr></table>
-<div class="maindiv">
 <table cellpadding="0" cellspacing="0" class='maintable'>
 <tr>
 	<td class="banner">
+		<div class="bannercontentcontainer">
 		<table class="bannercontent" cellpadding="0" cellspacing="0">
 			<tr>
 				<td class="bannerlinks">
@@ -330,11 +585,13 @@ ul {
 				</td>
 			</tr>
 		</table>
+		</div>
 	</td>
 </tr>
 <tr>
 	<td class="search">
-		<table cellpadding="0" cellspacing="0">
+		<div class="searchcontentcontainer">
+		<table cellpadding="0" cellspacing="0" class="searchcontent">
 			<tr>
 				<td class="searchleft">
 					<table cellpadding="0" cellspacing="0">
@@ -353,6 +610,7 @@ ul {
 				</td>
 			</tr>
 		</table>
+		</div>
 	</td>
 </tr>
 <tr>
@@ -365,20 +623,20 @@ ul {
 					?>
 				</td>
 				<td class="sidebar">
-					<table cellpadding="0" cellspacing="0" class='sidebarblock' >
-						<tr>
-							<td class="head">NEWLY FUNDED</td>
-						</tr>
-						<tr>
-							<td class="content">contents...</td>
-						</tr>
-					</table>
+					<div class="sidebarblockcontainer">
+					<?php
+					$data = array();
+					$data['newlyfunded'] = $newlyfunded;
+					$this->load->view("startuplist/nfcompany_block", $data);
+					?>
+					
+					
+					</div>
 				</td>
 			</tr>
 		</table>
 	</td>
 </tr>
 </table>
-</div>
 </body>
 </html>

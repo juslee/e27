@@ -1,13 +1,4 @@
-<?php
-$class = "";
-if($n==0){
-	$class = "first";
-}
-else if($n==3){
-	$class = "last";
-}
-?>
-<table cellpadding="0" cellspacing="0" class='contentblock <?php echo $class;?>'>
+<table cellpadding="0" cellspacing="0" class='contentblock'>
 	<tr>
 		<td class="head"><a href="<?php echo site_url(); ?>startuplist/company/<?php echo seoIze($company['name']); ?>/<?php echo $company['id']; ?>"><?php echo htmlentities($company['name']) ?></a></td>
 	</tr>
@@ -57,18 +48,11 @@ else if($n==3){
 						</td>
 						<td class="value">
 						<?php
-							$amount = $company['funding'][0]['amount'];
-							if($amount>=1000000){
-								$amount = $amount / 1000000;
-								$amount = number_format($amount, 1)."M";	
+							$amount = 0;
+							foreach($company['funding'] as $f){
+								$amount += $f['amount'];
 							}
-							else if($amount>=1000){
-								$amount = $amount / 1000;
-								$amount = number_format($amount, 1)."K";	
-							}
-							else{
-								$amount = number_format($amount, 2);
-							}
+							$amount = amountIze($amount);
 							
 							echo $company['funding'][0]['currency'].$amount;
 						?>
