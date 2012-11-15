@@ -43,7 +43,7 @@ if (!empty($_FILES)) {
 	//SureRemoveDir($targetPath);
 	$targetFile =  str_replace('//','/',$targetPath) . $_FILES['Filedata']['name'];
 	
-	//file_put_contents(getcwd()."/log.txt", $targetPath);
+	file_put_contents(getcwd()."/_log.txt", $targetFile);
 	
 	$targetFilex = $targetFile;
 	if(strtolower(substr($targetFilex, -4))=='.php'){

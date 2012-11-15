@@ -7,6 +7,15 @@ class startuplist extends CI_Controller {
 		$this->load->database();
 	}
 	
+	public function assets($file=""){
+		if($file=="styles.css"){
+			$this->load->view('startuplist/stylesheet');
+		}
+		else if($file=="javascript.js"){
+			$this->load->view('startuplist/javascript');
+		}
+	}
+	
 	public function index($type="newlyadded"){
 		$start = 0;
 		$limit = 12;
@@ -156,6 +165,7 @@ class startuplist extends CI_Controller {
 			$sql = "select * from `screenshots` where `company_id`=".$this->db->escape($company_id)." order by id asc";
 			$q = $this->db->query($sql);
 			$screenshots = $q->result_array();
+			
 
 			$sql = "select `b`.`id` as `value`, `b`.`name` as `label` from `competitors` as `a`, `companies` as `b` where 
 				(

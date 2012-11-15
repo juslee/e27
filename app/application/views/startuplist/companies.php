@@ -33,7 +33,7 @@ function loadMore(){
 			}
 			?>
 		</td>
-		<td class="contentsheadright right">
+		<td class="contentsheadright right" id="filter">
 				<ul style="padding:0px">
 					<li class="outer"><a class='pointer' style="padding-right:0px;">FILTERS<img style="margin-left:8px;" src="<?php echo site_url(); ?>media/startuplist/filterdown.png"></a>
 						<ul>

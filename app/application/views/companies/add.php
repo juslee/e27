@@ -1279,7 +1279,13 @@ jQuery(function(){
 		  }
 		  //alert(str);
 		  //alert(fileObj.filePath);		  
-		  filepath = "<?php echo site_url(); ?>"+fileObj.filePath;
+		  fp = fileObj.filePath;
+		  //remove slash at fron of path
+		  while(fp[0]=='/'){
+		  	fp = fp.substring(1);
+		  }
+		  
+		  filepath = "<?php echo site_url(); ?>"+fp;
 		  refreshScreenshots(filepath);
 		}	
 	});
