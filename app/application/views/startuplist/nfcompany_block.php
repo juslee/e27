@@ -19,13 +19,13 @@
 				echo "<tr>";
 				echo "<td class='middle pad5 .nflogo'>";
 				if($newlyfunded[$i]['logo']){
-					echo "<a href='".site_url()."startuplist/company/".seoIze($newlyfunded[$i]['name'])."/".$newlyfunded[$i]['company_id']."' >";
+					echo "<a href='".site_url()."company/".seoIze($newlyfunded[$i]['name'])."/".$newlyfunded[$i]['company_id']."' >";
 					echo "<img class='rounded' src='".site_url()."media/image.php?p=".$newlyfunded[$i]['logo']."&mx=38' />";
 					echo "</a>";
 				}
 				else{
 					$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
-					echo "<a href='".site_url()."startuplist/company/".seoIze($newlyfunded[$i]['name'])."/".$newlyfunded[$i]['company_id']."' >";
+					echo "<a href='".site_url()."company/".seoIze($newlyfunded[$i]['name'])."/".$newlyfunded[$i]['company_id']."' >";
 					echo "<img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38' />";
 					echo "</a>";
 				}
@@ -33,7 +33,7 @@
 				echo "<td class='middle padd5'>";
 				echo "<b>".$newlyfunded[$i]['currency'].amountIze($newlyfunded[$i]['amount'])."</b> ";
 				echo "<br>";
-				echo "<a href='".site_url()."startuplist/company/".seoIze($newlyfunded[$i]['name'])."/".$newlyfunded[$i]['company_id']."' >".$newlyfunded[$i]['name']."</a>";
+				echo "<a href='".site_url()."company/".seoIze($newlyfunded[$i]['name'])."/".$newlyfunded[$i]['company_id']."' >".$newlyfunded[$i]['name']."</a>";
 				echo "</td>";
 				echo "</tr>";
 				echo "</table>";

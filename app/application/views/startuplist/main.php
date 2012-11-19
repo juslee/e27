@@ -72,9 +72,12 @@
 				<td class="sidebar">
 					<div class="sidebarblockcontainer">
 					<?php
+					$this->load->view("startuplist/bannerad_block");
+					
 					$data = array();
 					$data['newlyfunded'] = $newlyfunded;
 					$this->load->view("startuplist/nfcompany_block", $data);
+					
 					?>
 					
 					

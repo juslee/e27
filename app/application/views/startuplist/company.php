@@ -10,7 +10,7 @@
 				<tr>
 					<td class='logo'>
 						<div>
-						<a href="<?php echo site_url(); ?>startuplist/company/<?php echo seoIze($company['name']); ?>/<?php echo $company['id']; ?>" title="<?php echo sanitizeX($company['name'])?>" alt="<?php echo sanitizeX($company['name'])?>">
+						<a href="<?php echo site_url(); ?>company/<?php echo seoIze($company['name']); ?>/<?php echo $company['id']; ?>" title="<?php echo sanitizeX($company['name'])?>" alt="<?php echo sanitizeX($company['name'])?>">
 						<?php
 						if(trim($company['logo'])){
 							?>
@@ -68,7 +68,7 @@
 										Twitter
 									</td>
 									<td class='value'>
-										<a href="http://www.twitter.com/<?php str_replace("@", "", $company['twitter_username']); ?>"><?php echo $company['twitter_username']; ?></a>
+										<a href="http://www.twitter.com/<?php echo str_replace("@", "", $company['twitter_username']); ?>"><?php echo $company['twitter_username']; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -88,13 +88,25 @@
 												echo "<a href='".site_url()."staruplist/company_category/".seoIze($value['category'])."/".$value['id']."'>".$value['category']."</a> ";
 												if($count>=4){
 													if($count<$ct){
-														?><a href="<?php echo site_url(); ?>startuplist/company/<?php echo seoIze($company['name']); ?>/<?php echo $company['id']; ?>">...<?php
+														?><a href="<?php echo site_url(); ?>company/<?php echo seoIze($company['name']); ?>/<?php echo $company['id']; ?>">...<?php
 													}
 													break;
 												}
 											}
 											
 										?>
+									</td>
+								</tr>
+								<?php
+							}
+							if($company['number_of_employees']>0){
+								?>
+								<tr>
+									<td class='label'>
+										Employees
+									</td>
+									<td class='value'>
+										<?php echo $company['number_of_employees']; ?>
 									</td>
 								</tr>
 								<?php
@@ -268,7 +280,7 @@
 										$it = count($company_fundings[$cfi]['companies']);
 										for($ii=0; $ii<$it; $ii++){
 											echo "<div class='padb5'>";
-											echo "<a href='".site_url()."startuplist/company/".seoIze($company_fundings[$cfi]['companies'][$ii]['name'])."/".$company_fundings[$cfi]['people'][$ii]['id']."'>".$company_fundings[$cfi]['companies'][$ii]['name']."</a>";
+											echo "<a href='".site_url()."company/".seoIze($company_fundings[$cfi]['companies'][$ii]['name'])."/".$company_fundings[$cfi]['people'][$ii]['id']."'>".$company_fundings[$cfi]['companies'][$ii]['name']."</a>";
 											echo "</div>";
 										}
 										$it = count($company_fundings[$cfi]['people']);

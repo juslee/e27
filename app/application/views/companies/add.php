@@ -1570,6 +1570,11 @@ else{
         <div class='hint'>e.g. http://www.yourcompany.com</div></td>
     </tr>
     <tr class="even">
+      <td>Blog URL:</td>
+      <td><input type="text" name="blog_url" size="30">
+        <div class='hint'>e.g. http://e27.sg/</div></td>
+    </tr>
+	<tr class="even">
       <td>Blog RSS feed URL:</td>
       <td><input type="text" name="blog" size="30">
         <div class='hint'>e.g. http://e27.sg/feed</div></td>
