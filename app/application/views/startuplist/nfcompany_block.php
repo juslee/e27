@@ -1,4 +1,4 @@
-<table cellpadding="0" cellspacing="0" class='sidebarblock' >
+<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_right' >
 	<tr>
 		<td class="head">NEWLY FUNDED</td>
 	</tr>
@@ -31,7 +31,7 @@
 				}
 				echo "</td>";
 				echo "<td class='middle padd5'>";
-				echo "<b>".$newlyfunded[$i]['currency'].amountIze($newlyfunded[$i]['amount'])."</b> ".$newlyfunded[$i]['round'];
+				echo "<b>".$newlyfunded[$i]['currency'].amountIze($newlyfunded[$i]['amount'])."</b> ";
 				echo "<br>";
 				echo "<a href='".site_url()."startuplist/company/".seoIze($newlyfunded[$i]['name'])."/".$newlyfunded[$i]['company_id']."' >".$newlyfunded[$i]['name']."</a>";
 				echo "</td>";

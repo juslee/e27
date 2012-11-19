@@ -206,10 +206,8 @@ td{
 
 .sidebarblock{
 	border-radius: 6px 6px 6px 6px;
-	margin:15px;
+	
 	border: 1px solid #eeeeee;
-	width:300px;
-	margin-left:10px;
 	margin-right:0px;
 }
 .sidebarblock .head{
@@ -224,6 +222,29 @@ td{
 	font-family:Arial, Helvetica, sans-serif;
 	color: #666666;
 }
+.sidebar_right{
+	margin-left:10px;
+	margin:15px;
+	margin-top:15px;
+	width:300px;
+}
+
+.sidebar_left{
+	margin-top:15px;
+	width:100%;
+}
+
+.sidebar_left .label{
+	padding:3px;
+	padding-top:6px;
+}
+.sidebar_left .value{
+	padding:3px;
+	padding-top:6px;
+}
+
+
+
 
 .sidebarblock a:link, .sidebarblock a:hover, .sidebarblock a:visited{
 	color: #7caae5;
@@ -243,6 +264,8 @@ td{
 	text-align:right;
 	margin:5px;
 	margin-top:10px;
+}
+.seeall a:link, .seeall a:hover, .seeall a:visited {
 	color: #21913e;
 }
 
@@ -281,6 +304,30 @@ td{
 }
 .pointer{
 	cursor:pointer;
+}
+
+.bold{
+	font-weight:bold;
+}
+
+.padb5{
+	padding-bottom:5px;
+}
+
+.padb10{
+	padding-bottom:10px;
+}
+
+.padb20{
+	padding-bottom:20px;
+}
+
+.padb15{
+	padding-bottom:15px;
+}
+
+.padb25{
+	padding-bottom:25px;
 }
 
 img.rounded{

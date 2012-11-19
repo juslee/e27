@@ -185,7 +185,7 @@ class startuplist extends CI_Controller {
 			$sql = "select 
 			`a`.*, 
 			if(`a`.`end_date_ts`=0, $time, `a`.`end_date_ts`) as `end_date_ts2`,
-			`b`.`name` as `name` from `company_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) 
+			`b`.`name` as `name`, `b`.`profile_image` as `profile_image` from `company_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) 
 			where `company_id`=".$this->db->escape($company_id)." and `name`<>'' 
 			order by `name` asc, `end_date_ts2` desc, `start_date_ts` desc";
 			$q = $this->db->query($sql);
@@ -228,7 +228,7 @@ class startuplist extends CI_Controller {
 					}
 					
 					if($cfi['type']=='person'){
-						$sql = "select `id`, `name` from `people` where `id`=".$this->db->escape($cfi['ipc_id']);
+						$sql = "select `id`, `name`, `profile_image` from `people` where `id`=".$this->db->escape($cfi['ipc_id']);
 						$q = $this->db->query($sql);
 						$result = $q->result_array();
 						$push = array();
@@ -239,6 +239,9 @@ class startuplist extends CI_Controller {
 						else{
 							$push['name'] = $cfi['name'];
 							$push['id'] = $cfi['ipc_id'];
+						}
+						if($result[0]['profile_image']){
+							$push['profile_image'] = $result[0]['profile_image'];
 						}
 						$company_fundings[$cfkey]['people'][] = $push;
 					}
@@ -277,6 +280,15 @@ class startuplist extends CI_Controller {
 				)
 			order by `date_ts` desc, `company_name` asc
 			";
+			
+			
+			$sql = "select `categories`.* from `company_category`, `categories` where `categories`.`id` = `company_category`.`category_id` and  `company_category`.`company_id`='".$company[0]['id']."'";
+			$q = $this->db->query($sql);
+			$categories = $q->result_array();
+			$company[0]['categories'] = $categories;
+			
+			
+			
 			$q = $this->db->query($sql);
 			$milestones = $q->result_array();
 			$data['milestones'] = $milestones;

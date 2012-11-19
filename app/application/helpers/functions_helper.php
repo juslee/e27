@@ -4,12 +4,24 @@ include_once(dirname(__FILE__)."/magpie_0.72/rss_fetch.inc");
 
 function amountIze($amount){
 	if($amount>=1000000){
-		$amount = $amount / 1000000;
-		$amount = number_format($amount, 1)."M";	
+		if($amount%1000000){
+			$amount = $amount / 1000000;
+			$amount = number_format($amount, 1)."M";	
+		}
+		else{
+			$amount = $amount / 1000000;
+			$amount = number_format($amount, 0)."M";	
+		}
 	}
 	else if($amount>=1000){
-		$amount = $amount / 1000;
-		$amount = number_format($amount, 1)."K";	
+		if($amount%1000){
+			$amount = $amount / 1000;
+			$amount = number_format($amount, 1)."K";	
+		}
+		else{
+			$amount = $amount / 1000;
+			$amount = number_format($amount, 0)."K";	
+		}
 	}
 	else{
 		$amount = number_format($amount, 2);
