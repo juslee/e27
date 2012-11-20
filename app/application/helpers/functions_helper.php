@@ -2,6 +2,29 @@
 define('MAGPIE_CACHE_ON', true);
 include_once(dirname(__FILE__)."/magpie_0.72/rss_fetch.inc");
 
+function word_limit($str, $limit)
+{
+    $str .= "";
+    $str = trim($str);
+    $l = strlen($str);
+    $s = "";
+    for($i=0; $i<$l; $i++)
+    {
+        $s .= $str[$i];
+        if($limit>0&&(preg_match("/\s/", $str[$i])))
+        {  
+            if(!preg_match("/\s/", $str[$i+1]))
+                $limit--;
+            if(!$limit)
+            {
+                return $s."...";
+                break;
+            }
+        }
+    }
+    return $s;
+}
+
 function amountIze($amount){
 	if($amount>=1000000){
 		if($amount%1000000){

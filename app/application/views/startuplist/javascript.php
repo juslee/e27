@@ -33,7 +33,27 @@ function uNum(num){
 	return num*1;
 }
 
+function rawurlencode (str) {
+  str = (str + '').toString();
+  return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').
+  replace(/\)/g, '%29').replace(/\*/g, '%2A');
+}
+
+
+
+function searchForIt(){
+	q = jQuery("#q").val();
+	q = jQuery.trim(q);
+	self.location = "<?php echo site_url(); ?>search/all/?q="+rawurlencode(q);
+}
+
 jQuery(function(){
+	jQuery('#q').keypress(function(event){
+		if ( event.which == 13 ) {
+			searchForIt();
+		}
+
+	});
 	jQuery('#screenshots').slides({
 		preload: true,
 		preloadImage: '<?php echo site_url(); ?>media/ajax-loader.gif',

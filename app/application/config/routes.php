@@ -38,11 +38,12 @@
 |
 */
 
-$route['default_controller'] = "main";
+$route['default_controller'] = "startuplist";
 $route['404_override'] = '';
 $route['company/(:any)'] = "startuplist/company/$1";
 $route['investment_org/(:any)'] = "startuplist/investment_org/$1";
 $route['person/(:any)'] = "startuplist/person/$1";
+$route['login'] = "main";
 
 
 /* End of file routes.php */

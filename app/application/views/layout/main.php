@@ -645,7 +645,7 @@ $user = $_SESSION['user'];
 			<td id='header'>
 				<table cellpadding="0" cellspacing="0" width="100%">
 					<tr>
-						<td><img onclick='self.location="<?php echo site_url(); ?>"' src="<?php echo site_url()."media/logo.png"; ?>"  style='cursor:pointer'/></td>
+						<td><img onclick='self.location="<?php echo site_url(); ?>main"' src="<?php echo site_url()."media/logo.png"; ?>"  style='cursor:pointer'/></td>
 						<?php
 						if($user){ //if logged in
 							?>

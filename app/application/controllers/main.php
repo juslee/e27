@@ -22,10 +22,10 @@ class main extends CI_Controller {
 		
 		if($r[0]){
 			$_SESSION['user'] = $r[0];
-			redirect_to(site_url());
+			redirect_to(site_url()."main");
 		}
 		else{
-			redirect_to(site_url()."?error=Invalid Login");
+			redirect_to(site_url()."main/?error=Invalid Login");
 		}
 	}
 }

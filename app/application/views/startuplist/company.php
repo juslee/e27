@@ -37,6 +37,20 @@
 					<td class="content">
 						<table cellpadding="0" cellspacing="0" class="p100">
 							<?php
+							if(trim($company['country'])){
+								?>
+								<tr>
+									<td class='label'>
+										Country
+									</td>
+									<td class='value'>
+										<?php
+										echo "<a href='".site_url()."staruplist/company_country/".urlencode($company['country'])."'>".trim($company['country'])."</a>";
+										?>
+									</td>
+								</tr>
+								<?php
+							}
 							if(trim($company['website'])){
 								?>
 								<tr>
@@ -402,7 +416,12 @@
 										$imgfile = site_url()."media/image.php?p=".$screenshots[$i]['screenshot']."&mx=520";
 										//$imagesize = getimagesize($imgfile);
 										//print_r($imagesize);
-										?><a><img src="<?php echo $imgfile; ?>"  /></a><?php
+										?>
+										<a>
+										<img src="<?php echo $imgfile; ?>" alt="<?php echo htmlentities($screenshots[$i]['title']); ?>" title="<?php echo htmlentities($screenshots[$i]['title']); ?>"  />
+										<div class='title'><?php echo htmlentities($screenshots[$i]['title']); ?></div>
+										</a>
+										<?php
 									}
 								/*
 								?>

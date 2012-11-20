@@ -61,7 +61,7 @@
 								</tr>
 								<?php
 							}
-							if(trim($person['email_address'])){
+							if(trim($person['email_address'])&&0){
 								?>
 								<tr>
 									<td class='label'>

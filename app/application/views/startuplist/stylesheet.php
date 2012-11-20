@@ -466,3 +466,61 @@ img.rounded{
 	padding-bottom:20px;
 	color:#7b7b7b;
 }
+
+.productgal .title{
+	padding-top:20px;
+	color:#7b7b7b;
+	text-align:center;
+}
+
+.seachblock{
+	margin-bottom:10px;
+	
+}
+.search_results{
+	color:black;
+	font-size:12px;
+	padding-top:20px;
+}
+.seachblock .logo{
+	/*
+	border-radius: 6px 6px 6px 6px;
+	border: 1px solid #eeeeee;
+	*/
+	width:60px;
+	height:60px;
+	
+}
+
+.seachblock .logo img.rounded{
+    background-clip: padding-box;
+    border-radius: 6px 6px 6px 6px;
+    height: auto
+	margin-right:10px;
+}
+
+
+.seachblock .name a:link, .seachblock .name a:hover, .seachblock .name a:visited, .seachblock .name a{
+	color: #4c8bdc;
+	font-weight:bold;
+	font-size:14px;
+	text-decoration:none;
+}
+.seachblock .name{
+	padding:5px;
+	padding-left:15px;
+	padding-top:0px;
+}
+.seachblock .type{
+	padding:5px;
+	padding-left:15px;
+	padding-top:0px;
+	color:gray;
+}
+.seachblock .description{
+	padding:5px;
+	padding-left:15px;
+	padding-top:0px;
+	padding-bottom:0px;
+	border-bottom:0px;
+}

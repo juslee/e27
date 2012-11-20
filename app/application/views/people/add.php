@@ -494,6 +494,11 @@ else{
       <td>* Email Address: </td>
       <td><input type="text" name="email_address" size="35"></td>
     </tr>	
+	<tr class="even">
+      <td>Blog URL:</td>
+      <td><input type="text" name="blog_url" size="30">
+        <div class='hint'>e.g. http://e27.sg</div></td>
+    </tr>
     <tr class="even">
       <td>Blog RSS feed URL:</td>
       <td><input type="text" name="blog" size="30">

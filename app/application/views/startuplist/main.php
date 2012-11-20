@@ -2,17 +2,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Startup List : <?php 
-if($person['name']){
-	echo strip_tags($person['name']);
-}
-else if($company['name']){
-	echo strip_tags($company['name']);
-}
-else if($investment_org['name']){
-	echo strip_tags($investment_org['name']);
+<title>Startup List<?php
+
+$method = $this->router->method;
+if($method!="index"){
+	echo " | "; 
+	if($person['name']){
+		echo strip_tags($person['name']);
+	}
+	else if($company['name']){
+		echo strip_tags($company['name']);
+	}
+	else if($investment_org['name']){
+		echo strip_tags($investment_org['name']);
+	}
 }
 ?></title>
+<?php
+if($method!="index"){
+	if($person['description']){
+		$metadesc = strip_tags($person['description']);
+	}
+	else if($company['description']){
+		$metadesc = strip_tags($company['description']);
+	}
+	else if($investment_org['description']){
+		$metadesc = strip_tags($investment_org['description']);
+	}
+	
+	if($person['tags']){
+		$metakw = strip_tags($person['tags']);
+	}
+	else if($company['tags']){
+		$metakw = strip_tags($company['tags']);
+	}
+	else if($investment_org['tags']){
+		$metakw = strip_tags($investment_org['tags']);
+	}
+	?>
+	<meta name="description" content="<?php echo sanitizeX($metadesc); ?>" />
+	<meta name="keywords" content="<?php echo sanitizeX($metakw); ?>" />
+	<?php
+}
+?>
 <script language="javascript" src="<?php echo site_url(); ?>media/js/jquery-1.7.2.min.js"></script>
 <link rel="stylesheet" href="<?php echo site_url(); ?>media/startuplist/slideshow.css">
 <script language="javascript" src="<?php echo site_url(); ?>media/startuplist/slides.min.jquery.js"></script>
@@ -54,10 +86,10 @@ else if($investment_org['name']){
 					<table cellpadding="0" cellspacing="0">
 						<tr>
 							<td>
-								<input type='text' class='searchtext' placeholder="Search Startup List" />
+								<input type='text' id='q' class='searchtext' placeholder="Search Startup List" value="<?php echo sanitizeX($search); ?>" />
 							</td>
 							<td class="padleft10">
-								<img src="<?php echo site_url(); ?>media/startuplist/searchbutton.png">
+								<img src="<?php echo site_url(); ?>media/startuplist/searchbutton.png" class='pointer' onclick='searchForIt()'>
 							</td>
 						</tr>
 					</table>

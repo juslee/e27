@@ -94,7 +94,7 @@
 						</td>
 						<td class="value small">
 						<?php
-							echo "<a href='".site_url()."staruplist/company_country/".seoIze($company['country'])."'>".trim($company['country'])."</a>";
+							echo "<a href='".site_url()."staruplist/company_country/".urlencode($company['country'])."'>".trim($company['country'])."</a>";
 						?>
 						</td>
 					</tr>
