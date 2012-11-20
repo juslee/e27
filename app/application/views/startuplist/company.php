@@ -130,176 +130,245 @@
 					</td>
 				</tr>
 			</table>
-			
-			<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
-				<tr>
-					<td class="head">PEOPLE</td>
-				</tr>
-				<tr>
-					<td class="content">
-						<table cellpadding="0" cellspacing="0" class="p100">
-							<tr>
-								<td>
-									<table>
-									<?php
-									/*
-									Array
-									(
-										[id] => 455
-										[company_id] => 13
-										[person_id] => 1
-										[role] => Director
-										[start_date] => 07/01/2008
-										[start_date_ts] => 1214841600
-										[end_date] => 07/01/2010
-										[end_date_ts] => 1277913600
-										[end_date_ts2] => 1277913600
-										[name] => Mohan Belani
-									)
-									*/
-									$inp = array();
-									$n = 0;
-									foreach($people as $value){
-										if(!in_array($value['id'], $inp)){
-											$inp[] = $value['id'];
-											if($value['end_date_ts2']>time()-(1*60*60)){
-												echo "<tr>";
-												
-												if(trim($value['profile_image'])){
-													echo "<td class='middle pad5'><a href='".site_url()."startuplist/person/".seoIze($value['name'])."/".$value['id']."'><img class='rounded' src='".site_url()."media/image.php?p=".$value['profile_image']."&mx=38'></a></td>";
-												}
-												else{
-													$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
-													echo "<td class='middle pad5'><a href='".site_url()."startuplist/person/".seoIze($value['name'])."/".$value['id']."'><img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38'></a></td>";
-												}
-												
-												echo "<td class='middle pad5'><a href='".site_url()."startuplist/person/".seoIze($value['name'])."/".$value['id']."'>".$value['name']."</a><br />".$value['role']."</td>";
-												echo "</tr>";
-											}
-											$n++;
-										}
-										if($n>5){
-											break;
-										}
-									}
-									
-									
-									?>
-									</table>
-									<?php
-									$pt = count($people);
-									if($pt>5){
-										echo "<div class='seeall'><a href='".site_url()."startuplist/co_people/".$company['id']."'>See All ($pt)</a></div>";
-									}
-									?>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
-			<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
-				<tr>
-					<td class="head">FUNDING</td>
-				</tr>
-				<tr>
-					<td class="content">
-						<?php
-						//echo "<pre>";
-						//print_r($company_fundings);
-						//echo "</pre>";
-						/*
-						Array
-						(
-							[id] => 168
-							[round] => Seed
-							[company_id] => 13
-							[currency] => SGD
-							[amount] => 25000.0000
-							[date] => 01/01/2012
-							[date_ts] => 1325347200
-							[companies] => Array
-								(
-								)
-				
-							[people] => Array
-								(
-									[0] => Array
-										(
-											[name] => Nic Lim
-											[id] => 16
-										)
-				
-								)
-				
-							[investment_orgs] => Array
-								(
-								)
-				
-						)
-						*/
-						$cft = count($company_fundings);
-						$cf_total = array();
-						for($cfi=0; $cfi<$cft; $cfi++){
-							$cf_total[$company_fundings[$cfi]['currency']] += $company_fundings[$cfi]['amount'];
-						}
-						?>
-						<table cellpadding="0" cellspacing="0" class="p100">
-							<tr>
-								<td class='bold padb10'>
-									Total
-								</td>
-								<td class='bold padb10 p100 right'>
-									<?php
-									foreach($cf_total as $key=>$value){
-										echo "<div>".$key.amountIze($value)."</div>";
-									}
-									?>
-								</td>
-							</tr>
-							<?php
-							for($cfi=0; $cfi<$cft; $cfi++){
-								?>
+			<?php
+			$pt = count($people);
+			if($pt){
+				?>
+				<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
+					<tr>
+						<td class="head">PEOPLE</td>
+					</tr>
+					<tr>
+						<td class="content">
+							<table cellpadding="0" cellspacing="0" class="p100">
 								<tr>
-									<td class='padb5'>
-										<?php echo $company_fundings[$cfi]['round']; ?>
-									</td>
-									<td class='padb5 p100 right'>
-										<?php echo $company_fundings[$cfi]['currency'].amountIze($company_fundings[$cfi]['amount']); ?>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2" class='padb5'>
+									<td>
+										<table>
 										<?php
-										$it = count($company_fundings[$cfi]['investment_orgs']);
-										for($ii=0; $ii<$it; $ii++){
-											echo "<div class='padb5'>";
-											echo "<a href='".site_url()."startuplist/investment_org/".seoIze($company_fundings[$cfi]['investment_orgs'][$ii]['name'])."/".$company_fundings[$cfi]['people'][$ii]['id']."'>".$company_fundings[$cfi]['investment_orgs'][$ii]['name']."</a>";
-											echo "</div>";
-										}
-										$it = count($company_fundings[$cfi]['companies']);
-										for($ii=0; $ii<$it; $ii++){
-											echo "<div class='padb5'>";
-											echo "<a href='".site_url()."company/".seoIze($company_fundings[$cfi]['companies'][$ii]['name'])."/".$company_fundings[$cfi]['people'][$ii]['id']."'>".$company_fundings[$cfi]['companies'][$ii]['name']."</a>";
-											echo "</div>";
-										}
-										$it = count($company_fundings[$cfi]['people']);
-										for($ii=0; $ii<$it; $ii++){
-											echo "<div class='padb5'>";
-											echo "<a href='".site_url()."startuplist/person/".seoIze($company_fundings[$cfi]['people'][$ii]['name'])."/".$company_fundings[$cfi]['people'][$ii]['id']."'>".$company_fundings[$cfi]['people'][$ii]['name']."</a>";
-											echo "</div>";
+										/*
+										Array
+										(
+											[id] => 455
+											[company_id] => 13
+											[person_id] => 1
+											[role] => Director
+											[start_date] => 07/01/2008
+											[start_date_ts] => 1214841600
+											[end_date] => 07/01/2010
+											[end_date_ts] => 1277913600
+											[end_date_ts2] => 1277913600
+											[name] => Mohan Belani
+										)
+										*/
+										$inp = array();
+										$n = 0;
+										foreach($people as $value){
+											if(!in_array($value['id'], $inp)){
+												$inp[] = $value['id'];
+												if($value['end_date_ts2']>time()-(1*60*60)){
+													echo "<tr>";
+													
+													if(trim($value['profile_image'])){
+														echo "<td class='middle pad5'><a href='".site_url()."person/".seoIze($value['name'])."/".$value['person_id']."'><img class='rounded' src='".site_url()."media/image.php?p=".$value['profile_image']."&mx=38'></a></td>";
+													}
+													else{
+														$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
+														echo "<td class='middle pad5'><a href='".site_url()."person/".seoIze($value['name'])."/".$value['person_id']."'><img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38'></a></td>";
+													}
+													
+													echo "<td class='middle pad5'><a href='".site_url()."person/".seoIze($value['name'])."/".$value['person_id']."'>".$value['name']."</a><br />".$value['role']."</td>";
+													echo "</tr>";
+												}
+												$n++;
+											}
+											if($n>5){
+												break;
+											}
 										}
 										
+										
+										?>
+										</table>
+										<?php
+										$pt = count($people);
+										if($pt>5){
+											echo "<div class='seeall'><a href='".site_url()."startuplist/co_people/".$company['id']."'>See All ($pt)</a></div>";
+										}
+										?>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<?php
+			}
+			$cft = count($company_fundings);
+			if($cft){
+				?>
+				<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
+					<tr>
+						<td class="head">FUNDING</td>
+					</tr>
+					<tr>
+						<td class="content">
+							<?php
+							//echo "<pre>";
+							//print_r($company_fundings);
+							//echo "</pre>";
+							/*
+							Array
+							(
+								[id] => 168
+								[round] => Seed
+								[company_id] => 13
+								[currency] => SGD
+								[amount] => 25000.0000
+								[date] => 01/01/2012
+								[date_ts] => 1325347200
+								[companies] => Array
+									(
+									)
+					
+								[people] => Array
+									(
+										[0] => Array
+											(
+												[name] => Nic Lim
+												[id] => 16
+											)
+					
+									)
+					
+								[investment_orgs] => Array
+									(
+									)
+					
+							)
+							*/
+							
+							$cf_total = array();
+							for($cfi=0; $cfi<$cft; $cfi++){
+								$cf_total[$company_fundings[$cfi]['currency']] += $company_fundings[$cfi]['amount'];
+							}
+							?>
+							<table cellpadding="0" cellspacing="0" class="p100">
+								<tr>
+									<td class='bold padb10'>
+										Total
+									</td>
+									<td class='bold padb10 right'>
+										<?php
+										foreach($cf_total as $key=>$value){
+											echo "<div>".$key.amountIze($value)."</div>";
+										}
 										?>
 									</td>
 								</tr>
 								<?php
+								for($cfi=0; $cfi<$cft; $cfi++){
+									?>
+									<tr>
+										<td class='padb5'>
+											<?php echo $company_fundings[$cfi]['round']; ?>
+										</td>
+										<td class='padb5 right'>
+											<?php echo $company_fundings[$cfi]['currency'].amountIze($company_fundings[$cfi]['amount']); ?>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2" class='padb5' style='padding:5px;'>
+											<?php
+											$it = count($company_fundings[$cfi]['investment_orgs']);
+											for($ii=0; $ii<$it; $ii++){
+												echo "<div class='padb5'>";
+												echo "<a href='".site_url()."investment_org/".seoIze($company_fundings[$cfi]['investment_orgs'][$ii]['name'])."/".$company_fundings[$cfi]['investment_orgs'][$ii]['id']."'>".$company_fundings[$cfi]['investment_orgs'][$ii]['name']."</a>";
+												echo "</div>";
+											}
+											$it = count($company_fundings[$cfi]['companies']);
+											for($ii=0; $ii<$it; $ii++){
+												echo "<div class='padb5'>";
+												echo "<a href='".site_url()."company/".seoIze($company_fundings[$cfi]['companies'][$ii]['name'])."/".$company_fundings[$cfi]['companies'][$ii]['id']."'>".$company_fundings[$cfi]['companies'][$ii]['name']."</a>";
+												echo "</div>";
+											}
+											$it = count($company_fundings[$cfi]['people']);
+											for($ii=0; $ii<$it; $ii++){
+												echo "<div class='padb5'>";
+												echo "<a href='".site_url()."person/".seoIze($company_fundings[$cfi]['people'][$ii]['name'])."/".$company_fundings[$cfi]['people'][$ii]['id']."'>".$company_fundings[$cfi]['people'][$ii]['name']."</a>";
+												echo "</div>";
+											}
+											
+											?>
+										</td>
+									</tr>
+									<?php
+								}
+								?>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<?php
+			}
+			$cft = count($milestones);
+			if($cft){
+				?>
+				<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
+					<tr>
+						<td class="head">INVESTMENTS</td>
+					</tr>
+					<tr>
+						<td class="content">
+							<?php
+							
+							$cf_total = array();
+							for($cfi=0; $cfi<$cft; $cfi++){
+								$cf_total[$milestones[$cfi]['currency']] += $milestones[$cfi]['amount'];
 							}
 							?>
-						</table>
-					</td>
-				</tr>
-			</table>
+							<table cellpadding="0" cellspacing="0" class="p100">
+								<tr>
+									<td class='bold padb10' colspan="2">
+										Total
+									</td>
+									<td class='bold padb10 p100 right'>
+										<?php
+										foreach($cf_total as $key=>$value){
+											echo "<div>".$key.amountIze($value)."</div>";
+										}
+										?>
+									</td>
+								</tr>
+								<?php
+								for($cfi=0; $cfi<$cft; $cfi++){
+									?>
+									<tr>
+										<td class='padb5' >
+											<?php
+											echo "<a href='".site_url()."company/".seoIze($milestones[$cfi]['company_name'])."/".$milestones[$cfi]['company_id']."'>"; 
+											echo $milestones[$cfi]['company_name'];
+											echo "</a>";
+											?>
+										</td>
+										<td class='padb5' style='padding-left:20px;'>
+											<?php
+											echo $milestones[$cfi]['round'];
+											?>
+										</td>
+										<td class='padb5 p100 right'>
+											<?php echo $milestones[$cfi]['currency'].amountIze($milestones[$cfi]['amount']); ?>
+										</td>
+									</tr>
+									<?php
+								}
+								?>
+							</table>
+						</td>
+					</tr>
+				</table>
+			<?php
+			}
+			?>
 		</td>
 		<td class='company_right'>
 			<table cellpadding="0" cellspacing="0" class="p100">

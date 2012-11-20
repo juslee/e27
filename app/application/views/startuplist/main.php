@@ -2,7 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Startup List</title>
+<title>Startup List : <?php 
+if($person['name']){
+	echo strip_tags($person['name']);
+}
+else if($company['name']){
+	echo strip_tags($company['name']);
+}
+else if($investment_org['name']){
+	echo strip_tags($investment_org['name']);
+}
+?></title>
 <script language="javascript" src="<?php echo site_url(); ?>media/js/jquery-1.7.2.min.js"></script>
 <link rel="stylesheet" href="<?php echo site_url(); ?>media/startuplist/slideshow.css">
 <script language="javascript" src="<?php echo site_url(); ?>media/startuplist/slides.min.jquery.js"></script>

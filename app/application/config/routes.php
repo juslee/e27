@@ -41,6 +41,8 @@
 $route['default_controller'] = "main";
 $route['404_override'] = '';
 $route['company/(:any)'] = "startuplist/company/$1";
+$route['investment_org/(:any)'] = "startuplist/investment_org/$1";
+$route['person/(:any)'] = "startuplist/person/$1";
 
 
 /* End of file routes.php */
