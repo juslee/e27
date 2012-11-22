@@ -31,156 +31,195 @@ class search extends CI_Controller {
 		
 		$totalcnt = 0;
 		$results = array();
-		
+		$results['results'] = array();
 		if($gfilter==""||$gfilter=="companies"){
 			//companies
-			$results['companies'] = array();
-			$sql = "select * from `companies` where 
-				(
-					`name` like '%".mysql_real_escape_string($search)."%' or
-					`email_address` like '%".mysql_real_escape_string($search)."%' or
-					`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-					`website` like '%".mysql_real_escape_string($search)."%' or
-					`blog` like '%".mysql_real_escape_string($search)."%' or 
-					`facebook` like '%".mysql_real_escape_string($search)."%' or 
-					`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-					`description` like '%".mysql_real_escape_string($search)."%' or 
-					`tags` like '%".mysql_real_escape_string($search)."%'
-				)
-				and
-				(
-					".$filter."
-				)
-			order by `name` asc limit $start, $limit" ;
-			$q = $this->db->query($sql);
-			$companies = $q->result_array();
-			
-			$sql = "select count(id) as `cnt` from `companies` where 
-				(
-					`name` like '%".mysql_real_escape_string($search)."%' or
-					`email_address` like '%".mysql_real_escape_string($search)."%' or
-					`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-					`website` like '%".mysql_real_escape_string($search)."%' or
-					`blog` like '%".mysql_real_escape_string($search)."%' or 
-					`facebook` like '%".mysql_real_escape_string($search)."%' or 
-					`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-					`description` like '%".mysql_real_escape_string($search)."%' or 
-					`tags` like '%".mysql_real_escape_string($search)."%' 
-				)
-				and
-				(
-					".$filter."
-				)
-			order by `name` asc" ;
-			$q = $this->db->query($sql);
-			$cnt = $q->result_array();
-			$cnt = $cnt[0]['cnt'];
-			$totalcnt += $cnt;
-			$results['companies']['cnt'] = $cnt;
-			$results['companies']['results'] = $companies;
+			$table = "companies";
+			$$table = array();
+			$results[$table] = array();
+			$sql = "select * from `".$table."` where (`name` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp); 
+			$sql = "select * from `".$table."` where (`email_address` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`twitter_username` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`website` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`blog` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`facebook` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`linkedin` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`description` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`tags` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$temparr = array();
+			$resultstemp = $$table;
+			$t = count($resultstemp);
+			//remove same results
+			for($i=0; $i<$t; $i++){
+				$value = $resultstemp[$i];
+				if(!in_array($value['id'], $temparr)){
+					$temparr[] = $value['id'];
+					//echo $search, " ", $resultstemp[$i]['name'], " ", abs(strcasecmp($search, $resultstemp[$i]['name'])), "<br>";
+					$resultstemp[$i]['name_score'] = $this->nameScore($search, $resultstemp[$i]['name']);
+					$resultstemp[$i]['table'] = $table;
+				}
+				else{
+					unset($resultstemp[$i]);
+				}
+			}
+			$resultstemp = array_values($resultstemp);
+			$results[$table]['cnt'] = $t;
+			$totalcnt += $results[$table]['cnt'];
+			$results[$table]['results'] = $resultstemp;
+			$results['results'] = array_merge($results['results'], $resultstemp);
 		}
 		
 		if($gfilter==""||$gfilter=="people"){
 			//people
-			$results['people'] = array();
-			$sql = "select * from `people` where 
-				(
-					`name` like '%".mysql_real_escape_string($search)."%' or
-					`email_address` like '%".mysql_real_escape_string($search)."%' or
-					`twitter_username` like '%".mysql_real_escape_string($search)."%' or 
-					`blog` like '%".mysql_real_escape_string($search)."%' or 
-					`facebook` like '%".mysql_real_escape_string($search)."%' or 
-					`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-					`description` like '%".mysql_real_escape_string($search)."%' or 
-					`tags` like '%".mysql_real_escape_string($search)."%'
-				)
-				and
-				(
-					".$filter."
-				)
-			order by `name` asc limit $start, $limit" ;
-			$q = $this->db->query($sql);
-			$people = $q->result_array();
-			
-			$sql = "select count(id) as `cnt` from `people` where 
-				(
-					`name` like '%".mysql_real_escape_string($search)."%' or
-					`email_address` like '%".mysql_real_escape_string($search)."%' or
-					`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-					`blog` like '%".mysql_real_escape_string($search)."%' or 
-					`facebook` like '%".mysql_real_escape_string($search)."%' or 
-					`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-					`description` like '%".mysql_real_escape_string($search)."%' or 
-					`tags` like '%".mysql_real_escape_string($search)."%' 
-				)
-				and
-				(
-					".$filter."
-				)
-			order by `name` asc" ;
-			$q = $this->db->query($sql);
-			$cnt = $q->result_array();
-			$cnt = $cnt[0]['cnt'];
-			$totalcnt += $cnt;
-			$results['people']['cnt'] = $cnt;
-			$results['people']['results'] = $people;
+			$table = "people";
+			$$table = array();
+			$results[$table] = array();
+			$sql = "select * from `".$table."` where (`name` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp); 
+			$sql = "select * from `".$table."` where (`email_address` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`twitter_username` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`blog` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`facebook` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`linkedin` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`description` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`tags` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$temparr = array();
+			$resultstemp = $$table;
+			$t = count($resultstemp);
+			//remove same results
+			for($i=0; $i<$t; $i++){
+				$value = $resultstemp[$i];
+				if(!in_array($value['id'], $temparr)){
+					$temparr[] = $value['id'];
+					//echo $search, " ", $resultstemp[$i]['name'], " ", abs(strcasecmp($search, $resultstemp[$i]['name'])), "<br>";
+					$resultstemp[$i]['name_score'] = $this->nameScore($search, $resultstemp[$i]['name']);
+					$resultstemp[$i]['table'] = $table;
+				}
+				else{
+					unset($resultstemp[$i]);
+				}
+			}
+			$resultstemp = array_values($resultstemp);
+			$results[$table]['cnt'] = $t;
+			$totalcnt += $results[$table]['cnt'];
+			$results[$table]['results'] = $resultstemp;
+			$results['results'] = array_merge($results['results'], $resultstemp);
 		}
 		
 		if($gfilter==""||$gfilter=="investment_orgs"){
 			//investment_orgs
-			$results['investment_orgs'] = array();
-			$sql = "select * from `investment_orgs` where 
-				(
-					`name` like '%".mysql_real_escape_string($search)."%' or
-					`email_address` like '%".mysql_real_escape_string($search)."%' or
-					`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-					`website` like '%".mysql_real_escape_string($search)."%' or
-					`blog` like '%".mysql_real_escape_string($search)."%' or 
-					`facebook` like '%".mysql_real_escape_string($search)."%' or 
-					`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-					`description` like '%".mysql_real_escape_string($search)."%' or 
-					`tags` like '%".mysql_real_escape_string($search)."%'
-				)
-				and
-				(
-					".$filter."
-				)
-			order by `name` asc limit $start, $limit" ;
-			$q = $this->db->query($sql);
-			$investment_orgs = $q->result_array();
-			
-			$sql = "select count(id) as `cnt` from `investment_orgs` where 
-				(
-					`name` like '%".mysql_real_escape_string($search)."%' or
-					`email_address` like '%".mysql_real_escape_string($search)."%' or
-					`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-					`website` like '%".mysql_real_escape_string($search)."%' or
-					`blog` like '%".mysql_real_escape_string($search)."%' or 
-					`facebook` like '%".mysql_real_escape_string($search)."%' or 
-					`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-					`description` like '%".mysql_real_escape_string($search)."%' or 
-					`tags` like '%".mysql_real_escape_string($search)."%' 
-				)
-				and
-				(
-					".$filter."
-				)
-			order by `name` asc" ;
-			$q = $this->db->query($sql);
-			$cnt = $q->result_array();
-			$cnt = $cnt[0]['cnt'];
-			$totalcnt += $cnt;
-			$results['investment_orgs']['cnt'] = $cnt;
-			$results['investment_orgs']['results'] = $investment_orgs;
+			$table = "investment_orgs";
+			$$table = array();
+			$results[$table] = array();
+			$sql = "select * from `".$table."` where (`name` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp); 
+			$sql = "select * from `".$table."` where (`email_address` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`twitter_username` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`website` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`blog` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`facebook` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`linkedin` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`description` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$sql = "select * from `".$table."` where (`tags` like '%".mysql_real_escape_string($search)."%' ) and (".$filter.") order by `name` asc limit $start, $limit" ;
+			$q = $this->db->query($sql); $$tabletemp = $q->result_array(); $$table = array_merge($$table, $$tabletemp);
+			$temparr = array();
+			$resultstemp = $$table;
+			$t = count($resultstemp);
+			//remove same results
+			for($i=0; $i<$t; $i++){
+				$value = $resultstemp[$i];
+				if(!in_array($value['id'], $temparr)){
+					$temparr[] = $value['id'];
+					//echo $search, " ", $resultstemp[$i]['name'], " ", abs(strcasecmp($search, $resultstemp[$i]['name'])), "<br>";
+					$resultstemp[$i]['name_score'] = $this->nameScore($search, $resultstemp[$i]['name']);
+					$resultstemp[$i]['table'] = $table;
+				}
+				else{
+					unset($resultstemp[$i]);
+				}
+			}
+			$resultstemp = array_values($resultstemp);
+			$results[$table]['cnt'] = $t;
+			$totalcnt += $results[$table]['cnt'];
+			$results[$table]['results'] = $resultstemp;
+			$results['results'] = array_merge($results['results'], $resultstemp);
 		}
-		
+		$results['results'] = $this->sortResults($results['results']);
 		$results['totalcnt'] = $totalcnt;
+		$_SESSION['search_results'] = $results;
+		
+		//echo "<pre>";
+		//print_r($results);
 		
 		$data['results'] = $results;
 		$data['search'] = $search;
 		$data['newlyfunded'] = $this->newlyFunded();
 		$data['content'] = $this->load->view('startuplist/search', $data, true);
 		$this->load->view('startuplist/main', $data);
+	}
+	
+	private function sortResults($arr){
+		$size = count($arr);
+		for ($i=0; $i<$size; $i++) {
+			for ($j=0; $j<$size-1-$i; $j++) {
+				if ($arr[$j+1]['name_score'] < $arr[$j]['name_score']) {
+					$this->swap($arr, $j, $j+1);
+				}
+			}
+		}
+		return $arr;
+	}
+
+	private function swap(&$arr, $a, $b) {
+		$tmp = $arr[$a];
+		$arr[$a] = $arr[$b];
+		$arr[$b] = $tmp;
+	}
+	
+	private function nameScore($search, $name){
+		if(strcasecmp($search, $name)==0){
+			$score = -2;
+		}
+		else{
+			$names = explode(" ", $name);
+			$scores = array();
+			$t = count($names);
+			for($i=0; $i<$t; $i++){
+				$scores[] = abs(strcasecmp($search, $names[$i]));
+			}
+			//if exact
+			if(count($scores)==1&&$scores[0]==0){
+				$score = -1;
+			}
+			else{
+				sort($scores, SORT_NUMERIC);
+				$score = abs($scores[0]);
+			}
+		}
+		return $score;		
 	}
 	
 	private function newlyFunded(){
