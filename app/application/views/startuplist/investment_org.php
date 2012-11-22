@@ -163,9 +163,13 @@
 										$inp = array();
 										$n = 0;
 										foreach($people as $value){
-											if(!in_array($value['id'], $inp)){
-												$inp[] = $value['id'];
-												if($value['end_date_ts2']>time()-(1*60*60)){
+											if(!in_array($value['person_id'], $inp)){
+												$inp[] = $value['person_id'];
+												//if($value['end_date_ts2']>time()-(1*60*60)){
+													$year = "";
+													if((time()-$value['end_date_ts2'])>(1*60*60)){ //if last day is greater than yesterday
+														$year = "(".date("Y", $value['end_date_ts2']).")";
+													}
 													echo "<tr>";
 													
 													if(trim($value['profile_image'])){
@@ -176,23 +180,23 @@
 														echo "<td class='middle pad5'><a href='".site_url()."person/".seoIze($value['name'])."/".$value['person_id']."'><img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38'></a></td>";
 													}
 													
-													echo "<td class='middle pad5'><a href='".site_url()."person/".seoIze($value['name'])."/".$value['person_id']."'>".$value['name']."</a><br />".$value['role']."</td>";
+													echo "<td class='middle pad5'><a href='".site_url()."person/".seoIze($value['name'])."/".$value['person_id']."'>".$value['name']."</a> ".$year."<br />".$value['role']." </td>";
 													echo "</tr>";
-												}
-												$n++;
+												//}
+												//$n++;
 											}
-											if($n>5){
-												break;
-											}
+											//if($n>5){
+											//	break;
+											//}
 										}
 										
 										
 										?>
 										</table>
 										<?php
-										if($pt>5){
-											echo "<div class='seeall'><a href='".site_url()."startuplist/io_people/".$investment_org['id']."'>See All ($pt)</a></div>";
-										}
+										//if($pt>5){
+										//	echo "<div class='seeall'><a href='".site_url()."startuplist/io_people/".$investment_org['id']."'>See All ($pt)</a></div>";
+										//}
 										?>
 									</td>
 								</tr>

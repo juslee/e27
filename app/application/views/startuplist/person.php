@@ -38,13 +38,18 @@
 						<table cellpadding="0" cellspacing="0" class="p100">
 							<?php
 							if(trim($companies[0]['company_name'])){
+								$value = $companies[0];
+								$year = "";
+								if((time()-$value['end_date_ts2'])>(1*60*60)){ //if last day is greater than yesterday
+									$year = "(".date("Y", $value['end_date_ts2']).")";
+								}
 								?>
 								<tr>
 									<td class='label'>
 										Company
 									</td>
 									<td class='value'>
-										<?php echo "<a href='".site_url()."company/".seoIze($companies[0]['company_name'])."/".$companies[0]['company_id']."'>".trim($companies[0]['company_name'])."</a>"; ?>
+										<?php echo "<a href='".site_url()."company/".seoIze($companies[0]['company_name'])."/".$companies[0]['company_id']."'>".trim($companies[0]['company_name'])."</a> ".$year; ?>
 									</td>
 								</tr>
 								<?php
@@ -150,9 +155,15 @@
 										$inp = array();
 										$n = 0;
 										foreach($companies as $value){
-											if(!in_array($value['id'], $inp)){
-												$inp[] = $value['id'];
-												if($value['end_date_ts2']>time()-(1*60*60)){
+											if(!in_array($value['company_id'], $inp)){
+												$inp[] = $value['company_id'];
+												//echo time()." - ".$value['end_date_ts2']." = ".(time() - $value['end_date_ts2'])."<br>";
+												//if((time() - $value['end_date_ts2']) <= (1*60*60)||1){
+													
+													$year = "";
+													if((time()-$value['end_date_ts2'])>(1*60*60)){ //if last day is greater than yesterday
+														$year = "(".date("Y", $value['end_date_ts2']).")";
+													}
 													echo "<tr>";
 													
 													if(trim($value['company_logo'])){
@@ -163,23 +174,23 @@
 														echo "<td class='middle pad5'><a href='".site_url()."company/".seoIze($value['company_name'])."/".$value['company_id']."'><img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38'></a></td>";
 													}
 													
-													echo "<td class='middle pad5'><a href='".site_url()."company/".seoIze($value['company_name'])."/".$value['company_id']."'>".$value['company_name']."</a><br />".$value['role']."</td>";
+													echo "<td class='middle pad5'><a href='".site_url()."company/".seoIze($value['company_name'])."/".$value['company_id']."'>".$value['company_name']."</a> ".$year."<br />".$value['role']."</td>";
 													echo "</tr>";
-												}
+												//}
 												$n++;
 											}
-											if($n>5){
-												break;
-											}
+											//if($n>5){
+											//	break;
+											//}
 										}
 										
 										
 										?>
 										</table>
 										<?php
-										if($ct>5){
-											echo "<div class='seeall'><a href='".site_url()."startuplist/person_companies/".$person['id']."'>See All ($ct)</a></div>";
-										}
+										//if($ct>5){
+										//	echo "<div class='seeall'><a href='".site_url()."startuplist/person_companies/".$person['id']."'>See All ($ct)</a></div>";
+										//}
 										?>
 									</td>
 								</tr>
@@ -224,9 +235,12 @@
 										foreach($investment_orgs as $value){
 											if(!in_array($value['id'], $inp)){
 												$inp[] = $value['id'];
-												if($value['end_date_ts2']>time()-(1*60*60)){
+												//if($value['end_date_ts2']>time()-(1*60*60)){
+													$year = "";
+													if((time()-$value['end_date_ts2'])>(1*60*60)){ //if last day is greater than yesterday
+														$year = "(".date("Y", $value['end_date_ts2']).")";
+													}
 													echo "<tr>";
-													
 													if(trim($value['investment_org_logo'])){
 														echo "<td class='middle pad5'><a href='".site_url()."investment_org/".seoIze($value['investment_org_name'])."/".$value['investment_org_id']."'><img class='rounded' src='".site_url()."media/image.php?p=".$value['investment_org_logo']."&mx=38'></a></td>";
 													}
@@ -235,23 +249,23 @@
 														echo "<td class='middle pad5'><a href='".site_url()."investment_org/".seoIze($value['investment_org_name'])."/".$value['investment_org_id']."'><img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38'></a></td>";
 													}
 													
-													echo "<td class='middle pad5'><a href='".site_url()."investment_org/".seoIze($value['investment_org_name'])."/".$value['investment_org_id']."'>".$value['investment_org_name']."</a><br />".$value['role']."</td>";
+													echo "<td class='middle pad5'><a href='".site_url()."investment_org/".seoIze($value['investment_org_name'])."/".$value['investment_org_id']."'>".$value['investment_org_name']."</a> ".$year."<br />".$value['role']."</td>";
 													echo "</tr>";
-												}
+												//}
 												$n++;
 											}
-											if($n>5){
-												break;
-											}
+											//if($n>5){
+											//	break;
+											//}
 										}
 										
 										
 										?>
 										</table>
 										<?php
-										if($iot>5){
-											echo "<div class='seeall'><a href='".site_url()."startuplist/person_investment_orgs/".$person['id']."'>See All ($iot)</a></div>";
-										}
+										//if($iot>5){
+										//	echo "<div class='seeall'><a href='".site_url()."startuplist/person_investment_orgs/".$person['id']."'>See All ($iot)</a></div>";
+										//}
 										?>
 									</td>
 								</tr>
