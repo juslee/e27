@@ -86,6 +86,11 @@ $mxw = $_GET['mxw']*1;
 @mkdir(dirname(__FILE__)."/imgcache", 0777);
 $p = urldecode($_GET['p']);
 $p = dirname($p)."/".rawurlencode(basename($p));
+
+if($_GET['b']){
+	$p = base64_decode($_GET['p']);
+}
+
 $md5file = dirname(__FILE__)."/imgcache/".md5($p)."_mx".$mx."_mxh".$mxh."_mxw".$mxw.".jpg";
 
 if(file_exists($md5file)){
