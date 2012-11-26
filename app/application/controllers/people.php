@@ -15,6 +15,8 @@ class people extends CI_Controller {
 		$sql = "select * from `people` where 1 order by `name` asc limit $start, $limit" ;
 		$q = $this->db->query($sql);
 		$people = $q->result_array();
+		$export_sql = md5($sql);
+		$_SESSION['export_sqls'][$export_sql] = $sql;
 		
 		$sql = "select count(id) as `cnt` from `people` where 1 order by `name` asc" ;
 		$q = $this->db->query($sql);
@@ -51,6 +53,7 @@ class people extends CI_Controller {
 	
 		$data = array();
 		$data['people'] = $people;
+		$data['export_sql'] = $export_sql;
 		$data['pages'] = $pages;
 		$data['start'] = $start;
 		$data['limit'] = $limit;
@@ -83,6 +86,8 @@ class people extends CI_Controller {
 			$sql .= "`".$filter."` like '%".mysql_real_escape_string($search)."%'";
 		}
 		$sql .= "order by `name` asc limit $start, $limit" ;
+		$export_sql = md5($sql);
+		$_SESSION['export_sqls'][$export_sql] = $sql;
 		$q = $this->db->query($sql);
 		$people = $q->result_array();
 		
@@ -136,6 +141,7 @@ class people extends CI_Controller {
 		
 		$data = array();
 		$data['people'] = $people;
+		$data['export_sql'] = $export_sql;
 		$data['pages'] = $pages;
 		$data['start'] = $start;
 		$data['limit'] = $limit;
@@ -144,6 +150,53 @@ class people extends CI_Controller {
 		$data['cnt'] = $cnt[0]['cnt'];
 		$data['content'] = $this->load->view('people/main', $data, true);
 		$this->load->view('layout/main', $data);
+	}
+	
+	public function export($md5){
+		$sql = $_SESSION['export_sqls'][$md5];
+		if($sql){
+			$q = $this->db->query($sql);
+			$people = $q->result_array();
+			//print_r($people);
+			$t = count($people);
+			for($i=0; $i<$t; $i++){
+				$person_id = $people[$i]['id'];
+				$time = time();
+				$sql = "select 
+				`a`.*, 
+				if(`a`.`end_date_ts`=0, $time, `a`.`end_date_ts`) as `end_date_ts2`,
+				`b`.`name` as `name` 
+				from `company_person` as `a` left join `companies` as `b` on (`a`.`company_id`=`b`.`id`) 
+				where `person_id`=".$this->db->escape($person_id)." and `name`<>'' 
+				order by `end_date_ts2` desc, `start_date_ts` desc, `name` asc";
+				$q = $this->db->query($sql);
+				$companies = $q->result_array();
+				$companiesarr = array();
+				foreach($companies as $company){
+					$companiesarr[] = $company['name'].",".$company['role'].",".date("Y", $company['start_date_ts']);
+				}
+				$companiesstr = implode(", ", $companiesarr);
+				$people[$i]['companies'] = $companiesstr;
+				
+				$sql = "select 
+				`a`.*,
+				if(`a`.`end_date_ts`=0, $time, `a`.`end_date_ts`) as `end_date_ts2`,
+				`b`.`name` as `name` from `investment_org_person` as `a` left join `investment_orgs` as `b` on (`a`.`investment_org_id`=`b`.`id`) 
+				where `person_id`=".$this->db->escape($person_id)." and `name`<>'' 
+				order by `end_date_ts2` desc, `start_date_ts` desc, `name` asc";
+				$q = $this->db->query($sql);
+				$investment_orgs = $q->result_array();
+				$investment_orgsarr = array();
+				foreach($investment_orgs as $investment_org){
+					$investment_orgsarr[] = $investment_org['name'].",".$investment_org['role'].",".date("Y", $investment_org['start_date_ts']);
+				}
+				$investment_orgsstr = implode(", ", $investment_orgsarr);
+				$people[$i]['investment_orgs'] = $investment_orgsstr;
+			}
+			$data = array();
+			$data['people'] = $people;
+			$this->load->view('people/export', $data);
+		}
 	}
 	
 	public function ajax_search(){

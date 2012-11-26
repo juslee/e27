@@ -84,11 +84,21 @@ if(trim($filter)){
 	</script>
 	<?php
 }
+$t = count($investment_orgs);
 ?>
 <div class='hint hidden'>Name, E-mail, Website, Twitter Handle, Facebook Page, LinkedIn, Blog URL, Description, Tags</div></div>
 </center>
 <div class='list'>
 <table>
+<?php
+	if($t){
+		?>
+		<tr>
+			<td colspan=6 style='border:0px;'>[ <a href='<?php echo site_url(); ?>investment_orgs/export/<?php echo $export_sql?>' >EXPORT TO EXCEL</a> ]</th>
+		</tr>
+		<?php
+	}
+	?>
 	<tr>
 		<th style="width:20px"></th>
 		<th style="width:20px"></th>
@@ -98,7 +108,7 @@ if(trim($filter)){
 		<th></th>
 	</tr>
 	<?php
-	$t = count($investment_orgs);
+	
 	for($i=0; $i<$t; $i++){
 		?>
 		<tr id="tr<?php echo htmlentities($investment_orgs[$i]['id']); ?>" class="row" >

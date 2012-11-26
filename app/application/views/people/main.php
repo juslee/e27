@@ -89,11 +89,22 @@ if(trim($filter)){
 	</script>
 	<?php
 }
+
+$t = count($people);
 ?>
 <div class='hint hidden'>Name, E-mail address, Twitter Handle, Facebook Page, LinkedIn, Blog URL, Description, Tags</div></div>
 </center>
 <div class='list'>
 <table>
+	<?php
+	if($t){
+		?>
+		<tr>
+			<td colspan=8 style='border:0px;'>[ <a href='<?php echo site_url(); ?>people/export/<?php echo $export_sql?>' >EXPORT TO EXCEL</a> ]</th>
+		</tr>
+		<?php
+	}
+	?>
 	<tr>
 		<th style="width:20px"></th>
 		<th style="width:20px"></th>
@@ -105,7 +116,7 @@ if(trim($filter)){
 		<th></th>
 	</tr>
 	<?php
-	$t = count($people);
+	
 	for($i=0; $i<$t; $i++){
 		?>
 		<tr id="tr<?php echo htmlentities($people[$i]['id']); ?>" class="row" >
