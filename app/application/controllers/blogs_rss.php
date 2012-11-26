@@ -15,7 +15,7 @@ class blogs_rss extends CI_Controller {
 	public function people(){
 		$start = $_GET['start'];
 		$start += 0;
-		$limit = 50;
+		$limit = 10;
 		
 		$shuffle = "";
 		if($_GET['shuffle']){
@@ -71,7 +71,7 @@ class blogs_rss extends CI_Controller {
 				}
 				//echo "fetching...".$url;
 				$rss = @fetch_rss( $url );
-				$items = array_slice($rss->items, 0, 10);
+				$items = @array_slice($rss->items, 0, 10);
 				$list[$i]['feed'] = array();
 				$list[$i]['feed']['rss'] = $rss;
 				$list[$i]['feed']['items'] = $items;
@@ -96,7 +96,7 @@ class blogs_rss extends CI_Controller {
 	public function companies(){
 		$start = $_GET['start'];
 		$start += 0;
-		$limit = 50;
+		$limit = 10;
 		
 		$shuffle = "";
 		if($_GET['shuffle']){
@@ -178,7 +178,7 @@ class blogs_rss extends CI_Controller {
 	public function investment_orgs(){
 		$start = $_GET['start'];
 		$start += 0;
-		$limit = 50;
+		$limit = 10;
 		
 		$shuffle = "";
 		if($_GET['shuffle']){

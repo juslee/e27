@@ -102,7 +102,7 @@ class people extends CI_Controller {
 		else{
 			$sql .= "`".$filter."` like '%".mysql_real_escape_string($search)."%'";
 		}
-		$sql .= "order by `name` asc limit $start, $limit" ;
+		$sql .= "order by `name` asc" ;
 		$q = $this->db->query($sql);
 		$cnt = $q->result_array();
 		$pages = ceil($cnt[0]['cnt']/$limit);

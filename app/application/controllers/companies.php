@@ -13,6 +13,8 @@ class companies extends CI_Controller {
 		$limit = 50;
 		
 		$sql = "select * from `companies` where 1 order by `name` asc limit $start, $limit" ;
+		$export_sql = md5($sql);
+		$_SESSION['export_sqls'][$export_sql] = $sql;
 		$q = $this->db->query($sql);
 		$companies = $q->result_array();
 		
@@ -23,6 +25,7 @@ class companies extends CI_Controller {
 		
 		$data = array();
 		$data['companies'] = $companies;
+		$data['export_sql'] = $export_sql;
 		$data['pages'] = $pages;
 		$data['start'] = $start;
 		$data['limit'] = $limit;
@@ -56,6 +59,8 @@ class companies extends CI_Controller {
 			$sql .= "`".$filter."` like '%".mysql_real_escape_string($search)."%'";
 		}
 		$sql .= "order by `name` asc limit $start, $limit" ;
+		$export_sql = md5($sql);
+		$_SESSION['export_sqls'][$export_sql] = $sql;
 		$q = $this->db->query($sql);
 		$companies = $q->result_array();
 		
@@ -76,13 +81,15 @@ class companies extends CI_Controller {
 		else{
 			$sql .= "`".$filter."` like '%".mysql_real_escape_string($search)."%'";
 		}
-		$sql .= "order by `name` asc limit $start, $limit" ;
+		$sql .= "order by `name` asc" ;
+		
 		$q = $this->db->query($sql);
 		$cnt = $q->result_array();
 		$pages = ceil($cnt[0]['cnt']/$limit);
 		
 		$data = array();
 		$data['companies'] = $companies;
+		$data['export_sql'] = $export_sql;
 		$data['pages'] = $pages;
 		$data['start'] = $start;
 		$data['limit'] = $limit;
@@ -91,6 +98,151 @@ class companies extends CI_Controller {
 		$data['cnt'] = $cnt[0]['cnt'];
 		$data['content'] = $this->load->view('companies/main', $data, true);
 		$this->load->view('layout/main', $data);
+	}
+	
+	public function export($md5){
+		$sql = $_SESSION['export_sqls'][$md5];
+		if($sql){
+			$q = $this->db->query($sql);
+			$companies = $q->result_array();
+			
+			$t = count($companies);
+			
+			for($i=0; $i<$t; $i++){
+				$company_id = $companies[$i]['id'];
+				if($company_id){
+					$data = array();
+					$time = time();
+					
+					$sql = "select * from `screenshots` where `company_id`=".$this->db->escape($company_id)." order by id asc";
+					$q = $this->db->query($sql);
+					$screenshots = $q->result_array();
+		
+					$sql = "select `b`.`id` as `value`, `b`.`name` as `label` from `competitors` as `a`, `companies` as `b` where 
+						(
+							`a`.`company_id`=".$this->db->escape($company_id)." 
+							and `a`.`competitor_id` = `b`.`id`
+						)
+						or
+						(
+							`a`.`competitor_id`=".$this->db->escape($company_id)." 
+							and `a`.`company_id` = `b`.`id`
+						)
+						order by `b`.`name` asc
+					";
+					$q = $this->db->query($sql);
+					$competitors = $q->result_array();
+					$competitorsarr = array();
+					foreach($competitors as $competitor){
+						$competitorsarr[] = $competitor['label'];
+					}
+					$companies[$i]['competitors'] = implode(", ", $competitorsarr);
+					
+					$sql = "select 
+					`a`.*, 
+					if(`a`.`end_date_ts`=0, $time, `a`.`end_date_ts`) as `end_date_ts2`,
+					`b`.`name` as `name` from `company_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) 
+					where `company_id`=".$this->db->escape($company_id)." and `name`<>'' 
+					order by `name` asc, `end_date_ts2` desc, `start_date_ts` desc";
+					$q = $this->db->query($sql);
+					$people = $q->result_array();
+					$peoplearr = array();
+					foreach($people as $person){
+						$peoplearr[] = $person['name'].",".$person['role'].",".date('Y', $person['start_date_ts']);
+					}
+					$companies[$i]['people'] = implode(", ", $peoplearr);
+	
+					
+					$sql = "select * from `company_fundings` where `company_id`=".$this->db->escape($company_id)." order by date_ts desc";
+					$q = $this->db->query($sql);
+					$company_fundings = $q->result_array();
+					foreach($company_fundings as $cfkey=>$cf){	
+						$sql = "select * from `company_fundings_ipc` where `company_funding_id`='".$cf['id']."'";
+						$q = $this->db->query($sql);
+						$company_fundings_ipc = $q->result_array();
+						
+						$company_fundings[$cfkey]['companies'] = array();
+						$company_fundings[$cfkey]['people'] = array();
+						$company_fundings[$cfkey]['investment_orgs'] = array();
+						
+						foreach($company_fundings_ipc as $cfikey=>$cfi){
+							if($cfi['type']=='company'){
+								$sql = "select `id`, `name` from `companies` where `id`=".$this->db->escape($cfi['ipc_id']);
+								$q = $this->db->query($sql);
+								$result = $q->result_array();
+								$push = array();
+								if($result[0]){
+									$push['name'] = $result[0]['name'];
+									$push['id'] = $result[0]['id'];
+								}
+								else{
+									$push['name'] = $cfi['name'];
+									$push['id'] = $cfi['ipc_id'];
+								}
+								$company_fundings[$cfkey]['companies'][] = $push;
+							}
+							
+							if($cfi['type']=='person'){
+								$sql = "select `id`, `name` from `people` where `id`=".$this->db->escape($cfi['ipc_id']);
+								$q = $this->db->query($sql);
+								$result = $q->result_array();
+								$push = array();
+								if($result[0]){
+									$push['name'] = $result[0]['name'];
+									$push['id'] = $result[0]['id'];
+								}
+								else{
+									$push['name'] = $cfi['name'];
+									$push['id'] = $cfi['ipc_id'];
+								}
+								$company_fundings[$cfkey]['people'][] = $push;
+							}
+							
+							if($cfi['type']=='investment_org'){
+								$sql = "select `id`, `name` from `investment_orgs` where `id`=".$this->db->escape($cfi['ipc_id']);
+								$q = $this->db->query($sql);
+								$result = $q->result_array();
+								$push = array();
+								if($result[0]){
+									$push['name'] = $result[0]['name'];
+									$push['id'] = $result[0]['id'];
+								}
+								else{
+									$push['name'] = $cfi['name'];
+									$push['id'] = $cfi['ipc_id'];
+								}
+								$company_fundings[$cfkey]['investment_orgs'][] = $push;
+							}
+						}
+					}
+					
+					$company_fundingsarr = array();
+					foreach($company_fundings as $company_funding){
+						$str = $company_funding['round'].",".
+						$company_funding['currency'].number_format($company_funding['amount'], 2).",".
+						date('Y', $company_funding['date_ts']).",";
+						$cfnames = array();
+						foreach($company_funding['companies'] as $c){
+							$cfnames[] = $c['name'];
+						}
+						foreach($company_funding['people'] as $c){
+							$cfnames[] = $c['name'];
+						}
+						foreach($company_funding['investment_orgs'] as $c){
+							$cfnames[] = $c['name'];
+						}
+						$str .= implode("/", $cfnames);
+						$company_fundingsarr[] = $str;
+					}
+					$companies[$i]['company_fundings'] = implode(", ", $company_fundingsarr);
+				}
+			}
+			$data = array();
+			$data['companies'] = $companies;
+			$this->load->view('companies/export', $data);
+		}
+		
+		
 	}
 	
 	public function ajax_search(){
