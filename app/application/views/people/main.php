@@ -60,12 +60,37 @@ function deletePerson(person_id){
 	}
 }
 function searchPeople(){
-	self.location = "<?php echo site_url(); ?>people/search/?search="+jQuery("#search").val();
+	self.location = "<?php echo site_url(); ?>people/search/?search="+jQuery("#search").val()+"&filter="+jQuery("#sfilter").val();
 }
 </script>
 <center>
 Person Search: <input type='text' id='people_search' /> &nbsp; [ <a href="<?php echo site_url(); ?>people/add" >ADD NEW PERSON</a> ]
-<div class='pad10' ><form action="<?php echo site_url(); ?>people/search/" class='inline' >Search: <input type='text' id='search' value="<?php echo sanitizeX($search); ?>" name='search' /><input type='button' class='button normal' value='search' onclick='searchPeople()'></form><div class='hint'>Name, E-mail address, Twitter Handle, Facebook Page, LinkedIn, Blog URL, Description, Tags</div></div>
+<div class='pad10' >
+<form action="<?php echo site_url(); ?>people/search/" class='inline' >
+	Filter: <select name='filter' id='sfilter'>
+	<option value="name">Name</option>
+	<option value="email_address">E-mail</option>
+	<option value="twitter_username">Twitter Handle</option>
+	<option value="facebook">Facebook Page</option>
+	<option value="linkedin">LinkedIn</option>
+	<option value="blog_url">Blog URL</option>
+	<option value="description">Description</option>
+	<option value="tags">Tags</option>
+	<option value="all" selected="selected">All</option>
+	</select>
+	Search: <input type='text' id='search' value="<?php echo sanitizeX($search); ?>" name='search' />
+	<input type='button' class='button normal' value='search' onclick='searchPeople()'>
+</form>
+<?php
+if(trim($filter)){
+	?>
+	<script>
+	jQuery("#sfilter").val("<?php echo sanitizeX($filter); ?>")
+	</script>
+	<?php
+}
+?>
+<div class='hint hidden'>Name, E-mail address, Twitter Handle, Facebook Page, LinkedIn, Blog URL, Description, Tags</div></div>
 </center>
 <div class='list'>
 <table>
@@ -112,7 +137,7 @@ Person Search: <input type='text' id='people_search' /> &nbsp; [ <a href="<?php 
 				<?php
 				if($search){
 					?>
-					<select onchange='self.location="?search=<?php echo sanitizeX($search); ?>&start="+this.value'>
+					<select onchange='self.location="?search=<?php echo sanitizeX($search); ?>&filter=<?php echo sanitizeX($filter); ?>&start="+this.value'>
 					<?php
 
 				}

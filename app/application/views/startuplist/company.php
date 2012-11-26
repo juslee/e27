@@ -113,7 +113,7 @@
 								</tr>
 								<?php
 							}
-							if($company['number_of_employees']>0){
+							if($company['number_of_employees']>0&&0){
 								?>
 								<tr>
 									<td class='label'>

@@ -61,33 +61,48 @@ class people extends CI_Controller {
 	
 	public function search(){
 		$start = $_GET['start'];
+		$filter = $_GET['filter'];
 		$start += 0;
 		$limit = 50;
 		$search = trim($_GET['search']);
 		
-		$sql = "select * from `people` where 
-			`name` like '%".mysql_real_escape_string($search)."%' or
-			`email_address` like '%".mysql_real_escape_string($search)."%' or
-			`twitter_username` like '%".mysql_real_escape_string($search)."%' or 
-			`blog` like '%".mysql_real_escape_string($search)."%' or 
-			`facebook` like '%".mysql_real_escape_string($search)."%' or 
-			`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-			`description` like '%".mysql_real_escape_string($search)."%' or 
-			`tags` like '%".mysql_real_escape_string($search)."%'
-		order by `name` asc limit $start, $limit" ;
+		$sql = "select * from `people` where ";
+		if($filter=='all' || !trim($filter)){
+			$sql .= "
+				`name` like '%".mysql_real_escape_string($search)."%' or
+				`email_address` like '%".mysql_real_escape_string($search)."%' or
+				`twitter_username` like '%".mysql_real_escape_string($search)."%' or
+				`blog_url` like '%".mysql_real_escape_string($search)."%' or 
+				`facebook` like '%".mysql_real_escape_string($search)."%' or 
+				`linkedin` like '%".mysql_real_escape_string($search)."%' or 
+				`description` like '%".mysql_real_escape_string($search)."%' or 
+				`tags` like '%".mysql_real_escape_string($search)."%'
+			";
+		}
+		else{
+			$sql .= "`".$filter."` like '%".mysql_real_escape_string($search)."%'";
+		}
+		$sql .= "order by `name` asc limit $start, $limit" ;
 		$q = $this->db->query($sql);
 		$people = $q->result_array();
 		
-		$sql = "select count(id) as `cnt` from `people` where 
-			`name` like '%".mysql_real_escape_string($search)."%' or
-			`email_address` like '%".mysql_real_escape_string($search)."%' or
-			`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-			`blog` like '%".mysql_real_escape_string($search)."%' or 
-			`facebook` like '%".mysql_real_escape_string($search)."%' or 
-			`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-			`description` like '%".mysql_real_escape_string($search)."%' or 
-			`tags` like '%".mysql_real_escape_string($search)."%' 
-		order by `name` asc" ;
+		$sql = "select count(id) as `cnt` from `people` where ";
+		if($filter=='all' || !trim($filter)){
+			$sql .= "
+				`name` like '%".mysql_real_escape_string($search)."%' or
+				`email_address` like '%".mysql_real_escape_string($search)."%' or
+				`twitter_username` like '%".mysql_real_escape_string($search)."%' or
+				`blog_url` like '%".mysql_real_escape_string($search)."%' or 
+				`facebook` like '%".mysql_real_escape_string($search)."%' or 
+				`linkedin` like '%".mysql_real_escape_string($search)."%' or 
+				`description` like '%".mysql_real_escape_string($search)."%' or 
+				`tags` like '%".mysql_real_escape_string($search)."%'
+			";
+		}
+		else{
+			$sql .= "`".$filter."` like '%".mysql_real_escape_string($search)."%'";
+		}
+		$sql .= "order by `name` asc limit $start, $limit" ;
 		$q = $this->db->query($sql);
 		$cnt = $q->result_array();
 		$pages = ceil($cnt[0]['cnt']/$limit);
@@ -125,6 +140,7 @@ class people extends CI_Controller {
 		$data['start'] = $start;
 		$data['limit'] = $limit;
 		$data['search'] = $search;
+		$data['filter'] = $filter;
 		$data['cnt'] = $cnt[0]['cnt'];
 		$data['content'] = $this->load->view('people/main', $data, true);
 		$this->load->view('layout/main', $data);
