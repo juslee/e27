@@ -160,8 +160,12 @@ class people extends CI_Controller {
 			`b`.`person_id`='".$people[$i]['value']."' and 
 			(
 				(
-					`b`.`end_date_ts`<>0 and 
-					`b`.`end_date_ts`>=".time()."
+					`b`.`end_date_ts`<>0 ";
+					
+					//$sql .= "and `b`.`end_date_ts`>=".time();
+					
+					$sql.= "
+					
 				)
 				or
 				`b`.`end_date_ts` = 0
