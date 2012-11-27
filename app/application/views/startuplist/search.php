@@ -73,13 +73,13 @@
 											$logokey = "logo";
 										}
 										if(trim($cresults[$i][$logokey])){
-											echo "<a href='".site_url().$link."/".seoIze($cresults[$i]['name'])."/".$cresults[$i]['id']."' >";
+											echo "<a href='".site_url().$link."/".$cresults[$i]['slug']."' >";
 											echo "<img class='rounded' src='".site_url()."media/image.php?p=".$cresults[$i][$logokey]."&mx=60' />";
 											echo "</a>";
 										}
 										else{
 											$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
-											echo "<a href='".site_url().$link."/".seoIze($cresults[$i]['name'])."/".$cresults[$i]['id']."' >";
+											echo "<a href='".site_url().$link."/".$cresults[$i]['slug']."' >";
 											echo "<img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=60' />";
 											echo "</a>";
 										}
@@ -89,7 +89,7 @@
 									<td>
 										<div class='name'>
 										<?php
-										echo "<a href='".site_url().$link."/".seoIze($cresults[$i]['name'])."/".$cresults[$i]['id']."' >";
+										echo "<a href='".site_url().$link."/".$cresults[$i]['slug']."' >";
 										echo $cresults[$i]['name'];
 										echo "</a>";
 										?>

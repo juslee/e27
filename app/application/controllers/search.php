@@ -286,7 +286,7 @@ class search extends CI_Controller {
 		$nfcompanies = $q->result_array();
 		$newlyfunded = array();
 		foreach($nfcompanies as $nf){
-			$sql = "select `company_fundings`.* ,`companies`.`name`, `companies`.`logo` from `company_fundings` left join `companies` on (`companies`.`id` = `company_fundings`.`company_id`) where `company_id` = '".$nf['company_id']."' and `date_ts`='".$nf['date_ts']."'";
+			$sql = "select `company_fundings`.* ,`companies`.`name`, `companies`.`slug`, `companies`.`logo` from `company_fundings` left join `companies` on (`companies`.`id` = `company_fundings`.`company_id`) where `company_id` = '".$nf['company_id']."' and `date_ts`='".$nf['date_ts']."'";
 			$q = $this->db->query($sql);
 			$nfc = $q->result_array();
 			if($nfc[0]){
