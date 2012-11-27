@@ -1,10 +1,10 @@
 <table cellpadding="0" cellspacing="0" class='contentblock'>
 	<tr>
-		<td class="head"><a href="<?php echo site_url(); ?>startuplist/company/<?php echo seoIze($company['name']); ?>/<?php echo $company['id']; ?>"><?php echo htmlentities($company['name']) ?></a></td>
+		<td class="head"><a href="<?php echo site_url(); ?>company/<?php echo $company['slug']; ?>"><?php echo htmlentities($company['name']) ?></a></td>
 	</tr>
 	<tr>
 		<td class="logo">
-		<a href="<?php echo site_url(); ?>startuplist/company/<?php echo seoIze($company['name']); ?>/<?php echo $company['id']; ?>" title="<?php echo sanitizeX($company['name'])?>" alt="<?php echo sanitizeX($company['name'])?>">
+		<a href="<?php echo site_url(); ?>company/<?php echo $company['slug']; ?>" title="<?php echo sanitizeX($company['name'])?>" alt="<?php echo sanitizeX($company['name'])?>">
 		<?php
 		if(trim($company['logo'])){
 			?>
@@ -75,7 +75,7 @@
 								echo "<a href='".site_url()."category/".seoIze($value['category'])."/".$value['id']."'>".$value['category']."</a> ";
 								if($count>=4){
 									if($count<$ct){
-										?><a href="<?php echo site_url(); ?>startuplist/company/<?php echo seoIze($company['name']); ?>/<?php echo $company['id']; ?>">...<?php
+										?><a href="<?php echo site_url(); ?>company/<?php echo $company['slug']; ?>">...<?php
 									}
 									break;
 								}

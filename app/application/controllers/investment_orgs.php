@@ -244,7 +244,7 @@ class investment_orgs extends CI_Controller {
 			$sql .= "where `id`=".$this->db->escape(trim($_POST['id']));
 			$q = $this->db->query($sql);
 			$id = trim($_POST['id']);
-			
+			$this->slugify($id);
 			
 			$sql = "delete from `investment_org_person` where `investment_org_id`=".$this->db->escape($id);
 			$this->db->query($sql);
@@ -341,6 +341,7 @@ class investment_orgs extends CI_Controller {
 			$sql .= ", country='Singapore', active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
 			$q = $this->db->query($sql);
 			$id = $this->db->insert_id();
+			$this->slugify($id);
 			?>
 			insert_id = "<?php echo sanitizeX($id); ?>";
 			insert_id = uNum(insert_id);
@@ -394,6 +395,7 @@ class investment_orgs extends CI_Controller {
 			$sql .= ", country='Singapore', active=1, `dateadded`=NOW(), `dateupdated`=NOW()";
 			$q = $this->db->query($sql);
 			$id = $this->db->insert_id();
+			$this->slugify($id);
 			?>
 			label = "<?php echo sanitizeX(trim($_POST['name'])); ?>";
 			value = "<?php echo sanitizeX($id); ?>";
@@ -478,7 +480,7 @@ class investment_orgs extends CI_Controller {
 			
 			$q = $this->db->query($sql);
 			$id = $this->db->insert_id();
-			
+			$this->slugify($id);
 			//update logo url
 			$logo = $_POST['logo'];
 			if($logo){
@@ -609,6 +611,30 @@ class investment_orgs extends CI_Controller {
 		}
 		else{
 			redirect_to(site_url()."investment_orgs");
+		}
+	}
+	
+	private function slugify($id){
+		$table = "investment_orgs";
+		$sql = "select * from `".$table."` where `id`='".mysql_real_escape_string($id)."'";
+		$q = $this->db->query($sql);
+		$list = $q->result_array();
+		$t = count($list);
+		for($i=0; $i<$t; $i++){
+			$row = $list[$i];
+			$n = 1;
+			do{
+				$slug = seoIze($row['name']);
+				if($n>1){
+					$slug = $slug.$n;
+				}
+				$sql = "select `id` from `".$table."` where `slug`='".$slug."' and `id`<>'".$row['id']."'";
+				$q = $this->db->query($sql);
+				$rowtemp = $q->result_array();
+				$n++;
+			}while($rowtemp[0]['id']);
+			$sql = "update `".$table."` set `slug`='".$slug."' where `id`='".$row['id']."'";
+			$q = $this->db->query($sql);
 		}
 	}
 }

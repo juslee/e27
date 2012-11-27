@@ -10,7 +10,7 @@
 				<tr>
 					<td class='logo'>
 						<div>
-						<a href="<?php echo site_url(); ?>company/<?php echo seoIze($investment_org['name']); ?>/<?php echo $investment_org['id']; ?>" title="<?php echo sanitizeX($investment_org['name'])?>" alt="<?php echo sanitizeX($investment_org['name'])?>">
+						<a href="<?php echo site_url(); ?>investment_org/<?php echo $investment_org['slug']; ?>" title="<?php echo sanitizeX($investment_org['name'])?>" alt="<?php echo sanitizeX($investment_org['name'])?>">
 						<?php
 						if(trim($investment_org['logo'])){
 							?>
@@ -88,7 +88,7 @@
 												echo "<a href='".site_url()."category/".seoIze($value['category'])."/".$value['id']."'>".$value['category']."</a> ";
 												if($count>=4){
 													if($count<$ct){
-														?><a href="<?php echo site_url(); ?>company/<?php echo seoIze($investment_org['name']); ?>/<?php echo $investment_org['id']; ?>">...<?php
+														?><a href="<?php echo site_url(); ?>investment_org/<?php echo $investment_org['slug']; ?>">...<?php
 													}
 													break;
 												}
@@ -173,14 +173,14 @@
 													echo "<tr>";
 													
 													if(trim($value['profile_image'])){
-														echo "<td class='middle pad5'><a href='".site_url()."person/".seoIze($value['name'])."/".$value['person_id']."'><img class='rounded' src='".site_url()."media/image.php?p=".$value['profile_image']."&mx=38'></a></td>";
+														echo "<td class='middle pad5'><a href='".site_url()."person/".$value['slug']."'><img class='rounded' src='".site_url()."media/image.php?p=".$value['profile_image']."&mx=38'></a></td>";
 													}
 													else{
 														$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
-														echo "<td class='middle pad5'><a href='".site_url()."person/".seoIze($value['name'])."/".$value['person_id']."'><img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38'></a></td>";
+														echo "<td class='middle pad5'><a href='".site_url()."person/".$value['slug']."'><img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38'></a></td>";
 													}
 													
-													echo "<td class='middle pad5'><a href='".site_url()."person/".seoIze($value['name'])."/".$value['person_id']."'>".$value['name']."</a> ".$year."<br />".$value['role']." </td>";
+													echo "<td class='middle pad5'><a href='".site_url()."person/".$value['slug']."'>".$value['name']."</a> ".$year."<br />".$value['role']." </td>";
 													echo "</tr>";
 												//}
 												//$n++;
@@ -240,7 +240,7 @@
 									<tr>
 										<td class='padb5' >
 											<?php
-											echo "<a href='".site_url()."company/".seoIze($milestones[$cfi]['company_name'])."/".$milestones[$cfi]['company_id']."'>"; 
+											echo "<a href='".site_url()."company/".$milestones[$cfi]['slug']."'>"; 
 											echo $milestones[$cfi]['company_name'];
 											echo "</a>";
 											?>

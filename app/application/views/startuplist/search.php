@@ -131,13 +131,13 @@
 										<div class='logo'>
 										<?php
 										if(trim($cresults[$i]['logo'])){
-											echo "<a href='".site_url()."company/".seoIze($cresults[$i]['name'])."/".$cresults[$i]['id']."' >";
+											echo "<a href='".site_url()."company/".$cresults[$i]['slug']."' >";
 											echo "<img class='rounded' src='".site_url()."media/image.php?p=".$cresults[$i]['logo']."&mx=60' />";
 											echo "</a>";
 										}
 										else{
 											$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
-											echo "<a href='".site_url()."company/".seoIze($cresults[$i]['name'])."/".$cresults[$i]['id']."' >";
+											echo "<a href='".site_url()."company/".$cresults[$i]['slug']."' >";
 											echo "<img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=60' />";
 											echo "</a>";
 										}
@@ -147,7 +147,7 @@
 									<td>
 										<div class='name'>
 										<?php
-										echo "<a href='".site_url()."company/".seoIze($cresults[$i]['name'])."/".$cresults[$i]['id']."' >";
+										echo "<a href='".site_url()."company/".$cresults[$i]['slug']."' >";
 										echo $cresults[$i]['name'];
 										echo "</a>";
 										?>
@@ -178,13 +178,13 @@
 										<div class='logo'>
 										<?php
 										if(trim($cresults[$i]['profile_image'])){
-											echo "<a href='".site_url()."person/".seoIze($cresults[$i]['name'])."/".$cresults[$i]['id']."' >";
+											echo "<a href='".site_url()."person/".$cresults[$i]['slug']."' >";
 											echo "<img class='rounded' src='".site_url()."media/image.php?p=".$cresults[$i]['profile_image']."&mx=60' />";
 											echo "</a>";
 										}
 										else{
 											$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
-											echo "<a href='".site_url()."person/".seoIze($cresults[$i]['name'])."/".$cresults[$i]['id']."' >";
+											echo "<a href='".site_url()."person/".$cresults[$i]['slug']."' >";
 											echo "<img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=60' />";
 											echo "</a>";
 										}
@@ -194,7 +194,7 @@
 									<td>
 										<div class='name'>
 										<?php
-										echo "<a href='".site_url()."person/".seoIze($cresults[$i]['name'])."/".$cresults[$i]['id']."' >";
+										echo "<a href='".site_url()."person/".$cresults[$i]['slug']."' >";
 										echo $cresults[$i]['name'];
 										echo "</a>";
 										?>
@@ -225,13 +225,13 @@
 										<div class='logo'>
 										<?php
 										if(trim($cresults[$i]['logo'])){
-											echo "<a href='".site_url()."investment_org/".seoIze($cresults[$i]['name'])."/".$cresults[$i]['id']."' >";
+											echo "<a href='".site_url()."investment_org/".$cresults[$i]['slug']."' >";
 											echo "<img class='rounded' src='".site_url()."media/image.php?p=".$cresults[$i]['logo']."&mx=60' />";
 											echo "</a>";
 										}
 										else{
 											$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
-											echo "<a href='".site_url()."investment_org/".seoIze($cresults[$i]['name'])."/".$cresults[$i]['id']."' >";
+											echo "<a href='".site_url()."investment_org/".$cresults[$i]['slug']."' >";
 											echo "<img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=60' />";
 											echo "</a>";
 										}
@@ -241,7 +241,7 @@
 									<td>
 										<div class='name'>
 										<?php
-										echo "<a href='".site_url()."investment_org/".seoIze($cresults[$i]['name'])."/".$cresults[$i]['id']."' >";
+										echo "<a href='".site_url()."investment_org/".$cresults[$i]['slug']."' >";
 										echo $cresults[$i]['name'];
 										echo "</a>";
 										?>

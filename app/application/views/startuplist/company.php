@@ -10,7 +10,7 @@
 				<tr>
 					<td class='logo'>
 						<div>
-						<a href="<?php echo site_url(); ?>company/<?php echo seoIze($company['name']); ?>/<?php echo $company['id']; ?>" title="<?php echo sanitizeX($company['name'])?>" alt="<?php echo sanitizeX($company['name'])?>">
+						<a href="<?php echo site_url(); ?>company/<?php echo $company['slug']; ?>" title="<?php echo sanitizeX($company['name'])?>" alt="<?php echo sanitizeX($company['name'])?>">
 						<?php
 						if(trim($company['logo'])){
 							?>
@@ -102,7 +102,7 @@
 												echo "<a href='".site_url()."category/".seoIze($value['category'])."/".$value['id']."'>".$value['category']."</a> ";
 												if($count>=4&&0){
 													if($count<$ct){
-														?><a href="<?php echo site_url(); ?>company/<?php echo seoIze($company['name']); ?>/<?php echo $company['id']; ?>">...<?php
+														?><a href="<?php echo site_url(); ?>company/<?php echo $company['slug']; ?>">...<?php
 													}
 													break;
 												}
@@ -188,14 +188,14 @@
 													echo "<tr>";
 													
 													if(trim($value['profile_image'])){
-														echo "<td class='middle pad5'><a href='".site_url()."person/".seoIze($value['name'])."/".$value['person_id']."'><img class='rounded' src='".site_url()."media/image.php?p=".$value['profile_image']."&mx=38'></a></td>";
+														echo "<td class='middle pad5'><a href='".site_url()."person/".$value['slug']."'><img class='rounded' src='".site_url()."media/image.php?p=".$value['profile_image']."&mx=38'></a></td>";
 													}
 													else{
 														$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
-														echo "<td class='middle pad5'><a href='".site_url()."person/".seoIze($value['name'])."/".$value['person_id']."'><img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38'></a></td>";
+														echo "<td class='middle pad5'><a href='".site_url()."person/".$value['slug']."'><img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38'></a></td>";
 													}
 													
-													echo "<td class='middle pad5'><a href='".site_url()."person/".seoIze($value['name'])."/".$value['person_id']."'>".$value['name']."</a> ".$year."<br />".$value['role']."</td>";
+													echo "<td class='middle pad5'><a href='".site_url()."person/".$value['slug']."'>".$value['name']."</a> ".$year."<br />".$value['role']."</td>";
 													echo "</tr>";
 												//}
 												$n++;
@@ -301,19 +301,34 @@
 											$it = count($company_fundings[$cfi]['investment_orgs']);
 											for($ii=0; $ii<$it; $ii++){
 												echo "<div class='padb5'>";
-												echo "<a href='".site_url()."investment_org/".seoIze($company_fundings[$cfi]['investment_orgs'][$ii]['name'])."/".$company_fundings[$cfi]['investment_orgs'][$ii]['id']."'>".$company_fundings[$cfi]['investment_orgs'][$ii]['name']."</a>";
+												if($company_fundings[$cfi]['investment_orgs'][$ii]['slug']){
+													echo "<a href='".site_url()."investment_org/".$company_fundings[$cfi]['investment_orgs'][$ii]['slug']."'>".$company_fundings[$cfi]['investment_orgs'][$ii]['name']."</a>";
+												}
+												else{
+													echo $company_fundings[$cfi]['investment_orgs'][$ii]['name'];	
+												}
 												echo "</div>";
 											}
 											$it = count($company_fundings[$cfi]['companies']);
 											for($ii=0; $ii<$it; $ii++){
 												echo "<div class='padb5'>";
-												echo "<a href='".site_url()."company/".seoIze($company_fundings[$cfi]['companies'][$ii]['name'])."/".$company_fundings[$cfi]['companies'][$ii]['id']."'>".$company_fundings[$cfi]['companies'][$ii]['name']."</a>";
+												if($company_fundings[$cfi]['companies'][$ii]['slug']){
+													echo "<a href='".site_url()."company/".$company_fundings[$cfi]['companies'][$ii]['slug']."'>".$company_fundings[$cfi]['companies'][$ii]['name']."</a>";
+												}
+												else{
+													echo $company_fundings[$cfi]['companies'][$ii]['name'];
+												}
 												echo "</div>";
 											}
 											$it = count($company_fundings[$cfi]['people']);
 											for($ii=0; $ii<$it; $ii++){
 												echo "<div class='padb5'>";
-												echo "<a href='".site_url()."person/".seoIze($company_fundings[$cfi]['people'][$ii]['name'])."/".$company_fundings[$cfi]['people'][$ii]['id']."'>".$company_fundings[$cfi]['people'][$ii]['name']."</a>";
+												if($company_fundings[$cfi]['people'][$ii]['slug']){
+													echo "<a href='".site_url()."person/".$company_fundings[$cfi]['people'][$ii]['slug']."'>".$company_fundings[$cfi]['people'][$ii]['name']."</a>";
+												}
+												else{
+													echo $company_fundings[$cfi]['people'][$ii]['name'];
+												}
 												echo "</div>";
 											}
 											
@@ -364,7 +379,7 @@
 									<tr>
 										<td class='padb5' >
 											<?php
-											echo "<a href='".site_url()."company/".seoIze($milestones[$cfi]['company_name'])."/".$milestones[$cfi]['company_id']."'>"; 
+											echo "<a href='".site_url()."company/".$milestones[$cfi]['slug']."'>"; 
 											echo $milestones[$cfi]['company_name'];
 											echo "</a>";
 											?>

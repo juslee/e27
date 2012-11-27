@@ -138,17 +138,23 @@ class startuplist extends CI_Controller {
 	}
 	
 	function person($name="", $person_id=""){
-		$sql = "select * from `people` where `id`=".$this->db->escape($person_id);
+		if(!$person_id){
+			$sql = "select * from `people` where `slug`=".$this->db->escape($name);
+		}
+		else{
+			$sql = "select * from `people` where `id`=".$this->db->escape($person_id);
+		}
 		$q = $this->db->query($sql);
 		$person = $q->result_array();	
 		if($person[0]['id']){
+			$person_id = $person[0]['id'];
 			$data = array();
 			$time = time();
 			
 			$sql = "select 
 			`a`.*, 
 			if(`a`.`end_date_ts`=0, $time, `a`.`end_date_ts`) as `end_date_ts2`,
-			`b`.`name` as `company_name`, `b`.`website` as `company_website`, `b`.`logo` as `company_logo` 
+			`b`.`slug` as `slug`, `b`.`name` as `company_name`, `b`.`website` as `company_website`, `b`.`logo` as `company_logo` 
 			from `company_person` as `a` left join `companies` as `b` on (`a`.`company_id`=`b`.`id`) 
 			where `person_id`=".$this->db->escape($person_id)." and `name`<>'' 
 			order by `end_date_ts2` desc, `start_date_ts` desc, `name` asc";
@@ -159,7 +165,7 @@ class startuplist extends CI_Controller {
 			$sql = "select 
 			`a`.*,
 			if(`a`.`end_date_ts`=0, $time, `a`.`end_date_ts`) as `end_date_ts2`,
-			`b`.`name` as `investment_org_name`, `b`.`website` as `investment_org_website`, `b`.`logo` as `investment_org_logo` 
+			`b`.`slug` as `slug`, `b`.`name` as `investment_org_name`, `b`.`website` as `investment_org_website`, `b`.`logo` as `investment_org_logo` 
 			from `investment_org_person` as `a` left join `investment_orgs` as `b` on (`a`.`investment_org_id`=`b`.`id`) 
 			where `person_id`=".$this->db->escape($person_id)." and `name`<>'' 
 			order by `end_date_ts2` desc, `start_date_ts` desc, `name` asc";
@@ -172,7 +178,8 @@ class startuplist extends CI_Controller {
 			`a`.`amount`,
 			`a`.`date_ts`,
 			`a`.`company_id`,
-			`b`.`name` as `company_name`
+			`b`.`name` as `company_name`,
+			`b`.`slug` as `slug`
 			from
 			`company_fundings` as `a` left join `companies` as `b` on (`a`.`company_id` = `b`.`id`) where `a`.`id` in (
 				select distinct `company_funding_id` from `company_fundings_ipc`
@@ -199,10 +206,16 @@ class startuplist extends CI_Controller {
 	}
 	
 	function company($name="", $company_id=""){
-		$sql = "select * from `companies` where `id`=".$this->db->escape($company_id);
+		if(!$company_id){
+			$sql = "select * from `companies` where `slug`=".$this->db->escape($name);
+		}
+		else{
+			$sql = "select * from `companies` where `id`=".$this->db->escape($company_id);
+		}
 		$q = $this->db->query($sql);
 		$company = $q->result_array();	
 		if($company[0]['id']){
+			$company_id = $company[0]['id'];
 			$data = array();
 			$time = time();
 			
@@ -246,7 +259,7 @@ class startuplist extends CI_Controller {
 			$sql = "select 
 			`a`.*, 
 			if(`a`.`end_date_ts`=0, $time, `a`.`end_date_ts`) as `end_date_ts2`,
-			`b`.`name` as `name`, `b`.`profile_image` as `profile_image` from `company_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) 
+			`b`.`slug` as `slug`, `b`.`name` as `name`, `b`.`profile_image` as `profile_image` from `company_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) 
 			where `company_id`=".$this->db->escape($company_id)." and `name`<>'' 
 			order by `name` asc, `end_date_ts2` desc, `start_date_ts` desc";
 			
@@ -276,12 +289,13 @@ class startuplist extends CI_Controller {
 				
 				foreach($company_fundings_ipc as $cfikey=>$cfi){
 					if($cfi['type']=='company'){
-						$sql = "select `id`, `name` from `companies` where `id`=".$this->db->escape($cfi['ipc_id']);
+						$sql = "select `id`, `name`, `slug` from `companies` where `id`=".$this->db->escape($cfi['ipc_id']);
 						$q = $this->db->query($sql);
 						$result = $q->result_array();
 						$push = array();
 						if($result[0]){
 							$push['name'] = $result[0]['name'];
+							$push['slug'] = $result[0]['slug'];
 							$push['id'] = $result[0]['id'];
 						}
 						else{
@@ -292,12 +306,13 @@ class startuplist extends CI_Controller {
 					}
 					
 					if($cfi['type']=='person'){
-						$sql = "select `id`, `name`, `profile_image` from `people` where `id`=".$this->db->escape($cfi['ipc_id']);
+						$sql = "select `id`, `slug`, `name`, `profile_image` from `people` where `id`=".$this->db->escape($cfi['ipc_id']);
 						$q = $this->db->query($sql);
 						$result = $q->result_array();
 						$push = array();
 						if($result[0]){
 							$push['name'] = $result[0]['name'];
+							$push['slug'] = $result[0]['slug'];
 							$push['id'] = $result[0]['id'];
 						}
 						else{
@@ -311,12 +326,13 @@ class startuplist extends CI_Controller {
 					}
 					
 					if($cfi['type']=='investment_org'){
-						$sql = "select `id`, `name` from `investment_orgs` where `id`=".$this->db->escape($cfi['ipc_id']);
+						$sql = "select `id`, `name`, `slug` from `investment_orgs` where `id`=".$this->db->escape($cfi['ipc_id']);
 						$q = $this->db->query($sql);
 						$result = $q->result_array();
 						$push = array();
 						if($result[0]){
 							$push['name'] = $result[0]['name'];
+							$push['slug'] = $result[0]['slug'];
 							$push['id'] = $result[0]['id'];
 						}
 						else{
@@ -358,7 +374,8 @@ class startuplist extends CI_Controller {
 			`a`.`amount`,
 			`a`.`date_ts`,
 			`a`.`company_id`,
-			`b`.`name` as `company_name`
+			`b`.`name` as `company_name`,
+			`b`.`slug` as `slug`
 			from
 			`company_fundings` as `a` left join `companies` as `b` on (`a`.`company_id` = `b`.`id`) where `a`.`id` in (
 				select distinct `company_funding_id` from `company_fundings_ipc`
@@ -452,7 +469,7 @@ class startuplist extends CI_Controller {
 		$nfcompanies = $q->result_array();
 		$newlyfunded = array();
 		foreach($nfcompanies as $nf){
-			$sql = "select `company_fundings`.* ,`companies`.`name`, `companies`.`logo` from `company_fundings` left join `companies` on (`companies`.`id` = `company_fundings`.`company_id`) where `company_id` = '".$nf['company_id']."' and `date_ts`='".$nf['date_ts']."'";
+			$sql = "select `company_fundings`.* , `companies`.`slug`, `companies`.`name`, `companies`.`logo` from `company_fundings` left join `companies` on (`companies`.`id` = `company_fundings`.`company_id`) where `company_id` = '".$nf['company_id']."' and `date_ts`='".$nf['date_ts']."'";
 			$q = $this->db->query($sql);
 			$nfc = $q->result_array();
 			if($nfc[0]){
@@ -461,5 +478,74 @@ class startuplist extends CI_Controller {
 		}
 		
 		return $newlyfunded;
+	}
+	
+	function slugify(){
+		$table = "companies";
+		$sql = "select * from `".$table."`";
+		$q = $this->db->query($sql);
+		$list = $q->result_array();
+		$t = count($list);
+		for($i=0; $i<$t; $i++){
+			$row = $list[$i];
+			$n = 1;
+			do{
+				$slug = seoIze($row['name']);
+				if($n>1){
+					$slug = $slug.$n;
+				}
+				$sql = "select `id` from `".$table."` where `slug`='".$slug."' and `id`<>'".$row['id']."'";
+				$q = $this->db->query($sql);
+				$rowtemp = $q->result_array();
+				$n++;
+			}while($rowtemp[0]['id']);
+			$sql = "update `".$table."` set `slug`='".$slug."' where `id`='".$row['id']."'";
+			$q = $this->db->query($sql);
+		}
+		
+		$table = "people";
+		$sql = "select * from `".$table."`";
+		$q = $this->db->query($sql);
+		$list = $q->result_array();
+		$t = count($list);
+		for($i=0; $i<$t; $i++){
+			$row = $list[$i];
+			$n = 1;
+			do{
+				$slug = seoIze($row['name']);
+				if($n>1){
+					$slug = $slug.$n;
+				}
+				$sql = "select `id` from `".$table."` where `slug`='".$slug."' and `id`<>'".$row['id']."'";
+				$q = $this->db->query($sql);
+				$rowtemp = $q->result_array();
+				$n++;
+			}while($rowtemp[0]['id']);
+			$sql = "update `".$table."` set `slug`='".$slug."' where `id`='".$row['id']."'";
+			$q = $this->db->query($sql);
+		}
+		
+		$table = "investment_orgs";
+		$sql = "select * from `".$table."`";
+		$q = $this->db->query($sql);
+		$list = $q->result_array();
+		$t = count($list);
+		for($i=0; $i<$t; $i++){
+			$row = $list[$i];
+			$n = 1;
+			do{
+				$slug = seoIze($row['name']);
+				if($n>1){
+					$slug = $slug.$n;
+				}
+				$sql = "select `id` from `".$table."` where `slug`='".$slug."' and `id`<>'".$row['id']."'";
+				$q = $this->db->query($sql);
+				$rowtemp = $q->result_array();
+				$n++;
+			}while($rowtemp[0]['id']);
+			$sql = "update `".$table."` set `slug`='".$slug."' where `id`='".$row['id']."'";
+			$q = $this->db->query($sql);
+		}
+		
 	}
 }
