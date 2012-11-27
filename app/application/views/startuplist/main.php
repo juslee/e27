@@ -46,12 +46,33 @@ if($method!="index"){
 }
 ?>
 <script language="javascript" src="<?php echo site_url(); ?>media/js/jquery-1.7.2.min.js"></script>
+<script language="javascript" src="<?php echo site_url(); ?>media/js/jquery.sharrre-1.3.4/jquery.sharrre-1.3.4.js"></script>
 <link rel="stylesheet" href="<?php echo site_url(); ?>media/startuplist/slideshow.css">
 <script language="javascript" src="<?php echo site_url(); ?>media/startuplist/slides.min.jquery.js"></script>
 
 <link type="text/css" rel="stylesheet" href="<?php echo site_url(); ?>startuplist/assets/styles.css">
 <script language="javascript" src="<?php echo site_url(); ?>startuplist/assets/javascript.js"></script>
+
+
+<?php
+if(trim($company['logo'])){
+	?><link rel="image_src" href="<?php echo site_url(); ?>media/image.php?p=<?php echo $company['logo'] ?>&mx=250" /><?php
+}
+else if(trim($person['profile_image'])){
+	?><link rel="image_src" href="<?php echo site_url(); ?>media/image.php?p=<?php echo $person['profile_image'] ?>&mx=250" /><?php
+}
+else if(trim($investment_org['logo'])){
+	?><link rel="image_src" href="<?php echo site_url(); ?>media/image.php?p=<?php echo $investment_org['logo'] ?>&mx=250" /><?php
+}
+else{
+	$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
+	?><link rel="image_src" href="<?php echo site_url(); ?>media/image.php?p=<?php echo $logo; ?>&mx=250" /><?php	
+}
+?>
 </head>
+
+
+
 <body class="font">
 <table cellpadding="0" cellspacing="0" class='maintable'>
 <tr>
@@ -115,6 +136,12 @@ if($method!="index"){
 					<div class="sidebarblockcontainer">
 					<?php
 					$this->load->view("startuplist/bannerad_block");
+					
+					if($method=='company'||$method=='person'||$method=='investment_org'){
+						$this->load->view("startuplist/sharer");
+					}
+					
+					
 					
 					$data = array();
 					$data['newlyfunded'] = $newlyfunded;
