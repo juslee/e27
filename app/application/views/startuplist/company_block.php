@@ -72,7 +72,7 @@
 							$count = 0;
 							foreach($company['categories'] as $value){
 								$count++;
-								echo "<a href='".site_url()."staruplist/company_category/".seoIze($value['category'])."/".$value['id']."'>".$value['category']."</a> ";
+								echo "<a href='".site_url()."category/".seoIze($value['category'])."/".$value['id']."'>".$value['category']."</a> ";
 								if($count>=4){
 									if($count<$ct){
 										?><a href="<?php echo site_url(); ?>startuplist/company/<?php echo seoIze($company['name']); ?>/<?php echo $company['id']; ?>">...<?php
@@ -94,7 +94,7 @@
 						</td>
 						<td class="value small">
 						<?php
-							echo "<a href='".site_url()."staruplist/company_country/".urlencode($company['country'])."'>".trim($company['country'])."</a>";
+							echo "<a href='".site_url()."country/".rawurlencode($company['country'])."'>".trim($company['country'])."</a>";
 						?>
 						</td>
 					</tr>

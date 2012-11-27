@@ -85,7 +85,7 @@
 											$count = 0;
 											foreach($investment_org['categories'] as $value){
 												$count++;
-												echo "<a href='".site_url()."staruplist/company_category/".seoIze($value['category'])."/".$value['id']."'>".$value['category']."</a> ";
+												echo "<a href='".site_url()."category/".seoIze($value['category'])."/".$value['id']."'>".$value['category']."</a> ";
 												if($count>=4){
 													if($count<$ct){
 														?><a href="<?php echo site_url(); ?>company/<?php echo seoIze($investment_org['name']); ?>/<?php echo $investment_org['id']; ?>">...<?php

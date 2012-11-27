@@ -12,12 +12,26 @@ class search extends CI_Controller {
 		$this->all($search);
 	}
 	
-	public function all(){
+	public function all($q="", $id=""){
 		$search = urldecode(trim($_GET['q']));
+		if(!$search){
+			$search = urldecode(trim($q));
+		}
+		$search2 = explode(":",$search);
+		if($search2[1]){
+			$exact = trim($search2[0]);
+			$search2 = html_entity_decode(trim($search2[1]));
+			if($exact!="country"&&$exact!="category"){
+				$exact = "";
+			}
+			if($exact=="category"){
+				$search2 = $id;
+			}
+		}
 		$gfilter = trim($_GET['filter']);
 		$start = $_GET['start'];
 		$start += 0;
-		$limit = 50;
+		$limit = 1000;
 		
 		if($gfilter=='newlyadded'){
 			$filter = "UNIX_TIMESTAMP(`dateadded`)>".(time()-(5*24*60*60)).""; //within 5 days
@@ -39,23 +53,39 @@ class search extends CI_Controller {
 			$results[$table] = array();
 			$sql = "select * from `".$table."` where 
 				(
-					`name` like '%".mysql_real_escape_string($search)."%' or
-					`email_address` like '%".mysql_real_escape_string($search)."%' or
-					`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-					`website` like '%".mysql_real_escape_string($search)."%' or
-					`blog` like '%".mysql_real_escape_string($search)."%' or 
-					`facebook` like '%".mysql_real_escape_string($search)."%' or 
-					`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-					`description` like '%".mysql_real_escape_string($search)."%' or 
-					`tags` like '%".mysql_real_escape_string($search)."%'
+					";
+					if($exact=='country'){
+						$sql .= "
+						`".$exact."` = '".mysql_real_escape_string($search2)."'";
+					}
+					else if($exact=='category'){
+						$sql .= "
+						`id` in (select `company_id` from `company_category` where `category_id`='".mysql_real_escape_string($search2)."')";
+					}
+					else{
+						$sql .= "
+						`name` like '%".mysql_real_escape_string($search)."%' or
+						`email_address` like '%".mysql_real_escape_string($search)."%' or
+						`twitter_username` like '%".mysql_real_escape_string($search)."%' or
+						`website` like '%".mysql_real_escape_string($search)."%' or
+						`blog` like '%".mysql_real_escape_string($search)."%' or 
+						`facebook` like '%".mysql_real_escape_string($search)."%' or 
+						`linkedin` like '%".mysql_real_escape_string($search)."%' or 
+						`description` like '%".mysql_real_escape_string($search)."%' or 
+						`tags` like '%".mysql_real_escape_string($search)."%'";
+					}
+			$sql .="
 				)
 				and
 				(
 					".$filter."
 				)
 			order by `name` asc limit $start, $limit" ;
+			
 			$q = $this->db->query($sql);
 			$$table = $q->result_array();
+			//echo $sql;
+			//print_r($companies);
 			$temparr = array();
 			$resultstemp = $$table;
 			$t = count($resultstemp);
@@ -86,14 +116,25 @@ class search extends CI_Controller {
 			$results[$table] = array();
 			$sql = "select * from `".$table."` where 
 				(
-					`name` like '%".mysql_real_escape_string($search)."%' or
-					`email_address` like '%".mysql_real_escape_string($search)."%' or
-					`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-					`blog` like '%".mysql_real_escape_string($search)."%' or 
-					`facebook` like '%".mysql_real_escape_string($search)."%' or 
-					`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-					`description` like '%".mysql_real_escape_string($search)."%' or 
-					`tags` like '%".mysql_real_escape_string($search)."%'
+					";
+					if($exact=='country'){
+						$sql .= "0";
+					}
+					else if($exact=='category'){
+						$sql .= "0";
+					}
+					else{
+						$sql .= "
+						`name` like '%".mysql_real_escape_string($search)."%' or
+						`email_address` like '%".mysql_real_escape_string($search)."%' or
+						`twitter_username` like '%".mysql_real_escape_string($search)."%' or
+						`blog` like '%".mysql_real_escape_string($search)."%' or 
+						`facebook` like '%".mysql_real_escape_string($search)."%' or 
+						`linkedin` like '%".mysql_real_escape_string($search)."%' or 
+						`description` like '%".mysql_real_escape_string($search)."%' or 
+						`tags` like '%".mysql_real_escape_string($search)."%'";
+					}
+			$sql .="
 				)
 				and
 				(
@@ -132,15 +173,27 @@ class search extends CI_Controller {
 			$results[$table] = array();
 			$sql = "select * from `".$table."` where 
 				(
-					`name` like '%".mysql_real_escape_string($search)."%' or
-					`email_address` like '%".mysql_real_escape_string($search)."%' or
-					`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-					`website` like '%".mysql_real_escape_string($search)."%' or
-					`blog` like '%".mysql_real_escape_string($search)."%' or 
-					`facebook` like '%".mysql_real_escape_string($search)."%' or 
-					`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-					`description` like '%".mysql_real_escape_string($search)."%' or 
-					`tags` like '%".mysql_real_escape_string($search)."%'
+					";
+					if($exact=='country'){
+						$sql .= "
+						`".$exact."` = '".mysql_real_escape_string($search2)."'";
+					}
+					else if($exact=='category'){
+						$sql .= "0";
+					}
+					else{
+						$sql .= "
+						`name` like '%".mysql_real_escape_string($search)."%' or
+						`email_address` like '%".mysql_real_escape_string($search)."%' or
+						`twitter_username` like '%".mysql_real_escape_string($search)."%' or
+						`website` like '%".mysql_real_escape_string($search)."%' or
+						`blog` like '%".mysql_real_escape_string($search)."%' or 
+						`facebook` like '%".mysql_real_escape_string($search)."%' or 
+						`linkedin` like '%".mysql_real_escape_string($search)."%' or 
+						`description` like '%".mysql_real_escape_string($search)."%' or 
+						`tags` like '%".mysql_real_escape_string($search)."%'";
+					}
+			$sql .="
 				)
 				and
 				(

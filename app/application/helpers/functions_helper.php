@@ -52,6 +52,14 @@ function amountIze($amount){
 	return $amount;
 }
 
+function seoIze2($str){
+	$str = str_replace(" ", "_", $str);
+	return $str;
+}
+function unseoIze2($str){
+	$str = str_replace("_", " ", $str);
+	return $str;
+}
 function seoIze($str){
 	return preg_replace("/[^a-zA-Z0-9]/iUs", "_", $str);
 }
