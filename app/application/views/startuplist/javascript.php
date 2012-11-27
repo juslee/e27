@@ -70,6 +70,7 @@ jQuery(function(){
 	sbcheight = jQuery(".sidebarblockcontainer").height();
 	
 	jQuery(window).resize(function () {
+		return false;
 		pos = jQuery(".sidebarblockcontainer").position();
 		wh = uNum(jQuery(window).height());
 		sh = uNum(jQuery(window).scrollTop())+uNum(jQuery(window).height()); //scroll plus window height
@@ -139,7 +140,7 @@ jQuery(function(){
 	
 	});
 	jQuery(window).scroll(function () { 
-		
+		return false;
 		pos = jQuery(".sidebarblockcontainer").position();
 		wh = uNum(jQuery(window).height());
 		sh = uNum(jQuery(window).scrollTop())+uNum(jQuery(window).height()); //scroll plus window height
