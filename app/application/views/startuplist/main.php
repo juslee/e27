@@ -46,7 +46,7 @@ if($method!="index"){
 }
 ?>
 <script language="javascript" src="<?php echo site_url(); ?>media/js/jquery-1.7.2.min.js"></script>
-<script language="javascript" src="<?php echo site_url(); ?>media/js/jquery.sharrre-1.3.4/jquery.sharrre-1.3.4.js"></script>
+<?php /* <script language="javascript" src="<?php echo site_url(); ?>media/js/jquery.sharrre-1.3.4/jquery.sharrre-1.3.4.js"></script> */ ?>
 <link rel="stylesheet" href="<?php echo site_url(); ?>media/startuplist/slideshow.css">
 <script language="javascript" src="<?php echo site_url(); ?>media/startuplist/slides.min.jquery.js"></script>
 
@@ -74,6 +74,14 @@ else{
 
 
 <body class="font">
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <table cellpadding="0" cellspacing="0" class='maintable'>
 <tr>
 	<td class="banner">
@@ -135,11 +143,13 @@ else{
 				<td class="sidebar">
 					<div class="sidebarblockcontainer">
 					<?php
-					$this->load->view("startuplist/bannerad_block");
-					
 					if($method=='company'||$method=='person'||$method=='investment_org'){
 						$this->load->view("startuplist/sharer");
 					}
+					
+					$this->load->view("startuplist/bannerad_block");
+					
+					
 					
 					
 					
