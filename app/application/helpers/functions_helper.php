@@ -61,7 +61,9 @@ function unseoIze2($str){
 	return $str;
 }
 function seoIze($str){
-	return preg_replace("/[^a-zA-Z0-9]/iUs", "_", $str);
+	$str = preg_replace("/[^a-zA-Z0-9]/iUs", "-", $str);
+	$str = trim($str, "-");
+	return $str;
 }
 function site_url(){
 	$host = $_SERVER['HTTP_HOST'];

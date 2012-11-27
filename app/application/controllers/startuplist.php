@@ -409,10 +409,16 @@ class startuplist extends CI_Controller {
 	}
 	
 	function investment_org($name="", $investment_org_id=""){
-		$sql = "select * from `investment_orgs` where `id`=".$this->db->escape($investment_org_id);
+		if(!$investment_org_id){
+			$sql = "select * from `investment_orgs` where `slug`=".$this->db->escape($name);
+		}
+		else{
+			$sql = "select * from `investment_orgs` where `id`=".$this->db->escape($investment_org_id);
+		}
 		$q = $this->db->query($sql);
 		$investment_org = $q->result_array();	
 		if($investment_org[0]['id']){
+			$investment_org_id = $investment_org[0]['id'];
 			$data = array();
 			$time = time();
 			$sql = "select * from `countries`";
@@ -423,7 +429,7 @@ class startuplist extends CI_Controller {
 			$sql = "select 
 			`a`.*, 
 			if(`a`.`end_date_ts`=0, $time, `a`.`end_date_ts`) as `end_date_ts2`,
-			`b`.`name` as `name` from `investment_org_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) 
+			`b`.`name` as `name`, `b`.`slug` as `slug` from `investment_org_person` as `a` left join `people` as `b` on (`a`.`person_id`=`b`.`id`) 
 			where `investment_org_id`=".$this->db->escape($investment_org_id)." and `name`<>'' 
 			order by `end_date_ts2` desc, `start_date_ts` desc, `name` asc";
 			$q = $this->db->query($sql);
@@ -435,7 +441,8 @@ class startuplist extends CI_Controller {
 			`a`.`amount`,
 			`a`.`date_ts`,
 			`a`.`company_id`,
-			`b`.`name` as `company_name`
+			`b`.`name` as `company_name`,
+			`b`.`slug` as `slug`
 			from
 			`company_fundings` as `a` left join `companies` as `b` on (`a`.`company_id` = `b`.`id`) where `a`.`id` in (
 				select distinct `company_funding_id` from `company_fundings_ipc`
