@@ -348,6 +348,14 @@ img.rounded{
 	padding:10px;
 }
 
+.pad20{
+	padding:20px;
+}
+
+.pad30{
+	padding:30px;
+}
+
 .hidden{
 	display:none;
 }

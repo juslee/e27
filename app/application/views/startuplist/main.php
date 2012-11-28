@@ -96,7 +96,7 @@ else{
 				<td>
 					<table class="p100" cellpadding="0" cellspacing="0">
 						<tr>
-							<td class='bannerleft left middle'><a href="<?php echo site_url(); ?>startuplist"><img src="<?php echo site_url(); ?>media/startuplist/startuplist.png"></a></td>
+							<td class='bannerleft left middle'><a href="<?php echo site_url(); ?>"><img src="<?php echo site_url(); ?>media/startuplist/startuplist.png"></a></td>
 							<td class='bannerright right  p100'><img src="<?php echo site_url(); ?>media/startuplist/banner.png"></td>
 						</tr>
 					</table>
