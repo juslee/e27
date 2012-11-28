@@ -19,7 +19,7 @@ if($format=='xls'||$format=="html"){
 		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Facebook Page</font></td>
 		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">LinkedIn Page</font></td>
 		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Number of Employees</font></td>
-		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Date Founded (mm/dd/yyyy)</font></td>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Founded (yyyy or mm/dd/yyyy)</font></td>
 		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Country</font></td>
 		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Tags</font></td>
 		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Status</font></td>
@@ -80,7 +80,7 @@ else if($format=='csv'){
 	$line .= '"Facebook Page",';
 	$line .= '"LinkedIn Page",';
 	$line .= '"Number of Employees",';
-	$line .= '"Date Founded (mm/dd/yyyy)",';
+	$line .= '"Founded (yyyy or mm/dd/yyyy)",';
 	$line .= '"Country",';
 	$line .= '"Tags",';
 	$line .= '"Status",';

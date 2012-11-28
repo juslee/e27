@@ -143,7 +143,7 @@ else{
 				<td class="sidebar">
 					<div class="sidebarblockcontainer">
 					<?php
-					if($method=='company'||$method=='person'||$method=='investment_org'){
+					if($method=='company'||$method=='person'||$method=='investment_org'||$method=='index'){
 						$this->load->view("startuplist/sharer");
 					}
 					

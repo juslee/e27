@@ -82,7 +82,36 @@
 										Twitter
 									</td>
 									<td class='value'>
-										<a href="http://www.twitter.com/<?php echo str_replace("@", "", $company['twitter_username']); ?>"><?php echo $company['twitter_username']; ?></a>
+										<?php
+										$tws = explode(",", $company['twitter_username']);
+										foreach($tws as $twitter_username){
+											?><a href="http://www.twitter.com/<?php echo str_replace("@", "", $twitter_username); ?>"><?php echo "@".str_replace("@", "", $twitter_username);?></a>&nbsp;<?php
+										}
+										?>
+									</td>
+								</tr>
+								<?php
+							}
+							if(trim($company['facebook'])){
+								?>
+								<tr>
+									<td class='label'>
+										Facebook
+									</td>
+									<td class='value'>
+										<a href="<?php echo $company['facebook']; ?>"><?php echo $company['facebook']; ?></a>
+									</td>
+								</tr>
+								<?php
+							}
+							if(trim($company['linkedin'])){
+								?>
+								<tr>
+									<td class='label'>
+										LinkedIn
+									</td>
+									<td class='value'>
+										<a href="<?php echo $company['linkedin']; ?>"><?php echo $company['linkedin']; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -133,7 +162,16 @@
 										Founded
 									</td>
 									<td class='value'>
-										<?php echo date("M d, Y", strtotime($company['founded'])); ?>
+										<?php 
+										if(strlen($company['founded'])==4 && is_numeric($company['founded'])){
+											echo $company['founded'];
+										}
+										else{
+											echo date("M d, Y", strtotime($company['founded']));
+										}
+										
+										
+										?>
 									</td>
 								</tr>
 								<?php

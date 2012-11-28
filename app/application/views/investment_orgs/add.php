@@ -397,9 +397,9 @@ else{
     </tr>
    
     <tr class="even">
-      <td>Date Founded:</td>
+      <td>Founded:</td>
       <td>
-	  	<input type='text' class='datepicker' alt='founded' id='founded_pick' name='founded' /><div class='hint'>mm/dd/yyyy</div>
+	  	<input type='text' class='datepicker' alt='founded' id='founded_pick' name='founded' /><div class='hint'>yyyy or mm/dd/yyyy</div>
       </td>
     </tr>
     <tr class="odd">
