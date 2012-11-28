@@ -78,18 +78,7 @@
 								</tr>
 								<?php
 							}
-							if(trim($person['twitter_username'])){
-								?>
-								<tr>
-									<td class='label'>
-										Twitter
-									</td>
-									<td class='value'>
-										<a href="http://www.twitter.com/<?php echo str_replace("@", "", $person['twitter_username']); ?>"><?php echo $person['twitter_username']; ?></a>
-									</td>
-								</tr>
-								<?php
-							}
+							
 							if(trim($person['blog_url'])){
 								?>
 								<tr>
@@ -102,14 +91,47 @@
 								</tr>
 								<?php
 							}
+							if(trim($person['twitter_username'])){
+								?>
+								<tr>
+									<td class='label'>
+										Twitter
+									</td>
+									<td class='value'>
+										<?php
+										$tws = explode(",", $person['twitter_username']);
+										$twitarr = array();
+										foreach($tws as $twitter_username){
+											$twitter_username = trim($twitter_username);
+											$twitter_username = trim($twitter_username, "@");
+											$twitarr[] = '<a href="http://www.twitter.com/'.$twitter_username.'">@'.$twitter_username.'</a>';
+										}
+										echo implode(", ", $twitarr);
+										?>
+									</td>
+								</tr>
+								<?php
+							}
+							if(trim($person['facebook'])){
+								?>
+								<tr>
+									<td class='label'>
+										Facebook
+									</td>
+									<td class='value'>
+										<a href="<?php echo $person['facebook']; ?>"><?php echo $person['facebook']; ?></a>
+									</td>
+								</tr>
+								<?php
+							}
 							if(trim($person['linkedin'])){
 								?>
 								<tr>
 									<td class='label'>
-										Blog
+										LinkedIn
 									</td>
 									<td class='value'>
-										<a href="<?php echo $person['linkedin']; ?>"><?php echo $person['name']; ?></a>
+										<a href="<?php echo $person['linkedin']; ?>"><?php echo $person['linkedin']; ?></a>
 									</td>
 								</tr>
 								<?php
