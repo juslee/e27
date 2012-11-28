@@ -1,106 +1,123 @@
 <?php
 $t = count($companies);
-header('Content-type: application/ms-excel');
-header("Content-Type: application/force-download");
-header('Content-Disposition: attachment; filename=companies.xls');
-?>
-<table border="1">
-<tr bgcolor="#008000">
-	<td>Headers</td>
-	<td>Name of Company</td>
-	<td>Description</td>
-	<td>Blog</td>	
-	<td>Twitter</td>
-	<td>Facebook</td>
-	<td>Email address</td>	
-	<td>Year Founded</td>
-	<td>Logo</td>
-	<td>Country</td>
-	<td>People</td>
-	<td>Funding</td>
-	<td>Screenshots</td>
-	<td>Competitors</td>
-	<td>Status</td>
-	<td>Active?</td>
-</tr>
-<tr bgcolor="#75923C">
-	<td>Data Format:</td>
-	<td>[Incorporated company]</td>
-	<td>[Text Description]</td>
-	<td>[Blog URL],[Blog Feed URL]</td>
-	<td>[Twitter handler],[Twitter handler2]</td>
-	<td>[Facebook Page URL], [Facebook Page URL 2]</td>
-	<td>[General contact email address]</td>
-	<td>[yyyy]</td>
-	<td></td>
-	<td>[Recognized country name]</td>
-	<td>[First Last name],[position],[year joined],[First Last name 2],[position],[year joined]</td>
-	<td>[Investment Size],[currency+amount],[year],[investor],[Investment 2 Size],[currency+amount],[year],[investor]</td>
-	<td></td>
-	<td></td>
-	<td>["Closed"/"Live"]</td>
-	<td>["1"/"0"]</td>
-</tr>
-<?php
-for($i=0; $i<$t; $i++){
-	/*
-	Array
-	(
-		[id] => 51
-		[name] => e27
-		[description] => F
-		[website] => 
-		[blog] => 
-		[blog_url] => 
-		[twitter_username] => 
-		[facebook] => 
-		[linkedin] => 
-		[number_of_employees] => 0
-		[email_address] => mohanbelani@gmail.com
-		[founded] => 11/01/2012
-		[found_year] => 2012
-		[found_month] => 11
-		[found_day] => 1
-		[country] => Singapore
-		[logo] => 
-		[tags] => 
-		[status] => Live
-		[active] => 1
-		[dateadded] => 2012-11-03 21:43:12
-		[dateupdated] => 2012-11-15 10:51:18
-	)
-	*/
-	$c = $companies[$i];
-	echo "<tr bgcolor='#C2D69A'>";
-	?>
-	<td><?php echo htmlentities(date("M d, Y", strtotime($c['dateadded']))); ?></td>
-	<td><?php echo htmlentities($c['name']); ?></td>
-	<td><?php echo htmlentities($c['description']); ?></td>
-	<td><?php echo htmlentities($c['blog_url']); ?>,<?php echo htmlentities($c['blog']); ?></td>
-	<td><?php echo htmlentities($c['twitter_username']); ?></td>
-	<td><?php echo htmlentities($c['facebook']); ?></td>
-	<td><?php echo htmlentities($c['email_address']); ?></td>
-	<td><?php echo htmlentities($c['found_year']); ?></td>
-	<?php
-	if(trim($c['logo'])&&0){
-		$imgdata = file_get_contents(site_url()."media/image.php?p=".$c['logo']."&mx=50");
-		$imgdata = base64_encode($imgdata);
-		$img = '<img src="data::image/jpg;base64,'.$imgdata.'" />';
-	}
-	else{
-		$img = "";
+if($format=='xls'||$format=="html"){
+	if($format=='xls'){
+		header('Content-type: application/ms-excel');
+		header("Content-Type: application/force-download");
+		header('Content-Disposition: attachment; filename=companies.xls');
 	}
 	?>
-	<td><?php echo $img; ?></td>
-	<td><?php echo htmlentities($c['country']); ?></td>
-	<td><?php echo htmlentities($c['people']); ?></td>
-	<td><?php echo htmlentities($c['company_fundings']); ?></td>
-	<td></td>
-	<td><?php echo htmlentities($c['competitors']); ?></td>
-	<td><?php echo htmlentities($c['status']); ?></td>
-	<td><?php echo htmlentities($c['active']); ?></td>
+	<table border="1">
+	<tr>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Company Name</font></td>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Description</font></td>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">E-mail Address</font></td>	
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Website</font></td>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Blog URL</font></td>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Blog RSS feed URL</font></td>	
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Twitter Username</font></td>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Facebook Page</font></td>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">LinkedIn Page</font></td>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Number of Employees</font></td>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Date Founded (mm/dd/yyyy)</font></td>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Country</font></td>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Tags</font></td>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Status</font></td>
+		<td valign="top" bgcolor="#008000"><font color="#FFFFFF">Active?</font></td>
+		<td valign="top" bgcolor="red"><font color="#FFFFFF">Categories</font></td>
+		<td valign="top" bgcolor="red"><font color="#FFFFFF">People</font></td>
+		<td valign="top" bgcolor="red"><font color="#FFFFFF">Competitors</font></td>
+		<td valign="top" bgcolor="red"><font color="#FFFFFF">Funding</font></td>
+		<td valign="top" bgcolor="red"><font color="#FFFFFF">Investments</font></td>
+		<td valign="top" bgcolor="red"><font color="#FFFFFF">Date Added</font></td>
+	</tr>
 	<?php
-	echo "</tr>";
+	for($i=0; $i<$t; $i++){
+		$c = $companies[$i];
+		?>
+		<tr>
+		
+		<td valign="top"><?php echo htmlentities($c['name']); ?></td>
+		<td valign="top"><?php echo htmlentities($c['description']); ?></td>
+		<td valign="top"><?php echo htmlentities($c['email_address']); ?></td>	
+		<td valign="top"><?php echo htmlentities($c['website']); ?></td>
+		<td valign="top"><?php echo htmlentities($c['blog_url']); ?></td>
+		<td valign="top"><?php echo htmlentities($c['blog']); ?></td>	
+		<td valign="top"><?php echo htmlentities($c['twitter_username']); ?></td>
+		<td valign="top"><?php echo htmlentities($c['facebook']); ?></td>
+		<td valign="top"><?php echo htmlentities($c['linkedin']); ?></td>
+		<td valign="top"><?php echo htmlentities($c['number_of_employees']); ?></td>
+		<td valign="top"><?php echo htmlentities($c['founded']); ?></td>
+		<td valign="top"><?php echo htmlentities($c['country']); ?></td>
+		<td valign="top"><?php echo htmlentities($c['tags']); ?></td>
+		<td valign="top"><?php echo htmlentities($c['status']); ?></td>
+		<td valign="top"><?php echo htmlentities($c['active']); ?></td>
+		<td valign="top" bgcolor="red"><font color="#FFFFFF"><?php echo htmlentities($c['categories']); ?></font></td>
+		<td valign="top" bgcolor="red"><font color="#FFFFFF"><?php echo htmlentities($c['people']); ?></font></td>
+		<td valign="top" bgcolor="red"><font color="#FFFFFF"><?php echo htmlentities($c['competitors']); ?></font></td>
+		<td valign="top" bgcolor="red"><font color="#FFFFFF"><?php echo htmlentities($c['company_fundings']); ?></font></td>
+		<td valign="top" bgcolor="red"><font color="#FFFFFF"><?php echo htmlentities($c['milestones']); ?></font></td>
+		<td valign="top" bgcolor="red"><font color="#FFFFFF"><?php echo htmlentities(date("M d, Y", strtotime($c['dateadded']))); ?></font></td>
+		</tr>
+		<?php
+	}
+	?>
+	</table>
+	<?php
+}
+else if($format=='csv'){
+	//header('Content-type: application/ms-excel');
+	header("Content-Type: application/force-download");
+	header('Content-Disposition: attachment; filename=companies.csv');
+	$line = "";
+	$line .= '"Company Name",';
+	$line .= '"Description",';
+	$line .= '"E-mail Address",';
+	$line .= '"Website",';
+	$line .= '"Blog URL",';
+	$line .= '"Blog RSS feed URL",';
+	$line .= '"Twitter Username",';
+	$line .= '"Facebook Page",';
+	$line .= '"LinkedIn Page",';
+	$line .= '"Number of Employees",';
+	$line .= '"Date Founded (mm/dd/yyyy)",';
+	$line .= '"Country",';
+	$line .= '"Tags",';
+	$line .= '"Status",';
+	$line .= '"Active?",';
+	$line .= '"Categories",';
+	$line .= '"People",';
+	$line .= '"Competitors",';
+	$line .= '"Funding",';
+	$line .= '"Investments",';
+	$line .= '"Date Added",';
+	echo $line."\n";
+
+	for($i=0; $i<$t; $i++){
+		$c = $companies[$i];
+		$line = "";
+		$line .= '"'.htmlentities($c['name']).'",';
+		$line .= '"'.htmlentities($c['description']).'",';
+		$line .= '"'.htmlentities($c['email_address']).'",';	
+		$line .= '"'.htmlentities($c['website']).'",';
+		$line .= '"'.htmlentities($c['blog_url']).'",';
+		$line .= '"'.htmlentities($c['blog']).'",';	
+		$line .= '"'.htmlentities($c['twitter_username']).'",';
+		$line .= '"'.htmlentities($c['facebook']).'",';
+		$line .= '"'.htmlentities($c['linkedin']).'",';
+		$line .= '"'.htmlentities($c['number_of_employees']).'",';
+		$line .= '"'.htmlentities($c['founded']).'",';
+		$line .= '"'.htmlentities($c['country']).'",';
+		$line .= '"'.htmlentities($c['tags']).'",';
+		$line .= '"'.htmlentities($c['status']).'",';
+		$line .= '"'.htmlentities($c['active']).'",';
+		$line .= '"'.htmlentities($c['categories']).'",';
+		$line .= '"'.htmlentities($c['people']).'",';
+		$line .= '"'.htmlentities($c['competitors']).'",';
+		$line .= '"'.htmlentities($c['company_fundings']).'",';
+		$line .= '"'.htmlentities($c['milestones']).'",';
+		$line .= '"'.htmlentities(date("M d, Y", strtotime($c['dateadded']))).'",';
+		echo $line."\n";
+	}
 }
 ?>
-</table>

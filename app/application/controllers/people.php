@@ -152,7 +152,7 @@ class people extends CI_Controller {
 		$this->load->view('layout/main', $data);
 	}
 	
-	public function export($md5){
+	public function export($md5, $format="html"){
 		$sql = $_SESSION['export_sqls'][$md5];
 		if($sql){
 			$q = $this->db->query($sql);
@@ -173,7 +173,7 @@ class people extends CI_Controller {
 				$companies = $q->result_array();
 				$companiesarr = array();
 				foreach($companies as $company){
-					$companiesarr[] = $company['name'].",".$company['role'].",".date("Y", $company['start_date_ts']);
+					$companiesarr[] = safeExport($company['name']).",".safeExport($company['role']).",".date("M/d/Y", $company['start_date_ts']);
 				}
 				$companiesstr = implode(", ", $companiesarr);
 				$people[$i]['companies'] = $companiesstr;
@@ -188,13 +188,42 @@ class people extends CI_Controller {
 				$investment_orgs = $q->result_array();
 				$investment_orgsarr = array();
 				foreach($investment_orgs as $investment_org){
-					$investment_orgsarr[] = $investment_org['name'].",".$investment_org['role'].",".date("Y", $investment_org['start_date_ts']);
+					$investment_orgsarr[] = safeExport($investment_org['name']).",".safeExport($investment_org['role']).",".date("M/d/Y", $investment_org['start_date_ts']);
 				}
 				$investment_orgsstr = implode(", ", $investment_orgsarr);
 				$people[$i]['investment_orgs'] = $investment_orgsstr;
+				
+				$sql = "select 
+				`a`.`round`,
+				`a`.`currency`,
+				`a`.`amount`,
+				`a`.`date_ts`,
+				`a`.`company_id`,
+				`b`.`name` as `company_name`
+				from
+				`company_fundings` as `a` left join `companies` as `b` on (`a`.`company_id` = `b`.`id`) where `a`.`id` in (
+					select distinct `company_funding_id` from `company_fundings_ipc`
+					where 
+					`ipc_id`=".$this->db->escape($person_id)." and 
+					`type`='person'
+					)
+				order by `date_ts` desc, `company_name` asc
+				";
+				$q = $this->db->query($sql);
+				$milestones = $q->result_array();
+				
+				$milestonesarr = array();
+				foreach($milestones as $milestone){
+					$str = safeExport($milestone['round']).",".
+					$milestone['currency'].number_format($milestone['amount'], 2, ".", "").",".
+					date('M/d/Y', $milestone['date_ts']).",".safeExport($milestone['company_name']);
+					$milestonesarr[] = $str;
+				}
+				$people[$i]['milestones'] = implode(", ", $milestonesarr);
 			}
 			$data = array();
 			$data['people'] = $people;
+			$data['format'] = $format;
 			$this->load->view('people/export', $data);
 		}
 	}

@@ -1600,7 +1600,7 @@ else{
     </tr>
 
     <tr class="odd">
-      <td>Year Founded:</td>
+      <td>Date Founded:</td>
       <td>
 	  	<input type='text' class='datepicker' alt='founded' id='founded_pick' name='founded' /><div class='hint'>mm/dd/yyyy</div>
 		<?php /*<input type='hidden' name='founded' id='founded' > */ ?>

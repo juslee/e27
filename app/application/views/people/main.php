@@ -100,7 +100,10 @@ $t = count($people);
 	if($t){
 		?>
 		<tr>
-			<td colspan=8 style='border:0px;'>[ <a href='<?php echo site_url(); ?>people/export/<?php echo $export_sql?>' >EXPORT TO EXCEL</a> ]</th>
+			<td colspan=8 style='border:0px;'>
+			[ <a href='<?php echo site_url(); ?>people/export/<?php echo $export_sql?>/xls' >EXPORT TO EXCEL</a> ]
+			[ <a href='<?php echo site_url(); ?>people/export/<?php echo $export_sql?>/csv' >EXPORT TO CSV</a> ]
+			</th>
 		</tr>
 		<?php
 	}

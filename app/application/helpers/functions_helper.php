@@ -67,7 +67,12 @@ function seoIze($str){
 }
 function site_url(){
 	$host = $_SERVER['HTTP_HOST'];
-	return "http://".$host."/_e27/app/";
+	if($host=='localhost'){
+		return "http://".$host."/_e27/app/";
+	}
+	else{
+		return "http://".$host."/";
+	}
 }
 function redirect_to($url){
 	ob_end_clean();
@@ -108,5 +113,12 @@ function SureRemoveDir($dir, $DeleteMe=false) {
     if ($DeleteMe){
         @rmdir($dir);
     }
+}
+
+function safeExport($str){
+	$str = trim($str);
+	$str = str_replace(",", "", $str);
+	$str = preg_replace("/[^a-zA-Z0-9]/iUs", " ", $str);
+	return $str;
 }
 ?>
