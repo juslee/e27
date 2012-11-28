@@ -328,11 +328,23 @@ class investment_orgs extends CI_Controller {
 	}
 	
 	public function ajax_add_investment_org_shortcut_ipc(){	
+		if(trim($_POST['name'])){
+			//check if company already exists
+			$sql = "select `id` from `investment_orgs` where `name`=".$this->db->escape(trim($_POST['name']));
+			$q = $this->db->query($sql);
+			$investment_org = $q->result_array();	
+		}
 		$err = 0;
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
 			alertX("<div class='red'>Please input a Name.</div>");
+			<?php
+		}
+		else if($investment_org[0]['id']){
+			$err = 1;
+			?>
+			alertX("<div class='red'>Investment Organization already exists in the database.</div>");
 			<?php
 		}
 		
