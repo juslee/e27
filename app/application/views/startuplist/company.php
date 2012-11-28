@@ -84,9 +84,13 @@
 									<td class='value'>
 										<?php
 										$tws = explode(",", $company['twitter_username']);
+										$twitarr = array();
 										foreach($tws as $twitter_username){
-											?><a href="http://www.twitter.com/<?php echo str_replace("@", "", $twitter_username); ?>"><?php echo "@".str_replace("@", "", $twitter_username);?></a>&nbsp;<?php
+											$twitter_username = trim($twitter_username);
+											$twitter_username = trim($twitter_username, "@");
+											$twitarr[] = '<a href="http://www.twitter.com/'.$twitter_username.'">@'.$twitter_username.'</a>';
 										}
+										echo implode(", ", $twitarr);
 										?>
 									</td>
 								</tr>

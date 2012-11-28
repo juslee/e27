@@ -36,7 +36,7 @@ if($method!="index"){
 				</div>
 			</td>
 			<td style="width:96px;">
-				<div style="width:96px; overflow:hidden">
+				<div style="width:94px; overflow:hidden; padding-left:2px">
 					<script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
 <script type="IN/Share" data-url="<?php echo site_url().uri_string(); ?>" data-counter="right"></script>
 				</div>

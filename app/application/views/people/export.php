@@ -4,7 +4,7 @@ if($format=='xls'||$format=="html"){
 	if($format=='xls'){
 		header('Content-type: application/ms-excel');
 		header("Content-Type: application/force-download");
-		header('Content-Disposition: attachment; filename=companies.xls');
+		header('Content-Disposition: attachment; filename=people.xls');
 	}
 	?>
 	<table border="1">

@@ -4,7 +4,7 @@ if($format=='xls'||$format=="html"){
 	if($format=='xls'){
 		header('Content-type: application/ms-excel');
 		header("Content-Type: application/force-download");
-		header('Content-Disposition: attachment; filename=companies.xls');
+		header('Content-Disposition: attachment; filename=investment_orgs.xls');
 	}
 	?>
 	<table border="1">
@@ -61,7 +61,7 @@ if($format=='xls'||$format=="html"){
 else if($format=='csv'){
 	//header('Content-type: application/ms-excel');
 	header("Content-Type: application/force-download");
-	header('Content-Disposition: attachment; filename=companies.csv');
+	header('Content-Disposition: attachment; filename=investment_orgs.csv');
 	$line = "";
 	$line .= '"Name",';
 	$line .= '"Description",';
