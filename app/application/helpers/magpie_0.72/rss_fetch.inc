@@ -86,6 +86,7 @@ define('MAGPIE_VERSION', '0.72');
 $MAGPIE_ERROR = "";
 
 function fetch_rss ($url) {
+
     // initialize constants
     init();
     
@@ -115,6 +116,7 @@ function fetch_rss ($url) {
     } 
     // else cache is ON
     else {
+	
         // Flow
         // 1. check cache
         // 2. if there is a hit, make sure its fresh
@@ -142,8 +144,9 @@ function fetch_rss ($url) {
             $cache_status = $cache->check_cache( $cache_key);
         }
                 
+
         // if object cached, and cache is fresh, return cached obj
-        if ( $cache_status == 'HIT' ) {
+        if ( $cache_status == 'HIT') {
             $rss = $cache->get( $cache_key );
             if ( isset($rss) and $rss ) {
                 // should be cache age
@@ -165,15 +168,19 @@ function fetch_rss ($url) {
                 $request_headers['If-Last-Modified'] = $rss->last_modified;
             }
         }
+		
         
         $resp = _fetch_remote_file( $url, $request_headers );
         
-		//jairus
+		
+		//$resp->results = utf8_encode($resp->results);
+		
 		//echo trim($resp->results);
 		
 		if(!trim($resp->results)){
 			$results = file_get_contents($url);
 		}
+		
 		
         if (isset($resp) and $resp) {
           if ($resp->status == '304' ) {

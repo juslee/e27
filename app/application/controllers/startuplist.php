@@ -192,6 +192,30 @@ class startuplist extends CI_Controller {
 			";
 			$q = $this->db->query($sql);
 			$milestones = $q->result_array();
+			
+			//related e27 articles
+			//echo "fetching...".$url;
+			if(trim($person[0]['tags'])){
+				$tags = explode(",", $person[0]['tags']);
+				
+				$tt = count($tags);
+				for($it=0; $it<$tt; $it++){
+					$tags[$it] = seoIze($tags[$it]);
+				}
+				$tagsstr = implode(",", $tags);
+				
+				$url = "http://e27.sg/tag/".$tagsstr."/feed";
+				
+				$rss = @fetch_rss( $url );
+				$items = @array_slice($rss->items, 0, 10);
+				$feeds = array();
+				$feeds['rss'] = $rss;
+				$feeds['items'] = $items;
+				$feeds['url'] = $url;
+				$feeds['time'] = $time;
+			}
+			$data['feeds'] = $feeds;
+			
 			$data['milestones'] = $milestones;
 			$data['investment_orgs'] = $investment_orgs;
 			$data['companies'] = $companies;
@@ -401,14 +425,17 @@ class startuplist extends CI_Controller {
 				$url = "http://e27.sg/tag/".$tagsstr."/feed";
 				$rss = @fetch_rss( $url );
 				$items = @array_slice($rss->items, 0, 10);
-				$company[0]['feed'] = array();
-				$company[0]['feed']['rss'] = $rss;
-				$company[0]['feed']['items'] = $items;
-				$company[0]['feed']['url'] = $url;
-				$company[0]['feed']['time'] = $time;
+				$feeds = array();
+				$feeds['rss'] = $rss;
+				$feeds['items'] = $items;
+				$feeds['url'] = $url;
+				$feeds['time'] = $time;
 			}
+			$data['feeds'] = $feeds;
+			
 			$q = $this->db->query($sql);
 			$milestones = $q->result_array();
+			
 			$data['milestones'] = $milestones;
 			$data['company_fundings'] = $company_fundings;	
 			$data['funding_rounds'] = $funding_rounds;				
@@ -477,6 +504,30 @@ class startuplist extends CI_Controller {
 			
 			$q = $this->db->query($sql);
 			$milestones = $q->result_array();
+			
+			
+			//related e27 articles
+			//echo "fetching...".$url;
+			if(trim($investment_org[0]['tags'])){
+				$tags = explode(",", $investment_org[0]['tags']);
+				
+				$tt = count($tags);
+				for($it=0; $it<$tt; $it++){
+					$tags[$it] = seoIze($tags[$it]);
+				}
+				$tagsstr = implode(",", $tags);
+				
+				$url = "http://e27.sg/tag/".$tagsstr."/feed";
+				$rss = @fetch_rss( $url );
+				$items = @array_slice($rss->items, 0, 10);
+				$feeds = array();
+				$feeds['rss'] = $rss;
+				$feeds['items'] = $items;
+				$feeds['url'] = $url;
+				$feeds['time'] = $time;
+			}
+			$data['feeds'] = $feeds;
+			
 			$data['milestones'] = $milestones;
 			$data['people'] = $people;
 			$data['countries'] = $countries;

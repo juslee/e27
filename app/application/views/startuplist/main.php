@@ -156,11 +156,10 @@ else{
 					$data = array();
 					$data['newlyfunded'] = $newlyfunded;
 					$this->load->view("startuplist/nfcompany_block", $data);
-					
-					
+
 					$data = array();
-					if(is_array($company['feed'])){
-						$data['feed'] = $company['feed'];
+					if(is_array($feeds)){
+						$data['feeds'] = $feeds;
 						$this->load->view("startuplist/related_e27_articles_block", $data);
 					}
 					?>
