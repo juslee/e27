@@ -2,7 +2,8 @@
 header("Content-type: text/css", true);
 ?>
 body{
-	margin-top:-2px;
+	margin-top:0px;
+	margin-bottom:50px;
 	background:#fff;
 	background: url(<?php echo site_url(); ?>media/startuplist/searchbg.png);
 	background-position:0px 131px;

@@ -225,8 +225,8 @@ class startuplist extends CI_Controller {
 			$this->load->view('startuplist/main', $data);
 		}
 		else{
-			//header ('HTTP/1.1 301 Moved Permanently');
-			//header("Location: ".site_url()."startuplist");
+			header ('HTTP/1.1 301 Moved Permanently');
+			header("Location: ".site_url());
 		}
 	}
 	
@@ -452,7 +452,7 @@ class startuplist extends CI_Controller {
 		}
 		else{
 			header ('HTTP/1.1 301 Moved Permanently');
-			header("Location: ".site_url()."startuplist");
+			header("Location: ".site_url());
 		}
 		
 	}
@@ -538,7 +538,7 @@ class startuplist extends CI_Controller {
 		}
 		else{
 			header ('HTTP/1.1 301 Moved Permanently');
-			header("Location: ".site_url()."startuplist");
+			header("Location: ".site_url());
 		}
 	}
 	
@@ -627,5 +627,11 @@ class startuplist extends CI_Controller {
 			$q = $this->db->query($sql);
 		}
 		
+	}
+	function page_not_found(){
+		$data = array();
+		$data['newlyfunded'] = $this->newlyFunded();
+		$data['content'] = $this->load->view('startuplist/404', $data, true);
+		$this->load->view('startuplist/main', $data);
 	}
 }

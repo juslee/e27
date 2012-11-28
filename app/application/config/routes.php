@@ -39,13 +39,17 @@
 */
 
 $route['default_controller'] = "startuplist";
-$route['404_override'] = '';
+$route['404_override'] = 'startuplist/page_not_found';
 $route['company/(:any)'] = "startuplist/company/$1";
 $route['investment_org/(:any)'] = "startuplist/investment_org/$1";
 $route['person/(:any)'] = "startuplist/person/$1";
 $route['country/(:any)'] = "search/all/country:$1";
 $route['category/(:any)/(:any)'] = "search/all/category:$1/$2";
 $route['login'] = "main";
+$route['backend'] = "main";
+$route['admin'] = "main";
+$route['newlyadded'] = "startuplist/index/newlyadded";
+$route['newlyupdated'] = "startuplist/index/newlyupdated";
 
 
 /* End of file routes.php */

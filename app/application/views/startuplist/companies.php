@@ -37,8 +37,8 @@ function loadMore(){
 				<ul style="padding:0px">
 					<li class="outer"><a class='pointer' style="padding-right:0px;">FILTERS<img style="margin-left:8px;" src="<?php echo site_url(); ?>media/startuplist/filterdown.png"></a>
 						<ul>
-							<li class="inner"><a href="<?php echo site_url(); ?>startuplist/index/newlyadded">NEWLY ADDED</a></li>
-							<li class="inner"><a href="<?php echo site_url(); ?>startuplist/index/newlyupdated">NEWLY UPDATED</a></li>
+							<li class="inner"><a href="<?php echo site_url(); ?>newlyadded">NEWLY ADDED</a></li>
+							<li class="inner"><a href="<?php echo site_url(); ?>newlyupdated">NEWLY UPDATED</a></li>
 						</ul>
 					</li>
 				</ul>
