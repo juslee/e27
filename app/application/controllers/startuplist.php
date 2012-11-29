@@ -155,7 +155,7 @@ class startuplist extends CI_Controller {
 			$sql = "select 
 			`a`.*, 
 			if(`a`.`end_date_ts`=0, $time, `a`.`end_date_ts`) as `end_date_ts2`,
-			`b`.`slug` as `slug`, `b`.`name` as `company_name`, `b`.`website` as `company_website`, `b`.`logo` as `company_logo` 
+			`b`.`slug` as `slug`, `b`.`name` as `company_name`, `b`.`country` as `company_country`, `b`.`website` as `company_website`, `b`.`logo` as `company_logo` 
 			from `company_person` as `a` left join `companies` as `b` on (`a`.`company_id`=`b`.`id`) 
 			where `person_id`=".$this->db->escape($person_id)." and `name`<>'' 
 			order by `end_date_ts2` desc, `start_date_ts` desc, `name` asc";

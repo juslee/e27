@@ -1,7 +1,12 @@
 <?php
+define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
 define('MAGPIE_CACHE_ON', true);
 include_once(dirname(__FILE__)."/magpie_0.72/rss_fetch.inc");
 
+function microtime_float(){
+    list($usec, $sec) = explode(" ", microtime());
+    return ((float)$usec + (float)$sec);
+}
 function word_limit($str, $limit)
 {
     $str .= "";
@@ -29,7 +34,7 @@ function amountIze($amount){
 	if($amount>=1000000){
 		if($amount%1000000){
 			$amount = $amount / 1000000;
-			$amount = number_format($amount, 1)."M";	
+			$amount = number_format($amount, 3)."M";	
 		}
 		else{
 			$amount = $amount / 1000000;

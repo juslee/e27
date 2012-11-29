@@ -38,25 +38,27 @@
 						<table cellpadding="0" cellspacing="0" class="p100">
 							<?php
 							if(trim($investment_org['website'])){
+								$website = preg_replace("/http:\/\//i", "", $investment_org['website']);
 								?>
 								<tr>
 									<td class='label'>
 										Web
 									</td>
 									<td class='value'>
-										<a href="<?php echo $investment_org['website']; ?>"><?php echo $investment_org['website']; ?></a>
+										<a href="<?php echo $investment_org['website']; ?>"><?php echo $website; ?></a>
 									</td>
 								</tr>
 								<?php
 							}
 							if(trim($investment_org['blog_url'])){
+								$blog_url = preg_replace("/http:\/\//i", "", $investment_org['blog_url']);
 								?>
 								<tr>
 									<td class='label'>
 										Blog
 									</td>
 									<td class='value'>
-										<a href="<?php echo $investment_org['blog_url']; ?>"><?php echo $investment_org['blog_url']; ?></a>
+										<a href="<?php echo $investment_org['blog_url']; ?>"><?php echo $blog_url; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -73,44 +75,31 @@
 								</tr>
 								<?php
 							}
-							if(count($investment_org['categories'])){
+							if(trim($investment_org['facebook'])){
 								?>
 								<tr>
 									<td class='label'>
-										Category
+										Facebook
 									</td>
 									<td class='value'>
-										<?php
-											$ct = count($investment_org['categories']);
-											$count = 0;
-											foreach($investment_org['categories'] as $value){
-												$count++;
-												echo "<a href='".site_url()."category/".seoIze($value['category'])."/".$value['id']."'>".$value['category']."</a> ";
-												if($count>=4){
-													if($count<$ct){
-														?><a href="<?php echo site_url(); ?>investment_org/<?php echo $investment_org['slug']; ?>">...<?php
-													}
-													break;
-												}
-											}
-											
-										?>
+										<a href="<?php echo $investment_org['facebook']; ?>"><?php echo $investment_org['name']; ?></a>
 									</td>
 								</tr>
 								<?php
 							}
-							if($investment_org['number_of_employees']>0){
+							if(trim($investment_org['linkedin'])){
 								?>
 								<tr>
 									<td class='label'>
-										Employees
+										LinkedIn
 									</td>
 									<td class='value'>
-										<?php echo $investment_org['number_of_employees']; ?>
+										<a href="<?php echo $investment_org['linkedin']; ?>"><?php echo $investment_org['name']; ?></a>
 									</td>
 								</tr>
 								<?php
 							}
+							
 							if(trim($investment_org['founded'])){
 								?>
 								<tr>
@@ -118,7 +107,7 @@
 										Founded
 									</td>
 									<td class='value'>
-										<?php echo date("M d, Y", strtotime($investment_org['founded'])); ?>
+										<?php echo date("Y", strtotime($investment_org['founded'])); ?>
 									</td>
 								</tr>
 								<?php
@@ -216,6 +205,7 @@
 					<tr>
 						<td class="content">
 							<?php
+							
 							$cf_total = array();
 							for($cfi=0; $cfi<$cft; $cfi++){
 								$cf_total[$milestones[$cfi]['currency']] += $milestones[$cfi]['amount'];
@@ -226,7 +216,7 @@
 									<td class='bold padb10' colspan="2">
 										Total
 									</td>
-									<td class='bold padb10 p100 right'>
+									<td class='bold padb10 right'>
 										<?php
 										foreach($cf_total as $key=>$value){
 											echo "<div>".$key.amountIze($value)."</div>";
@@ -238,20 +228,22 @@
 								for($cfi=0; $cfi<$cft; $cfi++){
 									?>
 									<tr>
-										<td class='padb5' >
+										<td class='padb5' colspan="2">
+											<?php
+											echo $milestones[$cfi]['round'];
+											?>
+										</td>
+										<td class='padb5 right'>
+											<?php echo $milestones[$cfi]['currency'].amountIze($milestones[$cfi]['amount']); ?>
+										</td>
+									</tr>
+									<tr>
+										<td class='padb5' colspan="3" >
 											<?php
 											echo "<a href='".site_url()."company/".$milestones[$cfi]['slug']."'>"; 
 											echo $milestones[$cfi]['company_name'];
 											echo "</a>";
 											?>
-										</td>
-										<td class='padb5' style='padding-left:20px;'>
-											<?php
-											echo $milestones[$cfi]['round'];
-											?>
-										</td>
-										<td class='padb5 p100 right'>
-											<?php echo $milestones[$cfi]['currency'].amountIze($milestones[$cfi]['amount']); ?>
 										</td>
 									</tr>
 									<?php
@@ -261,7 +253,7 @@
 						</td>
 					</tr>
 				</table>
-				<?php
+			<?php
 			}
 			?>
 		</td>

@@ -52,25 +52,27 @@
 								<?php
 							}
 							if(trim($company['website'])){
+								$website = preg_replace("/http:\/\//i", "", $company['website']);
 								?>
 								<tr>
 									<td class='label'>
 										Web
 									</td>
 									<td class='value'>
-										<a href="<?php echo $company['website']; ?>"><?php echo $company['website']; ?></a>
+										<a href="<?php echo $company['website']; ?>"><?php echo $website; ?></a>
 									</td>
 								</tr>
 								<?php
 							}
 							if(trim($company['blog_url'])){
+								$blog_url = preg_replace("/http:\/\//i", "", $company['blog_url']);
 								?>
 								<tr>
 									<td class='label'>
 										Blog
 									</td>
 									<td class='value'>
-										<a href="<?php echo $company['blog_url']; ?>"><?php echo $company['blog_url']; ?></a>
+										<a href="<?php echo $company['blog_url']; ?>"><?php echo $blog_url; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -103,7 +105,7 @@
 										Facebook
 									</td>
 									<td class='value'>
-										<a href="<?php echo $company['facebook']; ?>"><?php echo $company['facebook']; ?></a>
+										<a href="<?php echo $company['facebook']; ?>"><?php echo $company['name']; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -115,7 +117,7 @@
 										LinkedIn
 									</td>
 									<td class='value'>
-										<a href="<?php echo $company['linkedin']; ?>"><?php echo $company['linkedin']; ?></a>
+										<a href="<?php echo $company['linkedin']; ?>"><?php echo $company['name']; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -171,7 +173,7 @@
 											echo $company['founded'];
 										}
 										else{
-											echo date("M d, Y", strtotime($company['founded']));
+											echo date("Y", strtotime($company['founded']));
 										}
 										
 										
@@ -320,6 +322,9 @@
 									</td>
 									<td class='bold padb10 right'>
 										<?php
+										//echo "<pre>";
+										//print_r($cf_total);
+										//echo "</pre>";
 										foreach($cf_total as $key=>$value){
 											echo "<div>".$key.amountIze($value)."</div>";
 										}
@@ -338,7 +343,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td colspan="2" class='padb5' style='padding:5px;'>
+										<td colspan="2" class='padb5'>
 											<?php
 											$it = count($company_fundings[$cfi]['investment_orgs']);
 											for($ii=0; $ii<$it; $ii++){
@@ -407,7 +412,7 @@
 									<td class='bold padb10' colspan="2">
 										Total
 									</td>
-									<td class='bold padb10 p100 right'>
+									<td class='bold padb10 right'>
 										<?php
 										foreach($cf_total as $key=>$value){
 											echo "<div>".$key.amountIze($value)."</div>";
@@ -419,20 +424,22 @@
 								for($cfi=0; $cfi<$cft; $cfi++){
 									?>
 									<tr>
-										<td class='padb5' >
+										<td class='padb5' colspan="2">
+											<?php
+											echo $milestones[$cfi]['round'];
+											?>
+										</td>
+										<td class='padb5 right'>
+											<?php echo $milestones[$cfi]['currency'].amountIze($milestones[$cfi]['amount']); ?>
+										</td>
+									</tr>
+									<tr>
+										<td class='padb5' colspan="3" >
 											<?php
 											echo "<a href='".site_url()."company/".$milestones[$cfi]['slug']."'>"; 
 											echo $milestones[$cfi]['company_name'];
 											echo "</a>";
 											?>
-										</td>
-										<td class='padb5' style='padding-left:20px;'>
-											<?php
-											echo $milestones[$cfi]['round'];
-											?>
-										</td>
-										<td class='padb5 p100 right'>
-											<?php echo $milestones[$cfi]['currency'].amountIze($milestones[$cfi]['amount']); ?>
 										</td>
 									</tr>
 									<?php

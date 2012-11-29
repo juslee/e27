@@ -429,7 +429,7 @@ img.rounded{
 
 
 .company_left{
-	width: 230px;
+	width: 220px;
 	padding-top:10px;
 	padding-right:10px;
 	padding-bottom:10px;
@@ -453,6 +453,22 @@ img.rounded{
 	padding-bottom:20px;
 	border-bottom: 1px solid #f1efea;
 }
+.person_role{
+	font-size:16px;
+	color:gray;
+	padding-top:2px;
+}
+.person_company{
+	font-size:16px;
+	color:gray;
+	padding-top:2px;
+}
+.person_company a:link, .person_company a:visited, .person_company a:hover{
+	font-size:16px;
+	color:#7CAAE5;
+	text-decoration:none;
+}
+
 .description{
 	padding-top:20px;
 	padding-bottom:20px;
@@ -532,4 +548,9 @@ img.rounded{
 	padding-top:0px;
 	padding-bottom:0px;
 	border-bottom:0px;
+}
+
+.tenure{
+	font-size:12px;
+	color:gray;
 }

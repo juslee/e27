@@ -49,7 +49,7 @@
 										Company
 									</td>
 									<td class='value'>
-										<?php echo "<a href='".site_url()."company/".$companies[0]['slug']."'>".trim($companies[0]['company_name'])."</a> ".$year; ?>
+										<?php echo "<a href='".site_url()."company/".$companies[0]['slug']."'>".trim($companies[0]['company_name'])."</a>"; ?>
 									</td>
 								</tr>
 								<?php
@@ -78,15 +78,15 @@
 								</tr>
 								<?php
 							}
-							
 							if(trim($person['blog_url'])){
+								$blog_url = preg_replace("/http:\/\//i", "", $person['blog_url']);
 								?>
 								<tr>
 									<td class='label'>
 										Blog
 									</td>
 									<td class='value'>
-										<a href="<?php echo $person['blog_url']; ?>"><?php echo $person['blog_url']; ?></a>
+										<a href="<?php echo $person['blog_url']; ?>"><?php echo $blog_url; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -119,7 +119,7 @@
 										Facebook
 									</td>
 									<td class='value'>
-										<a href="<?php echo $person['facebook']; ?>"><?php echo $person['facebook']; ?></a>
+										<a href="<?php echo $person['facebook']; ?>"><?php echo $person['name']; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -131,7 +131,7 @@
 										LinkedIn
 									</td>
 									<td class='value'>
-										<a href="<?php echo $person['linkedin']; ?>"><?php echo $person['linkedin']; ?></a>
+										<a href="<?php echo $person['linkedin']; ?>"><?php echo $person['name']; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -186,6 +186,12 @@
 													if((time()-$value['end_date_ts2'])>(1*60*60)){ //if last day is greater than yesterday
 														$year = "(".date("Y", $value['end_date_ts2']).")";
 													}
+													if($value['end_date_ts']==0){
+														$tenure = date("M, Y", $value['start_date_ts'])." - Present";
+													}
+													else{
+														$tenure = date("M, Y", $value['start_date_ts'])." - ".date("M, Y", $value['end_date_ts']);
+													}
 													echo "<tr>";
 													
 													if(trim($value['company_logo'])){
@@ -196,7 +202,10 @@
 														echo "<td class='middle pad5'><a href='".site_url()."company/".$value['slug']."'><img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38'></a></td>";
 													}
 													
-													echo "<td class='middle pad5'><a href='".site_url()."company/".$value['slug']."'>".$value['company_name']."</a> ".$year."<br />".$value['role']."</td>";
+													echo "<td class='middle pad5'><a href='".site_url()."company/".$value['slug']."'>".$value['company_name']."</a>
+													<div class='role'>".$value['role']."</div>
+													<div class='tenure'>".$tenure."</div>
+													</td>";
 													echo "</tr>";
 												//}
 												$n++;
@@ -262,6 +271,12 @@
 													if((time()-$value['end_date_ts2'])>(1*60*60)){ //if last day is greater than yesterday
 														$year = "(".date("Y", $value['end_date_ts2']).")";
 													}
+													if($value['end_date_ts']==0){
+														$tenure = date("M, Y", $value['start_date_ts'])." - Present";
+													}
+													else{
+														$tenure = date("M, Y", $value['start_date_ts'])." - ".date("M, Y", $value['end_date_ts']);
+													}
 													echo "<tr>";
 													if(trim($value['investment_org_logo'])){
 														echo "<td class='middle pad5'><a href='".site_url()."investment_org/".$value['slug']."'><img class='rounded' src='".site_url()."media/image.php?p=".$value['investment_org_logo']."&mx=38'></a></td>";
@@ -271,7 +286,10 @@
 														echo "<td class='middle pad5'><a href='".site_url()."investment_org/".$value['slug']."'><img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38'></a></td>";
 													}
 													
-													echo "<td class='middle pad5'><a href='".site_url()."investment_org/".$value['slug']."'>".$value['investment_org_name']."</a> ".$year."<br />".$value['role']."</td>";
+													echo "<td class='middle pad5'><a href='".site_url()."investment_org/".$value['slug']."'>".$value['investment_org_name']."</a>
+													<div class='role'>".$value['role']."</div>
+													<div class='tenure'>".$tenure."</div>
+													</td>";
 													echo "</tr>";
 												//}
 												$n++;
@@ -308,6 +326,7 @@
 					<tr>
 						<td class="content">
 							<?php
+							
 							$cf_total = array();
 							for($cfi=0; $cfi<$cft; $cfi++){
 								$cf_total[$milestones[$cfi]['currency']] += $milestones[$cfi]['amount'];
@@ -318,7 +337,7 @@
 									<td class='bold padb10' colspan="2">
 										Total
 									</td>
-									<td class='bold padb10 p100 right'>
+									<td class='bold padb10 right'>
 										<?php
 										foreach($cf_total as $key=>$value){
 											echo "<div>".$key.amountIze($value)."</div>";
@@ -330,20 +349,22 @@
 								for($cfi=0; $cfi<$cft; $cfi++){
 									?>
 									<tr>
-										<td class='padb5' >
+										<td class='padb5' colspan="2">
+											<?php
+											echo $milestones[$cfi]['round'];
+											?>
+										</td>
+										<td class='padb5 right'>
+											<?php echo $milestones[$cfi]['currency'].amountIze($milestones[$cfi]['amount']); ?>
+										</td>
+									</tr>
+									<tr>
+										<td class='padb5' colspan="3" >
 											<?php
 											echo "<a href='".site_url()."company/".$milestones[$cfi]['slug']."'>"; 
 											echo $milestones[$cfi]['company_name'];
 											echo "</a>";
 											?>
-										</td>
-										<td class='padb5' style='padding-left:20px;'>
-											<?php
-											echo $milestones[$cfi]['round'];
-											?>
-										</td>
-										<td class='padb5 p100 right'>
-											<?php echo $milestones[$cfi]['currency'].amountIze($milestones[$cfi]['amount']); ?>
 										</td>
 									</tr>
 									<?php
@@ -353,7 +374,7 @@
 						</td>
 					</tr>
 				</table>
-				<?php
+			<?php
 			}
 			?>
 		</td>
@@ -363,6 +384,17 @@
 					<td class="company_name">
 						<?php
 						echo htmlentities($person['name']);
+						
+						if($companies[0]){
+							?>
+							<div class='person_role'>
+							<?php echo trim($companies[0]['role']); ?>
+							</div>
+							<div class='person_company'>
+							<?php echo trim($companies[0]['company_name']); ?>
+							</div>
+							<?php
+						}
 						?>
 					</td>
 				</tr>

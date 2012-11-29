@@ -23,6 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
+
 function SureRemoveDir($dir, $DeleteMe=false) {
     if(!$dh = @opendir($dir)) return;
     while (false !== ($obj = readdir($dh))) {
@@ -41,8 +42,12 @@ if (!empty($_FILES)) {
 	$targetPath = dirname(__FILE__)."/../../../".$_REQUEST['folder'].'/';
 	//empty directory
 	//SureRemoveDir($targetPath);
-	$targetFile =  str_replace('//','/',$targetPath) . $_FILES['Filedata']['name'];
-	
+	if($_GET['filename']){
+		$targetFile =  str_replace('//','/',$targetPath) .$_GET['filename'];
+	}
+	else{
+		$targetFile =  str_replace('//','/',$targetPath) . $_FILES['Filedata']['name'];
+	}
 	file_put_contents(getcwd()."/_log.txt", $targetFile);
 	
 	$targetFilex = $targetFile;
