@@ -72,6 +72,6 @@ jQuery(function(){
 </script>
 
 <div class='pad10' style='width:400px; margin:auto' >
-	Upload CSV File<br><input type='checkbox' id='skiph' checked="checked" >Skip Headers <br><input type='text' id="csvfile" />
+	Upload CSV File<br><input type='checkbox' id='skiph' checked="checked" >Skip Headers <div class='hint'>Check to skip the 1st line of the CSV file</div><br><input type='text' id="csvfile" />
 	<div id='processfile'></div>
 </div>
