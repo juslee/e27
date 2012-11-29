@@ -225,6 +225,7 @@ class investment_orgs extends CI_Controller {
 					";
 					$this->db->query($sql);
 					$id = $record[0]['id'];
+					$this->slugify($id);
 					echo "[$rowcount] Updated <a href='".site_url().$table."/edit/".$id."'>".$record[0]['name']."</a><br>";
 				}
 				else{
