@@ -159,6 +159,123 @@ class investment_orgs extends CI_Controller {
 		}
 	}
 	
+	function import($command=""){
+		$table = 'investment_orgs';
+		if($command=="samplecsv"){
+			$this->load->view($table.'/samplecsv');
+		}
+		else if($command=='getfiles'){
+			$folder = dirname(__FILE__)."/../../media/uploads/csv/".$table;
+			$files = scandir($folder);
+		}
+		else if($command=='processfile'){
+			$file = dirname(__FILE__)."/../../".$_POST['filepath'];
+			$handle = fopen($file, "r");
+			$skipped = false;
+			$rowcount = 0;
+			while (($row = fgetcsv($handle)) !== FALSE) {
+				if($skipped==false&&$_POST['skipheaders']){
+					$skipped = true;
+					continue;
+				}
+				$skipped = true;
+				$rowcount++;
+				$data[] = $row;
+				$sql =  "select `id`, `name` from `".$table."` where name='".$row[0]."'";
+				$q = $this->db->query($sql);
+				$record = $q->result_array();
+				if($record[0]){
+					if($row[13]!="Live"&&$row[13]!="Closed"){
+						$row[13] = "Live";
+					}
+					if($row[14]!=1&&$row[14]!=0){
+						$row[14] = 1;
+					}
+					$sql = "update `".$table."` set 
+					`description` = '".mysql_real_escape_string($row[1])."',
+					`email_address` = '".mysql_real_escape_string($row[2])."',
+					`website` = '".mysql_real_escape_string($row[3])."',
+					`blog_url` = '".mysql_real_escape_string($row[4])."',
+					`blog` = '".mysql_real_escape_string($row[5])."',
+					`twitter_username` = '".mysql_real_escape_string($row[6])."',
+					`facebook` = '".mysql_real_escape_string($row[7])."',
+					`linkedin` = '".mysql_real_escape_string($row[8])."',
+					`number_of_employees` = '".mysql_real_escape_string($row[9])."',
+					`founded` = '".mysql_real_escape_string($row[10])."',
+					`country` = '".mysql_real_escape_string($row[11])."',
+					`tags` = '".mysql_real_escape_string($row[12])."',
+					`status` = '".mysql_real_escape_string($row[13])."',
+					`active` = '".mysql_real_escape_string($row[14])."'
+					where 
+					`id`='".$record[0]['id']."'
+					";
+					$this->db->query($sql);
+					
+					$sql = "insert into `logs` set 
+						`action` = 'edited',
+						`table` = '".$table."',
+						`ipc_id` = ".$this->db->escape($record[0]['id']).",
+						`name` = ".$this->db->escape($record[0]['name']).",
+						`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+						`dateadded_ts` = ".time().",
+						`dateadded` = NOW()
+					";
+					$this->db->query($sql);
+					$id = $record[0]['id'];
+					echo "[$rowcount] Updated <a href='".site_url().$table."/edit/".$id."'>".$record[0]['name']."</a><br>";
+				}
+				else{
+					if($row[13]!="Live"&&$row[13]!="Closed"){
+						$row[13] = "Live";
+					}
+					if($row[14]!=1&&$row[14]!=0){
+						$row[14] = 1;
+					}
+					$sql = "insert into `".$table."` set 
+					`name` = '".mysql_real_escape_string($row[0])."',
+					`description` = '".mysql_real_escape_string($row[1])."',
+					`email_address` = '".mysql_real_escape_string($row[2])."',
+					`website` = '".mysql_real_escape_string($row[3])."',
+					`blog_url` = '".mysql_real_escape_string($row[4])."',
+					`blog` = '".mysql_real_escape_string($row[5])."',
+					`twitter_username` = '".mysql_real_escape_string($row[6])."',
+					`facebook` = '".mysql_real_escape_string($row[7])."',
+					`linkedin` = '".mysql_real_escape_string($row[8])."',
+					`number_of_employees` = '".mysql_real_escape_string($row[9])."',
+					`founded` = '".mysql_real_escape_string($row[10])."',
+					`country` = '".mysql_real_escape_string($row[11])."',
+					`tags` = '".mysql_real_escape_string($row[12])."',
+					`status` = '".mysql_real_escape_string($row[13])."',
+					`active` = '".mysql_real_escape_string($row[14])."'
+					";
+					$this->db->query($sql);
+					$id = $this->db->insert_id();
+					$sql = "insert into `logs` set 
+						`action` = 'added',
+						`table` = '".$table."',
+						`ipc_id` = ".$this->db->escape($id).",
+						`name` = ".$this->db->escape($row[0]).",
+						`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+						`dateadded_ts` = ".time().",
+						`dateadded` = NOW()
+					";
+					$this->db->query($sql);
+					$this->slugify($id);
+					echo "[$rowcount] Added <a href='".site_url().$table."/edit/".$id."'>".$row[0]."</a><br>";
+				}
+			}
+			fclose($handle);
+			
+			unlink($file);
+			
+		}
+		else{
+			$data = array();
+			$data['content'] = $this->load->view($table.'/import', $data, true);
+			$this->load->view('layout/main', $data);
+		}
+	}
+	
 	public function ajax_search(){
 		$co_name = $_GET['term']."%";
 		$sql = "select `id` as `value`, `name` as `label` from `investment_orgs` where `name` like ".$this->db->escape(trim($co_name))." limit 10" ;
