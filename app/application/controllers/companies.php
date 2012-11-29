@@ -317,6 +317,9 @@ class companies extends CI_Controller {
 					$skipped = true;
 					continue;
 				}
+				if(!trim($row[0])){ //skip if no name
+					continue;
+				}
 				$skipped = true;
 				$rowcount++;
 				$data[] = $row;

@@ -47,6 +47,33 @@ function refreshProfile(profilepath){
 	jQuery("#profilepath").val(profilepath);
 }
 
+
+function checkEmail(email_address){
+	if(jQuery.trim(email_address)){
+		formdata = "email="+email_address;
+		<?php
+			if($person['id']){
+				?>formdata += "&id=<?php echo $person['id']; ?>";<?php
+			}
+		?>
+		jQuery("#email_check").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
+		
+		jQuery.ajax({
+			url: "<?php echo site_url(); ?>people/ajax_check_email",
+			type: "POST",
+			data: formdata,
+			dataType: "script",
+			success: function(){
+				
+			}
+		});
+	}
+	else{
+		jQuery("#email_check").html("");
+	}
+	
+}
+
 var companies = [];
 var investment_orgs = [];
 
@@ -243,6 +270,9 @@ function addInvestmentOrg(id, name, role, start_date, end_date, add){
 }
 
 jQuery(function(){
+	jQuery("#email_address").blur(function(){
+		checkEmail(jQuery("#email_address").val());
+	});
 	jQuery('#profile_image').uploadify({
 		'uploader'  : '<?php echo site_url(); ?>media/js/uploadify/uploadify.swf',
 		'script'    : '<?php echo site_url(); ?>media/js/uploadify/uploadify.php',
@@ -492,7 +522,7 @@ else{
     </tr>		
     <tr class="odd required">
       <td>* Email Address: </td>
-      <td><input type="text" name="email_address" size="35"></td>
+      <td><input type="text" name="email_address" size="35" id='email_address'> <div class='inline' style='padding-left:5px;' id='email_check'></div></td>
     </tr>	
 	<tr class="even">
       <td>Blog URL:</td>

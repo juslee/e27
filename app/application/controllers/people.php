@@ -228,6 +228,116 @@ class people extends CI_Controller {
 		}
 	}
 	
+	function import($command=""){
+		$table = 'people';
+		if($command=="samplecsv"){
+			$this->load->view($table.'/samplecsv');
+		}
+		else if($command=='getfiles'){
+			$folder = dirname(__FILE__)."/../../media/uploads/csv/".$table;
+			$files = scandir($folder);
+		}
+		else if($command=='processfile'){
+			$file = dirname(__FILE__)."/../../".$_POST['filepath'];
+			$handle = fopen($file, "r");
+			$skipped = false;
+			$rowcount = 0;
+			while (($row = fgetcsv($handle)) !== FALSE) {
+				if($skipped==false&&$_POST['skipheaders']){
+					$skipped = true;
+					continue;
+				}
+				if(!trim($row[2])){ //skip if no email
+					continue;
+				}
+				$skipped = true;
+				$rowcount++;
+				$data[] = $row;
+				$sql =  "select `id`, `name`, `email_address` from `".$table."` where `email_address`='".$row[2]."'"; //email address is the unique field
+				$q = $this->db->query($sql);
+				$record = $q->result_array();
+				if($record[0]){
+					//if($row[9]!="Live"&&$row[9]!="Closed"){
+					//	$row[9] = "Live";
+					//}
+					if($row[9]!=1&&$row[9]!=0){
+						$row[9] = 1;
+					}
+					$sql = "update `".$table."` set 
+					`name` = '".mysql_real_escape_string($row[0])."',
+					`description` = '".mysql_real_escape_string($row[1])."',
+					`email_address` = '".mysql_real_escape_string($row[2])."',
+					`blog_url` = '".mysql_real_escape_string($row[3])."',
+					`blog` = '".mysql_real_escape_string($row[4])."',
+					`twitter_username` = '".mysql_real_escape_string($row[5])."',
+					`facebook` = '".mysql_real_escape_string($row[6])."',
+					`linkedin` = '".mysql_real_escape_string($row[7])."',
+					`tags` = '".mysql_real_escape_string($row[8])."',
+					`active` = '".mysql_real_escape_string($row[9])."'
+					where 
+					`id`='".$record[0]['id']."'
+					";
+					$this->db->query($sql);
+					
+					$sql = "insert into `logs` set 
+						`action` = 'edited',
+						`table` = '".$table."',
+						`ipc_id` = ".$this->db->escape($record[0]['id']).",
+						`name` = ".$this->db->escape($record[0]['name']).",
+						`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+						`dateadded_ts` = ".time().",
+						`dateadded` = NOW()
+					";
+					$this->db->query($sql);
+					$id = $record[0]['id'];
+					echo "[$rowcount] Updated <a href='".site_url().$table."/edit/".$id."'>".$record[0]['email_address']." (".$row[0].")"."</a><br>";
+				}
+				else{
+					if($row[13]!="Live"&&$row[13]!="Closed"){
+						$row[13] = "Live";
+					}
+					if($row[14]!=1&&$row[14]!=0){
+						$row[14] = 1;
+					}
+					$sql = "insert into `".$table."` set 
+					`name` = '".mysql_real_escape_string($row[0])."',
+					`description` = '".mysql_real_escape_string($row[1])."',
+					`email_address` = '".mysql_real_escape_string($row[2])."',
+					`blog_url` = '".mysql_real_escape_string($row[3])."',
+					`blog` = '".mysql_real_escape_string($row[4])."',
+					`twitter_username` = '".mysql_real_escape_string($row[5])."',
+					`facebook` = '".mysql_real_escape_string($row[6])."',
+					`linkedin` = '".mysql_real_escape_string($row[7])."',
+					`tags` = '".mysql_real_escape_string($row[8])."',
+					`active` = '".mysql_real_escape_string($row[9])."'
+					";
+					$this->db->query($sql);
+					$id = $this->db->insert_id();
+					$sql = "insert into `logs` set 
+						`action` = 'added',
+						`table` = '".$table."',
+						`ipc_id` = ".$this->db->escape($id).",
+						`name` = ".$this->db->escape($row[0]).",
+						`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+						`dateadded_ts` = ".time().",
+						`dateadded` = NOW()
+					";
+					$this->db->query($sql);
+					$this->slugify($id);
+					echo "[$rowcount] Added <a href='".site_url().$table."/edit/".$id."'>".$row[2]." (".$row[0].")"."</a><br>";
+				}
+			}
+			fclose($handle);
+			unlink($file);
+			
+		}
+		else{
+			$data = array();
+			$data['content'] = $this->load->view($table.'/import', $data, true);
+			$this->load->view('layout/main', $data);
+		}
+	}
+	
 	public function ajax_search(){
 		$co_name = $_GET['term']."%";
 		$sql = "select `id` as `value`, `name` as `label` from `people` where `name` like ".$this->db->escape(trim($co_name))." limit 10" ;
@@ -270,13 +380,60 @@ class people extends CI_Controller {
 		exit();
 	}
 	
+	function ajax_check_email(){
+		$co_name = $_POST['email'];
+		$co_id = $_POST['id'];
+		if(strlen($co_name)>0){
+			//check if email already exists
+			$sql = "select `id` from `people` where `email_address`=".$this->db->escape(trim($co_name));
+			$q = $this->db->query($sql);
+			$person = $q->result_array();
+			if(!trim($co_id)){
+				if($person[0]['id']){
+					?>
+					jQuery("#email_check").html("<img src='<?php echo site_url(); ?>media/x.png' title='E-mail already exists in the database.' alt='E-mail already exists in the database.' />");
+					<?php
+				}
+				else{
+					?>
+					jQuery("#email_check").html("<img src='<?php echo site_url(); ?>media/check.png' />");
+					<?php
+				}
+
+			}
+			else{
+				if(trim($person[0]['id'])&&$person[0]['id']!=$co_id){
+					?>
+					jQuery("#email_check").html("<img src='<?php echo site_url(); ?>media/x.png' title='E-mail already exists in the database.' alt='E-mail already exists in the database.' />");
+					<?php
+				}
+				else{
+					?>
+					jQuery("#email_check").html("<img src='<?php echo site_url(); ?>media/check.png' />");
+					<?php
+				}
+			}
+		}
+	}
+	
 	public function ajax_edit(){
-		
 		$err = 0;
+		if(trim($_POST['email_address'])){
+			//check if company already exists
+			$sql = "select `id` from `people` where `email_address`=".$this->db->escape(trim($_POST['email_address']));
+			$q = $this->db->query($sql);
+			$person = $q->result_array();	
+		}
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
 			alertX("<div class='red'>Please input a Name.</div>");
+			<?php
+		}
+		else if($person[0]['id']!=""&&$person[0]['id']!=$_POST['id']){
+			$err = 1;
+			?>
+			alertX("<div class='red'>E-mail already exists in the database.</div>");
 			<?php
 		}
 		else if(!trim($_POST['description'])){
@@ -509,10 +666,22 @@ class people extends CI_Controller {
 	}
 	public function ajax_add(){
 		$err = 0;
+		if(trim($_POST['email_address'])){
+			//check if company already exists
+			$sql = "select `id` from `people` where `email_address`=".$this->db->escape(trim($_POST['email_address']));
+			$q = $this->db->query($sql);
+			$person = $q->result_array();	
+		}
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
 			alertX("<div class='red'>Please input a Name.</div>");
+			<?php
+		}
+		else if($person[0]['id']){
+			$err = 1;
+			?>
+			alertX("<div class='red'>E-mail already exists in the database.</div>");
 			<?php
 		}
 		else if(!trim($_POST['description'])){
