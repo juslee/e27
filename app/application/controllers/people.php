@@ -67,23 +67,24 @@ class people extends CI_Controller {
 		$filter = $_GET['filter'];
 		$start += 0;
 		$limit = 50;
-		$search = trim($_GET['search']);
+		$search = strtolower(trim($_GET['search']));
+		$searchx = trim($_GET['search']);
 		
 		$sql = "select * from `people` where ";
 		if($filter=='all' || !trim($filter)){
 			$sql .= "
-				`name` like '%".mysql_real_escape_string($search)."%' or
-				`email_address` like '%".mysql_real_escape_string($search)."%' or
-				`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-				`blog_url` like '%".mysql_real_escape_string($search)."%' or 
-				`facebook` like '%".mysql_real_escape_string($search)."%' or 
-				`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-				`description` like '%".mysql_real_escape_string($search)."%' or 
-				`tags` like '%".mysql_real_escape_string($search)."%'
+				LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`blog_url`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'
 			";
 		}
 		else{
-			$sql .= "`".$filter."` like '%".mysql_real_escape_string($search)."%'";
+			$sql .= "LOWER(`".$filter."`) like '%".mysql_real_escape_string($search)."%'";
 		}
 		$sql .= "order by `name` asc limit $start, $limit" ;
 		$export_sql = md5($sql);
@@ -94,18 +95,18 @@ class people extends CI_Controller {
 		$sql = "select count(id) as `cnt` from `people` where ";
 		if($filter=='all' || !trim($filter)){
 			$sql .= "
-				`name` like '%".mysql_real_escape_string($search)."%' or
-				`email_address` like '%".mysql_real_escape_string($search)."%' or
-				`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-				`blog_url` like '%".mysql_real_escape_string($search)."%' or 
-				`facebook` like '%".mysql_real_escape_string($search)."%' or 
-				`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-				`description` like '%".mysql_real_escape_string($search)."%' or 
-				`tags` like '%".mysql_real_escape_string($search)."%'
+				LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`blog_url`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'
 			";
 		}
 		else{
-			$sql .= "`".$filter."` like '%".mysql_real_escape_string($search)."%'";
+			$sql .= "LOWER(`".$filter."`) like '%".mysql_real_escape_string($search)."%'";
 		}
 		$sql .= "order by `name` asc" ;
 		$q = $this->db->query($sql);
@@ -145,7 +146,7 @@ class people extends CI_Controller {
 		$data['pages'] = $pages;
 		$data['start'] = $start;
 		$data['limit'] = $limit;
-		$data['search'] = $search;
+		$data['search'] = $searchx;
 		$data['filter'] = $filter;
 		$data['cnt'] = $cnt[0]['cnt'];
 		$data['content'] = $this->load->view('people/main', $data, true);
@@ -247,8 +248,14 @@ class people extends CI_Controller {
 					$skipped = true;
 					continue;
 				}
+				//if(!trim($row[2])&&!trim($row[0])){ //skip if no email and no namel
+				//	continue;
+				//}
 				if(!trim($row[2])){ //skip if no email
 					continue;
+				}
+				foreach($row as $key=>$value){
+					$row[$key] = trim($value);
 				}
 				$skipped = true;
 				$rowcount++;
@@ -256,12 +263,9 @@ class people extends CI_Controller {
 				$sql =  "select `id`, `name`, `email_address` from `".$table."` where `email_address`='".$row[2]."'"; //email address is the unique field
 				$q = $this->db->query($sql);
 				$record = $q->result_array();
-				if($record[0]){
-					//if($row[9]!="Live"&&$row[9]!="Closed"){
-					//	$row[9] = "Live";
-					//}
-					if($row[9]!=1&&$row[9]!=0){
-						$row[9] = 1;
+				if($record[0]&&trim($row[2])){ //if there is record and email is not blank
+					if($row[9]!="1"&&$row[9]!="0"){ //active
+						$row[9] = "1";
 					}
 					$sql = "update `".$table."` set 
 					`name` = '".mysql_real_escape_string($row[0])."',
@@ -294,11 +298,8 @@ class people extends CI_Controller {
 					echo "[$rowcount] Updated <a href='".site_url().$table."/edit/".$id."'>".$record[0]['email_address']." (".$row[0].")"."</a><br>";
 				}
 				else{
-					if($row[13]!="Live"&&$row[13]!="Closed"){
-						$row[13] = "Live";
-					}
-					if($row[14]!=1&&$row[14]!=0){
-						$row[14] = 1;
+					if($row[9]!="1"&&$row[9]!="0"){ //active
+						$row[9] = "1";
 					}
 					$sql = "insert into `".$table."` set 
 					`name` = '".mysql_real_escape_string($row[0])."',
@@ -330,18 +331,136 @@ class people extends CI_Controller {
 			}
 			fclose($handle);
 			unlink($file);
-			
+		}
+		elseif($command=="samplecsvold"){
+			$this->load->view($table.'/samplecsvold');
+		}
+		else if($command=='processfileold'){
+			$file = dirname(__FILE__)."/../../".$_POST['filepath'];
+			$handle = fopen($file, "r");
+			$skipped = 0;
+			$rowcount = 0;
+			while (($row = fgetcsv($handle)) !== FALSE) {
+				/*
+				Array
+				(
+					[0] => Headers :
+					[1] => Name
+					[2] => Blog
+					[3] => Twitter
+					[4] => Linkedin
+					[5] => Profile Image
+					[6] => Description
+					[7] => Companies
+					[8] => Investment Organizations
+					[9] => Email
+					[10] => Active? 
+				)
+				*/		
+				if($skipped<2&&$_POST['skipheaders']){
+					$skipped++;
+					continue;
+				}
+				//if(!trim($row[9])&&!trim($row[1])){ //skip if no email and no name
+				//	continue;
+				//}
+				if(!trim($row[9])){ //skip if no email
+					continue;
+				}
+				foreach($row as $key=>$value){
+					$row[$key] = trim($value);
+				}
+				$skipped++;;
+				$rowcount++;
+				$data[] = $row;
+				$sql =  "select `id`, `name`, `email_address` from `".$table."` where `email_address`='".$row[9]."'"; //email address is the unique field
+				$q = $this->db->query($sql);
+				$record = $q->result_array();
+				if($record[0]&&trim($row[9])){
+					if($row[10]!="1"&&$row[10]!="0"){ //active
+						$row[10] = "1";
+					}
+					$blog =  explode(",", $row[2]);
+					$blog_url = trim($blog[0]);
+					$blogfeed_url = trim($blog[1]);
+					
+					$sql = "update `".$table."` set 
+					`name` = '".mysql_real_escape_string($row[1])."',
+					`description` = '".mysql_real_escape_string($row[6])."',
+					`email_address` = '".mysql_real_escape_string($row[9])."',
+					`blog_url` = '".mysql_real_escape_string($blog_url)."',
+					`blog` = '".mysql_real_escape_string($blogfeed_url)."',
+					`twitter_username` = '".mysql_real_escape_string($row[3])."',
+					`linkedin` = '".mysql_real_escape_string($row[4])."',
+					`active` = '".mysql_real_escape_string($row[10])."'
+					where 
+					`id`='".$record[0]['id']."'
+					";
+					$this->db->query($sql);
+					
+					$sql = "insert into `logs` set 
+						`action` = 'edited',
+						`table` = '".$table."',
+						`ipc_id` = ".$this->db->escape($record[0]['id']).",
+						`name` = ".$this->db->escape($record[0]['name']).",
+						`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+						`dateadded_ts` = ".time().",
+						`dateadded` = NOW()
+					";
+					$this->db->query($sql);
+					$id = $record[0]['id'];
+					$this->slugify($id);
+					echo "[$rowcount] Updated <a href='".site_url().$table."/edit/".$id."'>".$record[0]['email_address']." (".$row[1].")"."</a><br>";
+				}
+				else{
+					if($row[10]!="1"&&$row[10]!="0"){ //active
+						$row[10] = "1";
+					}
+					$blog =  explode(",", $row[2]);
+					$blog_url = trim($blog[0]);
+					$blogfeed_url = trim($blog[1]);
+					
+					$sql = "insert into `".$table."` set 
+					`name` = '".mysql_real_escape_string($row[1])."',
+					`description` = '".mysql_real_escape_string($row[6])."',
+					`email_address` = '".mysql_real_escape_string($row[9])."',
+					`blog_url` = '".mysql_real_escape_string($blog_url)."',
+					`blog` = '".mysql_real_escape_string($blogfeed_url)."',
+					`twitter_username` = '".mysql_real_escape_string($row[3])."',
+					`linkedin` = '".mysql_real_escape_string($row[4])."',
+					`active` = '".mysql_real_escape_string($row[10])."'
+					";
+					$this->db->query($sql);
+					$id = $this->db->insert_id();
+					$sql = "insert into `logs` set 
+						`action` = 'added',
+						`table` = '".$table."',
+						`ipc_id` = ".$this->db->escape($id).",
+						`name` = ".$this->db->escape($row[0]).",
+						`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+						`dateadded_ts` = ".time().",
+						`dateadded` = NOW()
+					";
+					$this->db->query($sql);
+					$this->slugify($id);
+					echo "[$rowcount] Added <a href='".site_url().$table."/edit/".$id."'>".$row[9]." (".$row[1].")"."</a><br>";
+				}
+			}
+			fclose($handle);
+			unlink($file);
 		}
 		else{
 			$data = array();
+			$data['command'] = $command; 
 			$data['content'] = $this->load->view($table.'/import', $data, true);
 			$this->load->view('layout/main', $data);
 		}
 	}
 	
 	public function ajax_search(){
-		$co_name = $_GET['term']."%";
-		$sql = "select `id` as `value`, `name` as `label` from `people` where `name` like ".$this->db->escape(trim($co_name))." limit 10" ;
+		$co_name = strtolower($_GET['term'])."%";
+		$sql = "select `id` as `value`, `name` as `label` from `people` where LOWER(`name`) like ".$this->db->escape(trim($co_name))." limit 10" ;
+		
 		$q = $this->db->query($sql);
 		$people = $q->result_array();
 		

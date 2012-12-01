@@ -97,8 +97,18 @@ $t = count($investment_orgs);
 			<td colspan=6 style='border:0px;'>
 			[ <a href='<?php echo site_url(); ?>investment_orgs/export/<?php echo $export_sql?>/xls' >EXPORT TO EXCEL</a> ]
 			[ <a href='<?php echo site_url(); ?>investment_orgs/export/<?php echo $export_sql?>/csv' >EXPORT TO CSV</a> ]
-			[ <a href='<?php echo site_url(); ?>investment_orgs/import' >IMPORT A CSV FILE</a> ]
-			[ <a href='<?php echo site_url(); ?>investment_orgs/import/samplecsv' >DOWNLOAD SAMPLE CSV</a> ]
+			[ <a href='<?php echo site_url(); ?>investment_orgs/import' >IMPORT CSV FILE</a> ]
+			[ <a href='<?php echo site_url(); ?>investment_orgs/import/old' >IMPORT CSV FILE (OLD)</a> ]
+			</th>
+		</tr>
+		<?php
+	}
+	else{
+		?>
+		<tr>
+			<td colspan=6 style='border:0px;'>
+			[ <a href='<?php echo site_url(); ?>investment_orgs/import' >IMPORT CSV FILE</a> ]
+			[ <a href='<?php echo site_url(); ?>investment_orgs/import/old' >IMPORT CSV FILE (OLD)</a> ]
 			</th>
 		</tr>
 		<?php

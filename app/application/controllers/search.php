@@ -17,6 +17,8 @@ class search extends CI_Controller {
 		if(!$search){
 			$search = urldecode(trim($q));
 		}
+		$searchx = $search;
+		$search = strtolower($search);
 		$search2 = explode(":",$search);
 		if($search2[1]){
 			$exact = trim($search2[0]);
@@ -64,21 +66,22 @@ class search extends CI_Controller {
 					}
 					else{
 						$sql .= "
-						`name` like '%".mysql_real_escape_string($search)."%' or
-						`email_address` like '%".mysql_real_escape_string($search)."%' or
-						`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-						`website` like '%".mysql_real_escape_string($search)."%' or
-						`blog` like '%".mysql_real_escape_string($search)."%' or 
-						`facebook` like '%".mysql_real_escape_string($search)."%' or 
-						`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-						`description` like '%".mysql_real_escape_string($search)."%' or 
-						`tags` like '%".mysql_real_escape_string($search)."%'";
+						LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`website`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`blog`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'";
 					}
 			$sql .="
 				)
 				and
 				(
 					".$filter."
+					and `active`=1
 				)
 			order by `name` asc limit $start, $limit" ;
 			
@@ -125,20 +128,21 @@ class search extends CI_Controller {
 					}
 					else{
 						$sql .= "
-						`name` like '%".mysql_real_escape_string($search)."%' or
-						`email_address` like '%".mysql_real_escape_string($search)."%' or
-						`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-						`blog` like '%".mysql_real_escape_string($search)."%' or 
-						`facebook` like '%".mysql_real_escape_string($search)."%' or 
-						`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-						`description` like '%".mysql_real_escape_string($search)."%' or 
-						`tags` like '%".mysql_real_escape_string($search)."%'";
+						LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`blog`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'";
 					}
 			$sql .="
 				)
 				and
 				(
 					".$filter."
+					and `active`=1
 				)
 			order by `name` asc limit $start, $limit" ;
 			$q = $this->db->query($sql);
@@ -183,21 +187,22 @@ class search extends CI_Controller {
 					}
 					else{
 						$sql .= "
-						`name` like '%".mysql_real_escape_string($search)."%' or
-						`email_address` like '%".mysql_real_escape_string($search)."%' or
-						`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-						`website` like '%".mysql_real_escape_string($search)."%' or
-						`blog` like '%".mysql_real_escape_string($search)."%' or 
-						`facebook` like '%".mysql_real_escape_string($search)."%' or 
-						`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-						`description` like '%".mysql_real_escape_string($search)."%' or 
-						`tags` like '%".mysql_real_escape_string($search)."%'";
+						LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`website`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`blog`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'";
 					}
 			$sql .="
 				)
 				and
 				(
 					".$filter."
+					and `active`=1
 				)
 			order by `name` asc limit $start, $limit" ;
 			$q = $this->db->query($sql);

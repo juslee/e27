@@ -32,7 +32,12 @@
 						</td>
 						<td class="value">
 						<?php
-							echo date("M d, Y", strtotime($company['founded']));
+							if(strlen($company['founded'])==4 && is_numeric($company['founded'])){
+								echo $company['founded'];
+							}
+							else{
+								echo date("Y", strtotime($company['founded']));
+							}
 						?>
 						</td>
 					</tr>

@@ -39,24 +39,25 @@ class companies extends CI_Controller {
 		$filter = $_GET['filter'];
 		$start += 0;
 		$limit = 50;
-		$search = trim($_GET['search']);
+		$search = strtolower(trim($_GET['search']));
+		$searchx = trim($_GET['search']);
 		
 		$sql = "select * from `companies` where ";
 		if($filter=='all' || !trim($filter)){
 			$sql .= "
-				`name` like '%".mysql_real_escape_string($search)."%' or
-				`email_address` like '%".mysql_real_escape_string($search)."%' or
-				`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-				`website` like '%".mysql_real_escape_string($search)."%' or
-				`blog_url` like '%".mysql_real_escape_string($search)."%' or 
-				`facebook` like '%".mysql_real_escape_string($search)."%' or 
-				`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-				`description` like '%".mysql_real_escape_string($search)."%' or 
-				`tags` like '%".mysql_real_escape_string($search)."%'
+				LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`website`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`blog_url`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'
 			";
 		}
 		else{
-			$sql .= "`".$filter."` like '%".mysql_real_escape_string($search)."%'";
+			$sql .= "LOWER(`".$filter."`) like '%".mysql_real_escape_string($search)."%'";
 		}
 		$sql .= "order by `name` asc limit $start, $limit" ;
 		$export_sql = md5($sql);
@@ -67,19 +68,19 @@ class companies extends CI_Controller {
 		$sql = "select count(id) as `cnt` from `companies` where ";
 		if($filter=='all' || !trim($filter)){
 			$sql .= "
-				`name` like '%".mysql_real_escape_string($search)."%' or
-				`email_address` like '%".mysql_real_escape_string($search)."%' or
-				`twitter_username` like '%".mysql_real_escape_string($search)."%' or
-				`website` like '%".mysql_real_escape_string($search)."%' or
-				`blog_url` like '%".mysql_real_escape_string($search)."%' or 
-				`facebook` like '%".mysql_real_escape_string($search)."%' or 
-				`linkedin` like '%".mysql_real_escape_string($search)."%' or 
-				`description` like '%".mysql_real_escape_string($search)."%' or 
-				`tags` like '%".mysql_real_escape_string($search)."%'
+				LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`website`) like '%".mysql_real_escape_string($search)."%' or
+				LOWER(`blog_url`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'
 			";
 		}
 		else{
-			$sql .= "`".$filter."` like '%".mysql_real_escape_string($search)."%'";
+			$sql .= "LOWER(`".$filter."`) like '%".mysql_real_escape_string($search)."%'";
 		}
 		$sql .= "order by `name` asc" ;
 		
@@ -93,7 +94,7 @@ class companies extends CI_Controller {
 		$data['pages'] = $pages;
 		$data['start'] = $start;
 		$data['limit'] = $limit;
-		$data['search'] = $search;
+		$data['search'] = $searchx;
 		$data['filter'] = $filter;
 		$data['cnt'] = $cnt[0]['cnt'];
 		$data['content'] = $this->load->view('companies/main', $data, true);
@@ -299,6 +300,7 @@ class companies extends CI_Controller {
 	}
 	
 	function import($command=""){
+
 		$table = 'companies';
 		if($command=="samplecsv"){
 			$this->load->view($table.'/samplecsv');
@@ -320,10 +322,16 @@ class companies extends CI_Controller {
 				if(!trim($row[0])){ //skip if no name
 					continue;
 				}
+				if(trim($row[14])==""){ //active
+					$row[14] = "1";
+				}
+				foreach($row as $key=>$value){
+					$row[$key] = trim($value);
+				}
 				$skipped = true;
 				$rowcount++;
-				$data[] = $row;
-				$sql =  "select `id`, `name` from `".$table."` where name='".$row[0]."'";
+				//$data[] = $row;
+				$sql =  "select `id`, `name` from `".$table."` where name='".mysql_real_escape_string($row[0])."'";
 				$q = $this->db->query($sql);
 				$record = $q->result_array();
 				if($record[0]){
@@ -406,47 +414,154 @@ class companies extends CI_Controller {
 					$this->slugify($id);
 					echo "[$rowcount] Added <a href='".site_url().$table."/edit/".$id."'>".$row[0]."</a><br>";
 				}
-				/*
-				`id` int(2) NOT NULL AUTO_INCREMENT,
-				`name` varchar(255) NOT NULL,
-				`slug` varchar(255) NOT NULL,
-				`description` text NOT NULL,
-				`website` varchar(255) NOT NULL,
-				`blog` varchar(255) NOT NULL,
-				`blog_url` varchar(128) NOT NULL,
-				`twitter_username` varchar(255) NOT NULL,
-				`facebook` varchar(255) NOT NULL,
-				`linkedin` varchar(255) NOT NULL,
-				`number_of_employees` int(2) NOT NULL,
-				`email_address` varchar(128) NOT NULL,
-				`founded` varchar(128) NOT NULL,
-				`found_year` int(1) NOT NULL,
-				`found_month` int(1) NOT NULL,
-				`found_day` int(1) NOT NULL,
-				`country` varchar(255) NOT NULL,
-				`logo` varchar(255) NOT NULL,
-				`tags` varchar(255) NOT NULL COMMENT 'comma separated',
-				`status` varchar(64) NOT NULL COMMENT 'Live or Closed',
-				`active` tinyint(1) NOT NULL,
-				`dateadded` datetime NOT NULL,
-				`dateupdated` datetime NOT NULL,
-				*/
 			}
 			fclose($handle);
-			
 			unlink($file);
-			
+		}
+		elseif($command=="samplecsvold"){
+			$this->load->view($table.'/samplecsvold');
+		}
+		else if($command=='processfileold'){
+			$file = dirname(__FILE__)."/../../".$_POST['filepath'];
+			$handle = fopen($file, "r");
+			$skipped = 0;
+			$rowcount = 0;
+			while (($row = fgetcsv($handle)) !== FALSE) {				
+				if($skipped<2&&$_POST['skipheaders']){
+					$skipped++;
+					continue;
+				}
+				if(!trim($row[1])){ //skip if no name
+					continue;
+				}
+				$rowcount++;
+				foreach($row as $key=>$value){
+					$row[$key] = trim($value);
+				}
+				$sql =  "select `id`, `name` from `".$table."` where name='".mysql_real_escape_string($row[1])."'";
+				$q = $this->db->query($sql);
+				$record = $q->result_array();
+				if($record[0]){
+					if($row[16]!="Live"&&$row[16]!="Closed"){ //status
+						$row[16] = "Live";
+					}
+					if($row[17]!="1"&&$row[17]!="0"){
+						$row[17] = "1";
+					}
+					/*
+					Array
+					(
+						[0] => Headers :
+						[1] => Name of Company
+						[2] => Description
+						[3] => Category
+						[4] => Website
+						[5] => Blog
+						[6] => Twitter
+						[7] => Facebook
+						[8] => Email address
+						[9] => Year Founded
+						[10] => Logo
+						[11] => Country
+						[12] => People
+						[13] => Funding
+						[14] => Screenshots
+						[15] => Competitors
+						[16] => Status
+						[17] => Active?
+					)
+					*/
+					$blog =  explode(",", $row[5]);
+					$blog_url = trim($blog[0]);
+					$blogfeed_url = trim($blog[1]);
+					
+					$sql = "update `".$table."` set 
+					`description` = '".mysql_real_escape_string($row[2])."',
+					`email_address` = '".mysql_real_escape_string($row[8])."',
+					`website` = '".mysql_real_escape_string($row[4])."',
+					`blog_url` = '".mysql_real_escape_string($blog_url)."',
+					`blog` = '".mysql_real_escape_string($blogfeed_url)."',
+					`twitter_username` = '".mysql_real_escape_string($row[6])."',
+					`facebook` = '".mysql_real_escape_string($row[7])."',
+					`founded` = '".mysql_real_escape_string($row[9])."',
+					`country` = '".mysql_real_escape_string($row[11])."',
+					`status` = '".mysql_real_escape_string($row[16])."',
+					`active` = '".mysql_real_escape_string($row[17])."'
+					where 
+					`id`='".$record[0]['id']."'
+					";
+					$this->db->query($sql);
+					
+					$sql = "insert into `logs` set 
+						`action` = 'edited',
+						`table` = '".$table."',
+						`ipc_id` = ".$this->db->escape($record[0]['id']).",
+						`name` = ".$this->db->escape($record[0]['name']).",
+						`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+						`dateadded_ts` = ".time().",
+						`dateadded` = NOW()
+					";
+					$this->db->query($sql);
+					$id = $record[0]['id'];
+					$this->slugify($id);
+					echo "[$rowcount] Updated <a href='".site_url().$table."/edit/".$id."'>".$record[0]['name']."</a><br>";
+				}
+				else{
+					if($row[16]!="Live"&&$row[16]!="Closed"){ //status
+						$row[16] = "Live";
+					}
+					if($row[17]!="1"&&$row[17]!="0"){
+						$row[17] = "1";
+					}
+					$blog =  explode(",", $row[5]);
+					$blog_url = trim($blog[0]);
+					$blogfeed_url = trim($blog[1]);
+					
+					$sql = "insert into `".$table."` set 
+					`name` = '".mysql_real_escape_string($row[1])."',
+					`description` = '".mysql_real_escape_string($row[2])."',
+					`email_address` = '".mysql_real_escape_string($row[8])."',
+					`website` = '".mysql_real_escape_string($row[4])."',
+					`blog_url` = '".mysql_real_escape_string($blog_url)."',
+					`blog` = '".mysql_real_escape_string($blogfeed_url)."',
+					`twitter_username` = '".mysql_real_escape_string($row[6])."',
+					`facebook` = '".mysql_real_escape_string($row[7])."',
+					`founded` = '".mysql_real_escape_string($row[9])."',
+					`country` = '".mysql_real_escape_string($row[11])."',
+					`tags` = '".mysql_real_escape_string($row[1])."',
+					`status` = '".mysql_real_escape_string($row[16])."',
+					`active` = '".mysql_real_escape_string($row[17])."'
+					";
+					$this->db->query($sql);
+					$id = $this->db->insert_id();
+					$sql = "insert into `logs` set 
+						`action` = 'added',
+						`table` = '".$table."',
+						`ipc_id` = ".$this->db->escape($id).",
+						`name` = ".$this->db->escape($row[0]).",
+						`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
+						`dateadded_ts` = ".time().",
+						`dateadded` = NOW()
+					";
+					$this->db->query($sql);
+					$this->slugify($id);
+					echo "[$rowcount] Added <a href='".site_url().$table."/edit/".$id."'>".$row[1]."</a><br>";
+				}
+			}
+			fclose($handle);
+			unlink($file);
 		}
 		else{
 			$data = array();
+			$data['command'] = $command;
 			$data['content'] = $this->load->view($table.'/import', $data, true);
 			$this->load->view('layout/main', $data);
 		}
 	}
 	
 	public function ajax_search(){
-		$co_name = $_GET['term']."%";
-		$sql = "select `id` as `value`, `name` as `label` from `companies` where `name` like ".$this->db->escape(trim($co_name))." limit 10" ;
+		$co_name = strtolower($_GET['term'])."%";
+		$sql = "select `id` as `value`, `name` as `label` from `companies` where LOWER(`name`) like ".$this->db->escape(trim($co_name))." limit 10" ;
 		$q = $this->db->query($sql);
 		$companies = $q->result_array();
 		echo json_encode($companies);
@@ -1168,7 +1283,7 @@ class companies extends CI_Controller {
 		$sql = "select * from `countries`";
 		$q = $this->db->query($sql);
 		$countries = $q->result_array();	
-		$sql = "select distinct `code`, `currency` from `currencies` where `currency` not like 'uses%'";
+		$sql = "select distinct `code`, `currency` from `currencies` where LOWER(`currency`) not like 'uses%'";
 		$q = $this->db->query($sql);
 		$currencies = $q->result_array();	
 		$sql = "select * from `funding_rounds`";
@@ -1233,7 +1348,7 @@ class companies extends CI_Controller {
 			order by `name` asc, `end_date_ts2` desc, `start_date_ts` desc";
 			$q = $this->db->query($sql);
 			$people = $q->result_array();
-			$sql = "select distinct `code`, `currency` from `currencies` where `currency` not like 'uses%'";
+			$sql = "select distinct `code`, `currency` from `currencies` where LOWER(`currency`) not like 'uses%'";
 			$q = $this->db->query($sql);
 			$currencies = $q->result_array();
 			$sql = "select * from `funding_rounds`";

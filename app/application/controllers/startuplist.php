@@ -8,6 +8,36 @@ class startuplist extends CI_Controller {
 		$this->load->helper('url');
 	}
 	
+	public function purgedb($confirm=""){
+		if($confirm=="confirm"){
+			$sql = "TRUNCATE companies";
+			$this->db->query($sql);
+			$sql = "TRUNCATE company_category";
+			$this->db->query($sql);
+			$sql = "TRUNCATE company_fundings";
+			$this->db->query($sql);
+			$sql = "TRUNCATE company_fundings_ipc";
+			$this->db->query($sql);
+			$sql = "TRUNCATE company_person";
+			$this->db->query($sql);
+			$sql = "TRUNCATE competitors";
+			$this->db->query($sql);
+			$sql = "TRUNCATE investment_orgs";
+			$this->db->query($sql);
+			$sql = "TRUNCATE investment_org_person";
+			$this->db->query($sql);
+			$sql = "TRUNCATE logs";
+			$this->db->query($sql);
+			$sql = "TRUNCATE people";
+			$this->db->query($sql);
+			$sql = "TRUNCATE screenshots";
+			$this->db->query($sql);
+			$data = array();
+			$data['content'] = "db is purged";
+			$this->load->view('startuplist/main', $data);
+		}
+	}
+	
 	public function assets($file=""){
 		if($file=="styles.css"){
 			$this->load->view('startuplist/stylesheet');
@@ -40,6 +70,7 @@ class startuplist extends CI_Controller {
 			$companies[$i]['categories'] = $categories;
 		}
 		
+
 		
 		$sql = "select count(`id`) as `cnt` from `companies` where `active`=1";
 		$q = $this->db->query($sql);
@@ -143,7 +174,7 @@ class startuplist extends CI_Controller {
 			$sql = "select * from `people` where `slug`=".$this->db->escape($name);
 		}
 		else{
-			$sql = "select * from `people` where `id`=".$this->db->escape($person_id);
+			$sql = "select * from `people` where `id`=".$this->db->escape($person_id)." and `active`=1";
 		}
 		$q = $this->db->query($sql);
 		$person = $q->result_array();	
@@ -232,10 +263,10 @@ class startuplist extends CI_Controller {
 	
 	function company($name="", $company_id=""){
 		if(!$company_id){
-			$sql = "select * from `companies` where `slug`=".$this->db->escape($name);
+			$sql = "select * from `companies` where `slug`=".$this->db->escape($name)." and `active`=1";
 		}
 		else{
-			$sql = "select * from `companies` where `id`=".$this->db->escape($company_id);
+			$sql = "select * from `companies` where `id`=".$this->db->escape($company_id)." and `active`=1";
 		}
 		$q = $this->db->query($sql);
 		$company = $q->result_array();	
@@ -459,10 +490,10 @@ class startuplist extends CI_Controller {
 	
 	function investment_org($name="", $investment_org_id=""){
 		if(!$investment_org_id){
-			$sql = "select * from `investment_orgs` where `slug`=".$this->db->escape($name);
+			$sql = "select * from `investment_orgs` where `slug`=".$this->db->escape($name)." and `active`=1";
 		}
 		else{
-			$sql = "select * from `investment_orgs` where `id`=".$this->db->escape($investment_org_id);
+			$sql = "select * from `investment_orgs` where `id`=".$this->db->escape($investment_org_id)." and `active`=1";
 		}
 		$q = $this->db->query($sql);
 		$investment_org = $q->result_array();	

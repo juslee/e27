@@ -100,11 +100,21 @@ $t = count($people);
 	if($t){
 		?>
 		<tr>
-			<td colspan=8 style='border:0px;'>
+			<td colspan=6 style='border:0px;'>
 			[ <a href='<?php echo site_url(); ?>people/export/<?php echo $export_sql?>/xls' >EXPORT TO EXCEL</a> ]
 			[ <a href='<?php echo site_url(); ?>people/export/<?php echo $export_sql?>/csv' >EXPORT TO CSV</a> ]
-			[ <a href='<?php echo site_url(); ?>people/import' >IMPORT A CSV FILE</a> ]
-			[ <a href='<?php echo site_url(); ?>people/import/samplecsv' >DOWNLOAD SAMPLE CSV</a> ]
+			[ <a href='<?php echo site_url(); ?>people/import' >IMPORT CSV FILE</a> ]
+			[ <a href='<?php echo site_url(); ?>people/import/old' >IMPORT CSV FILE (OLD)</a> ]
+			</th>
+		</tr>
+		<?php
+	}
+	else{
+		?>
+		<tr>
+			<td colspan=6 style='border:0px;'>
+			[ <a href='<?php echo site_url(); ?>people/import' >IMPORT CSV FILE</a> ]
+			[ <a href='<?php echo site_url(); ?>people/import/old' >IMPORT CSV FILE (OLD)</a> ]
 			</th>
 		</tr>
 		<?php
