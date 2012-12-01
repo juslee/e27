@@ -7,6 +7,9 @@ function microtime_float(){
     list($usec, $sec) = explode(" ", microtime());
     return ((float)$usec + (float)$sec);
 }
+function htmlentitiesX($str){
+	return htmlentities($str, ENT_COMPAT, "UTF-8");
+}
 function word_limit($str, $limit)
 {
     $str .= "";
@@ -66,8 +69,12 @@ function unseoIze2($str){
 	return $str;
 }
 function seoIze($str){
+	//echo mb_detect_encoding ($str);
 	$str = preg_replace("/[^a-zA-Z0-9]/iUs", "-", $str);
 	$str = trim($str, "-");
+	if(trim($str)==""){
+		return substr(md5($str), 0, 4);
+	}
 	return $str;
 }
 function site_url(){

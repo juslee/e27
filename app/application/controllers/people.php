@@ -641,7 +641,7 @@ class people extends CI_Controller {
 			}
 
 			?>
-			alertX("Successfully Updated Person '<?php echo htmlentities($_POST['name']); ?>'.");
+			alertX("Successfully Updated Person '<?php echo htmlentitiesX($_POST['name']); ?>'.");
 			self.location = self.location; //refresh
 			<?php
 			$sql = "insert into `logs` set 
@@ -680,7 +680,7 @@ class people extends CI_Controller {
 		$this->db->query($sql);
 		if(trim($person[0]['name'])){
 			?>
-			alertX("Successfully deleted <?php echo htmlentities($person[0]['name']); ?>");
+			alertX("Successfully deleted <?php echo htmlentitiesX($person[0]['name']); ?>");
 			<?php
 			$sql = "insert into `logs` set 
 				`action` = 'deleted',
@@ -897,7 +897,7 @@ class people extends CI_Controller {
 			}
 			
 			?>
-			alertX("Successfully Added Person '<?php echo htmlentities($_POST['name']); ?>'.");
+			alertX("Successfully Added Person '<?php echo htmlentitiesX($_POST['name']); ?>'.");
 			self.location = "<?php echo site_url(); ?>people/add";
 			<?php
 			$sql = "insert into `logs` set 

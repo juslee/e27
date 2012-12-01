@@ -383,7 +383,7 @@
 				<tr>
 					<td class="company_name">
 						<?php
-						echo htmlentities($person['name']);
+						echo htmlentitiesX($person['name']);
 						
 						if($companies[0]){
 							?>

@@ -69,15 +69,15 @@ for($i=0; $i<$t; $i++){
 	$c = $investment_orgs[$i];
 	echo "<tr bgcolor='#C2D69A'>";
 	?>
-	<td><?php echo htmlentities(date("M d, Y", strtotime($c['dateadded']))); ?></td>
-	<td><?php echo htmlentities($c['name']); ?></td>
-	<td><?php echo htmlentities($c['description']); ?></td>
-	<td><?php echo htmlentities($c['website']); ?></td>
-	<td><?php echo htmlentities($c['blog_url']); ?>,<?php echo htmlentities($c['blog']); ?></td>
-	<td><?php echo htmlentities($c['twitter_username']); ?></td>
-	<td><?php echo htmlentities($c['facebook']); ?></td>
-	<td><?php echo htmlentities($c['email_address']); ?></td>
-	<td><?php echo htmlentities($c['found_year']); ?></td>
+	<td><?php echo htmlentitiesX(date("M d, Y", strtotime($c['dateadded']))); ?></td>
+	<td><?php echo htmlentitiesX($c['name']); ?></td>
+	<td><?php echo htmlentitiesX($c['description']); ?></td>
+	<td><?php echo htmlentitiesX($c['website']); ?></td>
+	<td><?php echo htmlentitiesX($c['blog_url']); ?>,<?php echo htmlentitiesX($c['blog']); ?></td>
+	<td><?php echo htmlentitiesX($c['twitter_username']); ?></td>
+	<td><?php echo htmlentitiesX($c['facebook']); ?></td>
+	<td><?php echo htmlentitiesX($c['email_address']); ?></td>
+	<td><?php echo htmlentitiesX($c['found_year']); ?></td>
 	<?php
 	if(trim($c['logo'])&&0){
 		$imgdata = file_get_contents(site_url()."media/image.php?p=".$c['logo']."&mx=50");
@@ -89,10 +89,10 @@ for($i=0; $i<$t; $i++){
 	}
 	?>
 	<td><?php echo $img; ?></td>
-	<td><?php echo htmlentities($c['country']); ?></td>
-	<td><?php echo htmlentities($c['people']); ?></td>
-	<td><?php echo htmlentities($c['status']); ?></td>
-	<td><?php echo htmlentities($c['active']); ?></td>
+	<td><?php echo htmlentitiesX($c['country']); ?></td>
+	<td><?php echo htmlentitiesX($c['people']); ?></td>
+	<td><?php echo htmlentitiesX($c['status']); ?></td>
+	<td><?php echo htmlentitiesX($c['active']); ?></td>
 	<?php
 	echo "</tr>";
 }

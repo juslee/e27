@@ -17,9 +17,9 @@ $method = $this->router->method;
 	$t = count($list);
 	for($i=0; $i<$t; $i++){
 		?>
-		<tr id="tr<?php echo htmlentities($list[$i]['id']); ?>" class="row" >
+		<tr id="tr<?php echo htmlentitiesX($list[$i]['id']); ?>" class="row" >
 			<td><?php echo $start+$i+1; ?></td>
-			<td><a href="<?php echo site_url().$list[$i]['list_type']; ?>/edit/<?php echo $list[$i]['id']?>" ><?php echo htmlentities($list[$i]['name']); ?></a></td>
+			<td><a href="<?php echo site_url().$list[$i]['list_type']; ?>/edit/<?php echo $list[$i]['id']?>" ><?php echo htmlentitiesX($list[$i]['name']); ?></a></td>
 			<td>
 			<?php 
 				if(is_array($list[$i]['feed'])){

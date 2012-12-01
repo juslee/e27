@@ -555,7 +555,7 @@ class investment_orgs extends CI_Controller {
 			}
 
 			?>
-			alertX("Successfully Updated Investment Organization '<?php echo htmlentities($_POST['name']); ?>'.");
+			alertX("Successfully Updated Investment Organization '<?php echo htmlentitiesX($_POST['name']); ?>'.");
 			self.location = self.location; //refresh
 			<?php
 			$sql = "insert into `logs` set 
@@ -593,7 +593,7 @@ class investment_orgs extends CI_Controller {
 		$this->db->query($sql);
 		if(trim($investment_org[0]['name'])){
 			?>
-			alertX("Successfully deleted <?php echo htmlentities($investment_org[0]['name']); ?>");
+			alertX("Successfully deleted <?php echo htmlentitiesX($investment_org[0]['name']); ?>");
 			<?php
 			
 			$sql = "insert into `logs` set 
@@ -827,7 +827,7 @@ class investment_orgs extends CI_Controller {
 			}
 			
 			?>
-			alertX("Successfully Added Investment Organization '<?php echo htmlentities($_POST['name']); ?>'.");
+			alertX("Successfully Added Investment Organization '<?php echo htmlentitiesX($_POST['name']); ?>'.");
 			//self.location = "<?php echo site_url(); ?>investment_orgs/edit/<?php echo $id; ?>";
 			self.location = "<?php echo site_url(); ?>investment_orgs/add";
 			<?php

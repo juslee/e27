@@ -1,6 +1,6 @@
 <table cellpadding="0" cellspacing="0" class='contentblock'>
 	<tr>
-		<td class="head"><a href="<?php echo site_url(); ?>company/<?php echo $company['slug']; ?>"><?php echo htmlentities($company['name']) ?></a></td>
+		<td class="head"><a href="<?php echo site_url(); ?>company/<?php echo $company['slug']; ?>"><?php echo htmlentitiesX($company['name']) ?></a></td>
 	</tr>
 	<tr>
 		<td class="logo">

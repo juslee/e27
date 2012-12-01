@@ -262,7 +262,7 @@
 				<tr>
 					<td class="company_name">
 						<?php
-						echo htmlentities($investment_org['name']);
+						echo htmlentitiesX($investment_org['name']);
 						?>
 					</td>
 				</tr>

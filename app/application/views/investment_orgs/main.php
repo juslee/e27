@@ -126,12 +126,12 @@ $t = count($investment_orgs);
 	
 	for($i=0; $i<$t; $i++){
 		?>
-		<tr id="tr<?php echo htmlentities($investment_orgs[$i]['id']); ?>" class="row" >
+		<tr id="tr<?php echo htmlentitiesX($investment_orgs[$i]['id']); ?>" class="row" >
 			<td><?php echo $start+$i+1; ?></td>
-			<!--<td><?php echo htmlentities($investment_orgs[$i]['id']); ?></td>-->
+			<!--<td><?php echo htmlentitiesX($investment_orgs[$i]['id']); ?></td>-->
 			<td style='vertical-align:middle;'><?php if(trim($investment_orgs[$i]['logo'])){ ?><img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $investment_orgs[$i]['logo'] ?>&mx=25' /> <?php } ?></td>
-			<td><a href="<?php echo site_url(); ?>investment_orgs/edit/<?php echo $investment_orgs[$i]['id']?>" ><?php echo htmlentities($investment_orgs[$i]['name']); ?></a></td>
-			<td><?php if(trim($investment_orgs[$i]['email_address'])){ echo "<a href=\"mailto:".sanitizeX($investment_orgs[$i]['email_address'])."\">".htmlentities($investment_orgs[$i]['email_address'])."</a>"; }?></td>
+			<td><a href="<?php echo site_url(); ?>investment_orgs/edit/<?php echo $investment_orgs[$i]['id']?>" ><?php echo htmlentitiesX($investment_orgs[$i]['name']); ?></a></td>
+			<td><?php if(trim($investment_orgs[$i]['email_address'])){ echo "<a href=\"mailto:".sanitizeX($investment_orgs[$i]['email_address'])."\">".htmlentitiesX($investment_orgs[$i]['email_address'])."</a>"; }?></td>
 			<td><?php 
 					if($investment_orgs[$i]['active']==1){
 						echo "Yes";
@@ -141,7 +141,7 @@ $t = count($investment_orgs);
 					}		
 			?></td>
 			<td>[ <a href="<?php echo site_url(); ?>investment_orgs/edit/<?php echo $investment_orgs[$i]['id']?>" >Edit</a> ] 
-			[ <a style='color: red; cursor:pointer; text-decoration: underline' onclick='deleteInvestmentOrg("<?php echo htmlentities($investment_orgs[$i]['id']) ?>"); ' >Delete</a> ]</td>
+			[ <a style='color: red; cursor:pointer; text-decoration: underline' onclick='deleteInvestmentOrg("<?php echo htmlentitiesX($investment_orgs[$i]['id']) ?>"); ' >Delete</a> ]</td>
 		</tr>
 		<?php
 	}

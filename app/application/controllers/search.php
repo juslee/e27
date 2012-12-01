@@ -58,7 +58,7 @@ class search extends CI_Controller {
 					";
 					if($exact=='country'){
 						$sql .= "
-						`".$exact."` = '".mysql_real_escape_string($search2)."'";
+						LOWER(`".$exact."`) = '".mysql_real_escape_string($search2)."'";
 					}
 					else if($exact=='category'){
 						$sql .= "
@@ -180,7 +180,7 @@ class search extends CI_Controller {
 					";
 					if($exact=='country'){
 						$sql .= "
-						`".$exact."` = '".mysql_real_escape_string($search2)."'";
+						LOWER(`".$exact."`) = '".mysql_real_escape_string($search2)."'";
 					}
 					else if($exact=='category'){
 						$sql .= "0";
@@ -237,7 +237,7 @@ class search extends CI_Controller {
 		//print_r($results);
 		
 		$data['results'] = $results;
-		$data['search'] = $search;
+		$data['search'] = $searchx;
 		$data['newlyfunded'] = $this->newlyFunded();
 		$data['content'] = $this->load->view('startuplist/search', $data, true);
 		$this->load->view('startuplist/main', $data);

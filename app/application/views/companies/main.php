@@ -126,12 +126,12 @@ $t = count($companies);
 	
 	for($i=0; $i<$t; $i++){
 		?>
-		<tr id="tr<?php echo htmlentities($companies[$i]['id']); ?>" class="row" >
+		<tr id="tr<?php echo htmlentitiesX($companies[$i]['id']); ?>" class="row" >
 			<td><?php echo $start+$i+1; ?></td>
-			<!--<td><?php echo htmlentities($companies[$i]['id']); ?></td>-->
+			<!--<td><?php echo htmlentitiesX($companies[$i]['id']); ?></td>-->
 			<td style='vertical-align:middle;'><?php if(trim($companies[$i]['logo'])){ ?><img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $companies[$i]['logo'] ?>&mx=25' /> <?php } ?></td>
-			<td><a href="<?php echo site_url(); ?>companies/edit/<?php echo $companies[$i]['id']?>" ><?php echo htmlentities($companies[$i]['name']); ?></a></td>
-			<td><?php if(trim($companies[$i]['email_address'])){ echo "<a href=\"mailto:".sanitizeX($companies[$i]['email_address'])."\">".htmlentities($companies[$i]['email_address'])."</a>"; }?></td>
+			<td><a href="<?php echo site_url(); ?>companies/edit/<?php echo $companies[$i]['id']?>" ><?php echo htmlentitiesX($companies[$i]['name']); ?></a></td>
+			<td><?php if(trim($companies[$i]['email_address'])){ echo "<a href=\"mailto:".sanitizeX($companies[$i]['email_address'])."\">".htmlentitiesX($companies[$i]['email_address'])."</a>"; }?></td>
 			<td><?php 
 					if($companies[$i]['active']==1){
 						echo "Yes";
@@ -141,7 +141,7 @@ $t = count($companies);
 					}		
 			?></td>
 			<td>[ <a href="<?php echo site_url(); ?>companies/edit/<?php echo $companies[$i]['id']?>" >Edit</a> ] 
-			[ <a style='color: red; cursor:pointer; text-decoration: underline' onclick='deleteCompany("<?php echo htmlentities($companies[$i]['id']) ?>"); ' >Delete</a> ]</td>
+			[ <a style='color: red; cursor:pointer; text-decoration: underline' onclick='deleteCompany("<?php echo htmlentitiesX($companies[$i]['id']) ?>"); ' >Delete</a> ]</td>
 		</tr>
 		<?php
 	}

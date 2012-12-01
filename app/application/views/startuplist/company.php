@@ -458,7 +458,7 @@
 				<tr>
 					<td class="company_name">
 						<?php
-						echo htmlentities($company['name']);
+						echo htmlentitiesX($company['name']);
 						?>
 					</td>
 				</tr>
@@ -487,8 +487,8 @@
 										//print_r($imagesize);
 										?>
 										<a>
-										<img src="<?php echo $imgfile; ?>" alt="<?php echo htmlentities($screenshots[$i]['title']); ?>" title="<?php echo htmlentities($screenshots[$i]['title']); ?>"  />
-										<div class='title'><?php echo htmlentities($screenshots[$i]['title']); ?></div>
+										<img src="<?php echo $imgfile; ?>" alt="<?php echo htmlentitiesX($screenshots[$i]['title']); ?>" title="<?php echo htmlentitiesX($screenshots[$i]['title']); ?>"  />
+										<div class='title'><?php echo htmlentitiesX($screenshots[$i]['title']); ?></div>
 										</a>
 										<?php
 									}

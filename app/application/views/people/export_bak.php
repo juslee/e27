@@ -35,16 +35,16 @@ for($i=0; $i<$t; $i++){
 	$c = $people[$i];
 	echo "<tr bgcolor='#C2D69A'>";
 	?>
-	<td><?php echo htmlentities($c['name']); ?></td>
-	<td><?php echo htmlentities($c['blog_url']); ?>,<?php echo htmlentities($c['blog']); ?></td>
-	<td><?php echo htmlentities($c['twitter_username']); ?></td>
-	<td><?php echo htmlentities($c['linkedin']); ?></td>
+	<td><?php echo htmlentitiesX($c['name']); ?></td>
+	<td><?php echo htmlentitiesX($c['blog_url']); ?>,<?php echo htmlentitiesX($c['blog']); ?></td>
+	<td><?php echo htmlentitiesX($c['twitter_username']); ?></td>
+	<td><?php echo htmlentitiesX($c['linkedin']); ?></td>
 	<td></td>
-	<td><?php echo htmlentities($c['description']); ?></td>
-	<td><?php echo htmlentities($c['companies']); ?></td>
-	<td><?php echo htmlentities($c['investment_orgs']); ?></td>
-	<td><?php echo htmlentities($c['email_address']); ?></td>
-	<td><?php echo htmlentities($c['active']); ?></td>
+	<td><?php echo htmlentitiesX($c['description']); ?></td>
+	<td><?php echo htmlentitiesX($c['companies']); ?></td>
+	<td><?php echo htmlentitiesX($c['investment_orgs']); ?></td>
+	<td><?php echo htmlentitiesX($c['email_address']); ?></td>
+	<td><?php echo htmlentitiesX($c['active']); ?></td>
 	<?php
 	echo "</tr>";
 }

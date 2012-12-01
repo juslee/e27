@@ -794,7 +794,7 @@ class companies extends CI_Controller {
 				}
 			}
 			?>
-			alertX("Successfully Updated Company '<?php echo htmlentities($_POST['name']); ?>'.");
+			alertX("Successfully Updated Company '<?php echo htmlentitiesX($_POST['name']); ?>'.");
 			self.location = self.location; //refresh
 			<?php
 			$sql = "insert into `logs` set 
@@ -844,7 +844,7 @@ class companies extends CI_Controller {
 		$this->db->query($sql);
 		if(trim($company[0]['name'])){
 			?>
-			alertX("Successfully deleted <?php echo htmlentities($company[0]['name']); ?>");
+			alertX("Successfully deleted <?php echo htmlentitiesX($company[0]['name']); ?>");
 			<?php
 			$sql = "insert into `logs` set 
 				`action` = 'deleted',
@@ -1250,7 +1250,7 @@ class companies extends CI_Controller {
 			}
 			
 			?>
-			alertX("Successfully Added Company '<?php echo htmlentities($_POST['name']); ?>'.");
+			alertX("Successfully Added Company '<?php echo htmlentitiesX($_POST['name']); ?>'.");
 			//self.location = "<?php echo site_url(); ?>companies/edit/<?php echo $id; ?>";
 			self.location = "<?php echo site_url(); ?>companies/add";
 			<?php
