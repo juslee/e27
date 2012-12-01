@@ -5,6 +5,7 @@ if($command=='old'){
 	?>
 	<script>
 	function processFile(filepath){
+		jQuery("#uploadbutton").attr("disabled", true);
 		formdata = "filepath="+escape(filepath);
 		if(jQuery("#skiph").attr("checked")){
 			formdata += "&skipheaders=1";
@@ -17,6 +18,7 @@ if($command=='old'){
 			dataType: "html",
 			success: function(html){
 				jQuery("#processfile").html(html);
+				jQuery("#uploadbutton").attr("disabled", false);
 			}
 		});
 	}
@@ -41,7 +43,7 @@ if($command=='old'){
 					$folder = str_replace(dirname(__FILE__)."/../../..", "", $folder);
 					echo $folder;
 				?>',
-				'auto'      : true,
+				'auto'      : false,
 				'multi'       : false,
 				'onComplete'  : function(event, ID, fileObj, response, data) {
 				  //alert('There are ' + data.fileCount + ' files remaining in the queue.');
@@ -62,6 +64,7 @@ if($command=='old'){
 	<div class='pad10' style='width:400px; margin:auto' >
 		Upload CSV File (OLD VERSION)[ <a href='<?php echo site_url().$table; ?>/import/samplecsvold' >DOWNLOAD OLD SAMPLE CSV FILE</a> ]
 		<br><input type='checkbox' id='skiph' checked="checked" >Skip Headers <div class='hint'>Check to skip the 1st 2 lines of the CSV file</div><br><input type='text' id="csvfile" />
+		<input type='button' id='uploadbutton' class='button normal' value='Upload and Process' onclick="jQuery('#csvfile').uploadifyUpload();" >
 		<div id='processfile'></div>
 	</div>
 	<?php
@@ -70,6 +73,7 @@ else{
 	?>
 	<script>
 	function processFile(filepath){
+		jQuery("#uploadbutton").attr("disabled", true);
 		formdata = "filepath="+escape(filepath);
 		if(jQuery("#skiph").attr("checked")){
 			formdata += "&skipheaders=1";
@@ -82,6 +86,7 @@ else{
 			dataType: "html",
 			success: function(html){
 				jQuery("#processfile").html(html);
+				jQuery("#uploadbutton").attr("disabled", false);
 			}
 		});
 	}
@@ -106,7 +111,7 @@ else{
 					$folder = str_replace(dirname(__FILE__)."/../../..", "", $folder);
 					echo $folder;
 				?>',
-				'auto'      : true,
+				'auto'      : false,
 				'multi'       : false,
 				'onComplete'  : function(event, ID, fileObj, response, data) {
 				  //alert('There are ' + data.fileCount + ' files remaining in the queue.');
@@ -127,6 +132,7 @@ else{
 	<div class='pad10' style='width:400px; margin:auto' >
 		Upload CSV File [ <a href='<?php echo site_url().$table; ?>/import/samplecsv' >DOWNLOAD SAMPLE CSV FILE</a> ]
 		<br><input type='checkbox' id='skiph' checked="checked" >Skip Headers <div class='hint'>Check to skip the 1st line of the CSV file</div><br><input type='text' id="csvfile" />
+		<input type='button' class='button normal' value='Upload and Process' onclick="jQuery('#csvfile').uploadifyUpload();" >
 		<div id='processfile'></div>
 	</div>
 	<?php

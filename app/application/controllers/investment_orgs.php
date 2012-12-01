@@ -397,7 +397,7 @@ class investment_orgs extends CI_Controller {
 						`action` = 'added',
 						`table` = '".$table."',
 						`ipc_id` = ".$this->db->escape($id).",
-						`name` = ".$this->db->escape($row[0]).",
+						`name` = ".$this->db->escape($row[1]).",
 						`user_id` = ".$this->db->escape(trim($_SESSION['user']['id'])).",
 						`dateadded_ts` = ".time().",
 						`dateadded` = NOW()
