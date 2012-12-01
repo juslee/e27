@@ -5,29 +5,28 @@
 	</tr>
 	<tr>
 		<td class="content">
-		<table cellpadding="0" cellspacing="0" style='margin-left:3'>
+		<table cellpadding="0" cellspacing="0" style='margin-left:3; height:22px;'>
 		<tr>
 			<td style="width:92px;">
-				<div style="width:92px; overflow:hidden">
-				<a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo site_url().uri_string(); ?>" data-text="E27 Startup List <?php
-
-$method = $this->router->method;
-if($method!="index"){
-	echo " | "; 
-	if($person['name']){
-		echo strip_tags($person['name']);
-	}
-	else if($company['name']){
-		echo strip_tags($company['name']);
-	}
-	else if($investment_org['name']){
-		echo strip_tags($investment_org['name']);
-	}
-}
-
-
-?>">Tweet</a>
-				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+				<div style="width:92px; position:relative">
+					<div style='position:absolute'>
+						<a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo site_url().uri_string(); ?>" data-text="E27 Startup List <?php
+						$method = $this->router->method;
+						if($method!="index"){
+							echo " | "; 
+							if($person['name']){
+								echo strip_tags($person['name']);
+							}
+							else if($company['name']){
+								echo strip_tags($company['name']);
+							}
+							else if($investment_org['name']){
+								echo strip_tags($investment_org['name']);
+							}
+						}			
+						?>">Tweet</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+					</div>
 				</div>
 			</td>
 			<td style="width:87px;">
@@ -76,9 +75,11 @@ if($method!="index"){
 				</div>
 			</td>
 			<td style="width:96px;">
-				<div style="width:94px; overflow:hidden; padding-left:2px">
+				<div style="width:96px; position:relative">
+					<div style='position:absolute'>
 					<script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
 <script type="IN/Share" data-url="<?php echo site_url().uri_string(); ?>" data-counter="right"></script>
+					</div>
 				</div>
 			</td>
 		</tr>
