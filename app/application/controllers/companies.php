@@ -53,7 +53,8 @@ class companies extends CI_Controller {
 				LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
-				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'
+				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%',
+				LOWER(`country`) like '%".mysql_real_escape_string($search)."%'
 			";
 		}
 		else{
@@ -76,7 +77,8 @@ class companies extends CI_Controller {
 				LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
-				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'
+				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%',
+				LOWER(`country`) like '%".mysql_real_escape_string($search)."%'
 			";
 		}
 		else{

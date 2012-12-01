@@ -1,22 +1,26 @@
+<?php
+$this->load->helper('url');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Startup List<?php
-
+<title><?php
+$metatitle = "Startup List";
 $method = $this->router->method;
 if($method!="index"){
-	echo " | "; 
+	$metatitle .= " | "; 
 	if($person['name']){
-		echo strip_tags($person['name']);
+		$metatitle .= strip_tags($person['name']);
 	}
 	else if($company['name']){
-		echo strip_tags($company['name']);
+		$metatitle .= strip_tags($company['name']);
 	}
 	else if($investment_org['name']){
-		echo strip_tags($investment_org['name']);
+		$metatitle .= strip_tags($investment_org['name']);
 	}
 }
+echo $metatitle;
 ?></title>
 <?php
 if($method!="index"){
@@ -42,11 +46,38 @@ if($method!="index"){
 	?>
 	<meta name="description" content="<?php echo sanitizeX($metadesc); ?>" />
 	<meta name="keywords" content="<?php echo sanitizeX($metakw); ?>" />
+	
 	<?php
+	
 }
+
+//facebook
+$og_url = sanitizeX(site_url().uri_string());
+echo '<meta property="og:type" content="website" />';
+echo '<meta property="og:url" content="'.$og_url.'" />';
+echo '<meta property="og:title" content="'.$metatitle.'" />';
+
+if(trim($company['logo'])){
+	$og_image = site_url()."media/image.php?p=".$company['logo']."&mx=200";
+}
+else if(trim($person['profile_image'])){
+	$og_image = site_url()."media/image.php?p=".$person['profile_image']."&mx=200";
+}
+else if(trim($investment_org['logo'])){
+	$og_image = site_url()."media/image.php?p=".$investment_org['logo']."&mx=200";
+}
+else{
+	$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
+	$og_image = site_url()."media/image.php?p=".$logo."&mx=250";
+	/*?><link rel="image_src" href="<?php echo site_url(); ?>media/image.php?p=<?php echo $logo; ?>&mx=250" /><?php	*/
+}
+echo '<meta property="og:image" content="'.$og_image.'" />';
+echo '<meta property="og:description" content="'.$metadesc.'" />';
+//echo '<meta property="fb:admins" content="'.$fb_admins.'" />';
+//echo '<meta property="fb:app_id" content="'.$fb_app_id.'" />';
 ?>
 <script language="javascript" src="<?php echo site_url(); ?>media/js/jquery-1.7.2.min.js"></script>
-<?php /* <script language="javascript" src="<?php echo site_url(); ?>media/js/jquery.sharrre-1.3.4/jquery.sharrre-1.3.4.js"></script> */ ?>
+<script language="javascript" src="<?php echo site_url(); ?>media/js/jquery.sharrre-1.3.4/jquery.sharrre-1.3.4.js"></script>
 <link rel="stylesheet" href="<?php echo site_url(); ?>media/startuplist/slideshow.css">
 <script language="javascript" src="<?php echo site_url(); ?>media/startuplist/slides.min.jquery.js"></script>
 
@@ -54,21 +85,7 @@ if($method!="index"){
 <script language="javascript" src="<?php echo site_url(); ?>startuplist/assets/javascript.js"></script>
 
 
-<?php
-if(trim($company['logo'])){
-	?><link rel="image_src" href="<?php echo site_url(); ?>media/image.php?p=<?php echo $company['logo'] ?>&mx=250" /><?php
-}
-else if(trim($person['profile_image'])){
-	?><link rel="image_src" href="<?php echo site_url(); ?>media/image.php?p=<?php echo $person['profile_image'] ?>&mx=250" /><?php
-}
-else if(trim($investment_org['logo'])){
-	?><link rel="image_src" href="<?php echo site_url(); ?>media/image.php?p=<?php echo $investment_org['logo'] ?>&mx=250" /><?php
-}
-else{
-	$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
-	?><link rel="image_src" href="<?php echo site_url(); ?>media/image.php?p=<?php echo $logo; ?>&mx=250" /><?php	
-}
-?>
+
 </head>
 
 

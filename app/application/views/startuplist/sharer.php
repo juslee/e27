@@ -31,8 +31,48 @@ if($method!="index"){
 				</div>
 			</td>
 			<td style="width:87px;">
-				<div style="width:87px; overflow:hidden">
+				<div style="width:87px; position:relative">
+					<?php
+					/*
 					<div class="fb-like" data-href="<?php echo site_url().uri_string(); ?>" data-send="false" data-layout="button_count" data-width="87" data-show-faces="false"></div>
+					<div style='position:absolute'>
+					<iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo site_url().uri_string(); ?>&layout=button_count"
+        scrolling="no" frameborder="0"
+        style="border:none; width:87px; height:80px"></iframe>
+					
+					</div>
+					*/
+					?>
+					<div id="fbshareme" data-url="<?php echo site_url().uri_string(); ?>" data-text="Startup List <?php
+					$method = $this->router->method;
+					if($method!="index"){
+						echo " | "; 
+						if($person['name']){
+							echo strip_tags($person['name']);
+						}
+						else if($company['name']){
+							echo strip_tags($company['name']);
+						}
+						else if($investment_org['name']){
+							echo strip_tags($investment_org['name']);
+						}
+					}
+					
+					
+					?>"></div>
+					<script>
+					jQuery('#fbshareme').sharrre({
+						share: {
+							facebook: true
+						},
+						buttons: {
+							facebook: {layout: 'button_count'},
+						},
+						enableHover: false,
+						enableCounter: false,
+						enableTracking: true
+					});
+					</script>
 				</div>
 			</td>
 			<td style="width:96px;">

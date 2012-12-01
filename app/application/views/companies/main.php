@@ -70,6 +70,7 @@ Company Search: <input type='text' id='company_search' /> &nbsp; [ <a href="<?ph
 	<option value="linkedin">LinkedIn</option>
 	<option value="blog_url">Blog URL</option>
 	<option value="description">Description</option>
+	<option value="country">Country</option>
 	<option value="tags">Tags</option>
 	<option value="all" selected="selected">All</option>
 	</select>
