@@ -91,7 +91,6 @@ class search extends CI_Controller {
 					else{
 						$sql .= "
 						LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
-						LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`website`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`blog`) like '%".mysql_real_escape_string($search)."%' or 
@@ -126,7 +125,6 @@ class search extends CI_Controller {
 					else{
 						$sql .= "
 						LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
-						LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`blog`) like '%".mysql_real_escape_string($search)."%' or 
 						LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
@@ -161,7 +159,6 @@ class search extends CI_Controller {
 					else{
 						$sql .= "
 						LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
-						LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`website`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`blog`) like '%".mysql_real_escape_string($search)."%' or 
@@ -223,7 +220,6 @@ class search extends CI_Controller {
 					else{
 						$sql .= "
 						LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
-						LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`website`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`blog`) like '%".mysql_real_escape_string($search)."%' or 
@@ -285,7 +281,6 @@ class search extends CI_Controller {
 					else{
 						$sql .= "
 						LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
-						LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`blog`) like '%".mysql_real_escape_string($search)."%' or 
 						LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
@@ -345,7 +340,6 @@ class search extends CI_Controller {
 					else{
 						$sql .= "
 						LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
-						LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`website`) like '%".mysql_real_escape_string($search)."%' or
 						LOWER(`blog`) like '%".mysql_real_escape_string($search)."%' or 
