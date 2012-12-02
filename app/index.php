@@ -1,6 +1,8 @@
 <?php
 ob_start();
+ini_set("auto_detect_line_endings", true);
 date_default_timezone_set("Asia/Singapore");
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
