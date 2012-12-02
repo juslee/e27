@@ -70,6 +70,7 @@ Investment Organization Search: <input type='text' id='investment_org_search' />
 	<option value="linkedin">LinkedIn</option>
 	<option value="blog_url">Blog URL</option>
 	<option value="description">Description</option>
+	<option value="country">Country</option>
 	<option value="tags">Tags</option>
 	<option value="all" selected="selected">All</option>
 	</select>	

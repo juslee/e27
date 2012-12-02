@@ -1664,6 +1664,18 @@ else{
 		}
 	  ?>
         </select>
+		<?php
+		$incountrylist = false;
+		foreach($countries as $value){
+			if($value['country']==$company['country']){
+				$incountrylist = true;
+				break;
+			}
+		}
+		if(!$incountrylist){
+			?><div class='hint bold' style='color:red'>Imported country value: <?php echo $company['country']; ?></div><?php
+		}
+		?>
       </td>
     </tr>
     

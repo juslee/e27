@@ -277,7 +277,8 @@ class people extends CI_Controller {
 					`facebook` = '".mysql_real_escape_string($row[6])."',
 					`linkedin` = '".mysql_real_escape_string($row[7])."',
 					`tags` = '".mysql_real_escape_string($row[8])."',
-					`active` = '".mysql_real_escape_string($row[9])."'
+					`active` = '".mysql_real_escape_string($row[9])."',
+					`dateupdated` = NOW()
 					where 
 					`id`='".$record[0]['id']."'
 					";
@@ -311,7 +312,9 @@ class people extends CI_Controller {
 					`facebook` = '".mysql_real_escape_string($row[6])."',
 					`linkedin` = '".mysql_real_escape_string($row[7])."',
 					`tags` = '".mysql_real_escape_string($row[8])."',
-					`active` = '".mysql_real_escape_string($row[9])."'
+					`active` = '".mysql_real_escape_string($row[9])."',
+					`dateadded` = NOW(),
+					`dateupdated` = NOW()
 					";
 					$this->db->query($sql);
 					$id = $this->db->insert_id();
@@ -392,7 +395,8 @@ class people extends CI_Controller {
 					`blog` = '".mysql_real_escape_string($blogfeed_url)."',
 					`twitter_username` = '".mysql_real_escape_string($row[3])."',
 					`linkedin` = '".mysql_real_escape_string($row[4])."',
-					`active` = '".mysql_real_escape_string($row[10])."'
+					`active` = '".mysql_real_escape_string($row[10])."',
+					`dateupdated` = NOW()
 					where 
 					`id`='".$record[0]['id']."'
 					";
@@ -428,7 +432,9 @@ class people extends CI_Controller {
 					`blog` = '".mysql_real_escape_string($blogfeed_url)."',
 					`twitter_username` = '".mysql_real_escape_string($row[3])."',
 					`linkedin` = '".mysql_real_escape_string($row[4])."',
-					`active` = '".mysql_real_escape_string($row[10])."'
+					`active` = '".mysql_real_escape_string($row[10])."',
+					`dateadded` = NOW(),
+					`dateupdated` = NOW()
 					";
 					$this->db->query($sql);
 					$id = $this->db->insert_id();

@@ -53,7 +53,7 @@ class companies extends CI_Controller {
 				LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
-				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%',
+				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%' or
 				LOWER(`country`) like '%".mysql_real_escape_string($search)."%'
 			";
 		}
@@ -77,7 +77,7 @@ class companies extends CI_Controller {
 				LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
-				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%',
+				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%' or
 				LOWER(`country`) like '%".mysql_real_escape_string($search)."%'
 			";
 		}
@@ -317,6 +317,9 @@ class companies extends CI_Controller {
 			$skipped = false;
 			$rowcount = 0;
 			while (($row = fgetcsv($handle)) !== FALSE) {
+				//echo "<pre>";
+				//print_r($row);
+				//echo "</pre>";
 				if($skipped==false&&$_POST['skipheaders']){
 					$skipped = true;
 					continue;
@@ -357,7 +360,8 @@ class companies extends CI_Controller {
 					`country` = '".mysql_real_escape_string($row[11])."',
 					`tags` = '".mysql_real_escape_string($row[12])."',
 					`status` = '".mysql_real_escape_string($row[13])."',
-					`active` = '".mysql_real_escape_string($row[14])."'
+					`active` = '".mysql_real_escape_string($row[14])."',
+					`dateupdated` = NOW()
 					where 
 					`id`='".$record[0]['id']."'
 					";
@@ -399,7 +403,9 @@ class companies extends CI_Controller {
 					`country` = '".mysql_real_escape_string($row[11])."',
 					`tags` = '".mysql_real_escape_string($row[12])."',
 					`status` = '".mysql_real_escape_string($row[13])."',
-					`active` = '".mysql_real_escape_string($row[14])."'
+					`active` = '".mysql_real_escape_string($row[14])."',
+					`dateadded` = NOW(),
+					`dateupdated` = NOW()
 					";
 					$this->db->query($sql);
 					$id = $this->db->insert_id();
@@ -488,7 +494,8 @@ class companies extends CI_Controller {
 					`founded` = '".mysql_real_escape_string($row[9])."',
 					`country` = '".mysql_real_escape_string($row[11])."',
 					`status` = '".mysql_real_escape_string($row[16])."',
-					`active` = '".mysql_real_escape_string($row[17])."'
+					`active` = '".mysql_real_escape_string($row[17])."',
+					`dateupdated` = NOW()
 					where 
 					`id`='".$record[0]['id']."'
 					";
@@ -532,7 +539,9 @@ class companies extends CI_Controller {
 					`country` = '".mysql_real_escape_string($row[11])."',
 					`tags` = '".mysql_real_escape_string($row[1])."',
 					`status` = '".mysql_real_escape_string($row[16])."',
-					`active` = '".mysql_real_escape_string($row[17])."'
+					`active` = '".mysql_real_escape_string($row[17])."',
+					`dateadded` = NOW(),
+					`dateupdated` = NOW()
 					";
 					$this->db->query($sql);
 					$id = $this->db->insert_id();

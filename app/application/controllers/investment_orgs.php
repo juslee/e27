@@ -53,6 +53,7 @@ class investment_orgs extends CI_Controller {
 				LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`country`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'
 			";
 		}
@@ -76,6 +77,7 @@ class investment_orgs extends CI_Controller {
 				LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
+				LOWER(`country`) like '%".mysql_real_escape_string($search)."%' or 
 				LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'
 			";
 		}
@@ -215,7 +217,8 @@ class investment_orgs extends CI_Controller {
 					`country` = '".mysql_real_escape_string($row[11])."',
 					`tags` = '".mysql_real_escape_string($row[12])."',
 					`status` = '".mysql_real_escape_string($row[13])."',
-					`active` = '".mysql_real_escape_string($row[14])."'
+					`active` = '".mysql_real_escape_string($row[14])."',
+					`dateupdated` = NOW()
 					where 
 					`id`='".$record[0]['id']."'
 					";
@@ -257,7 +260,9 @@ class investment_orgs extends CI_Controller {
 					`country` = '".mysql_real_escape_string($row[11])."',
 					`tags` = '".mysql_real_escape_string($row[12])."',
 					`status` = '".mysql_real_escape_string($row[13])."',
-					`active` = '".mysql_real_escape_string($row[14])."'
+					`active` = '".mysql_real_escape_string($row[14])."',
+					`dateadded` = NOW(),
+					`dateupdated` = NOW()
 					";
 					$this->db->query($sql);
 					$id = $this->db->insert_id();
@@ -346,7 +351,8 @@ class investment_orgs extends CI_Controller {
 					`founded` = '".mysql_real_escape_string($row[8])."',
 					`country` = '".mysql_real_escape_string($row[10])."',
 					`status` = '".mysql_real_escape_string($row[12])."',
-					`active` = '".mysql_real_escape_string($row[13])."'
+					`active` = '".mysql_real_escape_string($row[13])."',
+					`dateupdated` = NOW()
 					where 
 					`id`='".$record[0]['id']."'
 					";
@@ -389,7 +395,9 @@ class investment_orgs extends CI_Controller {
 					`founded` = '".mysql_real_escape_string($row[8])."',
 					`country` = '".mysql_real_escape_string($row[10])."',
 					`status` = '".mysql_real_escape_string($row[12])."',
-					`active` = '".mysql_real_escape_string($row[13])."'
+					`active` = '".mysql_real_escape_string($row[13])."',
+					`dateadded` = NOW(),
+					`dateupdated` = NOW()
 					";
 					$this->db->query($sql);
 					$id = $this->db->insert_id();

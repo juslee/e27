@@ -430,6 +430,18 @@ else{
 		}
 	  ?>
         </select>
+		<?php
+		$incountrylist = false;
+		foreach($countries as $value){
+			if($value['country']==$investment_org['country']){
+				$incountrylist = true;
+				break;
+			}
+		}
+		if(!$incountrylist){
+			?><div class='hint bold' style='color:red'>Imported country value: <?php echo $investment_org['country']; ?></div><?php
+		}
+		?>
       </td>
     </tr>
     
