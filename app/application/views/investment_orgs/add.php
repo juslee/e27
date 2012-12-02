@@ -416,6 +416,18 @@ else{
       <td>Country:</td>
       <td><select name="country">
       <?php
+	  	if($investment_org['id']){
+			$incountrylist = false;
+			foreach($countries as $value){
+				if($value['country']==$investment_org['country']){
+					$incountrylist = true;
+					break;
+				}
+			}
+			if(!$incountrylist){
+				?><option value="<?php echo sanitizeX($investment_org['country']); ?>">Please select a country</option><?php
+			}
+		}
 	  	foreach($countries as $value){
 			if(strtolower(trim($value['country']))=="singapore"){
 				?>
@@ -431,15 +443,10 @@ else{
 	  ?>
         </select>
 		<?php
-		$incountrylist = false;
-		foreach($countries as $value){
-			if($value['country']==$investment_org['country']){
-				$incountrylist = true;
-				break;
+		if($investment_org['id']){
+			if(!$incountrylist){
+				?><div class='hint bold' style='color:red'>Imported country value: <?php echo $investment_org['country']; ?></div><?php
 			}
-		}
-		if(!$incountrylist){
-			?><div class='hint bold' style='color:red'>Imported country value: <?php echo $investment_org['country']; ?></div><?php
 		}
 		?>
       </td>
@@ -603,7 +610,7 @@ if($investment_org['id']){
 					<?php
 				}
 			}
-			else{
+			else if(trim($value)||1){
 				?>
 				jQuery('[name="<?php echo $key; ?>"]').val("<?php echo sanitizeX($value); ?>");
 				<?php

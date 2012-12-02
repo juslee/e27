@@ -33,8 +33,32 @@ class search extends CI_Controller {
 		$gfilter = trim($_GET['filter']);
 		$start = $_GET['start'];
 		$start += 0;
-		$limit = 1000;
-		
+		$limit = 3000; 
+		$c_limit = 0; //company limit
+		$p_limit = 0; //person limit
+		$i_limit = 0; //investment org limit
+		if($gfilter=="companies"){
+			$c_limit = $limit; //company limit
+			$c_start = $start/$limit*$c_limit;
+		}
+		else if($gfilter=="people"){
+			$p_limit = $limit; //person limit
+			$p_start = $start/$limit*$p_limit;
+		}
+		else if($gfilter=="investment_orgs"){
+			$i_limit = $limit; //person limit
+			$i_start = $start/$limit*$i_limit;
+		}
+		else{
+			$c_limit = floor($limit/3)+($limit%3); //company limit
+			$p_limit = floor($limit/3); //person limit
+			$i_limit = floor($limit/3); //investment org limit
+			
+			$c_start = $start/$limit*$c_limit;
+			$p_start = $start/$limit*$p_limit;
+			$i_start = $start/$limit*$i_limit;
+		}
+
 		if($gfilter=='newlyadded'){
 			$filter = "UNIX_TIMESTAMP(`dateadded`)>".(time()-(5*24*60*60)).""; //within 5 days
 		}
@@ -47,7 +71,139 @@ class search extends CI_Controller {
 		
 		$totalcnt = 0;
 		$results = array();
+		$thecnt = 0;
 		$results['results'] = array();
+		
+		//counts
+		if($gfilter==""||$gfilter=="companies"){
+			$table = "companies";
+			$sql = "select count(`id`) as `cnt` from `".$table."` where 
+				(
+					";
+					if($exact=='country'){
+						$sql .= "
+						LOWER(`".$exact."`) = '".mysql_real_escape_string($search2)."'";
+					}
+					else if($exact=='category'){
+						$sql .= "
+						`id` in (select `company_id` from `company_category` where `category_id`='".mysql_real_escape_string($search2)."')";
+					}
+					else{
+						$sql .= "
+						LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`website`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`blog`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'";
+					}
+			$sql .="
+				)
+				and
+				(
+					".$filter."
+					and `active`=1
+				)" ;
+			$q = $this->db->query($sql);
+			$cnt = $q->result_array();
+			$c_cnt = $cnt[0]['cnt'];
+			$thecnt += $c_cnt;
+		}
+		if($gfilter==""||$gfilter=="people"){
+			$table = "people";
+			$sql = "select count(`id`) as `cnt` from `".$table."` where 
+				(
+					";
+					if($exact=='country'){
+						$sql .= "0";
+					}
+					else if($exact=='category'){
+						$sql .= "0";
+					}
+					else{
+						$sql .= "
+						LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`blog`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'";
+					}
+			$sql .="
+				)
+				and
+				(
+					".$filter."
+					and `active`=1
+				)" ;
+			$q = $this->db->query($sql);
+			$cnt = $q->result_array();
+			$p_cnt = $cnt[0]['cnt'];
+			$thecnt += $p_cnt;
+		}
+		if($gfilter==""||$gfilter=="investment_orgs"){
+			$table = "investment_orgs";
+			$sql = "select count(`id`) as `cnt` from `".$table."` where 
+				(
+					";
+					if($exact=='country'){
+						$sql .= "
+						LOWER(`".$exact."`) = '".mysql_real_escape_string($search2)."'";
+					}
+					else if($exact=='category'){
+						$sql .= "0";
+					}
+					else{
+						$sql .= "
+						LOWER(`name`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`email_address`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`twitter_username`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`website`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`blog`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
+						LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'";
+					}
+			$sql .="
+				)
+				and
+				(
+					".$filter."
+					and `active`=1
+				)" ;
+			$q = $this->db->query($sql);
+			$cnt = $q->result_array();
+			$i_cnt = $cnt[0]['cnt'];
+			$thecnt += $i_cnt;
+		}
+		
+		//start controller
+		$remain['c_limit'] = $c_cnt - ($c_start+$c_limit);
+		$remain['p_limit'] = $p_cnt - ($p_start+$p_limit);
+		$remain['i_limit'] = $i_cnt - ($i_start+$i_limit);
+		$distribute = 0;
+		$distcount = 3; // distribute cout
+		foreach($remain as $key=>$value){
+			if($value<=0){
+				$distribute += $$key;
+				$distcount--;
+			}
+		}
+		
+		
+		
+		//sort($remain, SORT_NUMERIC);
+		//echo "<pre>";
+		//echo $distribute;
+		//print_r($remain);
+		
+		//data
 		if($gfilter==""||$gfilter=="companies"){
 			//companies
 			$table = "companies";
@@ -83,10 +239,10 @@ class search extends CI_Controller {
 					".$filter."
 					and `active`=1
 				)
-			order by `name` asc limit $start, $limit" ;
-			
+			order by `name` asc limit $c_start, $c_limit" ;
 			$q = $this->db->query($sql);
 			$$table = $q->result_array();
+
 			//echo $sql;
 			//print_r($companies);
 			$temparr = array();
@@ -144,9 +300,10 @@ class search extends CI_Controller {
 					".$filter."
 					and `active`=1
 				)
-			order by `name` asc limit $start, $limit" ;
+			order by `name` asc limit $p_start, $p_limit" ;
 			$q = $this->db->query($sql);
 			$$table = $q->result_array();
+			
 			$temparr = array();
 			$resultstemp = $$table;
 			$t = count($resultstemp);
@@ -204,9 +361,10 @@ class search extends CI_Controller {
 					".$filter."
 					and `active`=1
 				)
-			order by `name` asc limit $start, $limit" ;
+			order by `name` asc limit $i_start, $i_limit" ;
 			$q = $this->db->query($sql);
 			$$table = $q->result_array();
+			
 			$temparr = array();
 			$resultstemp = $$table;
 			$t = count($resultstemp);
@@ -237,6 +395,16 @@ class search extends CI_Controller {
 		//print_r($results);
 		
 		$data['results'] = $results;
+		$data['thecnt'] = $thecnt;
+		$data['start'] = $start;
+		$data['c_limit'] = $c_limit;
+		$data['p_limit'] = $p_limit;
+		$data['i_limit'] = $i_limit;
+		$data['c_start'] = $c_start;
+		$data['p_start'] = $p_start;
+		$data['i_start'] = $i_start;
+		$data['limit'] = $limit;
+		
 		$data['search'] = $searchx;
 		$data['newlyfunded'] = $this->newlyFunded();
 		$data['content'] = $this->load->view('startuplist/search', $data, true);

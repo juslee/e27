@@ -1649,7 +1649,19 @@ else{
     <tr class="odd">
       <td>Country:</td>
       <td><select name="country">
-      <?php
+	  <?php 
+		if($company['id']){
+			$incountrylist = false;
+			foreach($countries as $value){
+				if($value['country']==$company['country']){
+					$incountrylist = true;
+					break;
+				}
+			}
+			if(!$incountrylist){
+				?><option value="<?php echo sanitizeX($company['country']); ?>">Please select a country</option><?php
+			}
+		}
 	  	foreach($countries as $value){
 			if(strtolower(trim($value['country']))=="singapore"){
 				?>
@@ -1665,15 +1677,10 @@ else{
 	  ?>
         </select>
 		<?php
-		$incountrylist = false;
-		foreach($countries as $value){
-			if($value['country']==$company['country']){
-				$incountrylist = true;
-				break;
+		if($company['id']){
+			if(!$incountrylist){
+				?><div class='hint bold' style='color:red'>Imported country value: <?php echo $company['country']; ?></div><?php
 			}
-		}
-		if(!$incountrylist){
-			?><div class='hint bold' style='color:red'>Imported country value: <?php echo $company['country']; ?></div><?php
 		}
 		?>
       </td>
@@ -1982,7 +1989,7 @@ if($company['id']){
 					<?php
 				}
 			}
-			else{
+			else if(trim($value)||1){
 				?>
 				jQuery('[name="<?php echo $key; ?>"]').val("<?php echo sanitizeX($value); ?>");
 				<?php

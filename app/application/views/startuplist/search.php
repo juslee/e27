@@ -2,6 +2,18 @@
 //echo "<pre>";
 //print_r($person);
 //echo "</pre>";
+//echo $start."<br>";
+//echo $limit."<br>";
+//echo $thecnt."<br>";
+/*
+echo "c ".$c_start."<br>";
+echo "p ".$p_start."<br>";
+echo "i ".$i_start."<br><br>";
+
+echo "c ".$c_limit."<br>";
+echo "p ".$p_limit."<br>";
+echo "i ".$i_limit."<br>";
+*/
 ?>
 <table cellpadding="0" cellspacing="0" class='p100'>
 	<tr>
@@ -32,7 +44,7 @@
 							?>
 							<div class="search_results">
 							<?php
-							echo "Diplaying ".$results['totalcnt']." of ".$results['totalcnt']." for '".$search."', sorted by relevance.";
+							echo "Diplaying ".$results['totalcnt']." of ".$thecnt." for '".$search."', sorted by relevance.";
 							?>
 							</div>
 							<?php
@@ -260,14 +272,14 @@
 								<?php
 							}
 							*/
-							/*
-							?>
-							<div class="center">
-								<img src="<?php echo site_url(); ?>media/startuplist/load_more.png" onclick="loadMore()" class="pointer" id="loadmorebutton">
-								<div id="loadmoreloader" style="display:none"><img src="<?php echo site_url(); ?>media/ajax-loader.gif" /></div>
-							</div>
-							<?php
-							*/
+							if($results['totalcnt']<$thecnt){
+								?>
+								<div class="center">
+									<img src="<?php echo site_url(); ?>media/startuplist/load_more.png" onclick="loadMore()" class="pointer" id="loadmorebutton">
+									<div id="loadmoreloader" style="display:none"><img src="<?php echo site_url(); ?>media/ajax-loader.gif" /></div>
+								</div>
+								<?php
+							}
 						}
 						else{
 							echo "No Results";
