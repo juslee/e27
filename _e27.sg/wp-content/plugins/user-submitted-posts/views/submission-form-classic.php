@@ -69,7 +69,7 @@ if ($authorName == $default_author) {
 			</li>
 			<?php } if ($usp_options['usp_content'] == 'show') { ?>
 			<li class="usp_content">
-				<label for="user-submitted-content" class="usp_label"><?php _e('Event Content'); ?></label>
+				<label for="user-submitted-content" class="usp_label"><?php _e('Your Event Story'); ?></label>
 				<div>
 					<textarea class="usp_textarea" name="user-submitted-content" id="user-submitted-content" rows="5"></textarea>
 				</div>
@@ -77,7 +77,7 @@ if ($authorName == $default_author) {
 			<?php } if ($usp_options['usp_images'] == 'show') { ?>
 				<?php if($usp_options['max-images'] !== 0) { ?>
 				<li class="usp_images">
-					<label for="user-submitted-image" class="usp_label"><?php _e('Upload an Image'); ?></label>
+					<label for="user-submitted-image" class="usp_label"><?php _e('Upload Image(s)'); ?></label>
 					<div id="usp_upload-message"><?php echo $usp_options['upload-message']; ?></div>
 					<div>
 						<?php 

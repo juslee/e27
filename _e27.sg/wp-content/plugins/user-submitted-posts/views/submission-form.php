@@ -61,13 +61,13 @@ if ($authorName == $default_author) {
 		</fieldset>
 		<?php } if ($usp_options['usp_content'] == 'show') { ?>
 		<fieldset class="usp-content">
-			<label for="user-submitted-content"><?php _e('Event Content'); ?></label>
-			<textarea name="user-submitted-content" rows="5" placeholder="<?php _e('Event Content'); ?>"></textarea>
+			<label for="user-submitted-content"><?php _e('Your Event Story'); ?></label>
+			<textarea name="user-submitted-content" rows="5" placeholder="<?php _e('Your Event Story'); ?>"></textarea>
 		</fieldset>
 		<?php } if ($usp_options['usp_images'] == 'show') { ?>
 		<?php if ($usp_options['max-images'] !== 0) { ?>
 		<fieldset class="usp-images">
-			<label for="user-submitted-image"><?php _e('Upload an Image'); ?></label>
+			<label for="user-submitted-image"><?php _e('Upload Image(s)'); ?></label>
 			<div id="usp-upload-message"><?php echo $usp_options['upload-message']; ?></div>
 			<div id="user-submitted-image">
 				<?php if($usp_options['min-images'] < 1) {
