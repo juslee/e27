@@ -7,3 +7,12 @@ e27.sg/wp-admin/network
 e27.sg/wp-login.php
 Username: jairus
 Password: Avf66oOjl40y
+
+
+http://e27.staging.wpengine.com/
+
+
+
+Username: superjairus
+Password: 5cKnkwOwoqiE
+http://e27.sg/wp-login.php
