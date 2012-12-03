@@ -836,7 +836,7 @@ function usp_render_form() {
 									<tr>
 										<th scope="row"><label class="description" for="usp_options[usp_question]"><?php _e('Challenge Question'); ?></label></th>
 										<td><input type="text" size="45" maxlength="200" name="usp_options[usp_question]" value="<?php echo attribute_escape($usp_options['usp_question']); ?>" />
-										<div class="mm-item-caption"><?php _e('To prevent spam, enter a question that users must answer before submitting the form.'); ?></div></td>
+										<div class="mm-item-caption"><?php _e('To prevent spam, enter a question that users must answer before submitting the form. Use value "random()" if you want captcha to be random and leave captcha response empty.'); ?></div></td>
 									</tr>
 									<tr>
 										<th scope="row"><label class="description" for="usp_options[usp_response]"><?php _e('Challenge Response'); ?></label></th>
