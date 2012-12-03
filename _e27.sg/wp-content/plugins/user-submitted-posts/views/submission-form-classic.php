@@ -36,21 +36,21 @@ if ($authorName == $default_author) {
 			</li>
 			<?php } if ($usp_options['usp_title'] == 'show') { ?>
 			<li class="usp_title">
-				<label for="user-submitted-title" class="usp_label"><?php _e('Post Title'); ?></label>
+				<label for="user-submitted-title" class="usp_label"><?php _e('Event Title'); ?></label>
 				<div>
 					<input class="usp_input" type="text" name="user-submitted-title" id="user-submitted-title" value="" />
 				</div>
 			</li>
 			<?php } if ($usp_options['usp_tags'] == 'show') { ?>
 			<li class="usp_tags">
-				<label for="user-submitted-tags" class="usp_label"><?php _e('Post Tags'); ?> <small><?php _e('(separate with commas)'); ?></small></label>
+				<label for="user-submitted-tags" class="usp_label"><?php _e('Event Tags'); ?> <small><?php _e('(separate with commas)'); ?></small></label>
 				<div>
 					<input class="usp_input" type="text" name="user-submitted-tags" id="user-submitted-tags" value="" />
 				</div>
 			</li>
 			<?php } if (($usp_options['usp_category'] == 'show') && ($usp_options['usp_use_cat'] == false)) { ?>
 			<li class="usp_category">
-				<label for="user-submitted-category" class="usp_label"><?php _e('Post Category'); ?></label>
+				<label for="user-submitted-category" class="usp_label"><?php _e('Event Category'); ?></label>
 				<div> 
 					<select class="usp_select" name="user-submitted-category" id="user-submitted-category">
 						
@@ -69,7 +69,7 @@ if ($authorName == $default_author) {
 			</li>
 			<?php } if ($usp_options['usp_content'] == 'show') { ?>
 			<li class="usp_content">
-				<label for="user-submitted-content" class="usp_label"><?php _e('Post Content'); ?></label>
+				<label for="user-submitted-content" class="usp_label"><?php _e('Event Content'); ?></label>
 				<div>
 					<textarea class="usp_textarea" name="user-submitted-content" id="user-submitted-content" rows="5"></textarea>
 				</div>

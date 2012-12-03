@@ -37,13 +37,13 @@ if ($authorName == $default_author) {
 		</fieldset>
 		<?php } if ($usp_options['usp_title'] == 'show') { ?>
 		<fieldset class="usp-title">
-			<label for="user-submitted-title"><?php _e('Post Title'); ?></label>
-			<input name="user-submitted-title" type="text" value="" placeholder="<?php _e('Post Title'); ?>">
+			<label for="user-submitted-title"><?php _e('Event Title'); ?></label>
+			<input name="user-submitted-title" type="text" value="" placeholder="<?php _e('Event Title'); ?>">
 		</fieldset>
 		<?php } if ($usp_options['usp_tags'] == 'show') { ?>
 		<fieldset class="usp-tags">
-			<label for="user-submitted-tags"><?php _e('Post Tags'); ?></label>
-			<input name="user-submitted-tags" id="user-submitted-tags" type="text" value="" placeholder="<?php _e('Post Tags'); ?>">
+			<label for="user-submitted-tags"><?php _e('Event Tags'); ?></label>
+			<input name="user-submitted-tags" id="user-submitted-tags" type="text" value="" placeholder="<?php _e('Event Tags'); ?>">
 		</fieldset>
 		<?php } if ($usp_options['usp_captcha'] == 'show') { ?>
 		<fieldset class="usp-captcha">
@@ -52,7 +52,7 @@ if ($authorName == $default_author) {
 		</fieldset>
 		<?php } if (($usp_options['usp_category'] == 'show') && ($usp_options['usp_use_cat'] == false)) { ?>
 		<fieldset class="usp-category">
-			<label for="user-submitted-category"><?php _e('Post Category'); ?></label>
+			<label for="user-submitted-category"><?php _e('Event Category'); ?></label>
 			<select name="user-submitted-category">
 				<?php foreach($usp_options['categories'] as $categoryId) { $category = get_category($categoryId); if(!$category) { continue; } ?>
 				<option value="<?php echo $categoryId; ?>"><?php $category = get_category($categoryId); echo htmlentities($category->name); ?></option>
@@ -61,8 +61,8 @@ if ($authorName == $default_author) {
 		</fieldset>
 		<?php } if ($usp_options['usp_content'] == 'show') { ?>
 		<fieldset class="usp-content">
-			<label for="user-submitted-content"><?php _e('Post Content'); ?></label>
-			<textarea name="user-submitted-content" rows="5" placeholder="<?php _e('Post Content'); ?>"></textarea>
+			<label for="user-submitted-content"><?php _e('Event Content'); ?></label>
+			<textarea name="user-submitted-content" rows="5" placeholder="<?php _e('Event Content'); ?>"></textarea>
 		</fieldset>
 		<?php } if ($usp_options['usp_images'] == 'show') { ?>
 		<?php if ($usp_options['max-images'] !== 0) { ?>
