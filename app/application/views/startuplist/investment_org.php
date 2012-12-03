@@ -39,6 +39,13 @@
 							<?php
 							if(trim($investment_org['website'])){
 								$website = preg_replace("/http:\/\//i", "", $investment_org['website']);
+								$website = preg_replace("/https:\/\//i", "", $investment_org['website']);
+								if(
+									strpos(strtolower(trim($investment_org['website'])),"http://")===false&&
+									strpos(strtolower(trim($investment_org['website'])),"https://")===false
+								){
+									$investment_org['website'] = "http://".$investment_org['website'];
+								}
 								?>
 								<tr>
 									<td class='label'>
@@ -52,6 +59,13 @@
 							}
 							if(trim($investment_org['blog_url'])){
 								$blog_url = preg_replace("/http:\/\//i", "", $investment_org['blog_url']);
+								$blog_url = preg_replace("/https:\/\//i", "", $investment_org['blog_url']);
+								if(
+									strpos(strtolower(trim($investment_org['blog_url'])),"http://")===false&&
+									strpos(strtolower(trim($investment_org['blog_url'])),"https://")===false
+								){
+									$investment_org['blog_url'] = "http://".$investment_org['blog_url'];
+								}
 								?>
 								<tr>
 									<td class='label'>
@@ -76,6 +90,12 @@
 								<?php
 							}
 							if(trim($investment_org['facebook'])){
+								if(
+									strpos(strtolower(trim($investment_org['facebook'])),"http://")===false&&
+									strpos(strtolower(trim($investment_org['facebook'])),"https://")===false
+								){
+									$investment_org['facebook'] = "http://".$investment_org['facebook'];
+								}
 								?>
 								<tr>
 									<td class='label'>
@@ -88,6 +108,12 @@
 								<?php
 							}
 							if(trim($investment_org['linkedin'])){
+								if(
+									strpos(strtolower(trim($investment_org['linkedin'])),"http://")===false&&
+									strpos(strtolower(trim($investment_org['linkedin'])),"https://")===false
+								){
+									$investment_org['linkedin'] = "http://".$investment_org['linkedin'];
+								}
 								?>
 								<tr>
 									<td class='label'>

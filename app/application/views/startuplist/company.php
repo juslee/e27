@@ -53,6 +53,13 @@
 							}
 							if(trim($company['website'])){
 								$website = preg_replace("/http:\/\//i", "", $company['website']);
+								$website = preg_replace("/https:\/\//i", "", $company['website']);
+								if(
+									strpos(strtolower(trim($company['website'])),"http://")===false&&
+									strpos(strtolower(trim($company['website'])),"https://")===false
+								){
+									$company['website'] = "http://".$company['website'];
+								}
 								?>
 								<tr>
 									<td class='label'>
@@ -66,6 +73,13 @@
 							}
 							if(trim($company['blog_url'])){
 								$blog_url = preg_replace("/http:\/\//i", "", $company['blog_url']);
+								$blog_url = preg_replace("/https:\/\//i", "", $company['blog_url']);
+								if(
+									strpos(strtolower(trim($company['blog_url'])),"http://")===false&&
+									strpos(strtolower(trim($company['blog_url'])),"https://")===false
+								){
+									$company['blog_url'] = "http://".$company['blog_url'];
+								}
 								?>
 								<tr>
 									<td class='label'>
@@ -99,6 +113,12 @@
 								<?php
 							}
 							if(trim($company['facebook'])){
+								if(
+									strpos(strtolower(trim($company['facebook'])),"http://")===false&&
+									strpos(strtolower(trim($company['facebook'])),"https://")===false
+								){
+									$company['facebook'] = "http://".$company['facebook'];
+								}
 								?>
 								<tr>
 									<td class='label'>
@@ -111,6 +131,12 @@
 								<?php
 							}
 							if(trim($company['linkedin'])){
+								if(
+									strpos(strtolower(trim($company['linkedin'])),"http://")===false&&
+									strpos(strtolower(trim($company['linkedin'])),"https://")===false
+								){
+									$company['linkedin'] = "http://".$company['linkedin'];
+								}
 								?>
 								<tr>
 									<td class='label'>
