@@ -1,0 +1,10 @@
+Event Name
+Organiser
+Start Date
+End Date
+Start Time
+End Time
+Location
+Registration Link
+Event banner/image (220 x 220 px)
+Event description/agenda 

@@ -149,14 +149,14 @@ function usp_enqueueResources() {
 			if ($display_url == $current_url) {
 				if ($usp_options['usp_form_version'] == 'classic') {
 					wp_enqueue_style ('usp_style', WP_PLUGIN_URL . '/' . basename(dirname(__FILE__)) . '/resources/usp-classic.css', false, $usp_version, 'all');
-				} elseif ($usp_options['usp_form_version'] == 'current') { 
+				} elseif ($usp_options['usp_form_version'] == 'current' || $usp_options['usp_form_version'] == 'events') { 
 					wp_enqueue_style ('usp_style', WP_PLUGIN_URL . '/' . basename(dirname(__FILE__)) . '/resources/usp.css', false, $usp_version, 'all');
 				} elseif ($usp_options['usp_form_version'] == 'disable') {}
 			}
 		} else {
 			if ($usp_options['usp_form_version'] == 'classic') {
 				wp_enqueue_style ('usp_style', WP_PLUGIN_URL . '/' . basename(dirname(__FILE__)) . '/resources/usp-classic.css', false, $usp_version, 'all');
-			} elseif ($usp_options['usp_form_version'] == 'current') { 
+			} elseif ($usp_options['usp_form_version'] == 'current' || $usp_options['usp_form_version'] == 'events') { 
 				wp_enqueue_style ('usp_style', WP_PLUGIN_URL . '/' . basename(dirname(__FILE__)) . '/resources/usp.css', false, $usp_version, 'all');
 			} elseif ($usp_options['usp_form_version'] == 'disable') {}
 		}
@@ -193,7 +193,13 @@ function usp_display_form($atts=array(), $content=null) {
 		ob_start();
 		include (WP_PLUGIN_DIR . '/' . basename(dirname(__FILE__)) . '/views/submission-form-classic.php');
 		return ob_get_clean();
-	} else {
+	}
+	else if ($usp_options['usp_form_version'] == 'events') {
+		ob_start();
+		include (WP_PLUGIN_DIR . '/' . basename(dirname(__FILE__)) . '/views/submission-form-events.php');
+		return ob_get_clean();
+	}
+	else {
 		ob_start();
 		include (WP_PLUGIN_DIR . '/' . basename(dirname(__FILE__)) . '/views/submission-form.php');
 		return ob_get_clean();
@@ -462,6 +468,10 @@ $usp_form_version = array(
 	'current' => array(
 		'value' => 'current',
 		'label' => __('HTML5 form + styles')
+	),
+	'events' => array(
+		'value' => 'events',
+		'label' => __('Custom for Submission of Events')
 	),
 	'disable' => array(
 		'value' => 'disable',
