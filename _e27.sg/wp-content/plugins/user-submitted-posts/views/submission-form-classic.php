@@ -1,5 +1,5 @@
 <?php // User Submitted Posts - Classic Submission Form
-
+@session_start();
 global $usp_options, $current_user;
 
 $author_ID  = $usp_options['author'];
@@ -60,7 +60,16 @@ if ($authorName == $default_author) {
 					</select>
 				</div>
 			</li>
-			<?php } if ($usp_options['usp_captcha'] == 'show') { ?>
+			<?php } if ($usp_options['usp_captcha'] == 'show') { 
+			//jairus 
+			if($usp_options['usp_question']=='random()'){
+				$a = rand(0, 9);
+				$b = rand(0, 9);
+				$_SESSION['usp_response'] = $a+$b;
+				$usp_options['usp_question'] = $a." + ".$b;
+			}
+			
+			?>
 			<li class="usp_captcha">
 				<label for="user-submitted-captcha" class="usp_label"><?php echo $usp_options['usp_question']; ?></label>
 				<div>
@@ -121,4 +130,19 @@ if ($authorName == $default_author) {
 </div>
 <div style="clear:both;"></div>
 <script>(function(){var e = document.getElementById("coldform_verify");e.parentNode.removeChild(e);})();</script>
-<!-- User Submitted Posts @ http://perishablepress.com/user-submitted-posts/ -->
+<script>
+<?php
+function sanitizeX($str){
+	$str = addslashes($str);
+	$str = str_replace("\n", "\\n", $str);
+	$str = str_replace("\r", "\\r", $str);
+	return $str;
+}
+
+if(is_array($_SESSION['user-submitted'])&&$_GET['submission-error']){
+	foreach($_SESSION['user-submitted'] as $key=>$value){
+		?>jQuery('[name="<?php echo $key; ?>"]').val("<?php echo sanitizeX($value); ?>");<?php
+	}
+}
+?>
+</script><!-- User Submitted Posts @ http://perishablepress.com/user-submitted-posts/ -->

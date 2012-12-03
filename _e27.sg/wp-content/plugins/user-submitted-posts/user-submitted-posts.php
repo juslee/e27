@@ -1,4 +1,6 @@
 <?php 
+//jairus
+@session_start();
 /*
 	Plugin Name: User Submitted Posts
 	Plugin URI: http://perishablepress.com/user-submitted-posts/
@@ -99,6 +101,8 @@ function usp_checkForPublicSubmission() {
 		$category  = intval($_POST['user-submitted-category']);
 		$content   = stripslashes($_POST['user-submitted-content']);
 		$fileData  = $_FILES['user-submitted-image'];
+		
+		$_SESSION['user-submitted'] = $_POST;
 
 		$publicSubmission = usp_createPublicSubmission($title, $content, $authorName, $authorID, $authorUrl, $tags, $category, $fileData);
 
@@ -351,12 +355,18 @@ function usp_validateTitle($title) {
 // challenge question
 function usp_spam_question($input) {
 	global $usp_options;
-	$response = $usp_options['usp_response'];
-	$response = stripslashes(trim($response));
-	if ($usp_options['usp_casing'] == true) {
-		return (strtoupper($input) == strtoupper($response));
-	} else {
-		return ($input == $response);
+	//jairus
+	if($usp_options['usp_question']=='random()'){
+		return ($input == $_SESSION['usp_response']);
+	}
+	else{
+		$response = $usp_options['usp_response'];
+		$response = stripslashes(trim($response));
+		if ($usp_options['usp_casing'] == true) {
+			return (strtoupper($input) == strtoupper($response));
+		} else {
+			return ($input == $response);
+		}
 	}
 }
 

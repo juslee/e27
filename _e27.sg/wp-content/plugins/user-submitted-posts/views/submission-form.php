@@ -1,5 +1,6 @@
 <?php // User Submitted Posts - HTML5 Submission Form
-
+//jairus
+@session_start();
 global $usp_options, $current_user;
 
 $author_ID  = $usp_options['author'];
@@ -45,7 +46,16 @@ if ($authorName == $default_author) {
 			<label for="user-submitted-tags"><?php _e('Event Tags'); ?></label>
 			<input name="user-submitted-tags" id="user-submitted-tags" type="text" value="" placeholder="<?php _e('Event Tags'); ?>">
 		</fieldset>
-		<?php } if ($usp_options['usp_captcha'] == 'show') { ?>
+		<?php } if ($usp_options['usp_captcha'] == 'show') { 
+		
+			//jairus 
+			if($usp_options['usp_question']=='random()'){
+				$a = rand(0, 9);
+				$b = rand(0, 9);
+				$_SESSION['usp_response'] = $a+$b;
+				$usp_options['usp_question'] = $a." + ".$b;
+			}
+		?>
 		<fieldset class="usp-captcha">
 			<label for="user-submitted-captcha"><?php echo $usp_options['usp_question']; ?></label>
 			<input name="user-submitted-captcha" type="text" value="" placeholder="<?php _e('Anti-spam: '); echo $usp_options['usp_question']; ?>">
@@ -107,4 +117,21 @@ if ($authorName == $default_author) {
 	</form>
 </div>
 <script>(function(){var e = document.getElementById("coldform_verify");e.parentNode.removeChild(e);})();</script>
+<script>
+<?php
+function sanitizeX($str){
+	$str = addslashes($str);
+	$str = str_replace("\n", "\\n", $str);
+	$str = str_replace("\r", "\\r", $str);
+	return $str;
+}
+
+if(is_array($_SESSION['user-submitted'])&&$_GET['submission-error']){
+	foreach($_SESSION['user-submitted'] as $key=>$value){
+		?>jQuery('[name="<?php echo $key; ?>"]').val("<?php echo sanitizeX($value); ?>");<?php
+	}
+}
+?>
+</script>
+
 <!-- User Submitted Posts @ http://perishablepress.com/user-submitted-posts/ -->
