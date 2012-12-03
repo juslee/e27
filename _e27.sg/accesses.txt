@@ -1,0 +1,9 @@
+WP Engine
+username: e27sg
+assword: bEnterpriSING27
+
+e27.sg/wp-admin
+e27.sg/wp-admin/network
+e27.sg/wp-login.php
+Username: jairus
+Password: Avf66oOjl40y
