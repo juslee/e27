@@ -1,11 +1,34 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 @session_start();
 class startuplist extends CI_Controller {
-	
+	var $facebook, $fb;
 	public function __construct(){
 		parent::__construct();
 		$this->load->database();
 		$this->load->helper('url');
+		
+		/*
+		$this->facebook = fb();
+		$this->fb = array();
+		$this->fb['login_url'] = $this->facebook->getLoginUrl();
+		$this->fb['user'] = $this->facebook->getUser();
+		echo "<pre>";
+		print_r($this->facebook);
+		print_r($this->fb);
+		echo "</pre>";
+		if ($this->fb['user']) {
+			try {
+				// Proceed knowing you have a logged in user who's authenticated.
+				$this->fb['user_profile'] = $this->facebook->api('/me');
+				$friends = $this->facebook->api('/me/friends');
+				$this->fb['user_profile']['friends'] = $friends['data'];
+				$this->fb['user_profile']['friendcount'] = count($friends['data']);
+			} catch (FacebookApiException $e) {
+				echo $e;
+				$this->fb['user'] = null;
+			}
+		}
+		*/
 	}
 	
 	public function purgedb($confirm=""){
@@ -84,6 +107,7 @@ class startuplist extends CI_Controller {
 		$data['type'] = $type;
 		$data['companies'] = $companies;
 		$data['newlyfunded'] = $this->newlyFunded();
+		$data['fb'] = $this->fb;
 		$data['content'] = $this->load->view('startuplist/companies', $data, true);
 		$this->load->view('startuplist/main', $data);
 	}

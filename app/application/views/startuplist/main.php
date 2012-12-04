@@ -85,20 +85,77 @@ echo '<meta property="og:description" content="'.$metadesc.'" />';
 <script language="javascript" src="<?php echo site_url(); ?>startuplist/assets/javascript.js"></script>
 
 
-
 </head>
 
 
 
 <body class="font">
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
+<script>
+
+/***** facebook ********/
+
+function fetchFBData() {
+    //console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+		html = jQuery('#fbdata').html();
+		jQuery('#fbdata').html(html+JSON.stringify(response));
+    });
+	 FB.api('/me/friends', function(response) {
+        html = jQuery('#fbdata').html();
+		jQuery('#fbdata').html(html+JSON.stringify(response));
+    });
+}
+function fb_login() {
+	FB.login(function(response) {
+			if (response.authResponse) {
+				//alert('connected');
+				fetchFBData();
+				
+			} else {	
+				//alert('cancelled');
+			}
+		},{scope: 'email'}
+	);
+}
+
+(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
   js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
   fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+}(document, 'script', 'facebook-jssdk'));
+
+window.fbAsyncInit = function() {
+	FB.init({
+	  appId      : '453738384663077', // App ID
+	  channelUrl : '//www.startuplist.sg/fb-channel.php', // Channel File
+	  status     : true, // check login status
+	  cookie     : true, // enable cookies to allow the server to access the session
+	  xfbml      : true  // parse XFBML
+	});
+
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			fetchFBData();
+			//alert('connected 1');
+		} else if (response.status === 'not_authorized') {
+			//alert('not authorized');
+			//fb_login();
+		} else {
+			//alert('not logged in');
+			//fb_login();
+		}
+	});	
+};
+
+</script>
+
+<div style='display:none'>
+	<a href='#' onclick='fb_login()' >Login to Facebook</a>
+	<div id='fbdata'></div>
+</div>
 <table cellpadding="0" cellspacing="0" class='maintable'>
 <tr>
 	<td class="banner">

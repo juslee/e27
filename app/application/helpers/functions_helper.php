@@ -2,6 +2,16 @@
 define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
 define('MAGPIE_CACHE_ON', true);
 include_once(dirname(__FILE__)."/magpie_0.72/rss_fetch.inc");
+include_once(dirname(__FILE__)."/fb/facebook.php");
+
+function fb(){
+	$facebook = new Facebook(array(
+	  'appId'  => '135632699922818',
+	  'secret' => 'e63bc2737f673ba63dcd0ba797d3e67c',
+	));
+	return $facebook;
+}
+
 
 function microtime_float(){
     list($usec, $sec) = explode(" ", microtime());

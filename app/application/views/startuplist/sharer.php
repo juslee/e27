@@ -42,6 +42,7 @@
 					</div>
 					*/
 					?>
+					
 					<div id="fbshareme" data-url="<?php echo site_url().uri_string(); ?>" data-text="Startup List <?php
 					$method = $this->router->method;
 					if($method!="index"){
@@ -72,6 +73,7 @@
 						enableTracking: true
 					});
 					</script>
+					
 				</div>
 			</td>
 			<td style="width:96px;">
