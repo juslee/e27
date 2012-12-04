@@ -6,6 +6,7 @@ if(strpos($_SERVER['HTTP_HOST'], "www.")===false){
 	if($_SERVER['QUERY_STRING']){
 		$qs = "?".$_SERVER['QUERY_STRING'];
 	}
+	header ('HTTP/1.1 301 Moved Permanently');
 	header("Location: ".sanitizeX("http://www.".$_SERVER['HTTP_HOST']."/".uri_string().$qs));
 	exit();
 }
