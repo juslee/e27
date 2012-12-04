@@ -1,5 +1,16 @@
 <?php
 $this->load->helper('url');
+//force www
+if(strpos($_SERVER['HTTP_HOST'], "www.")===false){
+	$qs = "";
+	if($_SERVER['QUERY_STRING']){
+		$qs = "?".$_SERVER['QUERY_STRING'];
+	}
+	header("Location: ".sanitizeX("http://www.".$_SERVER['HTTP_HOST']."/".uri_string().$qs));
+	exit();
+}
+
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -185,7 +196,7 @@ function fb_logout(){
 
 window.fbAsyncInit = function() {
 	FB.init({
-	  appId      : '453738384663077', // App ID
+	  appId      : '135632699922818', // App ID
 	  channelUrl : '//www.startuplist.sg/fb-channel.php', // Channel File
 	  status     : true, // check login status
 	  cookie     : true, // enable cookies to allow the server to access the session
@@ -253,8 +264,11 @@ window.fbAsyncInit = function() {
 				<td class="searchright">
 					<div onmouseover="jQuery('#logins').show()" onmouseout="jQuery('#logins').hide()" id='login'>Login
 						<div id='logins'>
-							<a id='fb_login' onclick='fb_login()'>Facebook</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<a id='li_login'>Linkedin</a>
+							<a id='fb_login' onclick='fb_login()'>Facebook</a>
+							<!--
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<a id='li_login'>Linkedin</a>
+							-->
 						</div>
 					</div>
 					<div id='loggedin'>
