@@ -6,7 +6,7 @@ body{
 	margin-bottom:50px;
 	background:#fff;
 	background: url(<?php echo site_url(); ?>media/startuplist/searchbg.png);
-	background-position:0px 131px;
+	background-position:0px 133px;
 	
 	background-repeat:repeat-x;
 }
@@ -98,6 +98,48 @@ td{
 	padding-top:10px;
 	padding-bottom:10px;
 }
+.searchright{
+	padding-right:45px;
+	vertical-align:middle;
+	text-align:center;
+	width:300px;
+	
+}
+.searchright #login{
+	background:#21913F;
+	color:white; 
+	height:32px;
+	padding-top:18px;
+	position:relative;
+	cursor:pointer;
+	width:80px;
+	float:right;
+}
+.searchright #loggedin{
+	height:50px;
+	position:relative;
+	display:none;
+	text-align:right;
+}
+#logins{
+	position:absolute;
+	background:#21913F;
+	color:white; 
+	height:32px;
+	padding-top:18px;
+	width: 187px;
+	left:-107px;
+	top:50px;
+	display:none;
+}
+#logins a:hover{
+	text-decoration:underline;
+}
+
+.fb_details{
+	color:#21913F;
+}
+
 .searchtext{
 	color:#a9a9a9;
 	background-color: #fff;

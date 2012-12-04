@@ -61,6 +61,62 @@ class startuplist extends CI_Controller {
 		}
 	}
 	
+	function ajax_saveFbUserData(){
+		$userid = $_POST['userid'];
+		$useremail = $_POST['useremail'];
+		$userdata = $_POST['userdata'];
+		$sql = "select `id` from `web_users` where `fb_id`=".$this->db->escape($userid);
+		$q = $this->db->query($sql);
+		$web_user = $q->result_array();
+		if($web_user[0]){
+			$sql = "update `web_users` set 
+				`fb_id` = ".$this->db->escape($userid).",
+				`fb_email` = ".$this->db->escape($useremail).",
+				`fb_data` = ".$this->db->escape($userdata).",
+				`dateupdated` = NOW()
+				where `id`='".$web_user[0]['id']."'
+			";
+			$q = $this->db->query($sql);
+		}
+		else{
+			$sql = "insert into `web_users` set 
+				`fb_id` = ".$this->db->escape($userid).",
+				`fb_email` = ".$this->db->escape($useremail).",
+				`fb_data` = ".$this->db->escape($userdata).",
+				`dateadded` = NOW();
+			";		
+			//echo $sql;
+			$q = $this->db->query($sql);
+		}
+	}
+	
+	function ajax_saveFbUserFriends(){
+		$userid = $_POST['userid'];
+		$useremail = $_POST['useremail'];
+		$userfriends = $_POST['userfriends'];
+		$sql = "select `id` from `web_users` where `fb_id`=".$this->db->escape($userid);
+		$q = $this->db->query($sql);
+		$web_user = $q->result_array();
+		if($web_user[0]){
+			$sql = "update `web_users` set 
+				`fb_id` = ".$this->db->escape($userid).",
+				`fb_friends` = ".$this->db->escape($userfriends).",
+				`dateupdated` = NOW()
+				where `id`='".$web_user[0]['id']."'
+			";
+			$q = $this->db->query($sql);
+		}
+		else{
+			$sql = "insert into `web_users` set 
+				`fb_id` = ".$this->db->escape($userid).",
+				`fb_friends` = ".$this->db->escape($userfriends).",
+				`dateadded` = NOW();
+			";		
+			//echo $sql;
+			$q = $this->db->query($sql);
+		}
+	}
+	
 	public function assets($file=""){
 		if($file=="styles.css"){
 			$this->load->view('startuplist/stylesheet');

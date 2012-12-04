@@ -95,28 +95,84 @@ echo '<meta property="og:description" content="'.$metadesc.'" />';
 
 /***** facebook ********/
 
+function saveFBUserData(userid, useremail, userdata){
+	//alert(userid);
+	//alert(useremail);
+	//alert(userdata);
+	formdata = "userid="+userid+"&useremail="+useremail+"&userdata="+userdata;
+	jQuery.ajax({
+		url: "<?php echo site_url(); ?>startuplist/ajax_saveFbUserData",
+		type: "POST",
+		data: formdata,
+		dataType: "script",
+		success: function(){
+			
+		}
+	});
+	
+}
+function saveFBUserFriends (userid, userfriends){
+	//alert(userid);
+	//alert(userfriends);
+	formdata = "userid="+userid+"&userfriends="+userfriends;
+	jQuery.ajax({
+		url: "<?php echo site_url(); ?>startuplist/ajax_saveFbUserFriends",
+		type: "POST",
+		data: formdata,
+		dataType: "script",
+		success: function(){
+			
+		}
+	});
+}
+
 function fetchFBData() {
     //console.log('Welcome!  Fetching your information.... ');
+	userdata = "";
+	userid = "";
+	useremail = "";
+	userfriends = "";
     FB.api('/me', function(response) {
 		html = jQuery('#fbdata').html();
-		jQuery('#fbdata').html(html+JSON.stringify(response));
+		//jQuery('#fbdata').html(html+JSON.stringify(response));
+		userdata = JSON.stringify(response);
+		userid = response.id;
+		useremail = response.email;
+		jQuery("#loggedin").html("<table cellpadding=0 cellspacing=0 style='float:right'><tr><td><img style='height:48px; width:48px;' src='http://graph.facebook.com/"+response.username+"/picture' /></td><td style='padding:5px;' class='fb_details'>Hello "+response.first_name+"!</td></tr></table>");
+		jQuery("#loggedin").show();
+		saveFBUserData(userid, useremail, userdata);
+		
+		FB.api('/me/friends', function(response) {
+			html = jQuery('#fbdata').html();
+			//jQuery('#fbdata').html(html+JSON.stringify(response));
+			userfriends = JSON.stringify(response);
+			saveFBUserFriends(userid, userfriends);
+		});
+		
+		
     });
-	 FB.api('/me/friends', function(response) {
-        html = jQuery('#fbdata').html();
-		jQuery('#fbdata').html(html+JSON.stringify(response));
-    });
+	
+	
 }
 function fb_login() {
 	FB.login(function(response) {
 			if (response.authResponse) {
 				//alert('connected');
 				fetchFBData();
+				jQuery("#login").hide();
 				
 			} else {	
 				//alert('cancelled');
 			}
 		},{scope: 'email'}
 	);
+}
+
+function fb_logout(){
+	FB.logout(function(response) {
+		jQuery("#login").show();
+		// user is now logged out
+	});
 }
 
 (function(d, s, id) {
@@ -139,6 +195,7 @@ window.fbAsyncInit = function() {
 	FB.getLoginStatus(function(response) {
 		if (response.status === 'connected') {
 			fetchFBData();
+			jQuery("#login").hide();
 			//alert('connected 1');
 		} else if (response.status === 'not_authorized') {
 			//alert('not authorized');
@@ -151,11 +208,7 @@ window.fbAsyncInit = function() {
 };
 
 </script>
-
-<div style='display:none'>
-	<a href='#' onclick='fb_login()' >Login to Facebook</a>
-	<div id='fbdata'></div>
-</div>
+<div id='fbdata'></div>
 <table cellpadding="0" cellspacing="0" class='maintable'>
 <tr>
 	<td class="banner">
@@ -183,7 +236,7 @@ window.fbAsyncInit = function() {
 <tr>
 	<td class="search">
 		<div class="searchcontentcontainer">
-		<table cellpadding="0" cellspacing="0" class="searchcontent">
+		<table cellpadding="0" cellspacing="0" class="searchcontent" width="100%">
 			<tr>
 				<td class="searchleft">
 					<table cellpadding="0" cellspacing="0">
@@ -198,7 +251,14 @@ window.fbAsyncInit = function() {
 					</table>
 				</td>
 				<td class="searchright">
-					
+					<div onmouseover="jQuery('#logins').show()" onmouseout="jQuery('#logins').hide()" id='login'>Login
+						<div id='logins'>
+							<a id='fb_login' onclick='fb_login()'>Facebook</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<a id='li_login'>Linkedin</a>
+						</div>
+					</div>
+					<div id='loggedin'>
+					</div>
 				</td>
 			</tr>
 		</table>
