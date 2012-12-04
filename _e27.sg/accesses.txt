@@ -1,6 +1,6 @@
 WP Engine
 username: e27sg
-assword: bEnterpriSING27
+password: bEnterpriSING27
 
 e27.sg/wp-admin
 e27.sg/wp-admin/network
