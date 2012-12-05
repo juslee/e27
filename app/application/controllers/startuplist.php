@@ -61,7 +61,11 @@ class startuplist extends CI_Controller {
 		}
 	}
 	
+	function ajax_logout(){
+		unset($_SESSION['loggedin']);
+	}
 	function ajax_saveFbUserData(){
+		$_SESSION['loggedin'] = true;
 		$userid = $_POST['userid'];
 		$useremail = $_POST['useremail'];
 		$userdata = $_POST['userdata'];

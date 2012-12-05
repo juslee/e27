@@ -150,7 +150,7 @@ function fetchFBData() {
 		userdata = JSON.stringify(response);
 		userid = response.id;
 		useremail = response.email;
-		jQuery("#loggedin").html("<table cellpadding=0 cellspacing=0 style='float:right'><tr><td><img style='height:48px; width:48px;' src='http://graph.facebook.com/"+response.username+"/picture' /></td><td style='padding:5px;' class='fb_details'>Hello "+response.first_name+"!</td></tr></table>");
+		jQuery("#loggedin").html("<table cellpadding=0 cellspacing=0 style='float:right'><tr><td><img style='height:48px; width:48px;' src='http://graph.facebook.com/"+response.username+"/picture' /></td><td style='padding:5px;' class='fb_details'>Hello "+response.first_name+"!<br /><a href='#' onclick='fb_logout(); return false;' style='color:#21913E' >Log Out</a></td></tr></table>");
 		jQuery("#loggedin").show();
 		saveFBUserData(userid, useremail, userdata);
 		
@@ -166,7 +166,21 @@ function fetchFBData() {
 	
 	
 }
+
+function logout(){
+	formdata = "";
+	jQuery.ajax({
+		url: "<?php echo site_url(); ?>startuplist/ajax_logout",
+		type: "POST",
+		data: formdata,
+		dataType: "script",
+		success: function(){
+			self.location = self.location;
+		}
+	});
+}
 function fb_login() {
+	
 	FB.login(function(response) {
 			if (response.authResponse) {
 				//alert('connected');
@@ -181,9 +195,11 @@ function fb_login() {
 }
 
 function fb_logout(){
+	jQuery("#loggedin").hide();
 	FB.logout(function(response) {
 		jQuery("#login").show();
 		// user is now logged out
+		logout();
 	});
 }
 
@@ -236,7 +252,7 @@ window.fbAsyncInit = function() {
 					<table class="p100" cellpadding="0" cellspacing="0">
 						<tr>
 							<td class='bannerleft left middle'><a href="<?php echo site_url(); ?>"><img src="<?php echo site_url(); ?>media/startuplist/startuplist.png"></a></td>
-							<td class='bannerright right  p100'><img src="<?php echo site_url(); ?>media/startuplist/banner.png"></td>
+							<td class='bannerright right  p100 hidden'><img src="<?php echo site_url(); ?>media/startuplist/banner.png"></td>
 						</tr>
 					</table>
 				</td>
@@ -296,7 +312,7 @@ window.fbAsyncInit = function() {
 						$this->load->view("startuplist/sharer");
 					}
 					
-					$this->load->view("startuplist/bannerad_block");
+					//$this->load->view("startuplist/bannerad_block");
 					
 					
 					
