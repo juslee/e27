@@ -4,7 +4,7 @@
 						<?php 
 						if (get_option('eg_ad_side_banner1_enable', false) !== false && get_option('eg_ad_side_banner1_enable', false) == '1') { 
 							?>
-							<div class="side advertisement">
+							<div class="side advertisement" style='padding-bottom:10px'>
 								<?php if (get_option('eg_ad_side_banner1_ad_sense', false) !== false && get_option('eg_ad_side_banner1_ad_sense', false) != '') { ?>
 									<?php echo get_option('eg_ad_side_banner1_ad_sense', false); ?>
 								<?php } else if (get_option('eg_ad_side_banner1_image_location', false) !== false && get_option('eg_ad_side_banner1_image_location', false) != '' && get_option('eg_ad_side_banner1_dest_url', false) !== false && get_option('eg_ad_side_banner1_dest_url', false) != '') { ?>
@@ -190,15 +190,7 @@
 					<?php //remove_filter( 'posts_where', 'date_check_where' ); ?>
 					<?php endif; $wp_query = $saved; ?>
 
-					<?php if (function_exists('dynamic_sidebar'))  { ?>
-					<div class="container container_2 clearfix sidebar_widget" style="margin-top: 20px;">
-						<div class='grid_1' style="width: 100%;">
-						<?php dynamic_sidebar(2); ?>
-						</div>
-					</div>
-					<?php } ?>
-
-					<!--  End Social Block -->
+					
 					<?php if (get_option('eg_ad_side_banner2_enable', false) !== false && get_option('eg_ad_side_banner2_enable', false) == '1') { ?>
 					<div class="side advertisement ads2">
 						<?php if (get_option('eg_ad_side_banner2_ad_sense', false) !== false && get_option('eg_ad_side_banner2_ad_sense', false) != '') { ?>
@@ -209,7 +201,7 @@
 					</div>
 					<?php } ?>	
 
-					<div class="side advertisement">
+					<div class="side advertisement" '>
 						<div class="container container_2 clearfix" style="text-align: center;">
 							<div class='grid_1'>
 							<?php if (get_option('eg_ad_side_banner3_enable', false) !== false && get_option('eg_ad_side_banner3_enable', false) == '1') { ?>
@@ -236,7 +228,7 @@
 						//jairus
 						?>
 						<div class="container container_2 clearfix" style="text-align: center;">
-							<div class='grid_1'>
+							<div class='grid_1' style='padding-top:20px'>
 							<?php if (get_option('eg_ad_side_banner3_1_enable', false) !== false && get_option('eg_ad_side_banner3_1_enable', false) == '1') { ?>
 								<?php if (get_option('eg_ad_side_banner3_1_ad_sense', false) !== false && get_option('eg_ad_side_banner3_1_ad_sense', false) != '') { ?>
 									<?php echo get_option('eg_ad_side_banner3_1_ad_sense', false); ?>
@@ -245,7 +237,7 @@
 								<?php } ?>
 							<?php } ?>
 							</div>
-							<div class='grid_1'>
+							<div class='grid_1' style='padding-top:20px'>
 							<?php if (get_option('eg_ad_side_banner4_1_enable', false) !== false && get_option('eg_ad_side_banner4_1_enable', false) == '1') { ?>
 								<?php if (get_option('eg_ad_side_banner4_1_ad_sense', false) !== false && get_option('eg_ad_side_banner4_1_ad_sense', false) != '') { ?>
 									<?php echo get_option('eg_ad_side_banner4_1_ad_sense', false); ?>
@@ -257,6 +249,18 @@
 
 						</div>
 						
+						<?php 
+						if (function_exists('dynamic_sidebar'))  { 
+							?>
+							<div class="container container_2 clearfix sidebar_widget" style="margin-top: 20px;">
+								<div class='grid_1' style="width: 100%;">
+								<?php dynamic_sidebar(2); ?>
+								</div>
+							</div>
+							<?php 
+						} ?>
+
+					<!--  End Social Block -->
 						
 						
 						<!--  sidebarads -->

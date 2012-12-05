@@ -12,7 +12,20 @@ Password: Avf66oOjl40y
 http://e27.staging.wpengine.com/
 
 
+https://my.wpengine.com/sftp_users
+login: jairus@nmgresources.ph
+pwd: jairus
+
+
 
 Username: superjairus
 Password: 5cKnkwOwoqiE
 http://e27.sg/wp-login.php
+
+
+
+
+SFTP
+e27.wpengine.com
+e27-jairus
+jairus

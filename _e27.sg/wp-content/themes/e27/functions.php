@@ -311,7 +311,7 @@ function eg_settings_api_init() {
 	add_settings_field('eg_newsletter_learn_more_link', 'Newsletter Learn More Link', 'eg_setting_learn_more_cb', 'general', 'eg_setting_general_section');
 	register_setting('general', 'eg_newsletter_learn_more_link');
 	
-	add_settings_section('eg_setting_section', 'Ads - 460 x 60 (Top Banner Ad)', 'eg_setting_section_callback_function', 'media');
+	add_settings_section('eg_setting_section', 'Ads - Top Banner Ad (728 x 90)', 'eg_setting_section_callback_function', 'media');
 	add_settings_field('eg_ad_460x60_top_banner_enable', 'Enable the ad space', 'eg_setting_callback_function', 'media', 'eg_setting_section');
 	register_setting('media', 'eg_ad_460x60_top_banner_enable');
 	add_settings_field('eg_ad_460x60_top_banner_ad_sense', 'Adsense code', 'eg_setting_ad_sense_callback_function', 'media', 'eg_setting_section');
@@ -333,8 +333,8 @@ function eg_settings_api_init() {
 	
 	
 	//jairus
-	add_settings_section('eg_setting_section1_1', 'Ads - Side Banner 1.1 (300x250)', 'eg_setting_section1_1_callback_function', 'media');
-	add_settings_field('eg_ad_side_banner1_1_enable', 'Side Banner Ad 1.1', 'eg_setting_callback_function1_1', 'media', 'eg_setting_section1_1');
+	add_settings_section('eg_setting_section1_1', 'Ads - Side Banner 2 (300x250)', 'eg_setting_section1_1_callback_function', 'media');
+	add_settings_field('eg_ad_side_banner1_1_enable', 'Side Banner Ad 2', 'eg_setting_callback_function1_1', 'media', 'eg_setting_section1_1');
 	register_setting('media', 'eg_ad_side_banner1_1_enable');
 	add_settings_field('eg_ad_side_banner1_1_ad_sense', 'Adsense code', 'eg_ad_side_banner1_1_ad_sense_callback_function', 'media', 'eg_setting_section1_1');
 	register_setting('media', 'eg_ad_side_banner1_1_ad_sense');
@@ -345,6 +345,7 @@ function eg_settings_api_init() {
 	
 	
 	
+	/*
 	add_settings_section('eg_setting_section2', 'Ads - Side Banner 2 (300x250)', 'eg_setting_section2_callback_function', 'media');
 	add_settings_field('eg_ad_side_banner2_enable', 'Side Banner Ad 2', 'eg_setting_callback_function2', 'media', 'eg_setting_section2');
 	register_setting('media', 'eg_ad_side_banner2_enable');
@@ -354,6 +355,7 @@ function eg_settings_api_init() {
 	register_setting('media', 'eg_ad_side_banner2_image_location');
 	add_settings_field('eg_ad_side_banner2_dest_url', 'Destination URL', 'eg_ad_side_banner2_dest_url_callback_function', 'media', 'eg_setting_section2');
 	register_setting('media', 'eg_ad_side_banner2_dest_url');
+	*/
 	
 	add_settings_section('eg_setting_section3', 'Ads - Side Banner 3 (125x125)', 'eg_setting_section3_callback_function', 'media');
 	add_settings_field('eg_ad_side_banner3_enable', 'Side Banner Ad 3', 'eg_setting_callback_function3', 'media', 'eg_setting_section3');
@@ -366,8 +368,8 @@ function eg_settings_api_init() {
 	register_setting('media', 'eg_ad_side_banner3_dest_url');
 	
 	//jairus
-	add_settings_section('eg_setting_section3_1', 'Ads - Side Banner 3.1 (125x125)', 'eg_setting_section3_1_callback_function', 'media');
-	add_settings_field('eg_ad_side_banner3_1_enable', 'Side Banner Ad 3.1', 'eg_setting_callback_function3_1', 'media', 'eg_setting_section3_1');
+	add_settings_section('eg_setting_section3_1', 'Ads - Side Banner 4 (125x125)', 'eg_setting_section3_1_callback_function', 'media');
+	add_settings_field('eg_ad_side_banner3_1_enable', 'Side Banner Ad 4', 'eg_setting_callback_function3_1', 'media', 'eg_setting_section3_1');
 	register_setting('media', 'eg_ad_side_banner3_1_enable');
 	add_settings_field('eg_ad_side_banner3_1_ad_sense', 'Adsense code', 'eg_ad_side_banner3_1_ad_sense_callback_function', 'media', 'eg_setting_section3_1');
 	register_setting('media', 'eg_ad_side_banner3_1_ad_sense');
@@ -376,8 +378,8 @@ function eg_settings_api_init() {
 	add_settings_field('eg_ad_side_banner3_1_dest_url', 'Destination URL', 'eg_ad_side_banner3_1_dest_url_callback_function', 'media', 'eg_setting_section3_1');
 	register_setting('media', 'eg_ad_side_banner3_1_dest_url');
 	
-	add_settings_section('eg_setting_section4', 'Ads - Side Banner 4 (125x125)', 'eg_setting_section4_callback_function', 'media');
-	add_settings_field('eg_ad_side_banner4_enable', 'Side Banner Ad 4', 'eg_setting_callback_function4', 'media', 'eg_setting_section4');
+	add_settings_section('eg_setting_section4', 'Ads - Side Banner 5 (125x125)', 'eg_setting_section4_callback_function', 'media');
+	add_settings_field('eg_ad_side_banner4_enable', 'Side Banner Ad 5', 'eg_setting_callback_function4', 'media', 'eg_setting_section4');
 	register_setting('media', 'eg_ad_side_banner4_enable');
 	add_settings_field('eg_ad_side_banner4_ad_sense', 'Adsense code', 'eg_ad_side_banner4_ad_sense_callback_function', 'media', 'eg_setting_section4');
 	register_setting('media', 'eg_ad_side_banner4_ad_sense');
@@ -387,8 +389,8 @@ function eg_settings_api_init() {
 	register_setting('media', 'eg_ad_side_banner4_dest_url');
 	
 	//jairus
-	add_settings_section('eg_setting_section4_1', 'Ads - Side Banner 4.1 (125x125)', 'eg_setting_section4_1_callback_function', 'media');
-	add_settings_field('eg_ad_side_banner4_1_enable', 'Side Banner Ad 4.1', 'eg_setting_callback_function4_1', 'media', 'eg_setting_section4_1');
+	add_settings_section('eg_setting_section4_1', 'Ads - Side Banner 6 (125x125)', 'eg_setting_section4_1_callback_function', 'media');
+	add_settings_field('eg_ad_side_banner4_1_enable', 'Side Banner Ad 6', 'eg_setting_callback_function4_1', 'media', 'eg_setting_section4_1');
 	register_setting('media', 'eg_ad_side_banner4_1_enable');
 	add_settings_field('eg_ad_side_banner4_1_ad_sense', 'Adsense code', 'eg_ad_side_banner4_1_ad_sense_callback_function', 'media', 'eg_setting_section4_1');
 	register_setting('media', 'eg_ad_side_banner4_1_ad_sense');
@@ -479,7 +481,7 @@ function eg_setting_section1_1_callback_function() {
 	echo '<p>The ads specified below will determine what will show in their corresponding ad sections.</p>';
 }
 
-function eg_setting_callback_function1() {
+function eg_setting_callback_function1_1() {
 	echo '<input name="eg_ad_side_banner1_1_enable" id="gv_thumbnails_insert_into_excerpt" type="checkbox" value="1" class="code" ' . checked( 1, get_option('eg_ad_side_banner1_1_enable'), false ) . ' /> Enable';
 }
 
