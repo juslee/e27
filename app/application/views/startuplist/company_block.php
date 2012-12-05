@@ -8,7 +8,7 @@
 		<?php
 		if(trim($company['logo'])){
 			?>
-			<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $company['logo'] ?>&mx=168' />
+			<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $company['logo'] ?>&mx=160' />
 			<?php
 		}
 		else{
