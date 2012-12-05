@@ -1,4 +1,5 @@
 <?php
+@session_start();
 $this->load->helper('url');
 //force www
 if(strpos($_SERVER['HTTP_HOST'], "www.")===false){
@@ -116,7 +117,6 @@ function saveFBUserData(userid, useremail, userdata){
 		url: "<?php echo site_url(); ?>startuplist/ajax_saveFbUserData",
 		type: "POST",
 		data: formdata,
-		dataType: "script",
 		success: function(){
 			
 		}
@@ -173,7 +173,6 @@ function logout(){
 		url: "<?php echo site_url(); ?>startuplist/ajax_logout",
 		type: "POST",
 		data: formdata,
-		dataType: "script",
 		success: function(){
 			self.location = self.location;
 		}
@@ -184,6 +183,7 @@ function fb_login() {
 	FB.login(function(response) {
 			if (response.authResponse) {
 				//alert('connected');
+				
 				fetchFBData();
 				jQuery("#login").hide();
 				
@@ -279,7 +279,7 @@ window.fbAsyncInit = function() {
 					</table>
 				</td>
 				<td class="searchright">
-					<div onmouseover="jQuery('#logins').show()" onmouseout="jQuery('#logins').hide()" id='login'>Login
+					<div onmouseover="jQuery('#logins').show()" onmouseout="jQuery('#logins').hide()" id='login' <?php if(0&&$_SESSION['loggedin']){ echo "style='display:none'"; } ?>>Login
 						<div id='logins'>
 							<a id='fb_login' onclick='fb_login()'>Facebook</a>
 							<!--
