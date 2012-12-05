@@ -8,6 +8,7 @@
 	<link rel="shortcut icon" href="<?php bloginfo('template_directory') ?>/favicon.ico" />
 	<title><?php wp_title(' '); ?></title>
 
+
 	<link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/css/reset.css?ver=1" type="text/css" />
 	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>?ver=2" type="text/css" />
 	<link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/css/grid.css" type="text/css" />
@@ -15,7 +16,22 @@
 	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo('name'); ?> RSS Feed" href="<?php bloginfo('rss2_url'); ?>" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 	<link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,700,500' rel='stylesheet' type='text/css'>
-	<?php wp_head(); ?>
+	<!--wp_head()-->
+	<?php 
+	//this is the fix for bug with double title when sharing to google plus
+	ob_start();
+	wp_head(); 
+	$c = ob_get_contents();
+	ob_end_clean();
+	
+	$matches = array();
+	preg_match_all("/<meta([^>]*)og:title([^>]*)\/>/iUs", $c, $matches);
+	$c = preg_replace("/<meta([^>]*)og:title([^>]*)\/>/iUs", "", $c);
+	echo $matches[0][0];
+	echo $c;
+	?>
+	<!--/wp_head()-->
+	
 	<!--[if IE]>
 	<style type="text/css">
 	  .clearfix {
