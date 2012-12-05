@@ -50,7 +50,7 @@
 										<script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
 										<script type="IN/Share" data-counter="top"></script>
 									</div>
-									<div>
+									<div style='padding-top:10px'>
 										<a href="http://pinterest.com/pin/create/button/?url=<?php the_permalink(); ?>&media=<?php if(function_exists('the_post_thumbnail')) echo wp_get_attachment_url(get_post_thumbnail_id()); ?>&description=<?php echo get_the_title(); ?>" class="pin-it-button" count-layout="vertical">Pin It</a>
 										<script type="text/javascript" src="http://assets.pinterest.com/js/pinit.js"></script>
 									</div>

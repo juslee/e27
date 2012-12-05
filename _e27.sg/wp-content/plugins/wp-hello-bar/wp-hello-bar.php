@@ -173,9 +173,10 @@ class WPHelloBar
             return;
 
         if(is_user_logged_in() && $user_load === true ) {
-            echo '<style type="text/css" media="all">';
-            echo '#hellobar-wrapper {top:28px!important;}';
-            echo '</style>';
+           return;
+		   // echo '<style type="text/css" media="all">';
+           // echo '#hellobar-wrapper {top:28px!important;}';
+           // echo '</style>';
         }
 
     }

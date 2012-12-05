@@ -16,6 +16,7 @@
 	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo('name'); ?> RSS Feed" href="<?php bloginfo('rss2_url'); ?>" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 	<link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,700,500' rel='stylesheet' type='text/css'>
+	<meta name="description" content="<?php echo htmlentities(get_the_excerpt()); ?>" > 
 	<!--wp_head()-->
 	<?php 
 	//this is the fix for bug with double title when sharing to google plus
@@ -24,10 +25,18 @@
 	$c = ob_get_contents();
 	ob_end_clean();
 	
+	//og:title
 	$matches = array();
 	preg_match_all("/<meta([^>]*)og:title([^>]*)\/>/iUs", $c, $matches);
 	$c = preg_replace("/<meta([^>]*)og:title([^>]*)\/>/iUs", "", $c);
 	echo $matches[0][0];
+	
+	//og:description
+	$matches = array();
+	preg_match_all("/<meta([^>]*)og:description([^>]*)\/>/iUs", $c, $matches);
+	$c = preg_replace("/<meta([^>]*)og:description([^>]*)\/>/iUs", "", $c);
+	echo $matches[0][0];
+	
 	echo $c;
 	?>
 	<!--/wp_head()-->
@@ -54,7 +63,9 @@ ados_load();
 });</script>
 <style>
 sup{
-text-transform: uppercase;
+vertical-align:super;
+position: relative; top: -8; font-size: 10px;
+
 }
 </style>
 
