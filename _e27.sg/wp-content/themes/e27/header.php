@@ -52,7 +52,11 @@ ados_add_placement(4158, 20013, "azk96828", 4).setZone(14085);
 ados_add_placement(4158, 20013, "azk55225", 5).setZone(14087);
 ados_load();
 });</script>
-
+<style>
+sup{
+text-transform: uppercase;
+}
+</style>
 
 
 </head>
