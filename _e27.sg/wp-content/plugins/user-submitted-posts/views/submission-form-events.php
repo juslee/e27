@@ -124,6 +124,10 @@ if ($authorName == $default_author) {
 				<label for="user-submitted-title"><?php _e('Registration Link'); ?></label>
 				<input name="user-submitted-registrationlink" title="<?php echo _e('Registration Link'); ?>" class="user-submitted-subcontent"  type="text" value="" placeholder="<?php _e('Registration Link'); ?>">
 			</fieldset>
+			<fieldset class="usp-content">
+				<label for="user-submitted-title"><?php _e('Discount Code'); ?></label>
+				<input name="user-submitted-discountcode" title="<?php echo _e('Discount Code'); ?>" class="user-submitted-subcontent"  type="text" value="" placeholder="<?php _e(''); ?>">
+			</fieldset>
 			<fieldset class="usp-content">	
 				<label for="user-submitted-content" style='width:300px'>* <?php _e('Event Description / Agenda'); ?></label>
 				<textarea name="user-submitted-description" title="<?php echo _e('Event Description / Agenda'); ?>" class="user-submitted-subcontent required"  rows="5" placeholder="<?php _e('Event Description / Agenda'); ?>"></textarea>
@@ -269,6 +273,7 @@ function populateContent(){
 	endtimea = jQuery('[name="user-submitted-endtimea"]').val();
 	locationx = jQuery('[name="user-submitted-location"]').val();
 	registrationlink = jQuery('[name="user-submitted-registrationlink"]').val();
+	discountcode = jQuery('[name="user-submitted-discountcode"]').val();
 	organizer = jQuery('[name="user-submitted-organizer"]').val();
 	organizerlink = jQuery('[name="user-submitted-organizerlink"]').val();
 	tags = jQuery('[name="user-submitted-tags"]').val();
@@ -287,6 +292,9 @@ function populateContent(){
 	contentstr += "<li><strong>Venue</strong> : "+locationx+"</li>";
 	if(registrationlink){
 		contentstr += "<li><a href='"+registrationlink+"'>Register here</a></li>";
+	}
+	if(discountcode){
+		contentstr += "<li><strong>Discount Code</strong> :"+discountcode+"</li>";
 	}
 	if(organizerlink){
 		contentstr += "<li><strong>Organizer</strong> : <a href='"+organizerlink+"'>"+organizer+"</a></li>";
