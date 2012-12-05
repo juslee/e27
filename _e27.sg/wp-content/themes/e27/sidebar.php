@@ -1,6 +1,19 @@
 				<div id="sidebar" class='grid_1'>
 					<!--  Start Social Block -->
 					<div>
+						<?php 
+						if (get_option('eg_ad_side_banner1_enable', false) !== false && get_option('eg_ad_side_banner1_enable', false) == '1') { 
+							?>
+							<div class="side advertisement">
+								<?php if (get_option('eg_ad_side_banner1_ad_sense', false) !== false && get_option('eg_ad_side_banner1_ad_sense', false) != '') { ?>
+									<?php echo get_option('eg_ad_side_banner1_ad_sense', false); ?>
+								<?php } else if (get_option('eg_ad_side_banner1_image_location', false) !== false && get_option('eg_ad_side_banner1_image_location', false) != '' && get_option('eg_ad_side_banner1_dest_url', false) !== false && get_option('eg_ad_side_banner1_dest_url', false) != '') { ?>
+									<a href="<?php echo get_option('eg_ad_side_banner1_dest_url', false); ?>"><img src="<?php echo get_option('eg_ad_side_banner1_image_location', false); ?>" /></a>
+								<?php } ?>
+							</div>
+							<?php 
+						} 
+						?>
 						<div id="top_posts_container" class="section f container container_2 clearfix">
 						  <h3><span>Subscribe To e27</span></h3>
 						  <div id="follow-e27-f">    
@@ -73,15 +86,7 @@
 							<div style="padding: 5px;"><ul id="twitter_update_list"></ul></div>
 						</div>
 					</div>			
-					<?php if (get_option('eg_ad_side_banner1_enable', false) !== false && get_option('eg_ad_side_banner1_enable', false) == '1') { ?>
-					<div class="side advertisement">
-						<?php if (get_option('eg_ad_side_banner1_ad_sense', false) !== false && get_option('eg_ad_side_banner1_ad_sense', false) != '') { ?>
-							<?php echo get_option('eg_ad_side_banner1_ad_sense', false); ?>
-						<?php } else if (get_option('eg_ad_side_banner1_image_location', false) !== false && get_option('eg_ad_side_banner1_image_location', false) != '' && get_option('eg_ad_side_banner1_dest_url', false) !== false && get_option('eg_ad_side_banner1_dest_url', false) != '') { ?>
-							<a href="<?php echo get_option('eg_ad_side_banner1_dest_url', false); ?>"><img src="<?php echo get_option('eg_ad_side_banner1_image_location', false); ?>" /></a>
-						<?php } ?>
-					</div>
-					<?php } ?>
+					
 					
 
 					
@@ -110,6 +115,22 @@
 					</div>
 					<?php endif; $wp_query = $saved; ?>
 
+					
+					
+					<?php
+					if (get_option('eg_ad_side_banner1_1_enable', false) !== false && get_option('eg_ad_side_banner1_1_enable', false) == '1') { 
+						?>
+						<div class="side advertisement">
+							<?php if (get_option('eg_ad_side_banner1_1_ad_sense', false) !== false && get_option('eg_ad_side_banner1_1_ad_sense', false) != '') { ?>
+								<?php echo get_option('eg_ad_side_banner1_1_ad_sense', false); ?>
+							<?php } else if (get_option('eg_ad_side_banner1_1_image_location', false) !== false && get_option('eg_ad_side_banner1_1_image_location', false) != '' && get_option('eg_ad_side_banner1_1_dest_url', false) !== false && get_option('eg_ad_side_banner1_1_dest_url', false) != '') { ?>
+								<a href="<?php echo get_option('eg_ad_side_banner1_1_dest_url', false); ?>"><img src="<?php echo get_option('eg_ad_side_banner1_1_image_location', false); ?>" /></a>
+							<?php } ?>
+						</div>
+						<?php 
+					} 
+					?>
+					
 					
 								
 					<?php $saved = $wp_query; ?>
@@ -209,7 +230,36 @@
 							<?php } ?>
 							</div>
 
-						</div><!--  sidebarads -->
+						</div>
+						
+						<?php
+						//jairus
+						?>
+						<div class="container container_2 clearfix" style="text-align: center;">
+							<div class='grid_1'>
+							<?php if (get_option('eg_ad_side_banner3_1_enable', false) !== false && get_option('eg_ad_side_banner3_1_enable', false) == '1') { ?>
+								<?php if (get_option('eg_ad_side_banner3_1_ad_sense', false) !== false && get_option('eg_ad_side_banner3_1_ad_sense', false) != '') { ?>
+									<?php echo get_option('eg_ad_side_banner3_1_ad_sense', false); ?>
+								<?php } else if (get_option('eg_ad_side_banner3_1_image_location', false) !== false && get_option('eg_ad_side_banner3_1_image_location', false) != '' && get_option('eg_ad_side_banner3_1_dest_url', false) !== false && get_option('eg_ad_side_banner3_1_dest_url', false) != '') { ?>
+									<a href="<?php echo get_option('eg_ad_side_banner3_1_dest_url', false); ?>"><img src="<?php echo get_option('eg_ad_side_banner3_1_image_location', false); ?>" /></a>
+								<?php } ?>
+							<?php } ?>
+							</div>
+							<div class='grid_1'>
+							<?php if (get_option('eg_ad_side_banner4_1_enable', false) !== false && get_option('eg_ad_side_banner4_1_enable', false) == '1') { ?>
+								<?php if (get_option('eg_ad_side_banner4_1_ad_sense', false) !== false && get_option('eg_ad_side_banner4_1_ad_sense', false) != '') { ?>
+									<?php echo get_option('eg_ad_side_banner4_1_ad_sense', false); ?>
+								<?php } else if (get_option('eg_ad_side_banner4_1_image_location', false) !== false && get_option('eg_ad_side_banner4_1_image_location', false) != '' && get_option('eg_ad_side_banner4_1_dest_url', false) !== false && get_option('eg_ad_side_banner4_1_dest_url', false) != '') { ?>
+									<a href="<?php echo get_option('eg_ad_side_banner4_1_dest_url', false); ?>"><img src="<?php echo get_option('eg_ad_side_banner4_1_image_location', false); ?>" /></a>
+								<?php } ?>
+							<?php } ?>
+							</div>
+
+						</div>
+						
+						
+						
+						<!--  sidebarads -->
 
 
 

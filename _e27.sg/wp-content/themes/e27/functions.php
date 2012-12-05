@@ -321,7 +321,7 @@ function eg_settings_api_init() {
 	add_settings_field('eg_ad_460x60_top_banner_dest_url', 'Destination URL', 'eg_setting_dest_url_callback_function', 'media', 'eg_setting_section');
 	register_setting('media', 'eg_ad_460x60_top_banner_dest_url');
 	
-	add_settings_section('eg_setting_section1', 'Ads - Side Banner 1', 'eg_setting_section1_callback_function', 'media');
+	add_settings_section('eg_setting_section1', 'Ads - Side Banner 1 (300x250)', 'eg_setting_section1_callback_function', 'media');
 	add_settings_field('eg_ad_side_banner1_enable', 'Side Banner Ad 1', 'eg_setting_callback_function1', 'media', 'eg_setting_section1');
 	register_setting('media', 'eg_ad_side_banner1_enable');
 	add_settings_field('eg_ad_side_banner1_ad_sense', 'Adsense code', 'eg_ad_side_banner1_ad_sense_callback_function', 'media', 'eg_setting_section1');
@@ -331,7 +331,21 @@ function eg_settings_api_init() {
 	add_settings_field('eg_ad_side_banner1_dest_url', 'Destination URL', 'eg_ad_side_banner1_dest_url_callback_function', 'media', 'eg_setting_section1');
 	register_setting('media', 'eg_ad_side_banner1_dest_url');
 	
-	add_settings_section('eg_setting_section2', 'Ads - Side Banner 2', 'eg_setting_section2_callback_function', 'media');
+	
+	//jairus
+	add_settings_section('eg_setting_section1_1', 'Ads - Side Banner 1.1 (300x250)', 'eg_setting_section1_1_callback_function', 'media');
+	add_settings_field('eg_ad_side_banner1_1_enable', 'Side Banner Ad 1.1', 'eg_setting_callback_function1_1', 'media', 'eg_setting_section1_1');
+	register_setting('media', 'eg_ad_side_banner1_1_enable');
+	add_settings_field('eg_ad_side_banner1_1_ad_sense', 'Adsense code', 'eg_ad_side_banner1_1_ad_sense_callback_function', 'media', 'eg_setting_section1_1');
+	register_setting('media', 'eg_ad_side_banner1_1_ad_sense');
+	add_settings_field('eg_ad_side_banner1_1_image_location', 'Image location', 'eg_ad_side_banner1_1_image_location_callback_function', 'media', 'eg_setting_section1_1');
+	register_setting('media', 'eg_ad_side_banner1_1_image_location');
+	add_settings_field('eg_ad_side_banner1_1_dest_url', 'Destination URL', 'eg_ad_side_banner1_1_dest_url_callback_function', 'media', 'eg_setting_section1_1');
+	register_setting('media', 'eg_ad_side_banner1_1_dest_url');
+	
+	
+	
+	add_settings_section('eg_setting_section2', 'Ads - Side Banner 2 (300x250)', 'eg_setting_section2_callback_function', 'media');
 	add_settings_field('eg_ad_side_banner2_enable', 'Side Banner Ad 2', 'eg_setting_callback_function2', 'media', 'eg_setting_section2');
 	register_setting('media', 'eg_ad_side_banner2_enable');
 	add_settings_field('eg_ad_side_banner2_ad_sense', 'Adsense code', 'eg_ad_side_banner2_ad_sense_callback_function', 'media', 'eg_setting_section2');
@@ -341,7 +355,7 @@ function eg_settings_api_init() {
 	add_settings_field('eg_ad_side_banner2_dest_url', 'Destination URL', 'eg_ad_side_banner2_dest_url_callback_function', 'media', 'eg_setting_section2');
 	register_setting('media', 'eg_ad_side_banner2_dest_url');
 	
-	add_settings_section('eg_setting_section3', 'Ads - Side Banner 3', 'eg_setting_section3_callback_function', 'media');
+	add_settings_section('eg_setting_section3', 'Ads - Side Banner 3 (125x125)', 'eg_setting_section3_callback_function', 'media');
 	add_settings_field('eg_ad_side_banner3_enable', 'Side Banner Ad 3', 'eg_setting_callback_function3', 'media', 'eg_setting_section3');
 	register_setting('media', 'eg_ad_side_banner3_enable');
 	add_settings_field('eg_ad_side_banner3_ad_sense', 'Adsense code', 'eg_ad_side_banner3_ad_sense_callback_function', 'media', 'eg_setting_section3');
@@ -351,7 +365,18 @@ function eg_settings_api_init() {
 	add_settings_field('eg_ad_side_banner3_dest_url', 'Destination URL', 'eg_ad_side_banner3_dest_url_callback_function', 'media', 'eg_setting_section3');
 	register_setting('media', 'eg_ad_side_banner3_dest_url');
 	
-	add_settings_section('eg_setting_section4', 'Ads - Side Banner 4', 'eg_setting_section4_callback_function', 'media');
+	//jairus
+	add_settings_section('eg_setting_section3_1', 'Ads - Side Banner 3.1 (125x125)', 'eg_setting_section3_1_callback_function', 'media');
+	add_settings_field('eg_ad_side_banner3_1_enable', 'Side Banner Ad 3.1', 'eg_setting_callback_function3_1', 'media', 'eg_setting_section3_1');
+	register_setting('media', 'eg_ad_side_banner3_1_enable');
+	add_settings_field('eg_ad_side_banner3_1_ad_sense', 'Adsense code', 'eg_ad_side_banner3_1_ad_sense_callback_function', 'media', 'eg_setting_section3_1');
+	register_setting('media', 'eg_ad_side_banner3_1_ad_sense');
+	add_settings_field('eg_ad_side_banner3_1_image_location', 'Image location', 'eg_ad_side_banner3_1_image_location_callback_function', 'media', 'eg_setting_section3_1');
+	register_setting('media', 'eg_ad_side_banner3_1_image_location');
+	add_settings_field('eg_ad_side_banner3_1_dest_url', 'Destination URL', 'eg_ad_side_banner3_1_dest_url_callback_function', 'media', 'eg_setting_section3_1');
+	register_setting('media', 'eg_ad_side_banner3_1_dest_url');
+	
+	add_settings_section('eg_setting_section4', 'Ads - Side Banner 4 (125x125)', 'eg_setting_section4_callback_function', 'media');
 	add_settings_field('eg_ad_side_banner4_enable', 'Side Banner Ad 4', 'eg_setting_callback_function4', 'media', 'eg_setting_section4');
 	register_setting('media', 'eg_ad_side_banner4_enable');
 	add_settings_field('eg_ad_side_banner4_ad_sense', 'Adsense code', 'eg_ad_side_banner4_ad_sense_callback_function', 'media', 'eg_setting_section4');
@@ -360,6 +385,17 @@ function eg_settings_api_init() {
 	register_setting('media', 'eg_ad_side_banner4_image_location');
 	add_settings_field('eg_ad_side_banner4_dest_url', 'Destination URL', 'eg_ad_side_banner4_dest_url_callback_function', 'media', 'eg_setting_section4');
 	register_setting('media', 'eg_ad_side_banner4_dest_url');
+	
+	//jairus
+	add_settings_section('eg_setting_section4_1', 'Ads - Side Banner 4.1 (125x125)', 'eg_setting_section4_1_callback_function', 'media');
+	add_settings_field('eg_ad_side_banner4_1_enable', 'Side Banner Ad 4.1', 'eg_setting_callback_function4_1', 'media', 'eg_setting_section4_1');
+	register_setting('media', 'eg_ad_side_banner4_1_enable');
+	add_settings_field('eg_ad_side_banner4_1_ad_sense', 'Adsense code', 'eg_ad_side_banner4_1_ad_sense_callback_function', 'media', 'eg_setting_section4_1');
+	register_setting('media', 'eg_ad_side_banner4_1_ad_sense');
+	add_settings_field('eg_ad_side_banner4_1_image_location', 'Image location', 'eg_ad_side_banner4_1_image_location_callback_function', 'media', 'eg_setting_section4_1');
+	register_setting('media', 'eg_ad_side_banner4_1_image_location');
+	add_settings_field('eg_ad_side_banner4_1_dest_url', 'Destination URL', 'eg_ad_side_banner4_1_dest_url_callback_function', 'media', 'eg_setting_section4_1');
+	register_setting('media', 'eg_ad_side_banner4_1_dest_url');
 	
 	add_settings_section('eg_setting_section5', 'Ads - Center Posts', 'eg_setting_section5_callback_function', 'media');
 	add_settings_field('eg_ad_center_banner_enable', 'Center Ads', 'eg_setting_callback_function5', 'media', 'eg_setting_section5');
@@ -437,6 +473,29 @@ function eg_ad_side_banner1_dest_url_callback_function() {
 }
 // end eg_ad_side_banner1_enable
 
+//jairus
+// eg_ad_side_banner1_1_enable
+function eg_setting_section1_1_callback_function() {
+	echo '<p>The ads specified below will determine what will show in their corresponding ad sections.</p>';
+}
+
+function eg_setting_callback_function1() {
+	echo '<input name="eg_ad_side_banner1_1_enable" id="gv_thumbnails_insert_into_excerpt" type="checkbox" value="1" class="code" ' . checked( 1, get_option('eg_ad_side_banner1_1_enable'), false ) . ' /> Enable';
+}
+
+function eg_ad_side_banner1_1_ad_sense_callback_function() {
+	echo '<textarea name="eg_ad_side_banner1_1_ad_sense" id="eg_ad_side_banner1_1_ad_sense">'.get_option('eg_ad_side_banner1_1_ad_sense', '').'</textarea> Enter your adsense code (or other ad network code) here.';
+}
+
+function eg_ad_side_banner1_1_image_location_callback_function() {
+	echo '<input name="eg_ad_side_banner1_1_image_location" id="eg_ad_side_banner1_1_image_location" type="text" value="'.get_option('eg_ad_side_banner1_1_image_location').'" /> Enter the URL to the banner ad image location.';
+}
+
+function eg_ad_side_banner1_1_dest_url_callback_function() {
+	echo '<input name="eg_ad_side_banner1_1_dest_url" id="eg_ad_side_banner1_1_dest_url" type="text" value="'.get_option('eg_ad_side_banner1_1_dest_url').'" /> Enter the URL where this banner ad points to.';
+}
+// end eg_ad_side_banner1_1_enable
+
 // eg_ad_side_banner2_enable
 function eg_setting_section2_callback_function() {
 	echo '<p>The ads specified below will determine what will show in their corresponding ad sections.</p>';
@@ -481,6 +540,29 @@ function eg_ad_side_banner3_dest_url_callback_function() {
 }
 // end eg_ad_side_banner3_enable
 
+//jairus
+// eg_ad_side_banner3_1_enable
+function eg_setting_section3_1_callback_function() {
+	echo '<p>The ads specified below will determine what will show in their corresponding ad sections.</p>';
+}
+
+function eg_setting_callback_function3_1() {
+	echo '<input name="eg_ad_side_banner3_1_enable" id="gv_thumbnails_insert_into_excerpt" type="checkbox" value="1" class="code" ' . checked( 1, get_option('eg_ad_side_banner3_1_enable'), false ) . ' /> Enable';
+}
+
+function eg_ad_side_banner3_1_ad_sense_callback_function() {
+	echo '<textarea name="eg_ad_side_banner3_1_ad_sense" id="eg_ad_side_banner3_1_ad_sense">'.get_option('eg_ad_side_banner3_1_ad_sense', '').'</textarea> Enter your adsense code (or other ad network code) here.';
+}
+
+function eg_ad_side_banner3_1_image_location_callback_function() {
+	echo '<input name="eg_ad_side_banner3_1_image_location" id="eg_ad_side_banner3_1_image_location" type="text" value="'.get_option('eg_ad_side_banner3_1_image_location').'" /> Enter the URL to the banner ad image location.';
+}
+
+function eg_ad_side_banner3_1_dest_url_callback_function() {
+	echo '<input name="eg_ad_side_banner3_1_dest_url" id="eg_ad_side_banner3_1_dest_url" type="text" value="'.get_option('eg_ad_side_banner3_1_dest_url').'" /> Enter the URL where this banner ad points to.';
+}
+// end eg_ad_side_banner3_1_enable
+
 // eg_setting_section4
 function eg_setting_section4_callback_function() {
 	echo '<p>The ads specified below will determine what will show in their corresponding ad sections.</p>';
@@ -502,6 +584,29 @@ function eg_ad_side_banner4_dest_url_callback_function() {
 	echo '<input name="eg_ad_side_banner4_dest_url" id="eg_ad_side_banner4_dest_url" type="text" value="'.get_option('eg_ad_side_banner4_dest_url').'" /> Enter the URL where this banner ad points to.';
 }
 // end eg_setting_section4
+
+//jairus
+// eg_setting_section4_1
+function eg_setting_section4_1_callback_function() {
+	echo '<p>The ads specified below will determine what will show in their corresponding ad sections.</p>';
+}
+
+function eg_setting_callback_function4_1() {
+	echo '<input name="eg_ad_side_banner4_1_enable" id="gv_thumbnails_insert_into_excerpt" type="checkbox" value="1" class="code" ' . checked( 1, get_option('eg_ad_side_banner4_1_enable'), false ) . ' /> Enable';
+}
+
+function eg_ad_side_banner4_1_ad_sense_callback_function() {
+	echo '<textarea name="eg_ad_side_banner4_1_ad_sense" id="eg_ad_side_banner4_1_ad_sense">'.get_option('eg_ad_side_banner4_1_ad_sense', '').'</textarea> Enter your adsense code (or other ad network code) here.';
+}
+
+function eg_ad_side_banner4_1_image_location_callback_function() {
+	echo '<input name="eg_ad_side_banner4_1_image_location" id="eg_ad_side_banner4_1_image_location" type="text" value="'.get_option('eg_ad_side_banner4_1_image_location').'" /> Enter the URL to the banner ad image location.';
+}
+
+function eg_ad_side_banner4_1_dest_url_callback_function() {
+	echo '<input name="eg_ad_side_banner4_1_dest_url" id="eg_ad_side_banner4_1_dest_url" type="text" value="'.get_option('eg_ad_side_banner4_1_dest_url').'" /> Enter the URL where this banner ad points to.';
+}
+// end eg_setting_section4_1
 
 // eg_setting_section 5
 function eg_setting_section5_callback_function() {
