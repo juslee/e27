@@ -2,7 +2,7 @@
 @session_start();
 $this->load->helper('url');
 //force www
-if(strpos($_SERVER['HTTP_HOST'], "www.")===false){
+if($_SERVER['HTTP_HOST']!="localhost"&&strpos($_SERVER['HTTP_HOST'], "www.")===false){
 	$qs = "";
 	if($_SERVER['QUERY_STRING']){
 		$qs = "?".$_SERVER['QUERY_STRING'];
@@ -96,6 +96,9 @@ echo '<meta property="og:description" content="'.$metadesc.'" />';
 
 <link type="text/css" rel="stylesheet" href="<?php echo site_url(); ?>startuplist/assets/styles.css">
 <script language="javascript" src="<?php echo site_url(); ?>startuplist/assets/javascript.js"></script>
+
+<link href="<?php echo site_url(); ?>media/js/tweet-master/tweet/jquery.tweet.css" rel="stylesheet"/>
+<script src="<?php echo site_url(); ?>media/js/tweet-master/tweet/jquery.tweet.js" charset="utf-8"></script>
 
 
 </head>

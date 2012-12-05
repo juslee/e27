@@ -423,7 +423,48 @@
 						<div class="description_contents"><?php echo nl2br($person['description']); ?></div>
 					</td>
 				</tr>
-				
+				<?php
+				if(trim($person['twitter_username'])){
+					?>
+					<tr>
+						<td class="description">
+							<div class="description_title">Tweets</div>
+							<div class="tweets"></div>
+							<?php
+							$tws = explode(",", $person['twitter_username']);
+							$twitarr = array();
+							$n = 0;
+							foreach($tws as $twitter_username){
+								$twitter_username = trim($twitter_username);
+								?>
+								<div id='tweet<?php echo $n; ?>'></div><br />
+								<script>
+								jQuery(function($){
+									jQuery("#tweet<?php echo $n; ?>").tweet({
+										join_text: "auto",
+										username: "<?php echo $twitter_username; ?>",
+										avatar_size: 48,
+										count: 5,
+										auto_join_text_default: " we said, ",
+										auto_join_text_ed: " we ",
+										auto_join_text_ing: " we were ",
+										auto_join_text_reply: " we replied ",
+										auto_join_text_url: " we were checking out ",
+										loading_text: "loading tweets..."
+									});
+								});
+								</script>
+								<?php
+								$n++;
+							}
+							
+							?>
+							
+						</td>
+					</tr>
+				<?php
+				}
+				?>
 			</table>
 		</td>
 	</tr>
