@@ -9,6 +9,9 @@
 							$curauth = get_userdata(get_query_var('author'));
 						endif;
 						
+						global $authordata;
+						$authordata=get_userdata(get_query_var( 'author' ));
+
 						//print_r($curauth);
 						$authid = $curauth->ID;
 					?>
@@ -29,10 +32,10 @@
 							</p>
 						</div>
 					</div>
-					<?php $facebook = get_the_author_meta('facebook', $curauth->ID); ?>
-					<?php $twitter = get_the_author_meta('twitter', $curauth->ID); ?>
-					<?php $linkedin = get_the_author_meta('linkedin', $curauth->ID); ?>
-					<?php $googleplus = get_the_author_meta('googleplus', $curauth->ID); ?>
+					<?php $facebook = get_the_author_meta('facebook'); ?>
+					<?php $twitter = get_the_author_meta('twitter'); ?>
+					<?php $linkedin = get_the_author_meta('linkedin'); ?>
+					<?php $googleplus = get_the_author_meta('googleplus'); ?>
 					<?php if ($facebook != '' || $twitter != '' || $linkedin != '' || $googleplus != '') { ?>
 					<div id="author_about_social">
 						<h3><span>CONNECT WITH <?php echo $curauth->display_name ?></span></h3>
