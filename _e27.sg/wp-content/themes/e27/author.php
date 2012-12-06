@@ -4,10 +4,12 @@
 				<div class='grid_1' style="width: 719px; padding-right: 15px;">
 					<?php 
 						if(get_query_var('author_name')) :
-						$curauth = get_userdatabylogin(get_query_var('author_name'));
+							$curauth = get_userdatabylogin(get_query_var('author_name'));
 						else :
-						$curauth = get_userdata(get_query_var('author'));
+							$curauth = get_userdata(get_query_var('author'));
 						endif;
+						
+						//print_r($curauth);
 						$authid = $curauth->ID;
 					?>
 					<div id="author_about_container">
@@ -23,14 +25,14 @@
 									<?php $pic = get_bloginfo('template_directory').'/img/avatar-sample.png'; ?>
 									<img src="<?php echo $pic ?>" width="128" align="right" id="avatar_<?php echo $curauth->ID ?>" />
 								<?php } ?>
-								<?php the_author_meta('description'); ?>
+								<?php the_author_meta('description', $curauth->ID); ?>
 							</p>
 						</div>
 					</div>
-					<?php $facebook = get_the_author_meta('facebook'); ?>
-					<?php $twitter = get_the_author_meta('twitter'); ?>
-					<?php $linkedin = get_the_author_meta('linkedin'); ?>
-					<?php $googleplus = get_the_author_meta('googleplus'); ?>
+					<?php $facebook = get_the_author_meta('facebook', $curauth->ID); ?>
+					<?php $twitter = get_the_author_meta('twitter', $curauth->ID); ?>
+					<?php $linkedin = get_the_author_meta('linkedin', $curauth->ID); ?>
+					<?php $googleplus = get_the_author_meta('googleplus', $curauth->ID); ?>
 					<?php if ($facebook != '' || $twitter != '' || $linkedin != '' || $googleplus != '') { ?>
 					<div id="author_about_social">
 						<h3><span>CONNECT WITH <?php echo $curauth->display_name ?></span></h3>
