@@ -217,7 +217,7 @@ window.fbAsyncInit = function() {
 	  xfbml      : true  // parse XFBML
 	});
 	<?php
-	if($_SESSION['web_user']['fb_id']){
+	if($_SESSION['web_user']['fb_id']&&0){
 		?>
 		FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
@@ -237,6 +237,11 @@ window.fbAsyncInit = function() {
 	?>
 };
 </script>
+<?php
+//echo "<pre>";
+//print_r($_SESSION['web_user']);
+//echo "</pre>";
+?>
 <div id='fbdata'></div>
 <table cellpadding="0" cellspacing="0" class='maintable'>
 <tr>
@@ -280,7 +285,7 @@ window.fbAsyncInit = function() {
 					</table>
 				</td>
 				<td class="searchright">
-					<div onmouseover="jQuery('#logins').show()" onmouseout="jQuery('#logins').hide()" id='login' <?php if(0&&$_SESSION['loggedin']){ echo "style='display:none'"; } ?>>Login
+					<div onmouseover="jQuery('#logins').show()" onmouseout="jQuery('#logins').hide()" id='login' <?php if($_SESSION['web_user']){ echo "style='display:none'"; } ?>>Login
 						<div id='logins'>
 							<a id='fb_login' onclick='fb_login()'>Facebook</a>
 							<!--
@@ -289,7 +294,15 @@ window.fbAsyncInit = function() {
 							-->
 						</div>
 					</div>
-					<div id='loggedin'>
+					<div id='loggedin' <?php if($_SESSION['web_user']){ echo "style='display:block'"; } ?>>
+					<?php
+					if($_SESSION['web_user']['fb_data']){
+						$fb_data = json_decode($_SESSION['web_user']['fb_data']);
+						//print_r($fb_data);
+						$str = "<table cellpadding=0 cellspacing=0 style='float:right'><tr><td><img style='height:48px; width:48px;' src='http://graph.facebook.com/".$fb_data->id."/picture' /></td><td style='padding:5px;' class='fb_details'>Hello ".$fb_data->first_name."!<br /><a href='#' onclick='fb_logout(); return false;' style='color:#21913E' >Log Out</a></td></tr></table>";
+						echo $str;
+					}
+					?>
 					</div>
 				</td>
 			</tr>
