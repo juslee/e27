@@ -108,9 +108,21 @@ echo '<meta property="og:description" content="'.$metadesc.'" />';
 <body class="font">
 <div id="fb-root"></div>
 <script>
+refreshx = false;
+
+function logout(){
+	formdata = "";
+	jQuery.ajax({
+		url: "<?php echo site_url(); ?>startuplist/ajax_logout",
+		type: "POST",
+		data: formdata,
+		success: function(){
+			self.location = self.location;
+		}
+	});
+}
 
 /***** facebook ********/
-
 function saveFBUserData(userid, useremail, userdata){
 	//alert(userid);
 	//alert(useremail);
@@ -121,7 +133,6 @@ function saveFBUserData(userid, useremail, userdata){
 		type: "POST",
 		data: formdata,
 		success: function(){
-			
 		}
 	});
 	
@@ -136,11 +147,13 @@ function saveFBUserFriends (userid, userfriends){
 		data: formdata,
 		dataType: "script",
 		success: function(){
-			
+			if(refreshx){
+				refreshx = false;
+				self.location = self.location;
+			}
 		}
 	});
 }
-
 function fetchFBData() {
     //console.log('Welcome!  Fetching your information.... ');
 	userdata = "";
@@ -156,56 +169,38 @@ function fetchFBData() {
 		jQuery("#loggedin").html("<table cellpadding=0 cellspacing=0 style='float:right'><tr><td><img style='height:48px; width:48px;' src='http://graph.facebook.com/"+response.username+"/picture' /></td><td style='padding:5px;' class='fb_details'>Hello "+response.first_name+"!<br /><a href='#' onclick='fb_logout(); return false;' style='color:#21913E' >Log Out</a></td></tr></table>");
 		jQuery("#loggedin").show();
 		saveFBUserData(userid, useremail, userdata);
-		
 		FB.api('/me/friends', function(response) {
-			html = jQuery('#fbdata').html();
+			//html = jQuery('#fbdata').html();
 			//jQuery('#fbdata').html(html+JSON.stringify(response));
 			userfriends = JSON.stringify(response);
 			saveFBUserFriends(userid, userfriends);
 		});
-		
-		
     });
-	
-	
-}
-
-function logout(){
-	formdata = "";
-	jQuery.ajax({
-		url: "<?php echo site_url(); ?>startuplist/ajax_logout",
-		type: "POST",
-		data: formdata,
-		success: function(){
-			self.location = self.location;
-		}
-	});
 }
 function fb_login() {
-	
 	FB.login(function(response) {
 			if (response.authResponse) {
-				//alert('connected');
-				
+				refreshx = true;
 				fetchFBData();
 				jQuery("#login").hide();
 				
 			} else {	
-				//alert('cancelled');
 			}
 		},{scope: 'email'}
 	);
 }
 
 function fb_logout(){
+	/*
 	jQuery("#loggedin").hide();
 	FB.logout(function(response) {
 		jQuery("#login").show();
 		// user is now logged out
 		logout();
 	});
+	*/
+	logout();
 }
-
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
@@ -213,7 +208,6 @@ function fb_logout(){
   js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
-
 window.fbAsyncInit = function() {
 	FB.init({
 	  appId      : '135632699922818', // App ID
@@ -222,22 +216,26 @@ window.fbAsyncInit = function() {
 	  cookie     : true, // enable cookies to allow the server to access the session
 	  xfbml      : true  // parse XFBML
 	});
-
-	FB.getLoginStatus(function(response) {
-		if (response.status === 'connected') {
-			fetchFBData();
-			jQuery("#login").hide();
-			//alert('connected 1');
-		} else if (response.status === 'not_authorized') {
-			//alert('not authorized');
-			//fb_login();
-		} else {
-			//alert('not logged in');
-			//fb_login();
-		}
-	});	
+	<?php
+	if($_SESSION['web_user']['fb_id']){
+		?>
+		FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+				fetchFBData();
+				jQuery("#login").hide();
+				//alert('connected 1');
+			} else if (response.status === 'not_authorized') {
+				//alert('not authorized');
+				//fb_login();
+			} else {
+				//alert('not logged in');
+				//fb_login();
+			}
+		});
+		<?php
+	}
+	?>
 };
-
 </script>
 <div id='fbdata'></div>
 <table cellpadding="0" cellspacing="0" class='maintable'>

@@ -62,14 +62,13 @@ class startuplist extends CI_Controller {
 	}
 	
 	function ajax_logout(){
-		unset($_SESSION['loggedin']);
+		unset($_SESSION['web_user']);
 	}
 	function ajax_saveFbUserData(){
-		$_SESSION['loggedin'] = true;
 		$userid = $_POST['userid'];
 		$useremail = $_POST['useremail'];
 		$userdata = $_POST['userdata'];
-		$sql = "select `id` from `web_users` where `fb_id`=".$this->db->escape($userid);
+		$sql = "select * from `web_users` where `fb_id`=".$this->db->escape($userid);
 		$q = $this->db->query($sql);
 		$web_user = $q->result_array();
 		if($web_user[0]){
@@ -91,7 +90,12 @@ class startuplist extends CI_Controller {
 			";		
 			//echo $sql;
 			$q = $this->db->query($sql);
+			$userid = $this->db->insert_id();
+			$sql = "select * from `web_users` where `fb_id`=".$this->db->escape($userid);
+			$q = $this->db->query($sql);
+			$web_user = $q->result_array();
 		}
+		$_SESSION['web_user'] = $web_user[0];
 	}
 	
 	function ajax_saveFbUserFriends(){
