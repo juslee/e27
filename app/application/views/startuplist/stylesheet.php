@@ -415,6 +415,16 @@ img.rounded{
 	display:none;
 }
 
+.inline{
+	display:inline;
+}
+.right{
+	float:right;
+}
+.left{
+	float:left;
+}
+
 /********* main page filter ************/
 
 
@@ -642,7 +652,7 @@ img.rounded{
 .account_head{
 	font-size:24px;
 	color: #21913f;
-	padding-top:5px;
+	padding-top:0px;
 	padding-bottom:20px;
 	border-bottom: 1px solid #f1efea;
 }
@@ -658,5 +668,9 @@ img.rounded{
 .contribute div{
 	padding-bottom:5px;
 	font-weight:bold;
+}
+
+.edit a:link, .edit a:hover, .edit a:visited{
+	color: #21913E;
 }
 

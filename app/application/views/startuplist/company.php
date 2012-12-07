@@ -1,7 +1,5 @@
 <?php
-//echo "<pre>";
-//print_r($company);
-//echo "</pre>";
+@session_start();
 ?>
 <table cellpadding="0" cellspacing="0" class='p100'>
 	<tr>
@@ -24,14 +22,24 @@
 							<?php	
 						}
 						?>
-						</div>
 						</a>
+						<?php
+						
+						?>
+						</div>
+						<?php
+						if($_SESSION['web_user']){ echo "<div class='edit'><a href='".site_url()."editcompany/".$company['id']."/logo'>EDIT</div>"; }
+						?>
 					</td>
 				</tr>
 			</table>
 			<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
 				<tr>
-					<td class="head">OVERVIEW</td>
+					<td class="head">OVERVIEW 
+					<?php
+					if($_SESSION['web_user']){ echo "<div class='edit inline right'><a href='".site_url()."editcompany/".$company['id']."/overview'>EDIT</div>"; }
+					?>
+					</td>
 				</tr>
 				<tr>
 					<td class="content">
@@ -221,7 +229,11 @@
 				?>
 				<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
 					<tr>
-						<td class="head">PEOPLE</td>
+						<td class="head">PEOPLE
+						<?php
+						if($_SESSION['web_user']){ echo "<div class='edit inline right'><a href='".site_url()."editcompany/".$company['id']."/people'>EDIT</div>"; }
+						?>
+						</td>
 					</tr>
 					<tr>
 						<td class="content">
@@ -297,7 +309,11 @@
 				?>
 				<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
 					<tr>
-						<td class="head">FUNDING</td>
+						<td class="head">FUNDING
+						<?php
+						if($_SESSION['web_user']){ echo "<div class='edit inline right'><a href='".site_url()."editcompany/".$company['id']."/funding'>EDIT</div>"; }
+						?>
+						</td>
 					</tr>
 					<tr>
 						<td class="content">
@@ -422,7 +438,11 @@
 				?>
 				<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
 					<tr>
-						<td class="head">INVESTMENTS</td>
+						<td class="head">INVESTMENTS
+						<?php
+						if($_SESSION['web_user']){ echo "<div class='edit inline right'><a href='".site_url()."editcompany/".$company['id']."/investments'>EDIT</div>"; }
+						?>
+						</td>
 					</tr>
 					<tr>
 						<td class="content">
@@ -485,6 +505,9 @@
 					<td class="company_name">
 						<?php
 						echo htmlentitiesX($company['name']);
+						?>
+						<?php
+						if($_SESSION['web_user']){ echo "<div class='edit inline right'><a href='".site_url()."editcompany/".$company['id']."/about'>EDIT</div>"; }
 						?>
 					</td>
 				</tr>

@@ -350,6 +350,10 @@ window.fbAsyncInit = function() {
 					<td class="sidebar">
 						<div class="sidebarblockcontainer">
 						<?php
+						if($_SESSION['web_user']){
+							$this->load->view("startuplist/contribute_block");
+						}
+						
 						if($method=='company'||$method=='person'||$method=='investment_org'||$method=='index'||$method=='register'){
 							$this->load->view("startuplist/sharer");
 						}

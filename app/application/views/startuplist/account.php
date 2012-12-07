@@ -1,6 +1,8 @@
 <?php
 @session_start();
-$user = getWebUser($_SESSION['web_user']);
+if(!$user){
+	$user = getWebUser($_SESSION['web_user']);
+}
 ?>
 <table cellpadding="0" cellspacing="0" class="p100">
 	<tr>
@@ -10,22 +12,25 @@ $user = getWebUser($_SESSION['web_user']);
 					<td class='breadcrumbs'>
 					<a href='<?php echo site_url(); ?>'>Home</a> >
 					<?php
-					echo "<a href='".site_url()."account'>".$user['name']."</a>";
+					echo "<a href='".site_url()."account/".$user['id']."'>".$user['name']."</a>";
 					?>
 					</td>
 				</tr>
 				<tr>
 					<td class='account_left'>
-						<table cellpadding="0" cellspacing="0" class="p100">
-							<tr>
-								<td class='logo'>
-									<div>
-									<img src='<?php echo $user['img']; ?>' />
-									</div>
-									</a>
-								</td>
-							</tr>
-						</table>
+						<?php
+						if(trim($user['img'])){
+							?>
+							<table cellpadding="0" cellspacing="0" class="p100">
+								<tr>
+									<td class='logo'>
+										<div><img src='<?php echo $user['img']; ?>' /></div>
+									</td>
+								</tr>
+							</table>
+							<?php
+						}
+						?>
 						<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
 							<tr>
 								<td class="head">ACCOUNT DETAILS</td>
@@ -69,25 +74,9 @@ $user = getWebUser($_SESSION['web_user']);
 						</table>
 					</td>
 					<td class='account_right'>
-					<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_right' >
-							<tr>
-								<td class="head">CONTRIBUTE</td>
-							</tr>
-							<tr>
-								<td class="content">
-									<table>
-										<tr>
-											<td class='contribute'>
-												<div><a href='#'>Add Company</a></div>
-												<div><a href='#'>Add Person</a></div>
-												<div><a href='#'>Add Investment Organization</a></div>
-											</td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-						</table>
-					
+						<?php
+						$this->load->view("startuplist/contribute_block");
+						?>
 					</td>
 				</tr>
 			</table>
