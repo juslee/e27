@@ -149,6 +149,10 @@ function getWebUser($web_user){
 		$web_user['type'] = 'fb';
 		$web_user['fb'] = json_decode($web_user['fb_data']);
 		$web_user['name'] = $web_user['fb']->name;
+		$web_user['img'] = "http://graph.facebook.com/".$web_user['fb']->id."/picture?type=large";
+		$web_user['email'] = $web_user['fb']->email;
+		$web_user['twitter'] = "";
+		$web_user['linkedin'] = "";
 	}
 	return $web_user;
 }

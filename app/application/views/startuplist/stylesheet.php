@@ -616,13 +616,28 @@ img.rounded{
 }
 .account_left{
 	width: 220px;
-	padding-top:10px;
 	padding-right:10px;
 	padding-bottom:10px;
 	font-family:Arial, Helvetica, sans-serif;
 }
-.account_center{
+.account_left .logo{
+	height:168px;
+	width:168px;
+	padding: 5px 0px 15px 0px;
+	vertical-align:middle;
+	text-align:center;
 	
+}
+
+.account_left .sidebar_left, .account_right .sidebar_right{
+	margin:0px;
+	margin-bottom:15px;
+	width: 220px;
+}
+.account_center{
+	width:660px;
+	padding-left:10px;
+	padding-right:10px;
 }
 .account_head{
 	font-size:24px;
@@ -633,12 +648,15 @@ img.rounded{
 }
 .account_right{
 	width: 220px;
-	padding-top:10px;
 	padding-left:10px;
 	padding-bottom:10px;
 	font-family:Arial, Helvetica, sans-serif;
 }
 .breadcrumbs{
 	padding:20px;
+}
+.contribute div{
+	padding-bottom:5px;
+	font-weight:bold;
 }
 
