@@ -50,6 +50,8 @@ $route['backend'] = "main";
 $route['admin'] = "main";
 $route['newlyadded'] = "startuplist/index/newlyadded";
 $route['newlyupdated'] = "startuplist/index/newlyupdated";
+$route['account'] = "startuplist/account";
+$route['account/(:any)'] = "startuplist/account/$1";
 
 
 /* End of file routes.php */

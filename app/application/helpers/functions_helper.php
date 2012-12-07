@@ -143,4 +143,14 @@ function safeExport($str){
 	$str = preg_replace("/[^a-zA-Z0-9]/iUs", " ", $str);
 	return $str;
 }
+
+function getWebUser($web_user){
+	if($web_user['fb_data']){
+		$web_user['type'] = 'fb';
+		$web_user['fb'] = json_decode($web_user['fb_data']);
+		$web_user['name'] = $web_user['fb']->name;
+	}
+	return $web_user;
+}
+
 ?>

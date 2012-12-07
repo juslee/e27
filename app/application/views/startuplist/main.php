@@ -32,6 +32,9 @@ if($method!="index"){
 	else if($investment_org['name']){
 		$metatitle .= strip_tags($investment_org['name']);
 	}
+	if($method=="account"){
+		$metatitle .= "Account";
+	}
 }
 echo $metatitle;
 ?></title>
@@ -110,6 +113,14 @@ echo '<meta property="og:description" content="'.$metadesc.'" />';
 <script>
 refreshx = false;
 
+function gotoAccount(){
+	self.location = "<?php site_url(); ?>account";
+}
+
+function refreshPage(){
+	self.location = self.location;
+}
+
 function logout(){
 	formdata = "";
 	jQuery.ajax({
@@ -117,10 +128,12 @@ function logout(){
 		type: "POST",
 		data: formdata,
 		success: function(){
-			self.location = self.location;
+			refreshPage();
 		}
 	});
 }
+
+
 
 /***** facebook ********/
 function saveFBUserData(userid, useremail, userdata){
@@ -149,7 +162,7 @@ function saveFBUserFriends (userid, userfriends){
 		success: function(){
 			if(refreshx){
 				refreshx = false;
-				self.location = self.location;
+				gotoAccount();
 			}
 		}
 	});
@@ -166,8 +179,8 @@ function fetchFBData() {
 		userdata = JSON.stringify(response);
 		userid = response.id;
 		useremail = response.email;
-		jQuery("#loggedin").html("<table cellpadding=0 cellspacing=0 style='float:right'><tr><td><img style='height:48px; width:48px;' src='http://graph.facebook.com/"+response.username+"/picture' /></td><td style='padding:5px;' class='fb_details'>Hello "+response.first_name+"!<br /><a href='#' onclick='fb_logout(); return false;' style='color:#21913E' >Log Out</a></td></tr></table>");
-		jQuery("#loggedin").show();
+		//jQuery("#loggedin").html("<table cellpadding=0 cellspacing=0 style='float:right'><tr><td><img style='height:48px; width:48px;' src='http://graph.facebook.com/"+response.username+"/picture' /></td><td style='padding:5px;' class='fb_details'>Hello "+response.first_name+"!<br /><a href='#' onclick='fb_logout(); return false;' style='color:#21913E' >Log Out</a></td></tr></table>");
+		//jQuery("#loggedin").show();
 		saveFBUserData(userid, useremail, userdata);
 		FB.api('/me/friends', function(response) {
 			//html = jQuery('#fbdata').html();
@@ -295,14 +308,23 @@ window.fbAsyncInit = function() {
 						</div>
 					</div>
 					<div id='loggedin' <?php if($_SESSION['web_user']){ echo "style='display:block'"; } ?>>
-					<?php
-					if($_SESSION['web_user']['fb_data']){
-						$fb_data = json_decode($_SESSION['web_user']['fb_data']);
-						//print_r($fb_data);
-						$str = "<table cellpadding=0 cellspacing=0 style='float:right'><tr><td><img style='height:48px; width:48px;' src='http://graph.facebook.com/".$fb_data->id."/picture' /></td><td style='padding:5px;' class='fb_details'>Hello ".$fb_data->first_name."!<br /><a href='#' onclick='fb_logout(); return false;' style='color:#21913E' >Log Out</a></td></tr></table>";
-						echo $str;
-					}
-					?>
+					<table cellpadding="0" cellspacing="0" style='float:right'>
+						<tr>
+							<td class='pad5'>
+							<a href='<?php echo site_url(); ?>account'>Account</a>
+							</td>
+							<td>
+							<?php
+							if($_SESSION['web_user']['fb_data']){
+								$fb_data = json_decode($_SESSION['web_user']['fb_data']);
+								//print_r($fb_data);
+								$str = "<table cellpadding=0 cellspacing=0 style='float:right'><tr><td style='padding:5px;' class='fb_details'>Hello ".$fb_data->first_name."!<br /><a href='#' onclick='fb_logout(); return false;' style='color:#21913E' >Log Out</a></td><td><img style='height:48px; width:48px;' src='http://graph.facebook.com/".$fb_data->id."/picture' /></td></tr></table>";
+								echo $str;
+							}
+							?>
+							</td>
+						</tr>
+					</table>
 					</div>
 				</td>
 			</tr>
@@ -312,42 +334,44 @@ window.fbAsyncInit = function() {
 </tr>
 <tr>
 	<td>
-		<table cellpadding="0" cellspacing="0" class="p100">
-			<tr>
-				<td class="contents">
-					<?php
-					echo $content;
-					?>
-				</td>
-				<td class="sidebar">
-					<div class="sidebarblockcontainer">
-					<?php
-					if($method=='company'||$method=='person'||$method=='investment_org'||$method=='index'){
-						$this->load->view("startuplist/sharer");
-					}
-					
-					//$this->load->view("startuplist/bannerad_block");
-					
-					
-					
-					
-					
-					$data = array();
-					$data['newlyfunded'] = $newlyfunded;
-					$this->load->view("startuplist/nfcompany_block", $data);
-
-					$data = array();
-					if(is_array($feeds)){
-						$data['feeds'] = $feeds;
-						$this->load->view("startuplist/related_e27_articles_block", $data);
-					}
-					?>
-					
-					
-					</div>
-				</td>
-			</tr>
-		</table>
+		<?php
+		if($method=='account'||$method=='register'||$page_not_found){
+			echo $content;
+		}
+		else{
+			?>
+			<table cellpadding="0" cellspacing="0" class="p100">
+				<tr>
+					<td class="contents">
+						<?php
+						echo $content;
+						?>
+					</td>
+					<td class="sidebar">
+						<div class="sidebarblockcontainer">
+						<?php
+						if($method=='company'||$method=='person'||$method=='investment_org'||$method=='index'||$method=='register'){
+							$this->load->view("startuplist/sharer");
+						}
+						//$this->load->view("startuplist/bannerad_block");
+						
+						$data = array();
+						$data['newlyfunded'] = $newlyfunded;
+						$this->load->view("startuplist/nfcompany_block", $data);
+	
+						$data = array();
+						if(is_array($feeds)){
+							$data['feeds'] = $feeds;
+							$this->load->view("startuplist/related_e27_articles_block", $data);
+						}
+						?>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<?php
+		}
+		?>
 	</td>
 </tr>
 </table>

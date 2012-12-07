@@ -18,6 +18,10 @@ td{
 *{
 	
 }
+a:link, a:hover, a:visited{
+	color: #21913E;
+}
+
 .font{
 	font-family:Verdana, Arial, Helvetica, sans-serif;
 	font-size:12px;
@@ -158,6 +162,14 @@ td{
 	width:790px;
 	background:#FFFFFF;
 	padding-left:50px;
+}
+
+.contents2{
+	height:500px;
+	width:790px;
+	background:#FFFFFF;
+	padding-left:50px;
+	padding-right:50px;
 }
 
 .contentshead{
@@ -596,3 +608,37 @@ img.rounded{
 	font-size:12px;
 	color:gray;
 }
+
+
+/********** account ***********/
+
+.account{
+}
+.account_left{
+	width: 220px;
+	padding-top:10px;
+	padding-right:10px;
+	padding-bottom:10px;
+	font-family:Arial, Helvetica, sans-serif;
+}
+.account_center{
+	
+}
+.account_head{
+	font-size:24px;
+	color: #21913f;
+	padding-top:5px;
+	padding-bottom:20px;
+	border-bottom: 1px solid #f1efea;
+}
+.account_right{
+	width: 220px;
+	padding-top:10px;
+	padding-left:10px;
+	padding-bottom:10px;
+	font-family:Arial, Helvetica, sans-serif;
+}
+.breadcrumbs{
+	padding:20px;
+}
+
