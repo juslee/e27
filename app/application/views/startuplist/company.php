@@ -27,11 +27,22 @@
 						
 						?>
 						</div>
-						<?php
-						if($_SESSION['web_user']){ echo "<div class='edit'><a href='".site_url()."editcompany/".$company['id']."/logo'>EDIT</div>"; }
-						?>
+						
 					</td>
 				</tr>
+				<?php
+				if($_SESSION['web_user']){
+					?>
+					<tr>
+						<td align="center">
+							<?php
+							echo "<div class='edit' style='text-align:center'><a href='".site_url()."editcompany/".$company['id']."/logo'>EDIT</div>";
+							?>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
 			</table>
 			<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
 				<tr>

@@ -71,31 +71,33 @@ class startuplist extends CI_Controller {
 		$sql = "select * from `web_users` where `fb_id`=".$this->db->escape($userid);
 		$q = $this->db->query($sql);
 		$web_user = $q->result_array();
-		if($web_user[0]){
-			$sql = "update `web_users` set 
-				`fb_id` = ".$this->db->escape($userid).",
-				`fb_email` = ".$this->db->escape($useremail).",
-				`fb_data` = ".$this->db->escape($userdata).",
-				`dateupdated` = NOW()
-				where `id`='".$web_user[0]['id']."'
-			";
-			$q = $this->db->query($sql);
+		if(trim($userid)){
+			if($web_user[0]){
+				$sql = "update `web_users` set 
+					`fb_id` = ".$this->db->escape($userid).",
+					`fb_email` = ".$this->db->escape($useremail).",
+					`fb_data` = ".$this->db->escape($userdata).",
+					`dateupdated` = NOW()
+					where `id`='".$web_user[0]['id']."'
+				";
+				$q = $this->db->query($sql);
+			}
+			else{
+				$sql = "insert into `web_users` set 
+					`fb_id` = ".$this->db->escape($userid).",
+					`fb_email` = ".$this->db->escape($useremail).",
+					`fb_data` = ".$this->db->escape($userdata).",
+					`dateadded` = NOW();
+				";		
+				//echo $sql;
+				$q = $this->db->query($sql);
+				$userid = $this->db->insert_id();
+				$sql = "select * from `web_users` where `fb_id`=".$this->db->escape($userid);
+				$q = $this->db->query($sql);
+				$web_user = $q->result_array();
+			}
+			$_SESSION['web_user'] = $web_user[0];
 		}
-		else{
-			$sql = "insert into `web_users` set 
-				`fb_id` = ".$this->db->escape($userid).",
-				`fb_email` = ".$this->db->escape($useremail).",
-				`fb_data` = ".$this->db->escape($userdata).",
-				`dateadded` = NOW();
-			";		
-			//echo $sql;
-			$q = $this->db->query($sql);
-			$userid = $this->db->insert_id();
-			$sql = "select * from `web_users` where `fb_id`=".$this->db->escape($userid);
-			$q = $this->db->query($sql);
-			$web_user = $q->result_array();
-		}
-		$_SESSION['web_user'] = $web_user[0];
 	}
 	
 	function ajax_saveFbUserFriends(){
@@ -105,23 +107,25 @@ class startuplist extends CI_Controller {
 		$sql = "select `id` from `web_users` where `fb_id`=".$this->db->escape($userid);
 		$q = $this->db->query($sql);
 		$web_user = $q->result_array();
-		if($web_user[0]){
-			$sql = "update `web_users` set 
-				`fb_id` = ".$this->db->escape($userid).",
-				`fb_friends` = ".$this->db->escape($userfriends).",
-				`dateupdated` = NOW()
-				where `id`='".$web_user[0]['id']."'
-			";
-			$q = $this->db->query($sql);
-		}
-		else{
-			$sql = "insert into `web_users` set 
-				`fb_id` = ".$this->db->escape($userid).",
-				`fb_friends` = ".$this->db->escape($userfriends).",
-				`dateadded` = NOW();
-			";		
-			//echo $sql;
-			$q = $this->db->query($sql);
+		if(trim($userid)){
+			if($web_user[0]){
+				$sql = "update `web_users` set 
+					`fb_id` = ".$this->db->escape($userid).",
+					`fb_friends` = ".$this->db->escape($userfriends).",
+					`dateupdated` = NOW()
+					where `id`='".$web_user[0]['id']."'
+				";
+				$q = $this->db->query($sql);
+			}
+			else{
+				$sql = "insert into `web_users` set 
+					`fb_id` = ".$this->db->escape($userid).",
+					`fb_friends` = ".$this->db->escape($userfriends).",
+					`dateadded` = NOW();
+				";		
+				//echo $sql;
+				$q = $this->db->query($sql);
+			}
 		}
 	}
 	
@@ -346,10 +350,11 @@ class startuplist extends CI_Controller {
 		else{
 			header ('HTTP/1.1 301 Moved Permanently');
 			header("Location: ".site_url());
+			exit();
 		}
 	}
 	
-	function company($name="", $company_id=""){
+	function company($name="", $company_id="", $return=false){
 		if(!$company_id){
 			$sql = "select * from `companies` where `slug`=".$this->db->escape($name)." and `active`=1";
 		}
@@ -565,6 +570,11 @@ class startuplist extends CI_Controller {
 			$data['co_categories'] = $co_categories;	
 			$data['countries'] = $countries;
 			$data['company'] = $company[0];
+			
+			if($return){
+				return $data;
+			}
+			
 			$data['newlyfunded'] = $this->newlyFunded();
 			$data['content'] = $this->load->view('startuplist/company', $data, true);
 			$this->load->view('startuplist/main', $data);
@@ -572,6 +582,7 @@ class startuplist extends CI_Controller {
 		else{
 			header ('HTTP/1.1 301 Moved Permanently');
 			header("Location: ".site_url());
+			exit();
 		}
 		
 	}
@@ -658,6 +669,7 @@ class startuplist extends CI_Controller {
 		else{
 			header ('HTTP/1.1 301 Moved Permanently');
 			header("Location: ".site_url());
+			exit();
 		}
 	}
 	
@@ -749,7 +761,7 @@ class startuplist extends CI_Controller {
 	}
 	function page_not_found(){
 		$data = array();
-		$data['page_not_found'] = true;
+		$data['layout2'] = true;
 		$data['content'] = $this->load->view('startuplist/404', $data, true);
 		$this->load->view('startuplist/main', $data);
 	}
@@ -759,15 +771,42 @@ class startuplist extends CI_Controller {
 		$data['content'] = $this->load->view('startuplist/register', $data, true);
 		$this->load->view('startuplist/main', $data);
 	}
-	function account(){
+	
+	function account($userid=""){
+		
 		if($_SERVER['HTTP_HOST']=='localhost'){
 			$_SESSION['web_user'] = unserialize('a:7:{s:2:"id";s:1:"5";s:5:"fb_id";s:15:"100004077843297";s:8:"fb_email";s:21:"the_sniglet@yahoo.com";s:7:"fb_data";s:284:"{"id":"100004077843297","name":"Jerome Lee","first_name":"Jerome","last_name":"Lee","link":"http://www.facebook.com/jerome.lee.98892","username":"jerome.lee.98892","gender":"male","email":"the_sniglet@yahoo.com","timezone":8,"locale":"en_US","updated_time":"2012-07-11T10:27:49 0000"}";s:10:"fb_friends";s:1316:"{"data":[{"name":"Sasha Fox","id":"100000505245095"},{"name":"Mikee Dela Peña Guarino","id":"100000629589263"},{"name":"Carla Villa","id":"100000851593945"},{"name":"Faye Santos","id":"100002110669999"},{"name":"Romnick Edullantes","id":"100002143982649"},{"name":"Szophisticated Rhoze Genuiztah","id":"100002518556374"},{"name":"Ingrid Mendoza Rivera","id":"100002938532983"},{"name":"Rendell Paulo","id":"100002974236892"},{"name":"Jeany Masangkay","id":"100003194877986"},{"name":"Muniquinn Doll","id":"100003516535179"},{"name":"Shäina Rose Besa IV","id":"100003549304942"},{"name":"Shiela Marie Echavez","id":"100003569125646"},{"name":"Yandii Olid III","id":"100003574885667"},{"name":"Jullian Delrosario","id":"100003588335313"},{"name":"Lyra Farro","id":"100004101694332"},{"name":"Marjorie Orbase","id":"100004191425468"},{"name":"Junaina Gon","id":"100004307443721"},{"name":"Samantha Moh","id":"100004431932704"},{"name":"Ann Sarap","id":"100004483902375"},{"name":"Ganda MaLdita","id":"100004629572460"},{"name":"Mahal Khani Khate","id":"100004682401219"},{"name":"Arnie Samonte","id":"100004688465647"}],"paging":{"next":"https://graph.facebook.com/100004077843297/friends?access_token=AAAB7W3LmGYIBACvqZCfHc5VqzaN0QlzmQ657WBhjDEvgojWZCyUBgnSfVScl6vaTdcaQKOhrAMemv97aVsM2YFQPXU8ypwmqdB3P1q3kvuPVc5RNX8";s:9:"dateadded";s:19:"2012-12-04 14:21:52";s:11:"dateupdated";s:19:"2012-12-06 13:20:50";}');
 		}
 		if(!$_SESSION['web_user']){
 			header ('HTTP/1.1 301 Moved Permanently');
 			header("Location: ".site_url());
+			exit();
 		}
+		if($userid){
+			$sql = "select * from `web_users` where `id`='".mysql_real_escape_string($userid)."'";
+			$q = $this->db->query($sql);
+			$web_user = $q->result_array();
+			$web_user = $web_user[0];
+			if($web_user['id']){
+				$data['user'] = $web_user;
+			}
+		}
+		$data = array();
 		$data['content'] = $this->load->view('startuplist/account', $data, true);
+		$this->load->view('startuplist/main', $data);
+	}
+	
+	function editcompany($companyid="", $part=""){
+		if(!$_SESSION['web_user']){
+			header ('HTTP/1.1 301 Moved Permanently');
+			header("Location: ".site_url());
+			exit();
+		}
+		$data = array();
+		$data = $this->company("", $companyid, true);
+		$data['part'] = $part;
+		$data['layout2'] = true;
+		$data['content'] = $this->load->view('startuplist/editcompany', $data, true);
 		$this->load->view('startuplist/main', $data);
 	}
 }

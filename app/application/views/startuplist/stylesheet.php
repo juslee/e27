@@ -399,6 +399,10 @@ img.rounded{
 	padding:5px;
 }
 
+.padb5{
+	padding-bottom:5px;
+}
+
 .pad10{
 	padding:10px;
 }
@@ -671,6 +675,15 @@ img.rounded{
 }
 
 .edit a:link, .edit a:hover, .edit a:visited{
-	color: #21913E;
+	/*color: #21913E;*/
+	color:#505050;
+	font-weight:bold;
+	
 }
 
+.parted{
+	background:#21913f;
+}
+.parted a:link, .parted a:hover, .parted a:visited{
+	color:white;
+}

@@ -335,7 +335,7 @@ window.fbAsyncInit = function() {
 <tr>
 	<td>
 		<?php
-		if($method=='account'||$method=='register'||$page_not_found){
+		if($method=='account'||$method=='register'||$layout2){
 			echo $content;
 		}
 		else{
