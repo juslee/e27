@@ -9,11 +9,12 @@ if(!$user){
 		<td class="contents2">
 			<table cellpadding="0" cellspacing="0" class='p100'>
 				<tr>
-					<td class='breadcrumbs'>
+					<td class='breadcrumbs' colspan="3">
 					<a href='<?php echo site_url(); ?>'>Home</a> >
 					<?php
 					echo "<a href='".site_url()."account/".$user['id']."'>".$user['name']."</a>";
 					?>
+					> Account
 					</td>
 				</tr>
 				<tr>
@@ -63,7 +64,7 @@ if(!$user){
 						<table cellpadding="0" cellspacing="0" class="p100">
 							<tr>
 								<td class="account_head">
-									Your Recent Edits
+									Recent Edits
 								</td>
 							</tr>
 							<tr>
