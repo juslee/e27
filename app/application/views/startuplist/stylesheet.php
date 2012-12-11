@@ -141,6 +141,7 @@ a:link, a:hover, a:visited{
 }
 #logins a:hover{
 	text-decoration:underline;
+	color:white; 
 }
 
 .fb_details{

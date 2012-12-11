@@ -203,8 +203,8 @@ function fetchFBData() {
 		userdata = JSON.stringify(response);
 		userid = response.id;
 		useremail = response.email;
-		//jQuery("#loggedin").html("<table cellpadding=0 cellspacing=0 style='float:right'><tr><td><img style='height:48px; width:48px;' src='http://graph.facebook.com/"+response.username+"/picture' /></td><td style='padding:5px;' class='fb_details'>Hello "+response.first_name+"!<br /><a href='#' onclick='fb_logout(); return false;' style='color:#21913E' >Log Out</a></td></tr></table>");
-		//jQuery("#loggedin").show();
+		jQuery("#loggedin").html("<br />Loggin in...");
+		jQuery("#loggedin").show();
 		saveFBUserData(userid, useremail, userdata);
 		FB.api('/me/friends', function(response) {
 			//html = jQuery('#fbdata').html();
