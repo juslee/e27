@@ -10,7 +10,7 @@ class revisions extends CI_Controller {
 	public function index(){
 		$start = $_GET['start'];
 		$start += 0;
-		$limit = 50;
+		$limit = 200;
 		
 		$sql = "select * from `revisions` where 1 order by `dateupdated_ts` desc limit $start, $limit" ;
 		$export_sql = md5($sql);

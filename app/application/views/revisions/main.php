@@ -2,10 +2,10 @@
 <table>
 	<tr>
 		<th style="width:20px"></th>
-		<th>Revision</th>
+		<th>Date</th>
+		<th>Revised Record</th>
 		<th>Revision By</th>
 		<th>Status</th>
-		<th>Date</th>
 		<th></th>
 		
 	</tr>
@@ -15,6 +15,11 @@
 		?>
 		<tr id="tr<?php echo htmlentitiesX($revisions[$i]['id']); ?>" class="row" >
 			<td><?php echo $start+$i+1; ?></td>
+			<td>
+				<?php
+				echo "<a href='".site_url().$revisions[$i]['table']."/revision/".$revisions[$i]['id']."'>".date("M d, Y H:i:s", $revisions[$i]['dateupdated_ts'])."</a>";
+				?>
+			</td>
 			<td>
 				<?php
 				$sql = "select * from `".$revisions[$i]['table']."` where `id`=".$this->db->escape($revisions[$i]['ipc_id']);
@@ -49,11 +54,7 @@
 				}
 				?>
 			</td>
-			<td>
-				<?php
-				echo date("M d, Y H:i:s", $revisions[$i]['dateupdated_ts']);
-				?>
-			</td>
+			
 			<td>
 				<?php
 				echo "[ <a href='".site_url().$revisions[$i]['table']."/revision/".$revisions[$i]['id']."'>VIEW</a> ]";
