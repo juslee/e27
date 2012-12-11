@@ -100,7 +100,7 @@ a:link, a:hover, a:visited{
 }
 .searchleft{
 	padding-left:48px;
-	padding-top:10px;
+	padding-top:7px;
 	padding-bottom:10px;
 }
 .searchright{
@@ -119,12 +119,14 @@ a:link, a:hover, a:visited{
 	cursor:pointer;
 	width:80px;
 	float:right;
+	margin-top:-4px;
 }
 .searchright #loggedin{
 	height:50px;
 	position:relative;
 	display:none;
 	text-align:right;
+	margin-top:-3px;
 }
 #logins{
 	position:absolute;
