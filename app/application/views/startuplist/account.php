@@ -68,7 +68,36 @@ if(!$user){
 							</tr>
 							<tr>
 								<td class="description">
-									...
+									<?php
+										if(is_array($revisions)){
+											foreach($revisions as $key=>$revision){
+												$sql = "select * from `".$revision['table']."` where `id`=".$this->db->escape($revision['ipc_id']);
+												$q = $this->db->query($sql);
+												$ipc = $q->result_array();
+												$ipc = $ipc[0];
+												$approved = "";
+												if($revision['approved']=='1'){
+													$approved = "<a style='color:green' class='bold'>APPROVED</a>";
+												}
+												else if($revision['approved']=='-1'){
+													$approved = "<a style='color:red' class='bold'>REJECTED</a>";
+												}
+												else{
+													$approved = "<a style='color:black' class='bold'>PENDING</a>";
+												}
+												if($revision['table']=='companies'){
+													$table = "company";
+												}
+												else if($revision['table']=='people'){
+													$table = "person";
+												}
+												else if($revision['table']=='investment_orgs'){
+													$table = "investment_org";
+												}
+												echo "<div class='revision padb5'>[ ".date("M d, Y H:i:s", $revision['dateupdated_ts'])." ] Edited <a href='".site_url().$table."/".$ipc['slug']."'>".$ipc['name']."</a>... $approved </div>";
+											}
+										}
+									?>
 								</td>
 							</tr>
 						</table>

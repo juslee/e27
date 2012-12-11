@@ -782,6 +782,9 @@ class startuplist extends CI_Controller {
 			header("Location: ".site_url());
 			exit();
 		}
+		if(!$userid){
+			$userid = $_SESSION['web_user']['id'];
+		}
 		if($userid){
 			$sql = "select * from `web_users` where `id`='".mysql_real_escape_string($userid)."'";
 			$q = $this->db->query($sql);
@@ -792,6 +795,12 @@ class startuplist extends CI_Controller {
 			}
 		}
 		$data = array();
+		
+		$sql = "select * from `revisions` where `web_user_id`='".mysql_real_escape_string($web_user['id'])."' order by `dateupdated_ts` desc limit 20";
+		$q = $this->db->query($sql);
+		$revisions = $q->result_array();
+		$data['revisions'] = $revisions;
+		
 		$data['content'] = $this->load->view('startuplist/account', $data, true);
 		$this->load->view('startuplist/main', $data);
 	}
@@ -804,10 +813,20 @@ class startuplist extends CI_Controller {
 		}
 		$data = array();
 		$data = $this->company("", $companyid, true);
+		//echo "<pre>";
+		//print_r($data);
+		//echo "</pre>";
+		if($part=='revisions'){
+			$sql = "select * from `revisions` where `table`='companies' and `ipc_id`='".mysql_real_escape_string($companyid)."' order by `dateupdated_ts` desc";
+			$q = $this->db->query($sql);
+			$revisions = $q->result_array();
+		}
+		$data['revisions'] = $revisions;
 		$data['data'] = $data;
 		$data['part'] = $part;
 		$data['layout2'] = true;
 		$data['content'] = $this->load->view('startuplist/editcompany', $data, true);
 		$this->load->view('startuplist/main', $data);
 	}
+	
 }

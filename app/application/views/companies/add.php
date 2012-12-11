@@ -5,14 +5,21 @@ $sid = session_id()."_".time();
 <script>
 
 
-function saveCompany(){
+function saveCompany(approve){
+	extra = "";
+	if(approve){
+		if(!confirm("Are you sure you want to approve this revision?")){
+			return false;
+		}
+		extra = "/<?php echo $revision['id']; ?>"
+	}
 	jQuery("#savebutton").val("Saving...");
 	formdata = jQuery("#company_form").serialize();
 	jQuery("#company_form *").attr("disabled", true);
 	jQuery.ajax({
 		<?php
 		if($company['id']){
-			?>url: "<?php echo site_url(); ?>companies/ajax_edit",<?php
+			?>url: "<?php echo site_url(); ?>companies/ajax_edit"+extra,<?php
 		}
 		else{
 			?>url: "<?php echo site_url(); ?>companies/ajax_add",<?php
@@ -26,6 +33,11 @@ function saveCompany(){
 		}
 	});
 
+}
+function rejectRevision(id){
+	if(confirm("Are you sure you want to reject this revision?")){
+		self.location = "<?php echo site_url(); ?>revisions/reject_revision/"+id;
+	}
 }
 function deleteCompany(co_id){
 	if(confirm("Are you sure you want to delete this company?")){
@@ -1509,6 +1521,9 @@ else{
 </tr>
 -->
 <?php
+//echo "<pre>";
+//print_r($revision);
+//print_r($web_user);
 if(!$company['id']){
 	?>
 	<tr>
@@ -1517,10 +1532,27 @@ if(!$company['id']){
 	</tr>
 	<?php
 }
-else{
+else if(!$web_user){
 	?>
 	<tr>
 	<td class='font18 bold'>Edit Company</td>
+	<td></td>
+	</tr>
+	<?php
+}
+else if($web_user){
+	if($revision['approved']==1){
+		$approved = "<a style='color:green' class='font18 bold'>(APPROVED)</a>";
+	}
+	else if($revision['approved']==-1){
+		$approved = "<a style='color:red' class='font18 bold'>(REJECTED)</a>";
+	}
+	else{
+		$approved = "<a style='color:black' class='font18 bold'>(PENDING)</a>";
+	}
+	?>
+	<tr>
+	<td class='font18 bold'>Revision on <?php echo "<a class='font18 bold' href='".site_url()."companies/edit/".$companyorig['id']."'>".$companyorig['name']."</a>"; ?> by <a class='font18 bold' href='<?php echo site_url()?>/account/<?php echo $web_user['id']?>'><?php echo $web_user['name']; ?></a> <?php echo $approved; ?></td>
 	<td></td>
 	</tr>
 	<?php
@@ -1866,11 +1898,28 @@ else{
 		<table width='100%'>
 		<tr>
 		<td width='100%'>
-		<input type="button" id='savebutton' value="Save" onclick="saveCompany()" />
+		<?php
+		if($web_user ){
+			if(!$revision['approved']){
+				?><input type="button" id='savebutton' value="Approve and Save Revision" onclick="saveCompany('approve')" /><?php
+			}
+		}
+		else{
+			?><input type="button" id='savebutton' value="Save" onclick="saveCompany()" /><?php
+		}
+		?>
+		
 		</td>
 		<?php 
 		if($company['id']){
-			?><td><input type="button" style='background:red; color:white' value="Delete" onclick="deleteCompany('<?php echo $company['id']; ?>')" /></td><?php
+			if($web_user){
+				if(!$revision['approved']){
+					?><td><input type="button" style='background:red; color:white' value="Reject Revision" onclick="rejectRevision('<?php echo $revision['id']; ?>')" /></td><?php
+				}
+			}
+			else{
+				?><td><input type="button" style='background:red; color:white' value="Delete" onclick="deleteCompany('<?php echo $company['id']; ?>')" /></td><?php
+			}
 		}
 		?>
 		</tr>

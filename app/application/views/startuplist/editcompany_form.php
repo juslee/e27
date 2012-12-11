@@ -112,7 +112,7 @@ function addCompetitor(label, value, add){
 		else{
 			htmladd = "<tr class='compete' id='compete"+value+"' style='display:'><td>";
 		}
-		htmladd += "<a target='' href='<?php echo site_url(); ?>companies/edit/"+value+"'>"+label+"</a>";
+		htmladd += "<a target='' href='<?php echo site_url(); ?>editcompany/"+value+"/about'>"+label+"</a>";
 		htmladd += "<input type='hidden' name='competitors[]' value='"+value+"' /></td>";
 		htmladd += "<td><a class='red delete' onclick='delCompete(this, "+value+")' style='cursor:pointer; text-decoration:underline' >Delete</a></td>";
 		htmladd += "</tr>";
@@ -385,7 +385,7 @@ function editFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_co
 		html += "<tr>";
 		html += "<td class='label_ipc' colspan='2'>Investment Org:</td>";
 		if(investment_org_val){
-			html += "<td colspan='4'><a href='<?php echo site_url()?>investment_orgs/edit/"+investment_org_val+"'>"+investment_org+"</a></td>";
+			html += "<td colspan='4'><a href='<?php echo site_url()?>editinvestment_org/"+investment_org_val+"/about'>"+investment_org+"</a></td>";
 		}
 		else{
 			html += "<td colspan='4'>"+investment_org+"</td>";
@@ -400,7 +400,7 @@ function editFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_co
 		html += "<tr>";
 		html += "<td class='label_ipc' colspan='2'>Person:</td>";
 		if(person_val){
-			html += "<td colspan='4'><a href='<?php echo site_url()?>people/edit/"+person_val+"'>"+person+"</a></td>";
+			html += "<td colspan='4'><a href='<?php echo site_url()?>editperson/"+person_val+"/about'>"+person+"</a></td>";
 		}
 		else{
 			html += "<td colspan='4'>"+person+"</td>";
@@ -416,7 +416,7 @@ function editFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_co
 		html += "<tr>";
 		html += "<td class='label_ipc' colspan='2'>Company:</td>";
 		if(company_val){
-			html += "<td colspan='4'><a href='<?php echo site_url()?>companies/edit/"+company_val+"'>"+company+"</a></td>";
+			html += "<td colspan='4'><a href='<?php echo site_url()?>editcompany/"+company_val+"/about'>"+company+"</a></td>";
 		}
 		else{
 			html += "<td colspan='4'>"+company+"</td>";
@@ -551,7 +551,7 @@ function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_com
 			html += "<tr>";
 			html += "<td class='label_ipc' colspan='2'>Investment Org:</td>";
 			if(investment_org_val){
-				html += "<td colspan='4'><a href='<?php echo site_url()?>investment_orgs/edit/"+investment_org_val+"'>"+investment_org+"</a></td>";
+				html += "<td colspan='4'><a href='<?php echo site_url()?>editinvestment_org/"+investment_org_val+"/about'>"+investment_org+"</a></td>";
 			}
 			else{
 				html += "<td colspan='4'>"+investment_org+"</td>";
@@ -566,7 +566,7 @@ function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_com
 			html += "<tr>";
 			html += "<td class='label_ipc' colspan='2'>Person:</td>";
 			if(person_val){
-				html += "<td colspan='4'><a href='<?php echo site_url()?>people/edit/"+person_val+"'>"+person+"</a></td>";
+				html += "<td colspan='4'><a href='<?php echo site_url()?>editperson/"+person_val+"/about'>"+person+"</a></td>";
 			}
 			else{
 				html += "<td colspan='4'>"+person+"</td>";
@@ -582,7 +582,7 @@ function addFunding(f_round, f_currency, f_fund_amount, f_date, f_company, f_com
 			html += "<tr>";
 			html += "<td class='label_ipc' colspan='2'>Company:</td>";
 			if(company_val){
-				html += "<td colspan='4'><a href='<?php echo site_url()?>companies/edit/"+company_val+"'>"+company+"</a></td>";
+				html += "<td colspan='4'><a href='<?php echo site_url()?>editcompany/"+company_val+"/about'>"+company+"</a></td>";
 			}
 			else{
 				html += "<td colspan='4'>"+company+"</td>";
@@ -667,7 +667,7 @@ function addPerson(id, name, role, start_date, end_date, add){
 	thedate.setDate(thedate.getDate());
 	start_date = dateFormat(thedate, "mmm dd, yyyy");
 	
-	html += "<a href='<?php echo site_url()?>people/edit/"+id+"' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delPerson(this, \""+id+"\")' >Delete</a></td></tr>";
+	html += "<a href='<?php echo site_url()?>editperson/"+id+"/about' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delPerson(this, \""+id+"\")' >Delete</a></td></tr>";
 	
 	htmlorig = jQuery("#peoplehtml table tbody").html();
 	
@@ -1527,7 +1527,7 @@ function addFC(){
 ?>
 <input type='hidden' id='tempcreatelabel' />
 <form id='company_form'>
-
+<input type='hidden' name='web_edit' value="1" />
 <?php
 if($company['id']){
 	?>
@@ -1545,8 +1545,6 @@ else{
 //print_r($company);
 //echo "</pre>";
 ?>
-<pre id='data'>
-</pre>
 <table width="100%" cellpadding="10px">
 <tr>
 <td width='100%'> 
@@ -1832,7 +1830,7 @@ else{
 					?><table cellspacing=0><?php
 					foreach($milestones as $value){
 						echo "<tr>";
-						?><td><a href="<?php echo site_url()?>companies/edit/<?php echo $value['company_id']; ?>"><?php echo $value['company_name']; ?></a></td><?php
+						?><td><a href="<?php echo site_url()?>editcompany/<?php echo $value['company_id']; ?>/about"><?php echo $value['company_name']; ?></a></td><?php
 						?><td><?php echo ucfirst($value['round']) ?></td><?php
 						?><td><?php echo $value['currency']; ?> <?php echo number_format($value['amount'],2); ?></td><?php
 						?><td><?php echo date("M d, Y", $value['date_ts']); ?></td><?php

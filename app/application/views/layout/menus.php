@@ -1,5 +1,9 @@
 <?php
 $controller = $this->router->class;
+$method = $this->router->method;
+if($method=='revision'){
+	$controller = "revisions";
+}
 ?>
 <ul>
 	<li <?php if($controller=="latest"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."latest";?>"'>
@@ -16,5 +20,8 @@ $controller = $this->router->class;
 	</li>
 	<li <?php if($controller=="blogs_rss"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."blogs_rss";?>"'>
 		Blogs RSS Feeds
+	</li>
+	<li <?php if($controller=="revisions"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."revisions";?>"'>
+		Revisions
 	</li>
 </ul>

@@ -10,9 +10,12 @@
 			<table>
 				<tr>
 					<td class='contribute'>
+						...
+						<!--
 						<div><a href='#'>Add Company</a></div>
 						<div><a href='#'>Add Person</a></div>
 						<div><a href='#'>Add Investment Organization</a></div>
+						-->
 					</td>
 				</tr>
 			</table>
