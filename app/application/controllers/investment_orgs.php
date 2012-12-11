@@ -470,6 +470,9 @@ class investment_orgs extends CI_Controller {
 		}
 	}
 	public function ajax_edit(){
+		if(!$_SESSION['user']){
+			return false;
+		}
 		if(trim($_POST['name'])){
 			//check if company already exists
 			$sql = "select `id` from `investment_orgs` where `name`=".$this->db->escape(trim($_POST['name']));
@@ -587,6 +590,9 @@ class investment_orgs extends CI_Controller {
 	}
 	
 	public function ajax_delete($investment_org_id=""){
+		if(!$_SESSION['user']){
+			return false;
+		}
 		if(!$investment_org_id){
 			$investment_org_id = $_POST['id'];
 		}
@@ -623,6 +629,9 @@ class investment_orgs extends CI_Controller {
 	}
 	
 	public function ajax_add_investment_org_shortcut_ipc(){	
+		if(!$_SESSION['user']){
+			return false;
+		}
 		if(trim($_POST['name'])){
 			//check if company already exists
 			$sql = "select `id` from `investment_orgs` where `name`=".$this->db->escape(trim($_POST['name']));
@@ -676,6 +685,9 @@ class investment_orgs extends CI_Controller {
 	}
 	
 	public function ajax_add_investment_org_shortcut(){
+		if(!$_SESSION['user']){
+			return false;
+		}
 		if(trim($_POST['name'])){
 			//check if company already exists
 			$sql = "select `id` from `investment_orgs` where `name`=".$this->db->escape(trim($_POST['name']));
@@ -735,6 +747,9 @@ class investment_orgs extends CI_Controller {
 	}
 	
 	public function ajax_add(){
+		if(!$_SESSION['user']){
+			return false;
+		}
 		if(trim($_POST['name'])){
 			//check if company already exists
 			$sql = "select `id` from `investment_orgs` where `name`=".$this->db->escape(trim($_POST['name']));

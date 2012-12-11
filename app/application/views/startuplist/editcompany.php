@@ -4,6 +4,20 @@ if(!$user){
 	$user = getWebUser($_SESSION['web_user']);
 }
 ?>
+<script>
+function showRows(obj, alt){
+	if(!alt){
+		jQuery(".edit").removeClass("parted");
+		obj.parent().addClass("parted");
+		alt = obj.attr("alt");
+	}
+	jQuery("#company_form tr.odd, #company_form tr.even").hide();
+	jQuery("#company_form tr."+alt).show()
+	if(!alt){
+		return false;
+	}
+}
+</script>
 <table cellpadding="0" cellspacing="0" class="p100">
 	<tr>
 		<td class="contents2">
@@ -27,25 +41,26 @@ if(!$user){
 								<td class="content">
 									<?php
 									if($part=="logo"){ $class="parted"; } else { $class=""; }
-									echo "<div class='edit pad5 $class'><a href='".site_url()."editcompany/".$company['id']."/logo'>LOGO</div>";
+									echo "<div class='edit pad5 $class'><a href='#' alt='logo' onclick='return showRows(jQuery(this));'>LOGO</div>";
 									
 									if($part=="about"){ $class="parted"; } else { $class=""; }
-									echo "<div class='edit pad5 $class'><a href='".site_url()."editcompany/".$company['id']."/about'>ABOUT</div>";
+									echo "<div class='edit pad5 $class'><a href='#' alt='about' onclick='return showRows(jQuery(this));'>ABOUT</div>";
 									
 									if($part=="overview"){ $class="parted"; } else { $class=""; }
-									echo "<div class='edit pad5 $class'><a href='".site_url()."editcompany/".$company['id']."/overview'>OVERVIEW</div>";
+									echo "<div class='edit pad5 $class'><a href='#' alt='overview' onclick='return showRows(jQuery(this));'>OVERVIEW</div>";
 									
 									if($part=="people"){ $class="parted"; } else { $class=""; }
-									echo "<div class='edit pad5 $class'><a href='".site_url()."editcompany/".$company['id']."/people'>PEOPLE</div>";
+									echo "<div class='edit pad5 $class'><a href='#' alt='people' onclick='return showRows(jQuery(this));'>PEOPLE</div>";
 									
 									if($part=="funding"){ $class="parted"; } else { $class=""; }
-									echo "<div class='edit pad5 $class'><a href='".site_url()."editcompany/".$company['id']."/funding'>FUNDING</div>";
+									echo "<div class='edit pad5 $class'><a href='#' alt='funding' onclick='return showRows(jQuery(this));'>FUNDING</div>";
 									
-									if($part=="investments"){ $class="parted"; } else { $class=""; }
-									echo "<div class='edit pad5 $class'><a href='".site_url()."editcompany/".$company['id']."/investments'>INVESTMENTS</div>";
+									//if($part=="investments"){ $class="parted"; } else { $class=""; }
+									//echo "<div class='edit pad5 $class'><a href='".site_url()."editcompany/".$company['id']."/investments'>INVESTMENTS</div>";
 
 									
 									?>
+									
 								</td>
 							</tr>
 						</table>
@@ -63,10 +78,18 @@ if(!$user){
 								<td class="description">
 									<?php
 									//echo "<pre>";
-									echo "Part to edit: ".$part."<br /><br />";
-									print_r($company);
+									//echo "Part to edit: ".$part."<br /><br />";
+									//print_r($company);
 									//echo "</pre>";
+									
+									$this->load->view("startuplist/editcompany_form", $data);
+									
 									?>
+									<script>
+									jQuery("#company_form tr.odd, #company_form tr.even").hide();
+									showRows("", "<?php echo $part; ?>");
+									</script>
+							
 								</td>
 							</tr>
 						</table>

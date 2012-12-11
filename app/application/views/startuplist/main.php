@@ -12,6 +12,10 @@ if($_SERVER['HTTP_HOST']!="localhost"&&strpos($_SERVER['HTTP_HOST'], "www.")===f
 	exit();
 }
 
+$editmode = false;
+if($method=='editcompany'){
+	$editmode = true;
+}
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -93,22 +97,45 @@ echo '<meta property="og:description" content="'.$metadesc.'" />';
 //echo '<meta property="fb:app_id" content="'.$fb_app_id.'" />';
 ?>
 <script language="javascript" src="<?php echo site_url(); ?>media/js/jquery-1.7.2.min.js"></script>
-<script language="javascript" src="<?php echo site_url(); ?>media/js/jquery.sharrre-1.3.4/jquery.sharrre-1.3.4.js"></script>
-<link rel="stylesheet" href="<?php echo site_url(); ?>media/startuplist/slideshow.css">
-<script language="javascript" src="<?php echo site_url(); ?>media/startuplist/slides.min.jquery.js"></script>
 
+<link rel="stylesheet" href="<?php echo site_url(); ?>media/js/development-bundle/themes/base/jquery.ui.all.css">
+<script src="<?php echo site_url(); ?>media/js/development-bundle/jquery-1.8.0.js"></script>
+<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.core.js"></script>
+<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.widget.js"></script>
+<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.position.js"></script>
+<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.autocomplete.js"></script>
+<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.mouse.js"></script>
+<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.draggable.js"></script>
+<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.position.js"></script>
+<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.resizable.js"></script>
+<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.dialog.js"></script>
+<script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="<?php echo site_url(); ?>media/js/jquery.alerts-1.1/jquery.alerts.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>media/js/jquery.alerts-1.1/jquery.alerts.css" media="screen" />
+<script type="text/javascript" src="<?php echo site_url(); ?>media/js/uploadify/swfobject.js"></script>
+<script type="text/javascript" src="<?php echo site_url(); ?>media/js/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>media/js/uploadify/uploadify.css" media="screen" />
+	
+<!-- assets -->
+<script language="javascript" src="<?php echo site_url(); ?>media/js/jquery.sharrre-1.3.4/jquery.sharrre-1.3.4.js"></script>
+<?php
+if(!$editmode){
+	?>
+	<link rel="stylesheet" href="<?php echo site_url(); ?>media/startuplist/slideshow.css">
+	<script language="javascript" src="<?php echo site_url(); ?>media/startuplist/slides.min.jquery.js"></script>
+	<link href="<?php echo site_url(); ?>media/js/tweet-master/tweet/jquery.tweet.css" rel="stylesheet"/>
+	<script src="<?php echo site_url(); ?>media/js/tweet-master/tweet/jquery.tweet.js" charset="utf-8"></script>
+	<?php
+}
+?>
 <link type="text/css" rel="stylesheet" href="<?php echo site_url(); ?>startuplist/assets/styles.css">
 <script language="javascript" src="<?php echo site_url(); ?>startuplist/assets/javascript.js"></script>
 
-<link href="<?php echo site_url(); ?>media/js/tweet-master/tweet/jquery.tweet.css" rel="stylesheet"/>
-<script src="<?php echo site_url(); ?>media/js/tweet-master/tweet/jquery.tweet.js" charset="utf-8"></script>
-
-
 </head>
-
-
-
 <body class="font">
+<div id="dialog" title="">
+    <div id='dialoghtml'></div>
+</div>
 <div id="fb-root"></div>
 <script>
 refreshx = false;
@@ -160,10 +187,7 @@ function saveFBUserFriends (userid, userfriends){
 		data: formdata,
 		dataType: "script",
 		success: function(){
-			if(refreshx){
-				refreshx = false;
-				gotoAccount();
-			}
+			refreshPage();
 		}
 	});
 }

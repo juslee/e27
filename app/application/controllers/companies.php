@@ -614,6 +614,21 @@ class companies extends CI_Controller {
 		}
 	}
 	public function ajax_edit(){
+		if(!$_SESSION['user']&&!$_SESSION['web_user']){
+			return false;
+		}
+		if($_SESSION['web_user']){
+			?>
+			jQuery("#data").html("<?php echo str_replace("\n", "\\n", print_r($_POST,1)); ?>");
+			alertX("<center>Thank you for submitting your edit!</center>");
+			jQuery("#savebutton").val("Submit");
+			jQuery("#company_form *").attr("disabled", false);
+			<?php
+			return false;
+		}
+		
+		
+	
 		if(trim($_POST['name'])){
 			//check if company already exists
 			$sql = "select `id` from `companies` where `name`=".$this->db->escape(trim($_POST['name']));
@@ -831,6 +846,9 @@ class companies extends CI_Controller {
 	}
 	
 	public function ajax_delete($company_id=""){
+		if(!$_SESSION['user']){
+			return false;
+		}
 		if(!$company_id){
 			$company_id = $_POST['id'];
 		}
@@ -877,6 +895,10 @@ class companies extends CI_Controller {
 	}
 	
 	public function ajax_add_company_shortcut_ipc(){
+		if(!$_SESSION['user']){
+			return false;
+		}
+		
 		if(trim($_POST['name'])){
 			//check if company already exists
 			$sql = "select `id` from `companies` where `name`=".$this->db->escape(trim($_POST['name']));
@@ -932,6 +954,9 @@ class companies extends CI_Controller {
 	}
 	
 	public function ajax_add_company_shortcut(){
+		if(!$_SESSION['user']){
+			return false;
+		}
 		if(trim($_POST['name'])){
 			//check if company already exists
 			$sql = "select `id` from `companies` where `name`=".$this->db->escape(trim($_POST['name']));
@@ -989,6 +1014,9 @@ class companies extends CI_Controller {
 	}
 	
 	public function ajax_add_competitor_shortcut(){
+		if(!$_SESSION['user']){
+			return false;
+		}
 		if(trim($_POST['name'])){
 			//check if company already exists
 			$sql = "select `id` from `companies` where `name`=".$this->db->escape(trim($_POST['name']));
@@ -1047,6 +1075,14 @@ class companies extends CI_Controller {
 		
 	}
 	public function ajax_add(){
+		if(!$_SESSION['user']&&!$_SESSION['web_user']){
+			return false;
+		}
+		if($_SESSION['web_user']){
+			echo "<pre>";
+			print_r($_POST);
+			return false;
+		}
 		if(trim($_POST['name'])){
 			//check if company already exists
 			$sql = "select `id` from `companies` where `name`=".$this->db->escape(trim($_POST['name']));

@@ -15,8 +15,9 @@ td{
 	text-align:left;
 	font-weight:500;
 }
-*{
-	
+textarea{
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
 }
 a:link, a:hover, a:visited{
 	color: #21913E;
@@ -686,4 +687,179 @@ img.rounded{
 }
 .parted a:link, .parted a:hover, .parted a:visited{
 	color:white;
+}
+
+
+/* add company */
+.hint{
+	font-size:10px;
+	font-style:italic;
+	color:#666666;
+	display:inline;
+	padding: 0px 5px 0px 5px;
+}
+.more{
+	font-size:10px;
+	color:#666666;
+	padding: 0px 5px 0px 5px;
+}
+
+input[type="password"], input[type="text"], textarea{
+	border: 1px solid #aaaaaa;
+	border-radius: 3px 3px 3px 3px;
+	padding:4px;
+	width:220px;
+}
+input[name="name"]{
+	width:350px;
+}
+input[type="submit"], input[type="button"]{
+	min-width: 80px;
+	cursor:pointer;	
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+input[type="button"].button{
+	min-width: 50px;
+	cursor:pointer;	
+}
+input[type="button"].normal{
+	padding:2px;
+}
+
+#savebutton{
+	width:100%;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+textarea{
+	width: 350px;
+	height: 80px;
+}
+select[multiple="multiple"]{
+	height: 150px;
+	width: 250px;
+	padding: 5px;
+}
+.even{
+	/*
+	background:#EEEEEE;
+	*/
+	background:#FFFFFF;
+}
+.odd{
+	background:#FFFFFF;
+}
+.inline{
+	display:inline;
+}
+.block{
+	display:block;
+}
+.row:hover{
+	background:#FFDB96;
+}
+.inline{
+	display:inline;
+}
+.border{
+	border: 1px solid #CCCCCC;
+	border-radius: 3px 3px 3px 3px;
+}
+.hidden{
+	display:none;
+}
+.cursor{
+	cursor:pointer;
+}
+
+#peoplehtml table, 
+#companyhtml table, 
+#investment_orghtml table, 
+#competitors_html table,
+#milestoneshtml table
+{
+	border-collapse:collapse;
+}
+#peoplehtml table td, 
+#companyhtml table td, 
+#investment_orghtml table td, 
+#competitors_html table td,
+#milestoneshtml table td
+{
+	padding: 2px 5px 2px 5px;
+	border: 1px solid #AAAAAA;
+}
+
+
+
+#fundinghtml{
+	width:100%;
+}
+#fundinghtml .label{
+	background:#505050;
+	width:15%;
+	color:#FFFFFF;
+	font-size:11px;
+}
+
+#fundinghtml .label_ipc{
+	background:#CCCCCC;
+}
+
+#fundinghtml .value0{
+	font-size:11px;
+}
+#fundinghtml .value1{
+	width:20%;
+	font-size:11px;
+}
+#fundinghtml .value2{
+	width:50%;
+	
+}
+
+.fundingtable{
+	width:100%;
+	border:1px solid #CCCCCC;
+	margin-bottom:10px;
+}
+.fundingtable td{
+	padding:4px;
+}
+
+.underline{
+	text-decoration:underline;
+}
+
+.milestone{
+	padding:5px;
+	margin:5px;
+	background:white;
+	font-size:11px;
+}
+
+.lightgreen{
+	background: #E4FFE4;
+}
+
+.additem{
+	font-style:italic;
+	font-weight:bold;
+}
+
+.f_check{
+	position:relative;
+}
+.f_check img{
+	position:absolute;
+	top:-3px;
+}
+.f_delete{
+	padding-left:18px;
+}
+#ipc{
+	margin-top:10px;
 }

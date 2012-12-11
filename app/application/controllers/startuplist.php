@@ -804,6 +804,7 @@ class startuplist extends CI_Controller {
 		}
 		$data = array();
 		$data = $this->company("", $companyid, true);
+		$data['data'] = $data;
 		$data['part'] = $part;
 		$data['layout2'] = true;
 		$data['content'] = $this->load->view('startuplist/editcompany', $data, true);

@@ -543,6 +543,9 @@ class people extends CI_Controller {
 	}
 	
 	public function ajax_edit(){
+		if(!$_SESSION['user']){
+			return false;
+		}
 		$err = 0;
 		if(trim($_POST['email_address'])){
 			//check if company already exists
@@ -670,6 +673,9 @@ class people extends CI_Controller {
 	}
 	
 	public function ajax_delete($person_id=""){
+		if(!$_SESSION['user']){
+			return false;
+		}
 		if(!$person_id){
 			$person_id = $_POST['id'];
 		}
@@ -707,6 +713,9 @@ class people extends CI_Controller {
 	}
 	
 	public function ajax_add_person_shortcut_ipc(){	
+		if(!$_SESSION['user']){
+			return false;
+		}
 		$err = 0;
 		if(!trim($_POST['name'])){
 			$err = 1;
@@ -749,6 +758,9 @@ class people extends CI_Controller {
 	}
 	
 	public function ajax_add_person_shortcut(){
+		if(!$_SESSION['user']){
+			return false;
+		}
 		$err = 0;
 		if(!trim($_POST['name'])){
 			$err = 1;
@@ -791,6 +803,9 @@ class people extends CI_Controller {
 		}
 	}
 	public function ajax_add(){
+		if(!$_SESSION['user']){
+			return false;
+		}
 		$err = 0;
 		if(trim($_POST['email_address'])){
 			//check if company already exists
