@@ -108,7 +108,7 @@ function refreshScreenshots(filepath){
 	if(ss.indexOf(filepath)==-1){
 		ss.push(filepath);
 		html = jQuery("#sspathhtml").html();	
-		html += "<div><a target='_blank' href='<?php echo site_url(); ?>media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' /><input type='hidden' name='screenshots[]' value='"+filepath+"' />&nbsp;&nbsp;&nbsp;<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delSS(this, \""+filepath+"\")' >Delete</a></div>";
+		html += "<div><a target='_blank' href='<?php echo site_url(); ?>media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' /><input type='hidden' name='screenshots[]' value='"+filepath+"' /><div class='hint'>Description</div>&nbsp;&nbsp;&nbsp;<a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delSS(this, \""+filepath+"\")' >Delete</a></div>";
 		jQuery("#sspathhtml").html(html);
 	}
 	//jQuery("#logopath").val(filepath);
@@ -2049,7 +2049,7 @@ if($company['id']||($company&&$contribution&&$web_user)){
 				ss.push(filepath);
 				file = "<?php echo sanitizeX(urldecode(basename($value['screenshot']))); ?>";
 				title = "<?php echo sanitizeX($value['title']); ?>";
-				html += "<div><a target='_blank' href='<?php echo site_url(); ?>media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' value='"+title+"' /><input type='hidden' name='screenshots[]' value='"+filepath+"' />&nbsp;&nbsp;&nbsp;<a onclick='this.parentElement.outerHTML=\"\"' style='cursor:pointer; text-decoration:underline' >Delete</a></div>";
+				html += "<div><a target='_blank' href='<?php echo site_url(); ?>media/image.php?p="+filepath+"'>"+file+"</a><br><input type='text' name='screenshot_titles[]' value='"+title+"' /><div class='hint'>Description</div><input type='hidden' name='screenshots[]' value='"+filepath+"' />&nbsp;&nbsp;&nbsp;<a onclick='this.parentElement.outerHTML=\"\"' style='cursor:pointer; text-decoration:underline' >Delete</a></div>";
 				<?php
 			}
 			?>
