@@ -1,6 +1,14 @@
 <div class='list'>
 <table>
 	<tr>
+		<td colspan=6 style='border:0px;'>
+		[ <a href='<?php echo site_url(); ?>revisions' <?php if($type==''){ echo "class='bold'"; } ?> >ALL</a> ]
+		[ <a href='<?php echo site_url(); ?>revisions/?type=pending' <?php if($type=='pending'){ echo "class='bold'"; } ?> >PENDING</a> ]
+		[ <a href='<?php echo site_url(); ?>revisions/?type=approved' <?php if($type=='approved'){ echo "class='bold'"; } ?> >APPROVED</a> ]
+		[ <a href='<?php echo site_url(); ?>revisions/?type=rejected' <?php if($type=='rejected'){ echo "class='bold'"; } ?> >REJECTED</a> ]
+		</th>
+	</tr>
+	<tr>
 		<th style="width:20px"></th>
 		<th>Date</th>
 		<th>Revised Record</th>
@@ -72,13 +80,13 @@
 				<?php
 				if($search){
 					?>
-					<select onchange='self.location="?search=<?php echo sanitizeX($search); ?>&filter=<?php echo sanitizeX($filter); ?>&start="+this.value'>
+					<select onchange='self.location="?type=<?php echo sanitizeX($type); ?>&search=<?php echo sanitizeX($search); ?>&filter=<?php echo sanitizeX($filter); ?>&start="+this.value'>
 					<?php
 
 				}
 				else{
 					?>
-					<select onchange='self.location="?start="+this.value'>
+					<select onchange='self.location="?type=<?php echo sanitizeX($type); ?>&start="+this.value'>
 					<?php
 				}
 				for($i=0; $i<$pages; $i++){

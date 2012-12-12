@@ -710,6 +710,7 @@ class companies extends CI_Controller {
 			$debug = str_replace("\r", "", $debug);
 			?>
 			alertX("<center>Thanks for the submission. It will be reviewed and approved shortly.</center>");
+			self.location = "<?php echo site_url(); ?>editcompany/<?php echo $_POST['id']; ?>/revisions";
 			jQuery("#savebutton").val("Submit");
 			jQuery("#company_form *").attr("disabled", false);
 			<?php

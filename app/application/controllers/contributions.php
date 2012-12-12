@@ -8,17 +8,30 @@ class contributions extends CI_Controller {
 	}
 	
 	public function index(){
+		$type = $_GET['type'];
+		if($type!=""){
+			$type = strtolower($type);
+			if($type=='approved'){
+				$sqlext = " and `approved`=1";
+			}
+			else if($type=='rejected'){
+				$sqlext = " and `approved`=-1";
+			}
+			else if($type=='pending'){
+				$sqlext = " and `approved`=0";
+			}
+		}
 		$start = $_GET['start'];
 		$start += 0;
-		$limit = 200;
+		$limit = 1;
 		
-		$sql = "select * from `contributions` where 1 order by `dateupdated_ts` desc limit $start, $limit" ;
+		$sql = "select * from `contributions` where 1 $sqlext order by `dateupdated_ts` desc limit $start, $limit" ;
 		$export_sql = md5($sql);
 		$_SESSION['export_sqls'][$export_sql] = $sql;
 		$q = $this->db->query($sql);
 		$contributions = $q->result_array();
 		
-		$sql = "select count(id) as `cnt` from `contributions` where 1" ;
+		$sql = "select count(id) as `cnt` from `contributions` where 1 $sqlext" ;
 		$q = $this->db->query($sql);
 		$cnt = $q->result_array();
 		$pages = ceil($cnt[0]['cnt']/$limit);
@@ -29,6 +42,7 @@ class contributions extends CI_Controller {
 		$data['pages'] = $pages;
 		$data['start'] = $start;
 		$data['limit'] = $limit;
+		$data['type'] = $type;
 		$data['cnt'] = $cnt[0]['cnt'];
 		$data['content'] = $this->load->view('contributions/main', $data, true);
 		$this->load->view('layout/main', $data);

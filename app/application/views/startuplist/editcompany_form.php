@@ -7,6 +7,22 @@ $method = $this->router->method;
 <!-- edit -->
 <script>
 function saveCompany(){
+	<?php
+	if($company['id']){
+		?>
+		if(!confirm("Are you sure you want to submit this edit?")){
+			return false;
+		}
+		<?php
+	}
+	else{
+		?>
+		if(!confirm("Are you sure you want to submit this contribution?")){
+			return false;
+		}
+		<?php
+	}
+	?>
 	jQuery("#savebutton").val("Submitting...");
 	formdata = jQuery("#company_form").serialize();
 	jQuery("#company_form *").attr("disabled", true);
