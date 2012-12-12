@@ -4,7 +4,7 @@ $method = $this->router->method;
 if($method=='revision'){
 	$controller = "revisions";
 }
-if($method=='contributions'){
+if($method=='contribution'){
 	$controller = "contributions";
 }
 ?>
