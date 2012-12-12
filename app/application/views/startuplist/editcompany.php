@@ -33,9 +33,18 @@ function showRows(obj, alt){
 					<td class='breadcrumbs'>
 					<a href='<?php echo site_url(); ?>'>Home</a> >
 					<?php
-					echo "<a href='".site_url()."company/".$company['slug']."/".$company['id']."'>".$company['name']."</a>";
+					if($method=='editcompany'){
+						echo "<a href='".site_url()."company/".$company['slug']."/".$company['id']."'>".$company['name']."</a>";
+						?>
+						> <a style='color:#505050'>Edit</a>
+						<?php
+					}
+					else if($method=='addcompany'){
+						?>
+						<a style='color:#505050'>Add Company</a>
+						<?php
+					}
 					?>
-					> <a style='color:#505050'>Edit</a>
 					</td>
 				</tr>
 				<tr>
