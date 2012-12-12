@@ -339,7 +339,7 @@ if(!$investment_org['id']){
 else{
 	?>
 	<tr>
-	<td class='font18 bold' colspan="2">Edit Investment Organization</td>
+	<td class='font18 bold' colspan="2">Edit Investment Organization - <a class='font16 bold' href='<?php echo site_url();?>investment_org/<?php echo $investment_org['slug']; ?>'>Click here to preview</a></td>
 	<td></td>
 	</tr>
 	<?php

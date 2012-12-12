@@ -1546,7 +1546,7 @@ if(!$company['id']&&!$web_user){
 else if(!$web_user){
 	?>
 	<tr>
-	<td class='font18 bold'>Edit Company</td>
+	<td class='font18 bold'>Edit Company - <a class='font16 bold' href='<?php echo site_url();?>company/<?php echo $company['slug']; ?>'>Click here to preview</a></td>
 	<td></td>
 	</tr>
 	<?php

@@ -23,7 +23,7 @@ class contributions extends CI_Controller {
 		}
 		$start = $_GET['start'];
 		$start += 0;
-		$limit = 1;
+		$limit = 200;
 		
 		$sql = "select * from `contributions` where 1 $sqlext order by `dateupdated_ts` desc limit $start, $limit" ;
 		$export_sql = md5($sql);

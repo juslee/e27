@@ -502,7 +502,7 @@ else{
 	else{
 		?>
 		<tr>
-		<td class='font18 bold'>Edit Person</td>
+		<td class='font18 bold'>Edit Person - <a class='font16 bold' href='<?php echo site_url();?>person/<?php echo $person['slug']; ?>'>Click here to preview</a></td>
 		<td></td>
 		</tr>
 		<?php
