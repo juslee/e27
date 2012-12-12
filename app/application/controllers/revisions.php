@@ -36,7 +36,7 @@ class revisions extends CI_Controller {
 	
 	public function reject_revision($revisionid=""){
 		if($revisionid){
-			$sql = "update `revisions` set `approved`=-1 where `id`='".mysql_real_escape_string($revisionid)."'";
+			$sql = "update `revisions` set `approved`=-1, `dateupdated_ts`='".time()."' where `id`='".mysql_real_escape_string($revisionid)."'";
 			$q = $this->db->query($sql);
 		}
 		header ('HTTP/1.1 301 Moved Permanently');

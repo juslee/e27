@@ -36,7 +36,7 @@ class contributions extends CI_Controller {
 	
 	public function reject_contribution($contributionid=""){
 		if($contributionid){
-			$sql = "update `contributions` set `approved`=-1 where `id`='".mysql_real_escape_string($contributionid)."'";
+			$sql = "update `contributions` set `approved`=-1, `dateupdated_ts`='".time()."' where `id`='".mysql_real_escape_string($contributionid)."'";
 			$q = $this->db->query($sql);
 		}
 		header ('HTTP/1.1 301 Moved Permanently');
