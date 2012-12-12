@@ -1,6 +1,8 @@
 <?php
 @session_start();
 $sid = session_id()."_".time();
+$controller = $this->router->class;
+$method = $this->router->method;
 ?>
 <!-- edit -->
 <script>
@@ -1579,7 +1581,7 @@ else{
         </select>
       </td>
     </tr>
-	<tr class="even overview">
+	<tr class="even about">
       <td>* Email Address: </td>
       <td><input type="text" name="email_address" size="35"></td>
     </tr>
@@ -1681,7 +1683,7 @@ else{
       <div class='hint'>multiple tags must be comma separated. e.g. company,person,power</div>
       </td>
     </tr>
-	<tr class="odd about">
+	<tr class="odd screenshots">
       <td>Screenshots:</td>
       <td>
 	  <div id='sspathhtml' style='padding-bottom:10px;'></div>

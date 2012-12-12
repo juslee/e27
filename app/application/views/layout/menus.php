@@ -4,6 +4,9 @@ $method = $this->router->method;
 if($method=='revision'){
 	$controller = "revisions";
 }
+if($method=='contributions'){
+	$controller = "contributions";
+}
 ?>
 <ul>
 	<li <?php if($controller=="latest"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."latest";?>"'>
@@ -22,6 +25,9 @@ if($method=='revision'){
 		Blogs RSS Feeds
 	</li>
 	<li <?php if($controller=="revisions"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."revisions";?>"'>
-		Revisions
+		Web User Revisions
+	</li>
+	<li <?php if($controller=="contributions"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."contributions";?>"'>
+		Web User Contributions
 	</li>
 </ul>

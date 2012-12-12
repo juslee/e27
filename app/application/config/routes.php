@@ -53,8 +53,11 @@ $route['newlyupdated'] = "startuplist/index/newlyupdated";
 $route['account'] = "startuplist/account";
 $route['account/(:any)'] = "startuplist/account/$1";
 $route['editcompany/(:any)'] = "startuplist/editcompany/$1";
+$route['addcompany/(:any)'] = "startuplist/addcompany/$1";
 $route['editperson/(:any)'] = "startuplist/editperson/$1";
+$route['addperson/(:any)'] = "startuplist/addperson/$1";
 $route['editinvestmentorg/(:any)'] = "startuplist/editinvestmentorg/$1";
+$route['addinvestmentorg/(:any)'] = "startuplist/addinvestmentorg/$1";
 
 
 /* End of file routes.php */

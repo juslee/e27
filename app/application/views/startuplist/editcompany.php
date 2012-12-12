@@ -1,5 +1,7 @@
 <?php
 @session_start();
+$controller = $this->router->class;
+$method = $this->router->method;
 if(!$user){
 	$user = getWebUser($_SESSION['web_user']);
 }
@@ -40,20 +42,33 @@ function showRows(obj, alt){
 					<td class='account_left'>
 						<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
 							<tr>
-								<td class="head">EDIT COMPANY</td>
+								<td class="head">
+								<?php 
+								if($method=='editcompany'){
+									?>EDIT COMPANY<?php
+								}
+								else if($method=='addcompany'){
+									?>ADD COMPANY<?php
+								}
+								?>
+								
+								</td>
 							</tr>
 							<tr>
 								<td class="content">
 									<?php
-									
-									if($part=="logo"){ $class="parted"; } else { $class=""; }
-									echo "<div class='edit pad5 $class'><a href='#' alt='logo' onclick='showRows(jQuery(this)); return false;'>LOGO</div>";
 									
 									if($part=="about"){ $class="parted"; } else { $class=""; }
 									echo "<div class='edit pad5 $class'><a href='#' alt='about' onclick='showRows(jQuery(this)); return false;'>ABOUT</div>";
 									
 									if($part=="overview"){ $class="parted"; } else { $class=""; }
 									echo "<div class='edit pad5 $class'><a href='#' alt='overview' onclick='showRows(jQuery(this)); return false;'>OVERVIEW</div>";
+									
+									if($part=="logo"){ $class="parted"; } else { $class=""; }
+									echo "<div class='edit pad5 $class'><a href='#' alt='logo' onclick='showRows(jQuery(this)); return false;'>LOGO</div>";
+									
+									if($part=="screenshots"){ $class="parted"; } else { $class=""; }
+									echo "<div class='edit pad5 $class'><a href='#' alt='screenshots' onclick='showRows(jQuery(this)); return false;'>SCREEN SHOTS</div>";
 									
 									if($part=="people"){ $class="parted"; } else { $class=""; }
 									echo "<div class='edit pad5 $class'><a href='#' alt='people' onclick='showRows(jQuery(this)); return false;'>PEOPLE</div>";
@@ -76,8 +91,13 @@ function showRows(obj, alt){
 							<table cellpadding="0" cellspacing="0" class="p100">
 								<tr>
 									<td class="account_head">
-										Editing <?php
-										echo "<a href='".site_url()."company/".$company['slug']."/".$company['id']."'>".$company['name']."</a>";
+										<?php 
+										if($method=='editcompany'){
+											echo "Editing <a href='".site_url()."company/".$company['slug']."/".$company['id']."'>".$company['name']."</a>";
+										}
+										else if($method=='addcompany'){
+											echo "Add Company";
+										}
 										?>
 									</td>
 								</tr>
@@ -142,24 +162,28 @@ function showRows(obj, alt){
 						</script>
 					</td>
 					<td class='account_right'>
-						<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_right' >
-							<tr>
-								<td class="head">COMPANY</td>
-							</tr>
-							<tr>
-								<td class="content">
-									<table>
-										<tr>
-											<td class='contribute'>
-												<div><a href='<?php echo site_url(); ?>company/<?php echo $company['slug']; ?>/<?php echo $company['id']; ?>'>Back to <?php echo $company['name']; ?></a></div>
-												<div><a href='<?php echo site_url(); ?>editcompany/<?php echo $company['id']; ?>/revisions'>Revisions</a></div>
-											</td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-						</table>
 						<?php
+						if($method=='editcompany'){
+							?>
+							<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_right' >
+								<tr>
+									<td class="head">COMPANY</td>
+								</tr>
+								<tr>
+									<td class="content">
+										<table>
+											<tr>
+												<td class='contribute'>
+													<div><a href='<?php echo site_url(); ?>company/<?php echo $company['slug']; ?>/<?php echo $company['id']; ?>'>Back to <?php echo $company['name']; ?></a></div>
+													<div><a href='<?php echo site_url(); ?>editcompany/<?php echo $company['id']; ?>/revisions'>Revisions</a></div>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							<?php
+						}
 						$this->load->view("startuplist/contribute_block");
 						?>
 					</td>

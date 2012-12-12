@@ -803,6 +803,11 @@ class startuplist extends CI_Controller {
 		$revisions = $q->result_array();
 		$data['revisions'] = $revisions;
 		
+		$sql = "select * from `contributions` where `web_user_id`='".mysql_real_escape_string($web_user['id'])."' order by `dateupdated_ts` desc limit 20";
+		$q = $this->db->query($sql);
+		$contributions = $q->result_array();
+		$data['contributions'] = $contributions;
+		
 		$data['content'] = $this->load->view('startuplist/account', $data, true);
 		$this->load->view('startuplist/main', $data);
 	}
@@ -830,5 +835,41 @@ class startuplist extends CI_Controller {
 		$data['content'] = $this->load->view('startuplist/editcompany', $data, true);
 		$this->load->view('startuplist/main', $data);
 	}
+	
+	function addcompany($part=""){
+		if(!$_SESSION['web_user']){
+			header ('HTTP/1.1 301 Moved Permanently');
+			header("Location: ".site_url());
+			exit();
+		}
+		$sql = "select * from `categories`";
+		$q = $this->db->query($sql);
+		$categories = $q->result_array();	
+		$sql = "select * from `countries`";
+		$q = $this->db->query($sql);
+		$countries = $q->result_array();
+		$sql = "select distinct `code`, `currency` from `currencies` where `currency` not like 'uses%'";
+		$q = $this->db->query($sql);
+		$currencies = $q->result_array();
+		$sql = "select * from `funding_rounds`";
+		$q = $this->db->query($sql);
+		$funding_rounds = $q->result_array();
+			
+		$data = array();
+		//echo "<pre>";
+		//print_r($data);
+		//echo "</pre>";
+		$data['categories'] = $categories;
+		$data['countries'] = $countries;
+		$data['currencies'] = $currencies;
+		$data['funding_rounds'] = $funding_rounds;
+		
+		$data['part'] = $part;
+		$data['layout2'] = true;
+		$data['content'] = $this->load->view('startuplist/editcompany', $data, true);
+		$this->load->view('startuplist/main', $data);
+	}
+	
+	
 	
 }

@@ -621,8 +621,56 @@ class companies extends CI_Controller {
 		if(!$_SESSION['user']&&!$_SESSION['web_user']){
 			return false;
 		}
+		
+		//error check
+		if(trim($_POST['name'])){
+			//check if company already exists
+			$sql = "select `id` from `companies` where `name`=".$this->db->escape(trim($_POST['name']));
+			//echo $sql;
+			$q = $this->db->query($sql);
+			$company = $q->result_array();	
+		}
+		
+		$err = 0;
+		if(!trim($_POST['name'])){
+			$err = 1;
+			?>
+			alertX("<div class='red'>Please input a Company Name.</div>");
+			<?php
+		}
+		else if($company[0]['id']!=""&&$company[0]['id']!=$_POST['id']){
+			$err = 1;
+			?>
+			alertX("<div class='red'>Company name already exists in the database.</div>");
+			<?php
+		}
+		else if(!trim($_POST['description'])){
+			$err = 1;
+			?>
+			alertX("<div class='red'>Please input a Company Description.</div>");
+			<?php
+		}
+		else if(!checkEmail($_POST['email_address'])){
+			$err = 1;
+			?>
+			alertX("<div class='red'>Please input a valid E-mail.</div>");
+			<?php
+		}
+		else{
+			$sql = "select * from `companies` where `id`=".$this->db->escape(trim($_POST['id']));
+			$q = $this->db->query($sql);
+			$company = $q->result_array();	
+			if(!$company[0]){
+				$err = 1;
+				?>
+				alertX("<div class='red'>Company doesnt exists in the database.</div>");
+				<?php
+			}
+		}
+		
+		
 		//save a revision
-		if($_SESSION['web_user']&&$_POST['web_edit']){
+		if($_SESSION['web_user']&&$_POST['web_edit']&&!$err){
 			$sql = "select `id` from `revisions` where 
 				`web_user_id`='".$_SESSION['web_user']['id']."' and 
 				`table`='companies' and 
@@ -670,50 +718,7 @@ class companies extends CI_Controller {
 		
 		
 	
-		if(trim($_POST['name'])){
-			//check if company already exists
-			$sql = "select `id` from `companies` where `name`=".$this->db->escape(trim($_POST['name']));
-			//echo $sql;
-			$q = $this->db->query($sql);
-			$company = $q->result_array();	
-		}
 		
-		$err = 0;
-		if(!trim($_POST['name'])){
-			$err = 1;
-			?>
-			alertX("<div class='red'>Please input a Company Name.</div>");
-			<?php
-		}
-		else if($company[0]['id']!=""&&$company[0]['id']!=$_POST['id']){
-			$err = 1;
-			?>
-			alertX("<div class='red'>Company name already exists in the database.</div>");
-			<?php
-		}
-		else if(!trim($_POST['description'])){
-			$err = 1;
-			?>
-			alertX("<div class='red'>Please input a Company Description.</div>");
-			<?php
-		}
-		else if(!checkEmail($_POST['email_address'])){
-			$err = 1;
-			?>
-			alertX("<div class='red'>Please input a valid E-mail.</div>");
-			<?php
-		}
-		else{
-			$sql = "select * from `companies` where `id`=".$this->db->escape(trim($_POST['id']));
-			$q = $this->db->query($sql);
-			$company = $q->result_array();	
-			if(!$company[0]){
-				$err = 1;
-				?>
-				alertX("<div class='red'>Company doesnt exists in the database.</div>");
-				<?php
-			}
-		}
 		
 		if(!$err){
 			$sql = "update `companies` set ";
@@ -1117,23 +1122,20 @@ class companies extends CI_Controller {
 		
 		
 	}
-	public function ajax_add(){
+	public function ajax_add($contributionid=""){
+		
 		if(!$_SESSION['user']&&!$_SESSION['web_user']){
 			return false;
 		}
-		if($_SESSION['web_user']){
-			echo "<pre>";
-			print_r($_POST);
-			return false;
-		}
+		
+		//error check
+		$err = 0;
 		if(trim($_POST['name'])){
 			//check if company already exists
 			$sql = "select `id` from `companies` where `name`=".$this->db->escape(trim($_POST['name']));
 			$q = $this->db->query($sql);
 			$company = $q->result_array();	
 		}
-		
-		$err = 0;
 		if(!trim($_POST['name'])){
 			$err = 1;
 			?>
@@ -1158,6 +1160,31 @@ class companies extends CI_Controller {
 			alertX("<div class='red'>Please input a valid E-mail.</div>");
 			<?php
 		}
+		
+		
+		//save a contribution
+		if($_SESSION['web_user']&&$_POST['web_edit']&&!$err){
+			$sql = "insert into `contributions` set 
+				`web_user_id`='".$_SESSION['web_user']['id']."',
+				`table`='companies',
+				`json_data`='".mysql_real_escape_string(json_encode($_POST))."',
+				`dateadded_ts` = '".time()."',
+				`dateupdated_ts` = '".time()."',
+				`approved` = 0
+			";
+			$this->db->query($sql);
+			?>
+			alertX("<center>Thanks for the submission. It will be reviewed and approved shortly.</center>");
+			self.location = self.location;
+			//jQuery("#savebutton").val("Submit");
+			//jQuery("#company_form *").attr("disabled", true);
+			<?php
+			return false;
+		}
+		
+		
+		
+		
 		if(!$err){
 			$sql = "insert into `companies` set ";
 			$arr = array();
@@ -1339,12 +1366,25 @@ class companies extends CI_Controller {
 				SureRemoveDir($dir, "true");
 			}
 			
+			if($contributionid){
+				$sql = "update `contributions` set `ipc_id`='".$id."', `approved`=1 where `id`='".mysql_real_escape_string($contributionid)."'";
+				$q = $this->db->query($sql);
+			}
+			
 			?>
 			alertX("Successfully Added Company '<?php echo htmlentitiesX($_POST['name']); ?>'.");
 			//self.location = "<?php echo site_url(); ?>companies/edit/<?php echo $id; ?>";
-			self.location = "<?php echo site_url(); ?>companies/add";
 			<?php
-		
+			if($contributionid){
+				?>
+				self.location = "<?php echo site_url(); ?>contributions";
+				<?php
+			}
+			else{
+				?>
+				self.location = "<?php echo site_url(); ?>companies/add";
+				<?php
+			}
 			$sql = "insert into `logs` set 
 				`action` = 'added',
 				`table` = 'companies',
@@ -1616,6 +1656,179 @@ class companies extends CI_Controller {
 			";
 			$q = $this->db->query($sql);
 			$competitors = $q->result_array();
+			$data['funding_rounds'] = $funding_rounds;				
+			$data['currencies'] = $currencies;
+			$data['countries'] = $countries;
+			$data['milestones'] = $milestones;
+			$data['competitors'] = $competitors;
+			
+			
+			
+			$company_fundings = array();
+			if(is_array($company['f_rounds'])){
+				foreach($company['f_rounds'] as $key=>$value){
+					$company_funding = array();
+					$company_funding['round'] = $value;
+					$company_funding['company_id'] = $company_id;
+					$company_funding['currency'] = $company['f_currencies'][$key];
+					$company_funding['amount'] = $company['f_currencies'][$key];
+					$company_funding['date'] = $company['f_dates'][$key];
+					$company_funding['date_ts'] = strtotime($company['f_dates'][$key]);
+					$company_funding['companies'] = array();
+					if(is_array($company['f_companies'.$key])){
+						foreach($company['f_companies'.$key] as $k=>$v){
+							$c = array();
+							$c['name'] = $v;
+							//$c['slug'] = 
+							$c['id'] = $company['f_company_vals'.$key][$k];
+							$company_funding['companies'][] = $c;
+						}
+					}
+					$company_funding['people'] = array();
+					if(is_array($company['f_people'.$key])){
+						foreach($company['f_people'.$key] as $k=>$v){
+							$c = array();
+							$c['name'] = $v;
+							//$c['slug'] = 
+							$c['id'] = $company['f_person_vals'.$key][$k];
+							$company_funding['people'][] = $c;
+						}
+					}
+					$company_funding['investment_orgs'] = array();
+					if(is_array($company['f_investment_orgs'.$key])){
+						foreach($company['f_investment_orgs'.$key] as $k=>$v){
+							$c = array();
+							$c['name'] = $v;
+							//$c['slug'] = 
+							$c['id'] = $company['f_investment_org_vals'.$key][$k];
+							$company_funding['investment_orgs'][] = $c;
+						}
+					}
+					$company_fundings[] = $company_funding;
+				}
+			}
+			$data['company_fundings'] = $company_fundings;	
+			$people = array();
+			if(is_array($company['p_ids'])){
+				foreach($company['p_ids'] as $key=>$value){
+					$sql = "select * from `people` where `id`='".mysql_real_escape_string($value)."'";
+					$q = $this->db->query($sql);
+					$p = $q->result_array();
+					$p = $p[0];
+					$person = array();
+					$person['company_id'] = $company_id;
+					$person['person_id'] = $value;
+					$person['role'] = $company['p_roles'][$key];;
+					$person['start_date'] = $company['p_start_dates'][$key];
+					$person['start_date_ts'] = strtotime($company['p_start_dates'][$key]);
+					$person['end_date'] = $company['p_end_dates'][$key];
+					$person['end_date_ts'] = strtotime($company['p_end_dates'][$key]);
+					$person['name'] = $p['name'];
+					$person['slug'] = $p['slug'];
+					$people[] = $person;
+				}
+			}
+			$data['people'] = $people;
+			$screenshots = array();
+			if(is_array($company['screenshots'])){
+				foreach($company['screenshots'] as $key=>$value){
+					$screenshot = array();
+					$screenshot['company_id'] = $company_id;
+					$screenshot['screenshot'] = $value;
+					$screenshot['title'] = $company['screenshot_titles'][$key];
+					$screenshots[] = $screenshot;
+				}
+			}
+			$data['screenshots'] = $screenshots;	
+			$co_categories = $company['categories'];
+			$data['co_categories'] = $co_categories;	
+
+			//remove arrays
+			$unsets = array();
+			foreach($company as $key=>$value){
+				if(is_array($value)){
+					$unsets[] = $key;
+				}
+			}
+			foreach($unsets as $key){
+				unset($company[$key]);
+			}
+			$data['company'] = $company;
+			$data['content'] = $this->load->view('companies/add', $data, true);
+			$this->load->view('layout/main', $data);
+		}
+		
+	}
+	
+	public function contribution($id=""){
+		$data = array();
+		$sql = "select `contributions`.* from `contributions` where `contributions`.`id`='".mysql_real_escape_string($id)."' and `contributions`.`table`='companies' ";
+		$q = $this->db->query($sql);
+		$contribution = $q->result_array();
+		$contribution = $contribution[0];
+		
+		if($contribution['id']){
+			$company = json_decode($contribution['json_data']);
+			$company = objectToArray($company);
+			
+			$sql = "select * from `web_users` where `id`=".$this->db->escape($contribution['web_user_id']);
+			$q = $this->db->query($sql);
+			$web_user = $q->result_array();
+			$web_user = $web_user[0];
+			$web_user = getWebUser($web_user);
+			$data['web_user'] =  $web_user;
+		}
+	
+		if($web_user){
+			$data['contribution'] = $contribution;
+			$sql = "select * from `categories`";
+			$q = $this->db->query($sql);
+			$categories = $q->result_array();	
+			$data['categories'] = $categories;
+			$sql = "select * from `countries`";
+			$q = $this->db->query($sql);
+			$countries = $q->result_array();
+			$sql = "select distinct `code`, `currency` from `currencies` where LOWER(`currency`) not like 'uses%'";
+			$q = $this->db->query($sql);
+			$currencies = $q->result_array();
+			$sql = "select * from `funding_rounds`";
+			$q = $this->db->query($sql);
+			$funding_rounds = $q->result_array();
+			/*
+			$sql = "select 
+				`a`.`round`,
+				`a`.`currency`,
+				`a`.`amount`,
+				`a`.`date_ts`,
+				`a`.`company_id`,
+				`b`.`name` as `company_name`
+				from
+				`company_fundings` as `a` left join `companies` as `b` on (`a`.`company_id` = `b`.`id`) where `a`.`id` in (
+					select distinct `company_funding_id` from `company_fundings_ipc`
+					where 
+					`ipc_id`=".$this->db->escape($company_id)." and 
+					`type`='company'
+					)
+				order by `date_ts` desc, `company_name` asc
+				";
+			$q = $this->db->query($sql);
+			$milestones = $q->result_array();
+			
+			$sql = "select `b`.`id` as `value`, `b`.`name` as `label` from `competitors` as `a`, `companies` as `b` where 
+				(
+					`a`.`company_id`=".$this->db->escape($company_id)." 
+					and `a`.`competitor_id` = `b`.`id`
+				)
+				or
+				(
+					`a`.`competitor_id`=".$this->db->escape($company_id)." 
+					and `a`.`company_id` = `b`.`id`
+				)
+				order by `b`.`name` asc
+			";
+			$q = $this->db->query($sql);
+			$competitors = $q->result_array();
+			*/
 			$data['funding_rounds'] = $funding_rounds;				
 			$data['currencies'] = $currencies;
 			$data['countries'] = $countries;
