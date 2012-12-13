@@ -20,7 +20,7 @@ if ($authorName == $default_author) {
 		echo $usp_options['usp_form_content'];
 	} ?>
 	
-	<form method="post" enctype="multipart/form-data" action="" onsubmit="return populateContent()">
+	<form method="post" enctype="multipart/form-data" action="?sid=<?php echo session_id(); ?>" onsubmit="return populateContent()">
 
 		<?php if($_GET['submission-error'] == '1') { ?>
 		<div id="usp-error-message"><?php echo $usp_options['error-message']; ?></div>
@@ -177,6 +177,7 @@ if ($authorName == $default_author) {
 				$_SESSION['usp_response'] = $a+$b;
 				$usp_options['usp_question'] = $a." + ".$b;
 			}
+			
 			?>
 			<fieldset class="usp-captcha">
 				<label for="user-submitted-captcha">* Captcha <?php echo $usp_options['usp_question']; ?></label>

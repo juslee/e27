@@ -1,6 +1,10 @@
 <?php 
 //jairus
-@session_start();
+$sid = $_GET['sid'];
+@session_id($sid);
+@session_start($sid);
+
+
 /*
 	Plugin Name: User Submitted Posts
 	Plugin URI: http://perishablepress.com/user-submitted-posts/
@@ -244,20 +248,30 @@ function usp_createPublicSubmission($title, $content, $authorName, $authorID, $a
 	$captcha    = stripslashes(trim($_POST['user-submitted-captcha']));
 	$verify     = stripslashes(trim($_POST['user-submitted-verify']));
 
+	//echo 1; 
 	if (!usp_validateTitle($title)) {
+		//exit();
 		return false;
 	}
+	//echo 2;
 	if (!usp_validateTags($tags)) {
+		//exit();
 		return false;
 	}
+	//echo 3;
 	if (!empty($verify)) {
+		//exit();
 		return false;
 	}
+	//echo 4;
 	if ($usp_options['usp_captcha'] == 'show') {
 		if (!usp_spam_question($captcha)) {
+			//exit();
 			return false;
 		}
 	}
+	//echo 5; exit();
+	
 	$postData = array();
 	$postData['post_title']   = $title;
 	$postData['post_content'] = $content;
@@ -362,6 +376,11 @@ function usp_validateTitle($title) {
 function usp_spam_question($input) {
 	global $usp_options;
 	//jairus
+	//echo $input;
+	//echo "<pre>";
+	//print_r($usp_options);
+	//print_r($_SESSION);
+	//exit();
 	if($usp_options['usp_question']=='random()'){
 		return ($input == $_SESSION['usp_response']);
 	}
