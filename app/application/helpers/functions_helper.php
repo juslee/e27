@@ -4,6 +4,20 @@ define('MAGPIE_CACHE_ON', true);
 include_once(dirname(__FILE__)."/magpie_0.72/rss_fetch.inc");
 include_once(dirname(__FILE__)."/fb/facebook.php");
 
+function arrDiff($arr1, $arr2){
+	$str1 = trim(json_encode($arr1));
+	$str2 = trim(json_encode($arr2));
+	//echo $str1."<br>";
+	//echo $str2."<br>";
+	//echo "<hr>";
+	//echo strcmp($str1,$str2);
+	if(strcmp($str1,$str2)==0){
+		return false;
+	}
+	else{
+		return true;
+	}
+}
 function fb(){
 	$facebook = new Facebook(array(
 	  'appId'  => '135632699922818',

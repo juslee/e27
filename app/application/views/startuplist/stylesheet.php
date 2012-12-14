@@ -148,7 +148,8 @@ a:link, a:hover, a:visited{
 	color:#21913F;
 }
 
-.searchtext{
+
+input[type="text"].searchtext {
 	color:#a9a9a9;
 	background-color: #fff;
 	/*

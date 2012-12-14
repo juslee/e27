@@ -553,6 +553,9 @@ $user = $_SESSION['user'];
 	.lightgreen{
 		background: #E4FFE4;
 	}
+	.changed{
+		background: #50FA50;
+	}
 	
 	.additem{
 		font-style:italic;

@@ -28,10 +28,27 @@
 						</a>
 					</td>
 				</tr>
+				<?php
+				if($_SESSION['web_user']){
+					?>
+					<tr>
+						<td align="center">
+							<?php
+							echo "<div class='edit' style='text-align:center'><a href='".site_url()."editperson/".$person['id']."/profileimage'>EDIT</div>";
+							?>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
 			</table>
 			<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
 				<tr>
-					<td class="head">OVERVIEW</td>
+					<td class="head">OVERVIEW
+					<?php
+					if($_SESSION['web_user']){ echo "<div class='edit inline right'><a href='".site_url()."editperson/".$person['id']."/overview'>EDIT</div>"; }
+					?>
+					</td>
 				</tr>
 				<tr>
 					<td class="content">
@@ -169,7 +186,11 @@
 				?>
 				<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
 					<tr>
-						<td class="head">CAREER</td>
+						<td class="head">CAREER
+						<?php
+						if($_SESSION['web_user']){ echo "<div class='edit inline right'><a href='".site_url()."editperson/".$person['id']."/career'>EDIT</div>"; }
+						?>
+						</td>
 					</tr>
 					<tr>
 						<td class="content">

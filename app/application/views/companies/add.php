@@ -1,6 +1,13 @@
 <?php
 @session_start();
 $sid = session_id()."_".time();
+//changed for revisions
+if(!$changed){
+	$changed = array();
+}
+//echo "<pre>";
+//print_r($changed);
+//echo "</pre>";
 ?>
 <script>
 
@@ -1599,15 +1606,15 @@ else if($web_user&&$contribution){
 <td width='50%'> 
   <table width="100%">
 
-    <tr class="odd required">
+    <tr class="odd required <?php if(in_array("name", $changed)){ echo "changed";} ?>">
       <td>* Company Name:</td>
       <td><input type="text" name="name" size="40" id='co_name'><div class='inline' style='padding-left:5px;' id='co_check'></div></td>
     </tr>
-    <tr class="even required">
+    <tr class="even required <?php if(in_array("description", $changed)){ echo "changed";} ?>">
       <td>* Description:</td>
       <td><textarea name="description"></textarea></td>
     </tr>
-    <tr class="odd">
+    <tr class="odd <?php if(in_array("co_categories", $changed)){ echo "changed";} ?>">
       <td>Category:</td>
       <td>
 	  <select multiple="multiple" name='categories[]'>
@@ -1629,46 +1636,46 @@ else if($web_user&&$contribution){
         </select>
       </td>
     </tr>
-	<tr class="even">
+	<tr class="even <?php if(in_array("email_address", $changed)){ echo "changed";} ?>">
       <td>* Email Address: </td>
       <td><input type="text" name="email_address" size="35"></td>
     </tr>
-    <tr class="odd">
+    <tr class="odd <?php if(in_array("website", $changed)){ echo "changed";} ?>">
       <td>Website: </td>
       <td><input type="text" name="website" size="30">
         <div class='hint'>e.g. http://www.yourcompany.com</div></td>
     </tr>
-    <tr class="even">
+    <tr class="even <?php if(in_array("blog_url", $changed)){ echo "changed";} ?>">
       <td>Blog URL:</td>
       <td><input type="text" name="blog_url" size="30">
         <div class='hint'>e.g. http://e27.sg/</div></td>
     </tr>
-	<tr class="even">
+	<tr class="even <?php if(in_array("blog", $changed)){ echo "changed";} ?>">
       <td>Blog RSS feed URL:</td>
       <td><input type="text" name="blog" size="30">
         <div class='hint'>e.g. http://e27.sg/feed</div></td>
     </tr>
-    <tr class="odd">
+    <tr class="odd <?php if(in_array("twitter_username", $changed)){ echo "changed";} ?>">
       <td>Twitter Username:</td>
       <td><input type="text" name="twitter_username" size="25">
         <div class='hint'>e.g. @kiip</div></td>
     </tr>
-    <tr class="even">
+    <tr class="even <?php if(in_array("facebook", $changed)){ echo "changed";} ?>">
       <td>Facebook Page:</td>
       <td><input type="text" name="facebook" size="35">
         <div class='hint'>e.g. http://facebook.com/yourpagename</div></td>
     </tr>
-    <tr class="odd">
+    <tr class="odd <?php if(in_array("linkedin", $changed)){ echo "changed";} ?>">
       <td>LinkedIn Page:</td>
       <td><input type="text" name="linkedin" size="35">
         <div class='hint'>e.g. http://linkedin.com/yourpagename</div></td>
     </tr>
-    <tr class="even">
+    <tr class="even <?php if(in_array("number_of_employees", $changed)){ echo "changed";} ?>">
       <td>Number of Employees: </td>
       <td><input type="text" name="number_of_employees" size="5"></td>
     </tr>
 
-    <tr class="odd">
+    <tr class="odd <?php if(in_array("founded", $changed)){ echo "changed";} ?>">
       <td>Founded:</td>
       <td>
 	  	<input type='text' class='datepicker' alt='founded' id='founded_pick' name='founded' /><div class='hint'>yyyy or mm/dd/yyyy</div>
@@ -1705,7 +1712,7 @@ else if($web_user&&$contribution){
 		?>
       </td>
     </tr>
-    <tr class="even">
+    <tr class="even <?php if(in_array("logo", $changed)){ echo "changed";} ?>">
       <td>Company logo:</td>
       <td>
 	  <div id='logopathhtml'></div>
@@ -1715,7 +1722,7 @@ else if($web_user&&$contribution){
 	  <br><div class='hint'>e.g. Image Suggestion 220 x 220 pixels .jpg file</div>
 	  </td>
     </tr>
-    <tr class="odd">
+    <tr class="odd <?php if(in_array("country", $changed)){ echo "changed";} ?>">
       <td>Country:</td>
       <td><select name="country">
 	  <?php 
@@ -1756,14 +1763,14 @@ else if($web_user&&$contribution){
     </tr>
     
     
-    <tr class="even">
+    <tr class="even <?php if(in_array("tags", $changed)){ echo "changed";} ?>">
       <td>Tags:</td>
       <td><textarea name="tags" ></textarea>
       <br/>
       <div class='hint'>multiple tags must be comma separated. e.g. company,person,power</div>
       </td>
     </tr>
-    <tr class="odd">
+    <tr class="odd <?php if(in_array("screenshots", $changed)){ echo "changed";} ?>">
       <td>Screenshots:</td>
       <td>
 	  <div id='sspathhtml' style='padding-bottom:10px;'></div>
@@ -1788,7 +1795,7 @@ else if($web_user&&$contribution){
 </td>
 <td width='50%'>
 	<table width="100%">
-		<tr class="odd">
+		<tr class="odd <?php if(in_array("people", $changed)){ echo "changed";} ?>">
 		  <td>People:</td>
 		  <td>
 		  <input type="text" size: "30" id="people_search" /><div class='inline' id='person_add_loader'></div><div class='hint'>Type in the name to search and add people.</div>
@@ -1822,7 +1829,7 @@ else if($web_user&&$contribution){
 		  </div>
 		  </td>
 		</tr>
-		<tr class='even'>
+		<tr class='even <?php if(in_array("competitors", $changed)){ echo "changed";} ?>'>
 		  <td>Competitors:</td>
 		  <td>
 		  <input type="text" size="50" id="competitor_search" /><div class='inline' id='competitor_add_loader'></div><div class='hint'>Type in the company name to search and add competitor.</div>
@@ -1830,7 +1837,7 @@ else if($web_user&&$contribution){
 
 		  </td>
 		</tr>
-		<tr class="odd" id="funding">
+		<tr class="odd <?php if(in_array("company_fundings", $changed)){ echo "changed";} ?> " id="funding" >
 		  <td>Funding:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class='cursor' onclick='addFIntro()'>[+]</a></td>
 		  <td>
 		  	<table class='border margin10 pad10 hidden' id='fundingadd' >
@@ -1899,7 +1906,7 @@ else if($web_user&&$contribution){
 		 	
 		  </td>
 		</tr>
-		<tr class="odd">
+		<tr class="odd <?php if(in_array("company_fundings", $changed)){ echo "changed";} ?>">
 			<td colspan="2" align="center">
 				<div id="fundinghtml" class='pad10'><table cellspacing=0 width="90%"><tbody></tbody></table></div>
 			</td>
@@ -1939,6 +1946,7 @@ else if($web_user&&$contribution){
 		if($web_user){
 			if($revision){
 				if(!$revision['approved']){
+					
 					?><input type="button" id='savebutton' value="Approve and Save Revision" onclick="saveCompany('approverev')" /><?php
 				}
 			}

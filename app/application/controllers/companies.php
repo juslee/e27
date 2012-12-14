@@ -709,8 +709,10 @@ class companies extends CI_Controller {
 			$debug = str_replace("\n", "\\n", $debug);
 			$debug = str_replace("\r", "", $debug);
 			?>
-			alertX("<center>Thanks for the submission. It will be reviewed and approved shortly.</center>");
-			self.location = "<?php echo site_url(); ?>editcompany/<?php echo $_POST['id']; ?>/revisions";
+			alertX("<center>Thank you for the submission. It will be reviewed and approved shortly.</center>");
+			
+			setTimeout(function(){ self.location = "<?php echo site_url(); ?>editcompany/<?php echo $_POST['id']; ?>/revisions" }, 2000);
+			
 			jQuery("#savebutton").val("Submit");
 			jQuery("#company_form *").attr("disabled", false);
 			<?php
@@ -1176,6 +1178,7 @@ class companies extends CI_Controller {
 			$this->db->query($sql);
 			?>
 			alertX("<center>Thanks for the submission. It will be reviewed and approved shortly.</center>");
+			setTimeout(function(){ self.location = self.location; }, 2000);
 			self.location = self.location;
 			//jQuery("#savebutton").val("Submit");
 			//jQuery("#company_form *").attr("disabled", true);
@@ -1427,7 +1430,7 @@ class companies extends CI_Controller {
 		$this->load->view('layout/main', $data);
 	}
 	
-	function edit($company_id){
+	function edit($company_id, $return=false){
 		$sql = "select * from `companies` where `id`=".$this->db->escape($company_id);
 		$q = $this->db->query($sql);
 		$company = $q->result_array();	
@@ -1578,6 +1581,10 @@ class companies extends CI_Controller {
 			$data['co_categories'] = $co_categories;	
 			$data['countries'] = $countries;
 			$data['company'] = $company[0];
+			if($return){
+				return $data;
+			}
+			
 			$data['content'] = $this->load->view('companies/add', $data, true);
 			$this->load->view('layout/main', $data);
 		}
@@ -1587,6 +1594,7 @@ class companies extends CI_Controller {
 	}
 	
 	public function revision($id=""){
+		$changed = array();
 		$data = array();
 		$sql = "select `revisions`.* from `revisions` where `revisions`.`id`='".mysql_real_escape_string($id)."' and `revisions`.`table`='companies' ";
 		$q = $this->db->query($sql);
@@ -1608,10 +1616,13 @@ class companies extends CI_Controller {
 			$web_user = getWebUser($web_user);
 			$data['web_user'] =  $web_user;
 		}
-	
+		
 		if($companytemp[0]['id']&&$web_user){
+			$corig = $this->edit($companytemp[0]['id'], true); //get original data
+			
 			$data['companyorig'] = $companytemp[0];
 			$data['revision'] = $revision;
+			/*
 			$sql = "select * from `categories`";
 			$q = $this->db->query($sql);
 			$categories = $q->result_array();	
@@ -1657,11 +1668,24 @@ class companies extends CI_Controller {
 			";
 			$q = $this->db->query($sql);
 			$competitors = $q->result_array();
+			*/
+			
+			$categories = $corig['categories'];
+			$funding_rounds = $corig['funding_rounds'];
+			$currencies = $corig['currencies'];
+			$countries = $corig['countries'];
+			$milestones = $corig['milestones'];
+			$competitors = $corig['competitors'];
+			
+			$data['categories'] = $categories;
 			$data['funding_rounds'] = $funding_rounds;				
 			$data['currencies'] = $currencies;
 			$data['countries'] = $countries;
 			$data['milestones'] = $milestones;
 			$data['competitors'] = $competitors;
+			if(arrDiff($corig['competitors'], $data['competitors'])){
+				$changed[] = 'competitors';
+			}
 			
 			
 			
@@ -1672,9 +1696,9 @@ class companies extends CI_Controller {
 					$company_funding['round'] = $value;
 					$company_funding['company_id'] = $company_id;
 					$company_funding['currency'] = $company['f_currencies'][$key];
-					$company_funding['amount'] = $company['f_currencies'][$key];
+					$company_funding['amount'] = number_format($company['f_amounts'][$key], "4", ".", "").""; //must format amount
 					$company_funding['date'] = $company['f_dates'][$key];
-					$company_funding['date_ts'] = strtotime($company['f_dates'][$key]);
+					$company_funding['date_ts'] = strtotime($company['f_dates'][$key]).""; //stringify the thing
 					$company_funding['companies'] = array();
 					if(is_array($company['f_companies'.$key])){
 						foreach($company['f_companies'.$key] as $k=>$v){
@@ -1709,6 +1733,15 @@ class companies extends CI_Controller {
 				}
 			}
 			$data['company_fundings'] = $company_fundings;	
+			//check if there are changes 
+			//remove ids 
+			foreach($corig['company_fundings'] as $key=>$value){
+				unset($corig['company_fundings'][$key]['id']);
+			}
+			if(arrDiff($corig['company_fundings'], $data['company_fundings'])){
+				$changed[] = 'company_fundings';
+			}
+
 			$people = array();
 			if(is_array($company['p_ids'])){
 				foreach($company['p_ids'] as $key=>$value){
@@ -1721,15 +1754,25 @@ class companies extends CI_Controller {
 					$person['person_id'] = $value;
 					$person['role'] = $company['p_roles'][$key];;
 					$person['start_date'] = $company['p_start_dates'][$key];
-					$person['start_date_ts'] = strtotime($company['p_start_dates'][$key]);
+					$person['start_date_ts'] = strtotime($company['p_start_dates'][$key])."";
 					$person['end_date'] = $company['p_end_dates'][$key];
-					$person['end_date_ts'] = strtotime($company['p_end_dates'][$key]);
+					$person['end_date_ts'] = (strtotime($company['p_end_dates'][$key])+0)."";
 					$person['name'] = $p['name'];
-					$person['slug'] = $p['slug'];
+					//$person['slug'] = $p['slug'];
 					$people[] = $person;
 				}
 			}
+			
 			$data['people'] = $people;
+			//remove ids and edn_date_ts2
+			foreach($corig['people'] as $key=>$value){
+				unset($corig['people'][$key]['id']);
+				unset($corig['people'][$key]['end_date_ts2']);
+			}
+			if(arrDiff($data['people'], $corig['people'])){
+				$changed[] = "people";
+			}
+			
 			$screenshots = array();
 			if(is_array($company['screenshots'])){
 				foreach($company['screenshots'] as $key=>$value){
@@ -1741,8 +1784,23 @@ class companies extends CI_Controller {
 				}
 			}
 			$data['screenshots'] = $screenshots;	
+			//remove ids 
+			foreach($corig['screenshots'] as $key=>$value){
+				unset($corig['screenshots'][$key]['id']);
+			}
+			if(arrDiff($data['screenshots'], $corig['screenshots'])){
+				$changed[] = 'screenshots';
+			}
+			
 			$co_categories = $company['categories'];
 			$data['co_categories'] = $co_categories;	
+			if(is_array($data['co_categories'])&&is_array($corig['co_categories'])){
+				sort($data['co_categories']);
+				sort($corig['co_categories']);
+				if(arrDiff($data['co_categories'], $corig['co_categories'])){
+					$changed[] = 'co_categories';
+				}
+			}
 
 			//remove arrays
 			$unsets = array();
@@ -1750,11 +1808,17 @@ class companies extends CI_Controller {
 				if(is_array($value)){
 					$unsets[] = $key;
 				}
+				else{
+					if(trim($value)!=trim($corig['company'][$key])){
+						$changed[] = $key;
+					}
+				}
 			}
 			foreach($unsets as $key){
 				unset($company[$key]);
 			}
 			$data['company'] = $company;
+			$data['changed'] = $changed;
 			$data['content'] = $this->load->view('companies/add', $data, true);
 			$this->load->view('layout/main', $data);
 		}
