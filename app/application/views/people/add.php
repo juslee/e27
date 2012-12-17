@@ -796,7 +796,7 @@ else if($web_user&&$contribution){
 </table>
 <?php
 
-if($person['id']){
+if($person['id']||($person&&$contribution&&$web_user)){
 	?>
 	<script>
 		<?php 

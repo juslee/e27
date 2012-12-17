@@ -1188,6 +1188,10 @@ class companies extends CI_Controller {
 		
 		
 		
+		if($contributionid){
+			$sql = "update `contributions` set `approved`=1 where `id`='".mysql_real_escape_string($contributionid)."'";
+			$q = $this->db->query($sql);
+		}
 		
 		if(!$err){
 			$sql = "insert into `companies` set ";

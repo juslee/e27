@@ -41,7 +41,7 @@ function showRows(obj, alt){
 					}
 					else if($method=='addperson'){
 						?>
-						<a style='color:#505050'>Add Person</a>
+						<a style='color:#505050'>Add a Person</a>
 						<?php
 					}
 					?>
@@ -57,7 +57,7 @@ function showRows(obj, alt){
 									?>EDIT PERSON<?php
 								}
 								else if($method=='addperson'){
-									?>ADD PERSON<?php
+									?>ADD A PERSON<?php
 								}
 								?>
 								
@@ -103,7 +103,7 @@ function showRows(obj, alt){
 											echo "Editing <a href='".site_url()."person/".$person['slug']."/".$person['id']."'>".$person['name']."</a>";
 										}
 										else if($method=='addperson'){
-											echo "Add Person";
+											echo "Add a Person";
 										}
 										?>
 									</td>

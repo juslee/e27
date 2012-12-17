@@ -11,7 +11,8 @@ if($_SESSION['web_user']){
 				<table>
 					<tr>
 						<td class='contribute'>
-							<div><a href='<?php echo site_url(); ?>addcompany/about'>Add Company</a></div>
+							<div><a href='<?php echo site_url(); ?>addcompany/about'>Add a Company</a></div>
+							<div><a href='<?php echo site_url(); ?>addperson/about'>Add a Person</a></div>
 							<!--
 							<div><a href='#'>Add Person</a></div>
 							<div><a href='#'>Add Investment Organization</a></div>

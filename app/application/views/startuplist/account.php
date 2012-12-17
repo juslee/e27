@@ -146,6 +146,7 @@ if(!$user){
 													else if($contribution['table']=='investment_orgs'){
 														$table = "investment_org";
 													}
+													//print_r($sql);
 													if($ipc['slug']){
 														echo "<div class='revision padb5'>[ ".date("M d, Y H:i:s", $revision['dateupdated_ts'])." ] Contributed <b><a href='".site_url().$table."/".$ipc['slug']."'>".$ipc['name']."</a></b> ... $approved </div>";			
 													}

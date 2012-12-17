@@ -896,7 +896,7 @@ class people extends CI_Controller {
 		if($_SESSION['web_user']&&$_POST['web_edit']&&!$err){
 			$sql = "insert into `contributions` set 
 				`web_user_id`='".$_SESSION['web_user']['id']."',
-				`table`='companies',
+				`table`='people',
 				`json_data`='".mysql_real_escape_string(json_encode($_POST))."',
 				`dateadded_ts` = '".time()."',
 				`dateupdated_ts` = '".time()."',
@@ -993,10 +993,26 @@ class people extends CI_Controller {
 				SureRemoveDir($dir, "true");
 			}
 			
+			//approve the conrti and add the ipc id
+			if($contributionid){
+				$sql = "update `contributions` set `ipc_id`='".$id."', `approved`=1 where `id`='".mysql_real_escape_string($contributionid)."'";
+				$q = $this->db->query($sql);
+			}
+			
 			?>
 			alertX("Successfully Added Person '<?php echo htmlentitiesX($_POST['name']); ?>'.");
-			self.location = "<?php echo site_url(); ?>people/add";
 			<?php
+			if($contributionid){
+				?>
+				self.location = "<?php echo site_url(); ?>contributions";
+				<?php
+			}
+			else{
+				?>
+				self.location = "<?php echo site_url(); ?>people/add";
+				<?php
+			}
+			
 			$sql = "insert into `logs` set 
 				`action` = 'added',
 				`table` = 'people',
@@ -1201,6 +1217,97 @@ class people extends CI_Controller {
 			}
 			$data['person'] = $person;
 			$data['changed'] = $changed;
+			$data['content'] = $this->load->view('people/add', $data, true);
+			$this->load->view('layout/main', $data);
+		}
+		
+	}
+	
+	public function contribution($id=""){
+		$data = array();
+		$sql = "select `contributions`.* from `contributions` where `contributions`.`id`='".mysql_real_escape_string($id)."' and `contributions`.`table`='people' ";
+		$q = $this->db->query($sql);
+		$contribution = $q->result_array();
+		$contribution = $contribution[0];
+		
+		if($contribution['id']){
+			$person = json_decode($contribution['json_data']);
+			$person = objectToArray($person);
+			$sql = "select * from `people` where `id`=".$this->db->escape($person_id);
+			$q = $this->db->query($sql);
+			$persontemp = $q->result_array();	
+			
+			$sql = "select * from `web_users` where `id`=".$this->db->escape($contribution['web_user_id']);
+			$q = $this->db->query($sql);
+			$web_user = $q->result_array();
+			$web_user = $web_user[0];
+			$web_user = getWebUser($web_user);
+			$data['web_user'] =  $web_user;
+		}
+
+	
+		if($web_user){
+			$data['contribution'] = $contribution;
+			$companies = array();
+			if(is_array($person['c_ids'])){
+				foreach($person['c_ids'] as $key=>$value){
+					$sql = "select * from `companies` where `id`='".mysql_real_escape_string($value)."'";
+					$q = $this->db->query($sql);
+					$c = $q->result_array();
+					$c = $c[0];
+					$company = array();
+					$company['company_id'] = $value;
+					$company['person_id'] = $person_id;
+					$company['role'] = $person['p_roles'][$key];;
+					$company['start_date'] = $person['p_start_dates'][$key];
+					$company['start_date_ts'] = strtotime($person['p_start_dates'][$key])."";
+					$company['end_date'] = $person['p_end_dates'][$key];
+					$company['end_date_ts'] = (strtotime($person['p_end_dates'][$key])+0)."";
+					$company['name'] = $c['name'];
+					//$person['slug'] = $p['slug'];
+					$companies[] = $company;
+				}
+			}
+			$data['companies'] = $companies;
+			
+			$investment_orgs = array();
+			if(is_array($person['io_ids'])){
+				foreach($person['io_ids'] as $key=>$value){
+					$sql = "select * from `investment_orgs` where `id`='".mysql_real_escape_string($value)."'";
+					$q = $this->db->query($sql);
+					$io = $q->result_array();
+					$io = $io[0];
+					$investment_org = array();
+					$investment_org['investment_org_id'] = $value;
+					$investment_org['person_id'] = $person_id;
+					$investment_org['role'] = $person['iop_roles'][$key];;
+					$investment_org['start_date'] = $person['iop_start_dates'][$key];
+					$investment_org['start_date_ts'] = strtotime($person['iop_start_dates'][$key])."";
+					$investment_org['end_date'] = $person['iop_end_dates'][$key];
+					$investment_org['end_date_ts'] = (strtotime($person['iop_end_dates'][$key])+0)."";
+					$investment_org['name'] = $io['name'];
+					$investment_orgs[] = $investment_org;
+				}
+			}
+			$data['investment_orgs'] = $investment_orgs;
+			
+			
+			//remove arrays
+			$unsets = array();
+			foreach($person as $key=>$value){
+				if(is_array($value)){
+					$unsets[] = $key;
+				}
+				else{
+					if(trim($value)!=trim($corig['person'][$key])){
+						$changed[] = $key;
+					}
+				}
+			}
+			foreach($unsets as $key){
+				unset($person[$key]);
+			}
+			$data['person'] = $person;
 			$data['content'] = $this->load->view('people/add', $data, true);
 			$this->load->view('layout/main', $data);
 		}

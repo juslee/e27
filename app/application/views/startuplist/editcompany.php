@@ -41,7 +41,7 @@ function showRows(obj, alt){
 					}
 					else if($method=='addcompany'){
 						?>
-						<a style='color:#505050'>Add Company</a>
+						<a style='color:#505050'>Add a Company</a>
 						<?php
 					}
 					?>
@@ -57,7 +57,7 @@ function showRows(obj, alt){
 									?>EDIT COMPANY<?php
 								}
 								else if($method=='addcompany'){
-									?>ADD COMPANY<?php
+									?>ADD A COMPANY<?php
 								}
 								?>
 								
@@ -105,7 +105,7 @@ function showRows(obj, alt){
 											echo "Editing <a href='".site_url()."company/".$company['slug']."/".$company['id']."'>".$company['name']."</a>";
 										}
 										else if($method=='addcompany'){
-											echo "Add Company";
+											echo "Add a Company";
 										}
 										?>
 									</td>

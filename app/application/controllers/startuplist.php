@@ -897,6 +897,34 @@ class startuplist extends CI_Controller {
 		$this->load->view('startuplist/main', $data);
 	}
 	
+	function addperson($part=""){
+		if(!$_SESSION['web_user']){
+			header ('HTTP/1.1 301 Moved Permanently');
+			header("Location: ".site_url());
+			exit();
+		}
+		$sql = "select * from `countries`";
+		$q = $this->db->query($sql);
+		$countries = $q->result_array();
+		$sql = "select distinct `code`, `currency` from `currencies` where `currency` not like 'uses%'";
+		$q = $this->db->query($sql);
+		$currencies = $q->result_array();
+			
+		$data = array();
+		//echo "<pre>";
+		//print_r($data);
+		//echo "</pre>";
+		$data['categories'] = $categories;
+		$data['countries'] = $countries;
+		$data['currencies'] = $currencies;
+		$data['funding_rounds'] = $funding_rounds;
+		
+		$data['part'] = $part;
+		$data['layout2'] = true;
+		$data['content'] = $this->load->view('startuplist/editperson', $data, true);
+		$this->load->view('startuplist/main', $data);
+	}
+	
 	
 	
 }
