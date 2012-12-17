@@ -97,7 +97,7 @@ if ($authorName == $default_author) {
 			<fieldset class="usp-content">
 				<label for="user-submitted-title">* <?php _e('End Date'); ?></label>
 				<input name="user-submitted-enddate" title="<?php echo _e('End'); ?>" class="datepicker user-submitted-subcontent required" type="text" value="" placeholder="" style='width:200px'>
-				&nbsp;<select name="user-submitted-endetimeh"><?php
+				&nbsp;<select name="user-submitted-endtimeh"><?php
 				for($i=1; $i<=12; $i++){
 					$n = substr("0".$i, -2);
 					echo "<option value='".$n."'>".$n."</option>";
