@@ -1,39 +1,21 @@
 <?php
 @session_start();
 $sid = session_id()."_".time();
-//changed for revisions
-if(!$changed){
-	$changed = array();
-}
-//echo "<pre>";
-//print_r($changed);
-//echo "</pre>";
+$controller = $this->router->class;
+$method = $this->router->method;
 ?>
 <script>
-function savePerson(approve){
-	extra = "";
-	if(approve=='approverev'){
-		if(!confirm("Are you sure you want to approve this revision?")){
-			return false;
-		}
-		extra = "/<?php echo $revision['id']; ?>"
-	}
-	else if(approve=='approvecontri'){
-		if(!confirm("Are you sure you want to approve this contribution?")){
-			return false;
-		}
-		extra = "/<?php echo $contribution['id']; ?>"
-	}
+function savePerson(){
 	jQuery("#savebutton").val("Saving...");
 	formdata = jQuery("#person_form").serialize();
 	jQuery("#person_form *").attr("disabled", true);
 	jQuery.ajax({
 		<?php
 		if($person['id']){
-			?>url: "<?php echo site_url(); ?>people/ajax_edit"+extra,<?php
+			?>url: "<?php echo site_url(); ?>people/ajax_edit",<?php
 		}
 		else{
-			?>url: "<?php echo site_url(); ?>people/ajax_add"+extra,<?php
+			?>url: "<?php echo site_url(); ?>people/ajax_add",<?php
 		}
 		?>
 		type: "POST",
@@ -45,17 +27,6 @@ function savePerson(approve){
 	});
 
 }
-function rejectRevision(id){
-	if(confirm("Are you sure you want to reject this revision?")){
-		self.location = "<?php echo site_url(); ?>revisions/reject_revision/"+id;
-	}
-}
-function rejectContribution(id){
-	if(confirm("Are you sure you want to reject this contribution?")){
-		self.location = "<?php echo site_url(); ?>contributions/reject_contribution/"+id;
-	}
-}
-
 function deletePerson(id){
 	if(confirm("Are you sure you want to delete this person?")){
 		formdata = "id="+id;
@@ -157,7 +128,6 @@ function delInvestmentOrg(obj, ioid){
 	}
 	return false;
 }
-
 function addCompanyShortcut(company_name){
 	jQuery("#company_search").attr("disabled", true);
 	jQuery("#company_add_loader").html("<img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
@@ -231,7 +201,7 @@ function addCompany(id, name, role, start_date, end_date, add){
 	thedate.setDate(thedate.getDate());
 	start_date = dateFormat(thedate, "mmm dd, yyyy");
 	
-	html += "<a href='<?php echo site_url(); ?>companies/edit/"+id+"' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delCompany(this, \""+id+"\")' >Delete</a></td></tr>";
+	html += "<a href='<?php echo site_url(); ?>company/id/"+id+"' target=''>"+name+"</a></td><td>"+role+"</td><td>"+start_date+" to "+end_date+"</td><td><a style='cursor:pointer; text-decoration:underline' class='red delete' onclick='delCompany(this, \""+id+"\")' >Delete</a></td></tr>";
 	
 	htmlorig = jQuery("#companyhtml table tbody").html();
 	
@@ -370,10 +340,16 @@ jQuery(function(){
 				jQuery.each(data, function(i, val){								
 					suggestions.push(val);
 				});
-				val = [];
-				val.label = "Create";
-				val.value = -1;
-				suggestions.push(val);
+				<?php
+				if($_SESSION['user']){
+					?>
+					val = [];
+					val.label = "Create";
+					val.value = -1;
+					suggestions.push(val);
+					<?php
+				}
+				?>
 				//pass array to callback
 				add(suggestions);
 				jQuery("#company_add_loader").html("");
@@ -439,10 +415,16 @@ jQuery(function(){
 				jQuery.each(data, function(i, val){								
 					suggestions.push(val);
 				});
-				val = [];
-				val.label = "Create";
-				val.value = -1;
-				suggestions.push(val);
+				<?php
+				if($_SESSION['user']){
+					?>
+					val = [];
+					val.label = "Create";
+					val.value = -1;
+					suggestions.push(val);
+					<?php
+				}
+				?>
 				//pass array to callback
 				add(suggestions);
 				jQuery("#investment_org_add_loader").html("");
@@ -500,7 +482,7 @@ jQuery(function(){
 </script>
 <input type='hidden' id='tempcreatelabel' />
 <form id='person_form'>
-
+<input type='hidden' name='web_edit' value="1" />
 <?php
 if($person['id']){
 	?>
@@ -516,115 +498,49 @@ else{
 
 ?>
 <table width="100%" cellpadding="10px">
-<!--
 <tr>
-<td colspan="2" class='center bold font14'>Fields with * are required.</td>
-</tr>
--->
-<?php
-if(!$person['id']&&!$web_user){
-	?>
-	<tr>
-	<td class='font18 bold'>Add New Person</td>
-	<td></td>
-	</tr>
-	<?php
-}
-else if(!$web_user){
-	?>
-	<tr>
-	<td class='font18 bold'>Edit Person - <a class='font16 bold' href='<?php echo site_url();?>person/<?php echo $person['slug']; ?>'>Click here to preview</a></td>
-	<td></td>
-	</tr>
-	<?php
-}
-else if($web_user&&$revision){
-	if($revision['approved']==1){
-		$approved = "<a style='color:green' class='font18 bold'>(APPROVED)</a>";
-	}
-	else if($revision['approved']==-1){
-		$approved = "<a style='color:red' class='font18 bold'>(REJECTED)</a>";
-	}
-	else{
-		$approved = "<a style='color:black' class='font18 bold'>(PENDING)</a>";
-	}
-	?>
-	<tr>
-	<td class='font18 bold'>Revision on <?php echo "<a class='font18 bold' href='".site_url()."people/edit/".$personorig['id']."'>".$personorig['name']."</a>"; ?> by <a class='font18 bold' href='<?php echo site_url()?>/account/<?php echo $web_user['id']?>'><?php echo $web_user['name']; ?></a> <?php echo $approved; ?></td>
-	<td></td>
-	</tr>
-	<?php
-}
-else if($web_user&&$contribution){
-	if($contribution['table']=='companies'){
-		$table = "Company";
-	}
-	else if($contributions[$i]['table']=='people'){
-		$table = "Person";
-	}
-	else if($contributions[$i]['table']=='investment_orgs'){
-		$table = "Investment Org";
-	}
-	if($contribution['approved']==1){
-		$approved = "<a style='color:green' class='font18 bold'>(APPROVED)</a>";
-	}
-	else if($contribution['approved']==-1){
-		$approved = "<a style='color:red' class='font18 bold'>(REJECTED)</a>";
-	}
-	else{
-		$approved = "<a style='color:black' class='font18 bold'>(PENDING)</a>";
-	}
-	?>
-	<tr>
-	<td class='font18 bold'><?php echo $table;?> Contributed by <a class='font18 bold' href='<?php echo site_url()?>/account/<?php echo $web_user['id']?>'><?php echo $web_user['name']; ?></a> <?php echo $approved; ?></td>
-	<td></td>
-	</tr>
-	<?php
-}
-?>
-<tr>
-<td width='50%'> 
+<td width='100%'> 
   <table width="100%">
  
-    <tr class="odd required <?php if(in_array("name", $changed)){ echo "changed";} ?>">
+    <tr class="odd required about">
       <td>* Name:</td>
       <td><input type="text" name="name" size="40" id='person_name'><div class='inline' style='padding-left:5px;' id='co_check'></div></td>
     </tr>
-    <tr class="even <?php if(in_array("description", $changed)){ echo "changed";} ?>">
+    <tr class="even about">
       <td>* Description:</td>
       <td><textarea name="description"></textarea></td>
     </tr>		
-    <tr class="odd required <?php if(in_array("email_address", $changed)){ echo "changed";} ?>">
+    <tr class="odd required about">
       <td>* Email Address: </td>
       <td><input type="text" name="email_address" size="35" id='email_address'> <div class='inline' style='padding-left:5px;' id='email_check'></div></td>
     </tr>	
-	<tr class="even <?php if(in_array("blog_url", $changed)){ echo "changed";} ?>">
+	<tr class="even overview">
       <td>Blog URL:</td>
       <td><input type="text" name="blog_url" size="30">
         <div class='hint'>e.g. http://e27.sg</div></td>
     </tr>
-    <tr class="even <?php if(in_array("blog", $changed)){ echo "changed";} ?>">
+    <tr class="even">
       <td>Blog RSS feed URL:</td>
       <td><input type="text" name="blog" size="30">
         <div class='hint'>e.g. http://e27.sg/feed</div></td>
     </tr>
-    <tr class="odd <?php if(in_array("twitter_username", $changed)){ echo "changed";} ?>">
+    <tr class="odd overview">
       <td>Twitter Username:</td>
       <td><input type="text" name="twitter_username" size="25">
         <div class='hint'>e.g. @kiip</div></td>
     </tr>
-    <tr class="even <?php if(in_array("facebook", $changed)){ echo "changed";} ?>">
+    <tr class="even overview">
       <td>Facebook Page:</td>
       <td><input type="text" name="facebook" size="35">
         <div class='hint'>e.g. http://facebook.com/yourpagename</div></td>
     </tr>
-    <tr class="odd <?php if(in_array("linkedin", $changed)){ echo "changed";} ?>">
+    <tr class="odd overview">
       <td>LinkedIn Page:</td>
       <td><input type="text" name="linkedin" size="35">
         <div class='hint'>e.g. http://linkedin.com/yourpagename</div></td>
     </tr>
 
-    <tr class="even <?php if(in_array("profile_image", $changed)){ echo "changed";} ?>">
+    <tr class="even logo">
       <td>Profile Image:</td>
       <td>
 	  <div id='profilepathhtml'></div>
@@ -634,26 +550,25 @@ else if($web_user&&$contribution){
 	  <br><div class='hint'>e.g. Image Suggestion 220 x 220 pixels .jpg file</div>
 	  </td>
     </tr>
-    <tr class="odd <?php if(in_array("tags", $changed)){ echo "changed";} ?>">
+    <tr class="odd">
       <td>Tags:</td>
       <td><textarea name="tags" ></textarea>
       <br/>
       <div class='hint'>multiple tags must be comma separated. e.g. company,person,power</div>
       </td>
     </tr>    
-    <tr class="even <?php if(in_array("active", $changed)){ echo "changed";} ?>">
+    <tr class="even">
       <td>Active?</td>
       <td><input type="checkbox" name="active" value="1" checked="checked" />
       </td>
     </tr>
   </table>
-</td>
-<td width='50%'>
+
 	<table width="100%">
-		<tr class="odd <?php if(in_array("companies", $changed)){ echo "changed";} ?>">
+		<tr class="odd career">
 		  <td>Companies:</td>
 		  <td>
-		  <input type="text" size: "30" id="company_search" /><div class='inline' id='company_add_loader' ></div><div class='hint'>Type in the company name to search and add a company.</div>
+		  <input type="text" size: "30" id="company_search" /><div class='inline' id='company_add_loader' ></div><br /><div class='hint'>Type in the company name to search and add a company.</div>
 		  <div id='companyadd' style='display:none'>
 		  	<input type='hidden' id='c_id' />
 		  	<table class='border margin10 pad10'>
@@ -671,7 +586,7 @@ else if($web_user&&$contribution){
 				</tr>
 				<tr>
 					<td>End Date:</td>
-					<td><input type='text' id='p_end_date' class='datepicker' /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
+					<td><input type='text' id='p_end_date' class='datepicker' /><br /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center"><input type='button' value='Add Company' class='button normal' onclick='addCompany(jQuery("#c_id").val(), jQuery("#c_name").html(), jQuery("#p_role").val(), jQuery("#p_start_date").val(), jQuery("#p_end_date").val(), true)' >&nbsp;
@@ -685,10 +600,10 @@ else if($web_user&&$contribution){
 		  </td>
 		</tr>
 		
-		<tr class="even <?php if(in_array("investment_orgs", $changed)){ echo "changed";} ?>">
+		<tr class="even investment_orgs">
 		  <td>Investment Orgs:</td>
 		  <td>
-		  <input type="text" size: "30" id="investment_org_search" /><div class='inline' id='investment_org_add_loader'></div><div class='hint'>Type in the investment organization name to search and add.</div>
+		  <input type="text" size: "30" id="investment_org_search" /><div class='inline' id='investment_org_add_loader'></div><br /><div class='hint'>Type in the investment organization name to search and add.</div>
 		  <div id='investment_orgadd' style='display:none'>
 		  	<input type='hidden' id='io_id' />
 		  	<table class='border margin10 pad10'>
@@ -702,11 +617,11 @@ else if($web_user&&$contribution){
 				</tr>
 				<tr>
 					<td>Start Date:</td>
-					<td><input type='text' id='iop_start_date' class='datepicker' /><div class='hint'>mm/dd/yyyy</div></td>
+					<td><input type='text' id='iop_start_date' class='datepicker' /><br /><div class='hint'>mm/dd/yyyy</div></td>
 				</tr>
 				<tr>
 					<td>End Date:</td>
-					<td><input type='text' id='iop_end_date' class='datepicker' /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
+					<td><input type='text' id='iop_end_date' class='datepicker' /><br /><div class='hint'>mm/dd/yyyy (leave blank if present)</div></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center"><input type='button' value='Add Investment Organization' class='button normal' onclick='addInvestmentOrg(jQuery("#io_id").val(), jQuery("#io_name").html(), jQuery("#iop_role").val(), jQuery("#iop_start_date").val(), jQuery("#iop_end_date").val(), true)' >&nbsp;
@@ -743,7 +658,6 @@ else if($web_user&&$contribution){
 			</div>
 		  </td>
 		</tr>		
-		
 	</table>
 </tr>
 <tr>
@@ -751,43 +665,13 @@ else if($web_user&&$contribution){
 		<table width='100%'>
 		<tr>
 		<td width='100%'>
-		<?php
-		if($web_user){
-			if($revision){
-				if(!$revision['approved']){
-					
-					?><input type="button" id='savebutton' value="Approve and Save Revision" onclick="savePerson('approverev')" /><?php
-				}
-			}
-			else if($contribution){
-				if(!$contribution['approved']){
-					?><input type="button" id='savebutton' value="Approve and Save Contribution" onclick="savePerson('approvecontri')" /><?php
-				}
-			}
-		}
-		else{
-			?><input type="button" id='savebutton' value="Save" onclick="savePerson()" /><?php
-		}
-	
-		if($person['id']||($company&&$contribution&&$web_user)){
-			if($web_user){
-				if($revision){
-					if(!$revision['approved']){
-						?><td><input type="button" style='background:red; color:white' value="Reject Revision" onclick="rejectRevision('<?php echo $revision['id']; ?>')" /></td><?php
-					}
-				}
-				else if($contribution){
-					if(!$contribution['approved']){
-						?><td><input type="button" style='background:red; color:white' value="Reject Contribution" onclick="rejectContribution('<?php echo $contribution['id']; ?>')" /></td><?php
-					}
-				}
-			}
-			else{
-				?><td><input type="button" style='background:red; color:white' value="Delete" onclick="deletePerson('<?php echo $person['id']; ?>')" /></td><?php
-			}
+		<input type="button" id='savebutton' value="Save" onclick="savePerson()" />
+		</td>
+		<?php 
+		if($person['id']){
+			?><td><input type="button" style='background:red; color:white' value="Delete" onclick="deletePerson('<?php echo $person['id']; ?>')" /></td><?php
 		}
 		?>
-		</td>
 		</tr>
 		</table>
 	</td>
@@ -804,14 +688,14 @@ if($person['id']){
 		if(is_array($companies)){
 			foreach($companies as $value){
 				?>
-				addCompany(<?php echo $value['company_id']?>, "<?php echo $value['name']?>", "<?php echo $value['role']?>", "<?php echo $value['start_date']?>", "<?php echo $value['end_date']?>");
+				addCompany(<?php echo $value['company_id']?>, "<?php echo $value['company_name']?>", "<?php echo $value['role']?>", "<?php echo $value['start_date']?>", "<?php echo $value['end_date']?>");
 				<?php
 			}
 		}
 		if(is_array($investment_orgs)){
 			foreach($investment_orgs as $value){
 				?>
-				addInvestmentOrg(<?php echo $value['investment_org_id']?>, "<?php echo $value['name']?>", "<?php echo $value['role']?>", "<?php echo $value['start_date']?>", "<?php echo $value['end_date']?>");
+				addInvestmentOrg(<?php echo $value['investment_org_id']?>, "<?php echo $value['company_name']?>", "<?php echo $value['role']?>", "<?php echo $value['start_date']?>", "<?php echo $value['end_date']?>");
 				<?php
 			}
 		}

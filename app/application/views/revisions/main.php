@@ -34,7 +34,18 @@
 				$q = $this->db->query($sql);
 				$ipc = $q->result_array();
 				$ipc = $ipc[0];
-				echo "<a href='".site_url().$revisions[$i]['table']."/edit/".$revisions[$i]['ipc_id']."'>".$ipc['name']."</a>";
+				
+				if($revisions[$i]['table']=='companies'){
+					$table = "Company";
+				}
+				else if($revisions[$i]['table']=='people'){
+					$table = "Person";
+				}
+				else if($revisions[$i]['table']=='investment_orgs'){
+					$table = "Investment Org";
+				}
+				
+				echo "$table - <a href='".site_url().$revisions[$i]['table']."/edit/".$revisions[$i]['ipc_id']."'>".$ipc['name']."</a>";
 				
 				?>
 			</td>

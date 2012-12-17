@@ -130,7 +130,7 @@ function addCompetitor(label, value, add){
 		else{
 			htmladd = "<tr class='compete' id='compete"+value+"' style='display:'><td>";
 		}
-		htmladd += "<a target='' href='<?php echo site_url(); ?>editcompany/"+value+"/about'>"+label+"</a>";
+		htmladd += "<a target='' href='<?php echo site_url(); ?>company/id/"+value+"'>"+label+"</a>";
 		htmladd += "<input type='hidden' name='competitors[]' value='"+value+"' /></td>";
 		htmladd += "<td><a class='red delete' onclick='delCompete(this, "+value+")' style='cursor:pointer; text-decoration:underline' >Delete</a></td>";
 		htmladd += "</tr>";

@@ -261,7 +261,7 @@ class startuplist extends CI_Controller {
 		<?php
 	}
 	
-	function person($name="", $person_id=""){
+	function person($name="", $person_id="", $return=false){
 		if(!$person_id){
 			$sql = "select * from `people` where `slug`=".$this->db->escape($name);
 		}
@@ -343,6 +343,9 @@ class startuplist extends CI_Controller {
 			$data['investment_orgs'] = $investment_orgs;
 			$data['companies'] = $companies;
 			$data['person'] = $person[0];
+			if($return){
+				return $data;
+			}
 			$data['newlyfunded'] = $this->newlyFunded();
 			$data['content'] = $this->load->view('startuplist/person', $data, true);
 			$this->load->view('startuplist/main', $data);
@@ -833,6 +836,30 @@ class startuplist extends CI_Controller {
 		$data['part'] = $part;
 		$data['layout2'] = true;
 		$data['content'] = $this->load->view('startuplist/editcompany', $data, true);
+		$this->load->view('startuplist/main', $data);
+	}
+	
+	function editperson($personid="", $part=""){
+		if(!$_SESSION['web_user']){
+			header ('HTTP/1.1 301 Moved Permanently');
+			header("Location: ".site_url());
+			exit();
+		}
+		$data = array();
+		$data = $this->person("", $personid, true);
+		//echo "<pre>";
+		//print_r($data);
+		//echo "</pre>";
+		if($part=='revisions'){
+			$sql = "select * from `revisions` where `table`='people' and `ipc_id`='".mysql_real_escape_string($personid)."' order by `dateupdated_ts` desc";
+			$q = $this->db->query($sql);
+			$revisions = $q->result_array();
+		}
+		$data['revisions'] = $revisions;
+		$data['data'] = $data;
+		$data['part'] = $part;
+		$data['layout2'] = true;
+		$data['content'] = $this->load->view('startuplist/editperson', $data, true);
 		$this->load->view('startuplist/main', $data);
 	}
 	

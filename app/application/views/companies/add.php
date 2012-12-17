@@ -1961,7 +1961,6 @@ else if($web_user&&$contribution){
 		}
 		?>
 		
-		</td>
 		<?php 
 		if($company['id']||($company&&$contribution&&$web_user)){
 			if($web_user){
@@ -1981,6 +1980,7 @@ else if($web_user&&$contribution){
 			}
 		}
 		?>
+		</td>
 		</tr>
 		</table>
 	</td>

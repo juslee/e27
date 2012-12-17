@@ -867,3 +867,6 @@ select[multiple="multiple"]{
 #ipc{
 	margin-top:10px;
 }
+.center{
+	text-align:center;
+}

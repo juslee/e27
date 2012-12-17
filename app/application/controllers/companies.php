@@ -1622,53 +1622,7 @@ class companies extends CI_Controller {
 			
 			$data['companyorig'] = $companytemp[0];
 			$data['revision'] = $revision;
-			/*
-			$sql = "select * from `categories`";
-			$q = $this->db->query($sql);
-			$categories = $q->result_array();	
-			$data['categories'] = $categories;
-			$sql = "select * from `countries`";
-			$q = $this->db->query($sql);
-			$countries = $q->result_array();
-			$sql = "select distinct `code`, `currency` from `currencies` where LOWER(`currency`) not like 'uses%'";
-			$q = $this->db->query($sql);
-			$currencies = $q->result_array();
-			$sql = "select * from `funding_rounds`";
-			$q = $this->db->query($sql);
-			$funding_rounds = $q->result_array();
-			$sql = "select 
-				`a`.`round`,
-				`a`.`currency`,
-				`a`.`amount`,
-				`a`.`date_ts`,
-				`a`.`company_id`,
-				`b`.`name` as `company_name`
-				from
-				`company_fundings` as `a` left join `companies` as `b` on (`a`.`company_id` = `b`.`id`) where `a`.`id` in (
-					select distinct `company_funding_id` from `company_fundings_ipc`
-					where 
-					`ipc_id`=".$this->db->escape($company_id)." and 
-					`type`='company'
-					)
-				order by `date_ts` desc, `company_name` asc
-				";
-			$q = $this->db->query($sql);
-			$milestones = $q->result_array();
-			$sql = "select `b`.`id` as `value`, `b`.`name` as `label` from `competitors` as `a`, `companies` as `b` where 
-				(
-					`a`.`company_id`=".$this->db->escape($company_id)." 
-					and `a`.`competitor_id` = `b`.`id`
-				)
-				or
-				(
-					`a`.`competitor_id`=".$this->db->escape($company_id)." 
-					and `a`.`company_id` = `b`.`id`
-				)
-				order by `b`.`name` asc
-			";
-			$q = $this->db->query($sql);
-			$competitors = $q->result_array();
-			*/
+			
 			
 			$categories = $corig['categories'];
 			$funding_rounds = $corig['funding_rounds'];

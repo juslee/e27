@@ -7,7 +7,7 @@ include_once(dirname(__FILE__)."/fb/facebook.php");
 function arrDiff($arr1, $arr2){
 	$str1 = trim(json_encode($arr1));
 	$str2 = trim(json_encode($arr2));
-	//echo $str1."<br>";
+	//echo $str1."<br><br>";
 	//echo $str2."<br>";
 	//echo "<hr>";
 	//echo strcmp($str1,$str2);
@@ -191,5 +191,48 @@ function objectToArray($d) {
 		return $d;
 	}
 }
+
+
+function bubble_sort($arr, $key, $sort="asc", $string=false) {
+	$sort = strtolower($sort);
+    $size = count($arr);
+    for ($i=0; $i<$size; $i++) {
+        for ($j=0; $j<$size-1-$i; $j++) {
+			if($string){
+				if($sort=="asc"){
+					if (strcmp($arr[$j+1][$key], $arr[$j][$key])<=0) {
+						swap($arr, $j, $j+1);
+					}
+				}
+				else{
+					if (strcmp($arr[$j+1][$key], $arr[$j][$key])>=0) {
+						swap($arr, $j, $j+1);
+					}
+				}
+			}
+			else{ //integer
+				if($sort=="asc"){
+					if ($arr[$j+1][$key] < $arr[$j][$key]) {
+						swap($arr, $j, $j+1);
+					}
+				}
+				else{
+					if ($arr[$j+1][$key] > $arr[$j][$key]) {
+						swap($arr, $j, $j+1);
+					}
+				}
+
+			}
+        }
+    }
+    return $arr;
+}
+
+function swap(&$arr, $a, $b) {
+    $tmp = $arr[$a];
+    $arr[$a] = $arr[$b];
+    $arr[$b] = $tmp;
+}
+
 
 ?>

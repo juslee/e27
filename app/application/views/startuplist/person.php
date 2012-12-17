@@ -436,10 +436,16 @@
 							<?php
 						}
 						?>
+						
+					</td>
+					<td class="company_name">
+						<?php
+						if($_SESSION['web_user']){ echo "<div class='edit inline right'><a href='".site_url()."editperson/".$person['id']."/about'>EDIT</div>"; }
+						?>
 					</td>
 				</tr>
 				<tr>
-					<td class="description">
+					<td class="description" colspan="2">
 						<div class="description_title">Description</div>
 						<div class="description_contents"><?php echo nl2br($person['description']); ?></div>
 					</td>
@@ -448,7 +454,7 @@
 				if(trim($person['twitter_username'])){
 					?>
 					<tr>
-						<td class="description">
+						<td class="description" colspan="2">
 							<div class="description_title">Tweets</div>
 							<div class="tweets"></div>
 							<?php
