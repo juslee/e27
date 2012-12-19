@@ -590,7 +590,7 @@ class startuplist extends CI_Controller {
 		
 	}
 	
-	function investment_org($name="", $investment_org_id=""){
+	function investment_org($name="", $investment_org_id="", $return=false){
 		if(!$investment_org_id){
 			$sql = "select * from `investment_orgs` where `slug`=".$this->db->escape($name)." and `active`=1";
 		}
@@ -666,6 +666,10 @@ class startuplist extends CI_Controller {
 			$data['countries'] = $countries;
 			$data['investment_org'] = $investment_org[0];
 			$data['newlyfunded'] = $this->newlyFunded();
+			if($return){
+				return $data;
+			}
+			
 			$data['content'] = $this->load->view('startuplist/investment_org', $data, true);
 			$this->load->view('startuplist/main', $data);
 		}
@@ -863,6 +867,30 @@ class startuplist extends CI_Controller {
 		$this->load->view('startuplist/main', $data);
 	}
 	
+	function editinvestment_org($investment_orgid="", $part=""){
+		if(!$_SESSION['web_user']){
+			header ('HTTP/1.1 301 Moved Permanently');
+			header("Location: ".site_url());
+			exit();
+		}
+		$data = array();
+		$data = $this->investment_org("", $investment_orgid, true);
+		//echo "<pre>";
+		//print_r($data);
+		//echo "</pre>";
+		if($part=='revisions'){
+			$sql = "select * from `revisions` where `table`='investment_orgs' and `ipc_id`='".mysql_real_escape_string($investment_orgid)."' order by `dateupdated_ts` desc";
+			$q = $this->db->query($sql);
+			$revisions = $q->result_array();
+		}
+		$data['revisions'] = $revisions;
+		$data['data'] = $data;
+		$data['part'] = $part;
+		$data['layout2'] = true;
+		$data['content'] = $this->load->view('startuplist/editinvestment_org', $data, true);
+		$this->load->view('startuplist/main', $data);
+	}
+	
 	function addcompany($part=""){
 		if(!$_SESSION['web_user']){
 			header ('HTTP/1.1 301 Moved Permanently');
@@ -924,6 +952,38 @@ class startuplist extends CI_Controller {
 		$data['content'] = $this->load->view('startuplist/editperson', $data, true);
 		$this->load->view('startuplist/main', $data);
 	}
+	
+	function addinvestment_org($part=""){
+		if(!$_SESSION['web_user']){
+			header ('HTTP/1.1 301 Moved Permanently');
+			header("Location: ".site_url());
+			exit();
+		}
+		$sql = "select * from `categories`";
+		$q = $this->db->query($sql);
+		$categories = $q->result_array();	
+		$sql = "select * from `countries`";
+		$q = $this->db->query($sql);
+		$countries = $q->result_array();
+		$sql = "select distinct `code`, `currency` from `currencies` where `currency` not like 'uses%'";
+		$q = $this->db->query($sql);
+		$currencies = $q->result_array();
+		$sql = "select * from `funding_rounds`";
+		$q = $this->db->query($sql);
+		$funding_rounds = $q->result_array();
+			
+		$data = array();
+		$data['categories'] = $categories;
+		$data['countries'] = $countries;
+		$data['currencies'] = $currencies;
+		$data['funding_rounds'] = $funding_rounds;
+		
+		$data['part'] = $part;
+		$data['layout2'] = true;
+		$data['content'] = $this->load->view('startuplist/editinvestment_org', $data, true);
+		$this->load->view('startuplist/main', $data);
+	}
+	
 	
 	
 	

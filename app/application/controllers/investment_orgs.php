@@ -469,10 +469,15 @@ class investment_orgs extends CI_Controller {
 			}
 		}
 	}
-	public function ajax_edit(){
-		if(!$_SESSION['user']){
+	public function ajax_edit($revisionid=""){
+		if($revisionid){
+			$sql = "update `revisions` set `approved`=1 where `id`='".mysql_real_escape_string($revisionid)."'";
+			$q = $this->db->query($sql);
+		}
+		if(!$_SESSION['user']&&!$_SESSION['web_user']){
 			return false;
 		}
+
 		if(trim($_POST['name'])){
 			//check if company already exists
 			$sql = "select `id` from `investment_orgs` where `name`=".$this->db->escape(trim($_POST['name']));
@@ -518,6 +523,55 @@ class investment_orgs extends CI_Controller {
 			}
 		}
 
+		//save a revision
+		if($_SESSION['web_user']&&$_POST['web_edit']&&!$err){
+			$sql = "select `id` from `revisions` where 
+				`web_user_id`='".$_SESSION['web_user']['id']."' and 
+				`table`='investment_orgs' and 
+				`ipc_id`='".mysql_real_escape_string($_POST['id'])."' and 
+				`approved` = 0
+				";
+			$q = $this->db->query($sql);
+			$revision = $q->result_array();
+			$revision = $revision[0];
+			if($revision['id']){
+				$sql = "update `revisions` set 
+					`web_user_id`='".$_SESSION['web_user']['id']."',
+					`table`='investment_orgs',
+					`ipc_id`='".mysql_real_escape_string($_POST['id'])."',
+					`json_data`='".mysql_real_escape_string(json_encode($_POST))."',
+					`dateupdated_ts` = '".time()."',
+					`approved` = 0
+					where 
+					`id`='".$revision['id']."'
+				";
+				$this->db->query($sql);
+			}
+			else{
+				$sql = "insert into `revisions` set 
+					`web_user_id`='".$_SESSION['web_user']['id']."',
+					`table`='investment_orgs',
+					`ipc_id`='".mysql_real_escape_string($_POST['id'])."',
+					`json_data`='".mysql_real_escape_string(json_encode($_POST))."',
+					`dateadded_ts` = '".time()."',
+					`dateupdated_ts` = '".time()."',
+					`approved` = 0
+				";
+				$this->db->query($sql);
+			}
+			$debug = $sql;
+			$debug = str_replace("\n", "\\n", $debug);
+			$debug = str_replace("\r", "", $debug);
+			?>
+			alertX("<center>Thank you for the submission. It will be reviewed and approved shortly.</center>");
+			
+			setTimeout(function(){ self.location = "<?php echo site_url(); ?>editinvestment_org/<?php echo $_POST['id']; ?>/revisions" }, 2000);
+			
+			jQuery("#savebutton").val("Submit");
+			jQuery("#company_form *").attr("disabled", false);
+			<?php
+			return false;
+		}
 		
 		if(!$err){
 			$sql = "update `investment_orgs` set ";
@@ -746,8 +800,8 @@ class investment_orgs extends CI_Controller {
 		
 	}
 	
-	public function ajax_add(){
-		if(!$_SESSION['user']){
+	public function ajax_add($contributionid=""){
+		if(!$_SESSION['user']&&!$_SESSION['web_user']){
 			return false;
 		}
 		if(trim($_POST['name'])){
@@ -782,6 +836,28 @@ class investment_orgs extends CI_Controller {
 			alertX("<div class='red'>Please input a valid E-mail.</div>");
 			<?php
 		}
+		
+		//save a contribution
+		if($_SESSION['web_user']&&$_POST['web_edit']&&!$err){
+			$sql = "insert into `contributions` set 
+				`web_user_id`='".$_SESSION['web_user']['id']."',
+				`table`='investment_orgs',
+				`json_data`='".mysql_real_escape_string(json_encode($_POST))."',
+				`dateadded_ts` = '".time()."',
+				`dateupdated_ts` = '".time()."',
+				`approved` = 0
+			";
+			$this->db->query($sql);
+			?>
+			alertX("<center>Thanks for the submission. It will be reviewed and approved shortly.</center>");
+			setTimeout(function(){ self.location = self.location; }, 2000);
+			self.location = self.location;
+			//jQuery("#savebutton").val("Submit");
+			//jQuery("#company_form *").attr("disabled", true);
+			<?php
+			return false;
+		}
+		
 		if(!$err){
 			$sql = "insert into `investment_orgs` set ";
 			$arr = array();
@@ -849,12 +925,26 @@ class investment_orgs extends CI_Controller {
 				SureRemoveDir($dir, "true");
 			}
 			
+			if($contributionid){
+				$sql = "update `contributions` set `ipc_id`='".$id."', `approved`=1 where `id`='".mysql_real_escape_string($contributionid)."'";
+				$q = $this->db->query($sql);
+			}
+			
 			?>
 			alertX("Successfully Added Investment Organization '<?php echo htmlentitiesX($_POST['name']); ?>'.");
 			//self.location = "<?php echo site_url(); ?>investment_orgs/edit/<?php echo $id; ?>";
-			self.location = "<?php echo site_url(); ?>investment_orgs/add";
 			<?php
-		
+			if($contributionid){
+				?>
+				self.location = "<?php echo site_url(); ?>contributions";
+				<?php
+			}
+			else{
+				?>
+				self.location = "<?php echo site_url(); ?>investment_orgs/add";
+				<?php
+			}
+			
 			$sql = "insert into `logs` set 
 				`action` = 'added',
 				`table` = 'investment_orgs',
@@ -885,7 +975,7 @@ class investment_orgs extends CI_Controller {
 		$this->load->view('layout/main', $data);
 	}
 	
-	function edit($investment_org_id){
+	function edit($investment_org_id, $return=false){
 		$sql = "select * from `investment_orgs` where `id`=".$this->db->escape($investment_org_id);
 		$q = $this->db->query($sql);
 		$investment_org = $q->result_array();	
@@ -928,12 +1018,196 @@ class investment_orgs extends CI_Controller {
 			$data['people'] = $people;
 			$data['countries'] = $countries;
 			$data['investment_org'] = $investment_org[0];
+			if($return){
+				return $data;
+			}
 			$data['content'] = $this->load->view('investment_orgs/add', $data, true);
 			$this->load->view('layout/main', $data);
 		}
 		else{
 			redirect_to(site_url()."investment_orgs");
 		}
+	}
+	
+	
+	public function revision($id=""){
+		$changed = array();
+		$data = array();
+		$sql = "select `revisions`.* from `revisions` where `revisions`.`id`='".mysql_real_escape_string($id)."' and `revisions`.`table`='investment_orgs' ";
+		$q = $this->db->query($sql);
+		$revision = $q->result_array();
+		$revision = $revision[0];
+		
+		if($revision['id']){
+			$investment_org_id = $revision['ipc_id'];
+			$investment_org = json_decode($revision['json_data']);
+			$investment_org = objectToArray($investment_org);
+			$sql = "select * from `investment_orgs` where `id`=".$this->db->escape($investment_org_id);
+			$q = $this->db->query($sql);
+			$investment_orgtemp = $q->result_array();	
+			
+			$sql = "select * from `web_users` where `id`=".$this->db->escape($revision['web_user_id']);
+			$q = $this->db->query($sql);
+			$web_user = $q->result_array();
+			$web_user = $web_user[0];
+			$web_user = getWebUser($web_user);
+			$data['web_user'] =  $web_user;
+		}
+		
+		if($investment_orgtemp[0]['id']&&$web_user){
+			$corig = $this->edit($investment_orgtemp[0]['id'], true); //get original data
+			
+			$data['investment_orgorig'] = $investment_orgtemp[0];
+			$data['revision'] = $revision;
+			
+			
+			$categories = $corig['categories'];
+			$funding_rounds = $corig['funding_rounds'];
+			$currencies = $corig['currencies'];
+			$countries = $corig['countries'];
+			$milestones = $corig['milestones'];
+			$competitors = $corig['competitors'];
+			
+			$data['categories'] = $categories;
+			$data['funding_rounds'] = $funding_rounds;				
+			$data['currencies'] = $currencies;
+			$data['countries'] = $countries;
+			$data['milestones'] = $milestones;
+			$data['competitors'] = $competitors;
+			if(arrDiff($corig['competitors'], $data['competitors'])){
+				$changed[] = 'competitors';
+			}
+
+			$people = array();
+			if(is_array($investment_org['p_ids'])){
+				foreach($investment_org['p_ids'] as $key=>$value){
+					$sql = "select * from `people` where `id`='".mysql_real_escape_string($value)."'";
+					$q = $this->db->query($sql);
+					$p = $q->result_array();
+					$p = $p[0];
+					$person = array();
+					$person['investment_org_id'] = $investment_org_id;
+					$person['person_id'] = $value;
+					$person['role'] = $investment_org['p_roles'][$key];;
+					$person['start_date'] = $investment_org['p_start_dates'][$key];
+					$person['start_date_ts'] = strtotime($investment_org['p_start_dates'][$key])."";
+					$person['end_date'] = $investment_org['p_end_dates'][$key];
+					$person['end_date_ts'] = (strtotime($investment_org['p_end_dates'][$key])+0)."";
+					$person['name'] = $p['name'];
+					//$person['slug'] = $p['slug'];
+					$people[] = $person;
+				}
+			}
+			
+			$data['people'] = $people;
+			//remove ids and edn_date_ts2
+			foreach($corig['people'] as $key=>$value){
+				unset($corig['people'][$key]['id']);
+				unset($corig['people'][$key]['end_date_ts2']);
+			}
+			
+			$a = bubble_sort($data['people'], "name", "asc", true);
+			$b = bubble_sort($corig['people'], "name", "asc", true);
+			if(arrDiff($a, $b)){
+				$changed[] = "people";
+			}
+			
+			//remove arrays
+			$unsets = array();
+			foreach($investment_org as $key=>$value){
+				if(is_array($value)){
+					$unsets[] = $key;
+				}
+				else{
+					if(trim($value)!=trim($corig['investment_org'][$key])){
+						$changed[] = $key;
+					}
+				}
+			}
+			foreach($unsets as $key){
+				unset($investment_org[$key]);
+			}
+			$data['investment_org'] = $investment_org;
+			$data['changed'] = $changed;
+			$data['content'] = $this->load->view('investment_orgs/add', $data, true);
+			$this->load->view('layout/main', $data);
+		}
+		
+	}
+	
+	public function contribution($id=""){
+		$data = array();
+		$sql = "select `contributions`.* from `contributions` where `contributions`.`id`='".mysql_real_escape_string($id)."' and `contributions`.`table`='investment_orgs' ";
+		$q = $this->db->query($sql);
+		$contribution = $q->result_array();
+		$contribution = $contribution[0];
+		
+		if($contribution['id']){
+			$investment_org = json_decode($contribution['json_data']);
+			$investment_org = objectToArray($investment_org);
+			
+			$sql = "select * from `web_users` where `id`=".$this->db->escape($contribution['web_user_id']);
+			$q = $this->db->query($sql);
+			$web_user = $q->result_array();
+			$web_user = $web_user[0];
+			$web_user = getWebUser($web_user);
+			$data['web_user'] =  $web_user;
+		}
+	
+		if($web_user){
+			$data['contribution'] = $contribution;
+			$sql = "select * from `categories`";
+			$q = $this->db->query($sql);
+			$categories = $q->result_array();	
+			$data['categories'] = $categories;
+			$sql = "select * from `countries`";
+			$q = $this->db->query($sql);
+			$countries = $q->result_array();
+			$sql = "select distinct `code`, `currency` from `currencies` where LOWER(`currency`) not like 'uses%'";
+			$q = $this->db->query($sql);
+			$currencies = $q->result_array();
+						
+			$data['currencies'] = $currencies;
+			$data['countries'] = $countries;
+
+			$people = array();
+			if(is_array($investment_org['p_ids'])){
+				foreach($investment_org['p_ids'] as $key=>$value){
+					$sql = "select * from `people` where `id`='".mysql_real_escape_string($value)."'";
+					$q = $this->db->query($sql);
+					$p = $q->result_array();
+					$p = $p[0];
+					$person = array();
+					$person['investment_org_id'] = $investment_org_id;
+					$person['person_id'] = $value;
+					$person['role'] = $investment_org['p_roles'][$key];;
+					$person['start_date'] = $investment_org['p_start_dates'][$key];
+					$person['start_date_ts'] = strtotime($investment_org['p_start_dates'][$key]);
+					$person['end_date'] = $investment_org['p_end_dates'][$key];
+					$person['end_date_ts'] = strtotime($investment_org['p_end_dates'][$key]);
+					$person['name'] = $p['name'];
+					$person['slug'] = $p['slug'];
+					$people[] = $person;
+				}
+			}
+			$data['people'] = $people;
+		
+
+			//remove arrays
+			$unsets = array();
+			foreach($investment_org as $key=>$value){
+				if(is_array($value)){
+					$unsets[] = $key;
+				}
+			}
+			foreach($unsets as $key){
+				unset($investment_org[$key]);
+			}
+			$data['investment_org'] = $investment_org;
+			$data['content'] = $this->load->view('investment_orgs/add', $data, true);
+			$this->load->view('layout/main', $data);
+		}
+		
 	}
 	
 	private function slugify($id){

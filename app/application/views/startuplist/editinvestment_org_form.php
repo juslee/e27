@@ -1,39 +1,37 @@
 <?php
 @session_start();
 $sid = session_id()."_".time();
-//changed for revisions
-if(!$changed){
-	$changed = array();
-}
-//echo "<pre>";
-//print_r($changed);
-//echo "</pre>";
+$controller = $this->router->class;
+$method = $this->router->method;
 ?>
 <script>
-function saveInvestmentOrg(approve){
-	extra = "";
-	if(approve=='approverev'){
-		if(!confirm("Are you sure you want to approve this revision?")){
+function saveInvestmentOrg(){
+	<?php
+	if($company['id']){
+		?>
+		if(!confirm("Are you sure you want to submit this edit?")){
 			return false;
 		}
-		extra = "/<?php echo $revision['id']; ?>"
+		<?php
 	}
-	else if(approve=='approvecontri'){
-		if(!confirm("Are you sure you want to approve this contribution?")){
+	else{
+		?>
+		if(!confirm("Are you sure you want to submit this contribution?")){
 			return false;
 		}
-		extra = "/<?php echo $contribution['id']; ?>"
+		<?php
 	}
-	jQuery("#savebutton").val("Saving...");
+	?>
+	jQuery("#savebutton").val("Submitting...");
 	formdata = jQuery("#investment_org_form").serialize();
 	jQuery("#investment_org_form *").attr("disabled", true);
 	jQuery.ajax({
 		<?php
 		if($investment_org['id']){
-			?>url: "<?php echo site_url(); ?>investment_orgs/ajax_edit"+extra,<?php
+			?>url: "<?php echo site_url(); ?>investment_orgs/ajax_edit",<?php
 		}
 		else{
-			?>url: "<?php echo site_url(); ?>investment_orgs/ajax_add"+extra,<?php
+			?>url: "<?php echo site_url(); ?>investment_orgs/ajax_add",<?php
 		}
 		?>
 		type: "POST",
@@ -45,19 +43,6 @@ function saveInvestmentOrg(approve){
 	});
 
 }
-
-function rejectRevision(id){
-	if(confirm("Are you sure you want to reject this revision?")){
-		self.location = "<?php echo site_url(); ?>revisions/reject_revision/"+id;
-	}
-}
-function rejectContribution(id){
-	if(confirm("Are you sure you want to reject this contribution?")){
-		self.location = "<?php echo site_url(); ?>contributions/reject_contribution/"+id;
-	}
-}
-
-
 function deleteInvestmentOrg(io_id){
 	if(confirm("Are you sure you want to delete this investment organization?")){
 		formdata = "id="+io_id;
@@ -279,10 +264,16 @@ jQuery(function(){
 				jQuery.each(data, function(i, val){								
 					suggestions.push(val);
 				});
-				val = [];
-				val.label = "Create";
-				val.value = -1;
-				suggestions.push(val);
+				<?php
+				if($_SESSION['user']){
+					?>
+					val = [];
+					val.label = "Create";
+					val.value = -1;
+					suggestions.push(val);
+					<?php
+				}
+				?>
 				//pass array to callback
 				add(suggestions);
 				jQuery("#person_add_loader").html("");
@@ -340,7 +331,7 @@ jQuery(function(){
 </script>
 <input type='hidden' id='tempcreatelabel' />
 <form id='investment_org_form'>
-
+<input type='hidden' name='web_edit' value="1" />
 <?php
 if($investment_org['id']){
 	?>
@@ -356,94 +347,28 @@ else{
 
 ?>
 <table width="100%" cellpadding="10px">
-<!--
 <tr>
-<td colspan="2" class='center bold font14'>Fields with * are required.</td>
-</tr>
--->
-<?php
-if(!$investment_org['id']&&!$web_user){
-	?>
-	<tr>
-	<td class='font18 bold'>Add New Investment Organization</td>
-	<td></td>
-	</tr>
-	<?php
-}
-else if(!$web_user){
-	?>
-	<tr>
-	<td class='font18 bold'>Edit Investment Organization - <a class='font16 bold' href='<?php echo site_url();?>investment_org/<?php echo $investment_org['slug']; ?>'>Click here to preview</a></td>
-	<td></td>
-	</tr>
-	<?php
-}
-else if($web_user&&$revision){
-	if($revision['approved']==1){
-		$approved = "<a style='color:green' class='font18 bold'>(APPROVED)</a>";
-	}
-	else if($revision['approved']==-1){
-		$approved = "<a style='color:red' class='font18 bold'>(REJECTED)</a>";
-	}
-	else{
-		$approved = "<a style='color:black' class='font18 bold'>(PENDING)</a>";
-	}
-	?>
-	<tr>
-	<td class='font18 bold'>Revision on <?php echo "<a class='font18 bold' href='".site_url()."investment_orgs/edit/".$investment_orgorig['id']."'>".$investment_orgorig['name']."</a>"; ?> by <a class='font18 bold' href='<?php echo site_url()?>/account/<?php echo $web_user['id']?>'><?php echo $web_user['name']; ?></a> <?php echo $approved; ?></td>
-	<td></td>
-	</tr>
-	<?php
-}
-else if($web_user&&$contribution){
-	if($contribution['table']=='companies'){
-		$table = "Company";
-	}
-	else if($contributions[$i]['table']=='people'){
-		$table = "Person";
-	}
-	else if($contributions[$i]['table']=='investment_orgs'){
-		$table = "Investment Org";
-	}
-	if($contribution['approved']==1){
-		$approved = "<a style='color:green' class='font18 bold'>(APPROVED)</a>";
-	}
-	else if($contribution['approved']==-1){
-		$approved = "<a style='color:red' class='font18 bold'>(REJECTED)</a>";
-	}
-	else{
-		$approved = "<a style='color:black' class='font18 bold'>(PENDING)</a>";
-	}
-	?>
-	<tr>
-	<td class='font18 bold'><?php echo $table;?> Contributed by <a class='font18 bold' href='<?php echo site_url()?>/account/<?php echo $web_user['id']?>'><?php echo $web_user['name']; ?></a> <?php echo $approved; ?></td>
-	<td></td>
-	</tr>
-	<?php
-}
-?>
-<tr>
-<td width='50%'> 
+<td width='100%'> 
   <table width="100%">
 
-    <tr class="odd required">
+    <tr class="odd required about">
       <td>* Name:</td>
       <td><input type="text" name="name" size="40" id='io_name'><div class='inline' style='padding-left:5px;' id='io_check'></div></td>
     </tr>
-    <tr class="even required">
+    <tr class="even required about">
       <td>* Description:</td>
       <td><textarea name="description"></textarea></td>
     </tr>
-	 <tr class="odd">
+	 <tr class="odd about">
       <td>* E-mail Address: </td>
       <td><input type="text" name="email_address" size="35"></td>
     </tr>
-    <tr class="even">
+    <tr class="even overview">
       <td>Website: </td>
       <td><input type="text" name="website" size="30">
         <div class='hint'>e.g. http://www.yourcompany.com</div></td>
     </tr>
-    <tr class="odd">
+    <tr class="odd overview">
       <td>Blog URL:</td>
       <td><input type="text" name="blog_url" size="30">
         <div class='hint'>e.g. http://e27.sg/</div></td>
@@ -453,33 +378,33 @@ else if($web_user&&$contribution){
       <td><input type="text" name="blog" size="30">
         <div class='hint'>e.g. http://e27.sg/feed</div></td>
     </tr>
-    <tr class="even">
+    <tr class="even overview">
       <td>Twitter Username:</td>
       <td><input type="text" name="twitter_username" size="25">
         <div class='hint'>e.g. @kiip</div></td>
     </tr>
-    <tr class="odd">
+    <tr class="odd overview">
       <td>Facebook Page:</td>
       <td><input type="text" name="facebook" size="35">
         <div class='hint'>e.g. http://facebook.com/yourpagename</div></td>
     </tr>
-    <tr class="even">
+    <tr class="even overview">
       <td>LinkedIn Page:</td>
       <td><input type="text" name="linkedin" size="35">
         <div class='hint'>e.g. http://linkedin.com/yourpagename</div></td>
     </tr>
-    <tr class="odd">
+    <tr class="odd overview">
       <td>Number of Employees: </td>
       <td><input type="text" name="number_of_employees" size="5"></td>
     </tr>
    
-    <tr class="even">
+    <tr class="even overview">
       <td>Founded:</td>
       <td>
 	  	<input type='text' class='datepicker' alt='founded' id='founded_pick' name='founded' /><div class='hint'>yyyy or mm/dd/yyyy</div>
       </td>
     </tr>
-    <tr class="odd">
+    <tr class="odd logo">
       <td>Logo:</td>
       <td>
 	  <div id='logopathhtml'></div>
@@ -489,7 +414,7 @@ else if($web_user&&$contribution){
 	  <br><div class='hint'>e.g. Image Suggestion 220 x 220 pixels .jpg file</div>
 	  </td>
     </tr>
-    <tr class="even">
+    <tr class="even overview">
       <td>Country:</td>
       <td><select name="country">
       <?php
@@ -552,10 +477,8 @@ else if($web_user&&$contribution){
       </td>
     </tr>
   </table>
-</td>
-<td width='50%'>
 	<table width="100%">
-		<tr class="odd">
+		<tr class="odd people">
 		  <td>People:</td>
 		  <td>
 		  <input type="text" size: "30" id="people_search" /><div class='inline' id='person_add_loader'></div><div class='hint'>Type in the name to search and add people.</div>
@@ -618,44 +541,13 @@ else if($web_user&&$contribution){
 	<td colspan="2" class='center'>
 		<table width='100%'>
 		<tr>
-		<td width='100%'>
-			<?php
-			if($web_user){
-				if($revision){
-					if(!$revision['approved']){
-						
-						?><input type="button" id='savebutton' value="Approve and Save Revision" onclick="saveInvestmentOrg('approverev')" /><?php
-					}
-				}
-				else if($contribution){
-					if(!$contribution['approved']){
-						?><input type="button" id='savebutton' value="Approve and Save Contribution" onclick="saveInvestmentOrg('approvecontri')" /><?php
-					}
-				}
-			}
-			else{
-				?><input type="button" id='savebutton' value="Save" onclick="saveInvestmentOrg()" /><?php
-			}
-			?>
-		</td>
+		<td width='100%'><input type="button" id='savebutton' value="Submit" onclick="saveInvestmentOrg()" /></td>
 		<?php 
-		if($investment_org['id']||($investment_org&&$contribution&&$web_user)){
-			if($web_user){
-				if($revision){
-					if(!$revision['approved']){
-						?><td><input type="button" style='background:red; color:white' value="Reject Revision" onclick="rejectRevision('<?php echo $revision['id']; ?>')" /></td><?php
-					}
-				}
-				else if($contribution){
-					if(!$contribution['approved']){
-						?><td><input type="button" style='background:red; color:white' value="Reject Contribution" onclick="rejectContribution('<?php echo $contribution['id']; ?>')" /></td><?php
-					}
-				}
-			}
-			else{
-				?><td><input type="button" style='background:red; color:white' value="Delete" onclick="deleteInvestmentOrg('<?php echo $investment_org['id']; ?>')" /></td><?php
-			}
+		/*
+		if($investment_org['id']){
+			?><td><input type="button" style='background:red; color:white' value="Delete" onclick="deleteInvestmentOrg('<?php echo $investment_org['id']; ?>')" /></td><?php
 		}
+		*/
 		?>
 		</tr>
 		</table>
@@ -665,7 +557,7 @@ else if($web_user&&$contribution){
 </table>
 <?php
 
-if($investment_org['id']||($investment_org&&$contribution&&$web_user)){
+if($investment_org['id']){
 	?>
 	<script>
 		<?php 

@@ -10,8 +10,6 @@ if(!$changed){
 //echo "</pre>";
 ?>
 <script>
-
-
 function saveCompany(approve){
 	extra = "";
 	if(approve=='approverev'){
@@ -1942,25 +1940,25 @@ else if($web_user&&$contribution){
 		<table width='100%'>
 		<tr>
 		<td width='100%'>
-		<?php
-		if($web_user){
-			if($revision){
-				if(!$revision['approved']){
-					
-					?><input type="button" id='savebutton' value="Approve and Save Revision" onclick="saveCompany('approverev')" /><?php
+			<?php
+			if($web_user){
+				if($revision){
+					if(!$revision['approved']){
+						
+						?><input type="button" id='savebutton' value="Approve and Save Revision" onclick="saveCompany('approverev')" /><?php
+					}
+				}
+				else if($contribution){
+					if(!$contribution['approved']){
+						?><input type="button" id='savebutton' value="Approve and Save Contribution" onclick="saveCompany('approvecontri')" /><?php
+					}
 				}
 			}
-			else if($contribution){
-				if(!$contribution['approved']){
-					?><input type="button" id='savebutton' value="Approve and Save Contribution" onclick="saveCompany('approvecontri')" /><?php
-				}
+			else{
+				?><input type="button" id='savebutton' value="Save" onclick="saveCompany()" /><?php
 			}
-		}
-		else{
-			?><input type="button" id='savebutton' value="Save" onclick="saveCompany()" /><?php
-		}
-		?>
-		
+			?>
+		</td>
 		<?php 
 		if($company['id']||($company&&$contribution&&$web_user)){
 			if($web_user){
@@ -1980,7 +1978,6 @@ else if($web_user&&$contribution){
 			}
 		}
 		?>
-		</td>
 		</tr>
 		</table>
 	</td>

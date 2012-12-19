@@ -1126,11 +1126,9 @@ class companies extends CI_Controller {
 		
 	}
 	public function ajax_add($contributionid=""){
-		
 		if(!$_SESSION['user']&&!$_SESSION['web_user']){
 			return false;
 		}
-		
 		//error check
 		$err = 0;
 		if(trim($_POST['name'])){

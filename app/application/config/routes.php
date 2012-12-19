@@ -56,8 +56,8 @@ $route['editcompany/(:any)'] = "startuplist/editcompany/$1";
 $route['addcompany/(:any)'] = "startuplist/addcompany/$1";
 $route['editperson/(:any)'] = "startuplist/editperson/$1";
 $route['addperson/(:any)'] = "startuplist/addperson/$1";
-$route['editinvestmentorg/(:any)'] = "startuplist/editinvestmentorg/$1";
-$route['addinvestmentorg/(:any)'] = "startuplist/addinvestmentorg/$1";
+$route['editinvestment_org/(:any)'] = "startuplist/editinvestment_org/$1";
+$route['addinvestment_org/(:any)'] = "startuplist/addinvestment_org/$1";
 
 
 /* End of file routes.php */
