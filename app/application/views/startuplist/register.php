@@ -24,6 +24,9 @@ function register(){
 		});
 	}
 }
+function recap(){
+	jQuery("#captchaimg").attr("src", "<?php echo site_url(); ?>media/startuplist/cool-php-captcha-0.3.1/captcha.php?_="+(new Date()).getTime());
+}
 </script>
 <table cellpadding="0" cellspacing="0" class="p100">
 	<tr>
@@ -50,7 +53,10 @@ function register(){
 										</tr>
 										<tr>
 											<td class='label'>* E-mail</td>
-											<td class='value'><input type='text' name='email' class='required'></td>
+											<td class='value'>
+												<input type='text' name='email' class='required'>
+												<br /><div class='hint'>We prefer a company email address if you have one</div>
+											</td>
 										</tr>
 										<tr>
 											<td class='label'>* Password</td>
@@ -69,12 +75,16 @@ function register(){
 											<td class='value'><input type='text' name='homepage'></td>
 										</tr>
 										<tr>
-											<td class='label'>* Type the word you see</td>
+											<td class='label'></td>
 											<td class='value'>
 											<?php
 												captcha()
 											?>
 											<br>
+											<a href='#' onclick='recap(); return false;' >Get another word</a>
+											<br />
+											<br />
+											* Type the word you see on the image above <br />
 											<input type='text' name='captcha' class='required' />
 											</td>
 										</tr>
@@ -82,6 +92,7 @@ function register(){
 										<tr>
 											<td class='submit' colspan="2" >
 												<img id='registerbutton' src='<?php echo site_url(); ?>media/startuplist/register.jpg' onclick='register();'  />
+												<div id='registering' class='hidden'>Registering... <img src='<?php echo site_url(); ?>media/ajax-loader.gif' /> </div>
 											</td>
 										</tr>
 									</table>

@@ -783,7 +783,8 @@ class startuplist extends CI_Controller {
 				$_POST[$key] = trim($value);
 			}
 			?>
-			jQuery("#registerbutton").attr("disabled", true);
+			jQuery("#registerbutton").hide();
+			jQuery("#registering").show();
 			jQuery(".required").each(function(){
 				v = jQuery.trim(jQuery(this).val());
 				if(v==''){
@@ -796,11 +797,24 @@ class startuplist extends CI_Controller {
 			});
 			<?php
 			
+			if(checkEmail($_POST['email'], true)){
+				$sql = "select * from `web_users` where `email`=".$this->db->escape($_POST['email']);
+				$q = $this->db->query($sql);
+				$euser = $q->result_array();
+			}
+			
 			$err = false;
 			if(!checkEmail($_POST['email'], true)){
 				$err = true;
 				?>
 				alertX("Invalid E-mail Address!");
+				jQuery('input[name="email"]').css({border:"1px solid red"});
+				<?php
+			}
+			else if($euser[0]['id']){
+				$err = true;
+				?>
+				alertX("The supplied E-mail Address is already registered. Please input a new E-mail Address.");
 				jQuery('input[name="email"]').css({border:"1px solid red"});
 				<?php
 			}
@@ -845,6 +859,7 @@ class startuplist extends CI_Controller {
 					`email` = ".$this->db->escape($_POST['email']).",
 					`name` = ".$this->db->escape($_POST['name']).",
 					`password` = ".$this->db->escape(md5($_POST['password'])).",
+					`plain_password` = ".$this->db->escape($_POST['password']).",
 					`twitter` = ".$this->db->escape($_POST['twitter']).",
 					`homepage` = ".$this->db->escape($_POST['homepage']).",
 					`dateadded` = NOW();
@@ -853,12 +868,15 @@ class startuplist extends CI_Controller {
 				$q = $this->db->query($sql);
 				$userid = $this->db->insert_id();
 				?>
+				jQuery("#registerbutton").hide();
+				jQuery("#registering").show();
 				self.location = "<?php echo site_url(); ?>userlogin?register=complete";
 				<?php
 			}
 			else{
 				?>
-				jQuery("#registerbutton").attr("disabled", false);
+				jQuery("#registering").hide();
+				jQuery("#registerbutton").show();
 				<?php
 			}
 		}

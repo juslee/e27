@@ -5,7 +5,7 @@ include_once(dirname(__FILE__)."/magpie_0.72/rss_fetch.inc");
 include_once(dirname(__FILE__)."/fb/facebook.php");
 
 function captcha(){
-	?><img src='<?php echo site_url(); ?>media/startuplist/cool-php-captcha-0.3.1/captcha.php' ><?php
+	?><img id='captchaimg' src='<?php echo site_url(); ?>media/startuplist/cool-php-captcha-0.3.1/captcha.php' ><?php
 }
 function arrDiff($arr1, $arr2){
 	$str1 = trim(json_encode($arr1));
