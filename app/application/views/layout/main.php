@@ -629,6 +629,17 @@ $user = $_SESSION['user'];
 		font-size:14px;
 		padding-top:5px;
 	}
+	.ui-dialog .ui-widget-header{
+	background: white;
+	border:0px;
+	}
+	.ui-dialog {
+		border: 2px solid gray;
+		color: #222222;
+	}
+	#dialoghtml{
+		text-align:center;
+	}
 	</style>
 </head>
 <body>

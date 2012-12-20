@@ -894,3 +894,15 @@ select[multiple="multiple"]{
 	text-align:center;
 	padding:10px;
 }
+
+.ui-dialog .ui-widget-header{
+	background: white;
+	border:0px;
+}
+#dialoghtml{
+	text-align:center;
+}
+.ui-dialog {
+	border: 2px solid gray;
+	color: #222222;
+}

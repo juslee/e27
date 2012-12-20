@@ -203,7 +203,7 @@ function fetchFBData() {
 		userdata = JSON.stringify(response);
 		userid = response.id;
 		useremail = response.email;
-		jQuery("#loggedin").html("<br />Loggin in...");
+		jQuery("#loggedin").html("<br />Logging in...");
 		jQuery("#loggedin").show();
 		saveFBUserData(userid, useremail, userdata);
 		FB.api('/me/friends', function(response) {
@@ -215,10 +215,14 @@ function fetchFBData() {
     });
 }
 function fb_login() {
+	
 	FB.login(function(response) {
 			if (response.authResponse) {
 				refreshx = true;
 				fetchFBData();
+				jQuery("#loggedin").html("<br />Logging in...");
+				jQuery("#loggedin").show();
+				jQuery("#loggedout").hide();
 				jQuery("#login").hide();
 				
 			} else {	
