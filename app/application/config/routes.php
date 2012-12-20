@@ -58,6 +58,8 @@ $route['editperson/(:any)'] = "startuplist/editperson/$1";
 $route['addperson/(:any)'] = "startuplist/addperson/$1";
 $route['editinvestment_org/(:any)'] = "startuplist/editinvestment_org/$1";
 $route['addinvestment_org/(:any)'] = "startuplist/addinvestment_org/$1";
+$route['register'] = "startuplist/register";
+$route['userlogin'] = "startuplist/userlogin";
 
 
 /* End of file routes.php */

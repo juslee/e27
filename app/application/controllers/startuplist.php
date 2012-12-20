@@ -775,8 +775,97 @@ class startuplist extends CI_Controller {
 	
 	
 	function register(){
-		$data['content'] = $this->load->view('startuplist/register', $data, true);
-		$this->load->view('startuplist/main', $data);
+		if($_POST){
+			//echo "<pre>";
+			//print_r($_POST);
+			//print_r($_SESSION);
+			foreach($_POST as $key=>$value){
+				$_POST[$key] = trim($value);
+			}
+			?>
+			jQuery("#registerbutton").attr("disabled", true);
+			jQuery(".required").each(function(){
+				v = jQuery.trim(jQuery(this).val());
+				if(v==''){
+					err = true;
+					jQuery(this).css({border:"1px solid red"});
+				}
+				else{
+					jQuery(this).css({border:"1px solid gray"});
+				}
+			});
+			<?php
+			
+			$err = false;
+			if(!checkEmail($_POST['email'], true)){
+				$err = true;
+				?>
+				alertX("Invalid E-mail Address!");
+				jQuery('input[name="email"]').css({border:"1px solid red"});
+				<?php
+			}
+			else if(!trim($_POST['name'])){
+				$err = true;
+				?>
+				alertX("Please input a Name!");
+				jQuery('input[name="name"]').css({border:"1px solid red"});
+				<?php
+			}
+			else if(!trim($_POST['password'])){
+				$err = true;
+				?>
+				alertX("Please input a Password!");
+				jQuery('input[name="password"]').css({border:"1px solid red"});
+				<?php
+			}
+			else if($_POST['password']!=$_POST['repassword']){
+				$err = true;
+				?>
+				alertX("Password and Confirm Password don't match!");
+				jQuery('input[name="password"]').css({border:"1px solid red"});
+				jQuery('input[name="repassword"]').css({border:"1px solid red"});
+				<?php
+			}
+			else if(!trim($_POST['captcha'])){
+				$err = true;
+				?>
+				alertX("Please type in the word you see in the image!");
+				jQuery('input[name="captcha"]').css({border:"1px solid red"});
+				<?php
+			}
+			else if(trim($_POST['captcha'])!=trim($_SESSION['captcha'])){
+				$err = true;
+				?>
+				alertX("Please type in the word you see in the image!");
+				jQuery('input[name="captcha"]').css({border:"1px solid red"});
+				<?php
+			}
+			if(!$err){
+				$sql = "insert into `web_users` set 
+					`email` = ".$this->db->escape($_POST['email']).",
+					`name` = ".$this->db->escape($_POST['name']).",
+					`password` = ".$this->db->escape(md5($_POST['password'])).",
+					`twitter` = ".$this->db->escape($_POST['twitter']).",
+					`homepage` = ".$this->db->escape($_POST['homepage']).",
+					`dateadded` = NOW();
+				";		
+				//echo $sql;
+				$q = $this->db->query($sql);
+				$userid = $this->db->insert_id();
+				?>
+				self.location = "<?php echo site_url(); ?>userlogin?register=complete";
+				<?php
+			}
+			else{
+				?>
+				jQuery("#registerbutton").attr("disabled", false);
+				<?php
+			}
+		}
+		else{
+			$data['content'] = $this->load->view('startuplist/register', $data, true);
+			$this->load->view('startuplist/main', $data);
+		}
 	}
 	
 	function account($userid=""){

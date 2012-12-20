@@ -4,6 +4,9 @@ define('MAGPIE_CACHE_ON', true);
 include_once(dirname(__FILE__)."/magpie_0.72/rss_fetch.inc");
 include_once(dirname(__FILE__)."/fb/facebook.php");
 
+function captcha(){
+	?><img src='<?php echo site_url(); ?>media/startuplist/cool-php-captcha-0.3.1/captcha.php' ><?php
+}
 function arrDiff($arr1, $arr2){
 	$str1 = trim(json_encode($arr1));
 	$str2 = trim(json_encode($arr2));
@@ -126,13 +129,15 @@ function sanitizeX($str){
 	return $str;
 }
 
-function checkEmail($email) {
+function checkEmail($email, $mx=false) {
     if(preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/" , $email))
     {
         list($username,$domain)=explode('@',$email);
-        if(!getmxrr ($domain,$mxhosts)) {
-            return false;
-        }
+        if($mx){
+			if(!getmxrr ($domain,$mxhosts)) {
+				return false;
+			}
+		}
         return true;
     }
     return false;

@@ -870,3 +870,27 @@ select[multiple="multiple"]{
 .center{
 	text-align:center;
 }
+
+
+
+/** register ***/
+.register{
+	margin:auto; 	
+}
+.register .value input{
+	width:300px;
+	border: 1px solid gray;
+}
+.register .label{
+	padding:5px;
+	padding-right:20px;
+}
+.register .submit{
+	padding-top:10px;
+	text-align:center;
+	cursor:pointer;
+}
+.register .req{
+	text-align:center;
+	padding:10px;
+}

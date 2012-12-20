@@ -322,14 +322,26 @@ window.fbAsyncInit = function() {
 					</table>
 				</td>
 				<td class="searchright">
-					<div onmouseover="jQuery('#logins').show()" onmouseout="jQuery('#logins').hide()" id='login' <?php if($_SESSION['web_user']){ echo "style='display:none'"; } ?>>Login
-						<div id='logins'>
-							<a id='fb_login' onclick='fb_login()'>Facebook</a>
-							<!--
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<a id='li_login'>Linkedin</a>
-							-->
-						</div>
+					<div id='loggedout' <?php if($_SESSION['web_user']){ echo "style='display:none'"; } ?>>
+						<table cellpadding="0" cellspacing="0" style='float:right'>
+						<tr>
+							<td class='pad5' style='padding-right:10px;'>
+							<div style='padding-bottom:5px'><a href='<?php echo site_url(); ?>register'>Register</a></div>
+							<a href='<?php echo site_url(); ?>userlogin'>Login</a>
+							</td>
+							<td style="text-align:center">
+								<div onmouseover="jQuery('#logins').show()" onmouseout="jQuery('#logins').hide()" id='login' <?php if($_SESSION['web_user']){ echo "style='display:none'"; } ?>>Login w/
+									<div id='logins'>
+										<a id='fb_login' onclick='fb_login()'>Facebook</a>
+										<!--
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<a id='li_login'>Linkedin</a>
+										-->
+									</div>
+								</div>
+							</td>
+						</tr>
+						</table>
 					</div>
 					<div id='loggedin' <?php if($_SESSION['web_user']){ echo "style='display:block'"; } ?>>
 					<table cellpadding="0" cellspacing="0" style='float:right'>

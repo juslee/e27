@@ -509,14 +509,14 @@ class people extends CI_Controller {
 	function ajax_check_email(){
 		$co_name = $_POST['email'];
 		$co_id = $_POST['id'];
-		if(!checkEmail($_POST['email_address'])){
+		if(!checkEmail($co_name)){
 			?>
 			jQuery("#email_check").html("<img src='<?php echo site_url(); ?>media/x.png' title='Invalid E-mail address.' alt='Invalid E-mail address.' />");
 			<?php
 		}
 		else if(strlen($co_name)>0){
 			//check if email already exists
-			$sql = "select `id` from `people` where `email_address`=".$this->db->escape(trim($co_name));
+			$sql = "select `id` from `people` where `email_address`=".$this->db->escape(trim($co_name))."";
 			$q = $this->db->query($sql);
 			$person = $q->result_array();
 			if(!trim($co_id)){
