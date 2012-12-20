@@ -1,5 +1,7 @@
 <script>
 function register(){
+	jQuery("#registerbutton").hide();
+	jQuery("#registering").show();
 	err = false;
 	jQuery(".required").each(function(){
 		v = jQuery.trim(jQuery(this).val());
@@ -10,6 +12,8 @@ function register(){
 	});
 	if(err){
 		alertX("Please complete all required fields");
+		jQuery("#registerbutton").show();
+		jQuery("#registering").hide();
 	}
 	else{
 		formdata = jQuery("#registerform").serialize();
@@ -25,6 +29,8 @@ function register(){
 	}
 }
 function recap(){
+	jQuery("#getanother").hide();
+	jQuery("#anotherloading").show();
 	jQuery("#captchaimg").attr("src", "<?php echo site_url(); ?>media/startuplist/cool-php-captcha-0.3.1/captcha.php?_="+(new Date()).getTime());
 }
 </script>
@@ -80,9 +86,15 @@ function recap(){
 											<?php
 												captcha()
 											?>
+											<script>
+												jQuery("#captchaimg").load(function(){
+													jQuery("#getanother").show();
+													jQuery("#anotherloading").hide();
+												});
+											</script>
 											<br>
-											<a href='#' onclick='recap(); return false;' >Get another word</a>
-											<br />
+											<div id='anotherloading' class='hidden'><img src='<?php echo site_url(); ?>media/ajax-loader.gif' /></div>
+											<div id='getanother'><a href='#' onclick='recap(); return false;' >Get another word</a></div>
 											<br />
 											* Type the word you see on the image above <br />
 											<input type='text' name='captcha' class='required' />
