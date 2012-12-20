@@ -906,3 +906,27 @@ select[multiple="multiple"]{
 	border: 2px solid gray;
 	color: #222222;
 }
+
+/** login **/
+.login{
+	margin:auto; 	
+}
+.login .value input{
+	width:300px;
+	border: 1px solid gray;
+}
+.login .label{
+	padding:5px;
+	padding-right:20px;
+	padding-bottom:10px;
+}
+.login .submit{
+	padding-top:10px;
+	text-align:center;
+	cursor:pointer;
+}
+.login .spiels{
+	padding:5px;
+	padding-top:10px;
+	text-align:left;
+}

@@ -361,6 +361,11 @@ window.fbAsyncInit = function() {
 								$str = "<table cellpadding=0 cellspacing=0 style='float:right'><tr><td style='padding:5px;' class='fb_details'>Hello ".$fb_data->first_name."!<br /><a href='#' onclick='fb_logout(); return false;' style='color:#21913E' >Log Out</a></td><td><img style='height:48px; width:48px;' src='http://graph.facebook.com/".$fb_data->id."/picture' /></td></tr></table>";
 								echo $str;
 							}
+							else if($_SESSION['web_user']['email']){
+								//print_r($fb_data);
+								$str = "<table cellpadding=0 cellspacing=0 style='float:right'><tr><td style='padding:5px;' class='fb_details'>Hello ".$_SESSION['web_user']['name']."!<br /><a href='#' onclick='self.location=\"".site_url()."userlogout\"; return false;' style='color:#21913E' >Log Out</a></td><td class='hidden'><img style='height:48px; width:48px;' src='http://graph.facebook.com/".$fb_data->id."/picture' /></td></tr></table>";
+								echo $str;
+							}
 							?>
 							</td>
 						</tr>

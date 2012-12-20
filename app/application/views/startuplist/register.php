@@ -9,6 +9,9 @@ function register(){
 			err = true;
 			jQuery(this).css({border:"1px solid red"});
 		}
+		else{
+			jQuery(this).css({border:"1px solid gray"});
+		}
 	});
 	if(err){
 		alertX("Please complete all required fields");
@@ -18,7 +21,7 @@ function register(){
 	else{
 		formdata = jQuery("#registerform").serialize();
 		jQuery.ajax({
-			url: "<?php echo site_url(); ?>register",
+			url: "<?php echo site_url(); ?>userlogin",
 			type: "POST",
 			data: formdata,
 			dataType: "script",

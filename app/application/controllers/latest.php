@@ -9,7 +9,7 @@ class latest extends CI_Controller {
 	
 	public function index(){
 		$data = array();
-		$sql = "select `a`.*, `b`.`login` as `username` from `logs` as `a` left join `users` as `b` on (`a`.`user_id`=`b`.`id`) where 1 order by `id` desc limit 50 " ;
+		$sql = "select `a`.*, `b`.`login` as `username` from `logs` as `a` left join `users` as `b` on (`a`.`user_id`=`b`.`id`) where 1 order by `id` desc limit 100 " ;
 		$q = $this->db->query($sql);
 		$logs = $q->result_array();
 		$data['logs'] = $logs;

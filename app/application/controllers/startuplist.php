@@ -64,6 +64,12 @@ class startuplist extends CI_Controller {
 	function ajax_logout(){
 		unset($_SESSION['web_user']);
 	}
+	function userlogout(){
+		$this->ajax_logout();
+		header ('HTTP/1.1 301 Moved Permanently');
+		header("Location: ".site_url());
+		exit();
+	}
 	function ajax_saveFbUserData(){
 		$userid = $_POST['userid'];
 		$useremail = $_POST['useremail'];
@@ -798,7 +804,7 @@ class startuplist extends CI_Controller {
 			<?php
 			
 			if(checkEmail($_POST['email'], true)){
-				$sql = "select * from `web_users` where `email`=".$this->db->escape($_POST['email']);
+				$sql = "select * from `web_users` where lower(`email`)=".$this->db->escape(strtolower($_POST['email']));
 				$q = $this->db->query($sql);
 				$euser = $q->result_array();
 			}
@@ -886,9 +892,61 @@ class startuplist extends CI_Controller {
 		}
 	}
 	
+	
+	function userlogin(){
+		
+		if($_POST){
+			//echo "<pre>";
+			//print_r($_POST);
+			//print_r($_SESSION);
+			foreach($_POST as $key=>$value){
+				$_POST[$key] = trim($value);
+			}
+			$err = false;
+			$sql = "select * from `web_users` where 
+				lower(`email`)=".$this->db->escape(strtolower($_POST['email']));
+			
+			$q = $this->db->query($sql);
+			$web_user = $q->result_array();
+			$web_user = $web_user[0];
+			
+			if(!$web_user['id']){
+				$err = true;
+				?>
+				alertX("The E-mail is not yet registered.");
+				<?php
+			}
+			else if(md5($_POST['password'])!=$web_user['password']){
+				$err = true;
+				?>
+				alertX("Invalid E-mail and password combination.");
+				<?php
+			}
+			
+			if($err){
+				?>
+				jQuery("#loginbutton").show();
+				jQuery("#logging").hide();
+				<?php
+			}
+			else{
+				$_SESSION['web_user'] = $web_user;
+				?>
+				self.location = "<?php echo site_url(); ?>account";
+				<?php
+			}
+		}
+		else{
+			$data = array();
+			$data['layout2'] = true;
+			$data['content'] = $this->load->view('startuplist/userlogin', $data, true);
+			$this->load->view('startuplist/main', $data);
+		}
+	}
+	
 	function account($userid=""){
 		$data = array();
-		if($_SERVER['HTTP_HOST']=='localhost'){
+		if($_SERVER['HTTP_HOST']=='localhost'&&!$_SESSION['web_user']){
 			$_SESSION['web_user'] = unserialize('a:7:{s:2:"id";s:1:"5";s:5:"fb_id";s:15:"100004077843297";s:8:"fb_email";s:21:"the_sniglet@yahoo.com";s:7:"fb_data";s:284:"{"id":"100004077843297","name":"Jerome Lee","first_name":"Jerome","last_name":"Lee","link":"http://www.facebook.com/jerome.lee.98892","username":"jerome.lee.98892","gender":"male","email":"the_sniglet@yahoo.com","timezone":8,"locale":"en_US","updated_time":"2012-07-11T10:27:49 0000"}";s:10:"fb_friends";s:1316:"{"data":[{"name":"Sasha Fox","id":"100000505245095"},{"name":"Mikee Dela Peña Guarino","id":"100000629589263"},{"name":"Carla Villa","id":"100000851593945"},{"name":"Faye Santos","id":"100002110669999"},{"name":"Romnick Edullantes","id":"100002143982649"},{"name":"Szophisticated Rhoze Genuiztah","id":"100002518556374"},{"name":"Ingrid Mendoza Rivera","id":"100002938532983"},{"name":"Rendell Paulo","id":"100002974236892"},{"name":"Jeany Masangkay","id":"100003194877986"},{"name":"Muniquinn Doll","id":"100003516535179"},{"name":"Shäina Rose Besa IV","id":"100003549304942"},{"name":"Shiela Marie Echavez","id":"100003569125646"},{"name":"Yandii Olid III","id":"100003574885667"},{"name":"Jullian Delrosario","id":"100003588335313"},{"name":"Lyra Farro","id":"100004101694332"},{"name":"Marjorie Orbase","id":"100004191425468"},{"name":"Junaina Gon","id":"100004307443721"},{"name":"Samantha Moh","id":"100004431932704"},{"name":"Ann Sarap","id":"100004483902375"},{"name":"Ganda MaLdita","id":"100004629572460"},{"name":"Mahal Khani Khate","id":"100004682401219"},{"name":"Arnie Samonte","id":"100004688465647"}],"paging":{"next":"https://graph.facebook.com/100004077843297/friends?access_token=AAAB7W3LmGYIBACvqZCfHc5VqzaN0QlzmQ657WBhjDEvgojWZCyUBgnSfVScl6vaTdcaQKOhrAMemv97aVsM2YFQPXU8ypwmqdB3P1q3kvuPVc5RNX8";s:9:"dateadded";s:19:"2012-12-04 14:21:52";s:11:"dateupdated";s:19:"2012-12-06 13:20:50";}');
 		}
 		if(!$_SESSION['web_user']&&!$_SESSION['user']){
