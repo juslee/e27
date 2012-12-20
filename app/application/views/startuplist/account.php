@@ -181,6 +181,16 @@ if(!$user){
 						<?php
 						$this->load->view("startuplist/contribute_block");
 						?>
+						<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
+							<tr>
+								<td class="head">KARMA POINTS</td>
+							</tr>
+							<tr>
+								<td class="content center">
+									<?php echo startuplist::getAccountKarma($user['id']); ?>
+								</td>
+							</tr>
+						</table>
 					</td>
 				</tr>
 			</table>
