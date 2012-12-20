@@ -53,6 +53,17 @@ function recap(){
 								<td class="description">
 									<form id='loginform' method="post">
 									<table class='login'>
+										<?php
+										if($_GET['register']=='complete'){
+											?>
+											<tr>
+												<td class='thankyou' colspan="2">
+												Thank you for registering. You may now login to your account.
+												</td>
+											</tr>
+											<?php
+										}
+										?>
 										<tr>
 											<td class='label'>E-mail</td>
 											<td class='value'>

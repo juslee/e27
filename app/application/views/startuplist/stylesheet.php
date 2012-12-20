@@ -682,7 +682,6 @@ img.rounded{
 .edit a:link, .edit a:hover, .edit a:visited{
 	/*color: #21913E;*/
 	color:#505050;
-	font-weight:bold;
 	
 }
 
@@ -929,4 +928,10 @@ select[multiple="multiple"]{
 	padding:5px;
 	padding-top:10px;
 	text-align:left;
+}
+.login .thankyou{
+	padding:20px;
+	padding-top:0px;
+	text-align:center;	
+	font-weight:bold;
 }

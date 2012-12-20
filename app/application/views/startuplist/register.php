@@ -21,7 +21,7 @@ function register(){
 	else{
 		formdata = jQuery("#registerform").serialize();
 		jQuery.ajax({
-			url: "<?php echo site_url(); ?>userlogin",
+			url: "<?php echo site_url(); ?>register",
 			type: "POST",
 			data: formdata,
 			dataType: "script",

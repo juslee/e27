@@ -1,7 +1,9 @@
 <?php
 @session_start();
+$myaccount = false;
 if(!$user){
 	$user = getWebUser($_SESSION['web_user']);
+	$myaccount = true;
 }
 ?>
 <table cellpadding="0" cellspacing="0" class="p100">
@@ -34,7 +36,11 @@ if(!$user){
 						?>
 						<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
 							<tr>
-								<td class="head">ACCOUNT DETAILS</td>
+								<td class="head">ACCOUNT DETAILS
+								<?php
+									if($user['id']==$_SESSION['web_user']['id']){ echo "<div class='edit inline right'><a href='".site_url()."editaccount'>EDIT</div>"; }
+								?>
+								</td>
 							</tr>
 							<tr>
 								<td class="content">
@@ -61,107 +67,115 @@ if(!$user){
 						</table>
 					</td>
 					<td class='account_center'>
+						<table cellpadding="0" cellspacing="0" class="p100">
+							<tr>
+								<td class="account_head">
+									Recent Edits
+								</td>
+							</tr>
 						<?php
 						if(is_array($revisions)&&count($revisions)){
 							?>
-							<table cellpadding="0" cellspacing="0" class="p100">
-								<tr>
-									<td class="account_head">
-										Recent Edits
-									</td>
-								</tr>
-								<tr>
-									<td class="description" style='border:0px'>
-										<?php
-											if(is_array($revisions)){
-												foreach($revisions as $key=>$revision){
-													$sql = "select * from `".$revision['table']."` where `id`=".$this->db->escape($revision['ipc_id']);
-													$q = $this->db->query($sql);
-													$ipc = $q->result_array();
-													$ipc = $ipc[0];
-													$approved = "";
-													if($revision['approved']=='1'){
-														$approved = "<a style='color:green' class='bold'>APPROVED</a>";
-													}
-													else if($revision['approved']=='-1'){
-														$approved = "<a style='color:red' class='bold'>REJECTED</a>";
-													}
-													else{
-														$approved = "<a style='color:black' class='bold'>PENDING</a>";
-													}
-													if($revision['table']=='companies'){
-														$table = "company";
-													}
-													else if($revision['table']=='people'){
-														$table = "person";
-													}
-													else if($revision['table']=='investment_orgs'){
-														$table = "investment_org";
-													}
-													echo "<div class='revision padb5'>[ ".date("M d, Y H:i:s", $revision['dateupdated_ts'])." ] Edited <b><a href='".site_url().$table."/".$ipc['slug']."'>".$ipc['name']."</a></b> ... $approved </div>";
+							<tr>
+								<td class="description" style='border:0px'>
+									<?php
+										if(is_array($revisions)){
+											foreach($revisions as $key=>$revision){
+												$sql = "select * from `".$revision['table']."` where `id`=".$this->db->escape($revision['ipc_id']);
+												$q = $this->db->query($sql);
+												$ipc = $q->result_array();
+												$ipc = $ipc[0];
+												$approved = "";
+												if($revision['approved']=='1'){
+													$approved = "<a style='color:green' class='bold'>APPROVED</a>";
 												}
+												else if($revision['approved']=='-1'){
+													$approved = "<a style='color:red' class='bold'>REJECTED</a>";
+												}
+												else{
+													$approved = "<a style='color:black' class='bold'>PENDING</a>";
+												}
+												if($revision['table']=='companies'){
+													$table = "company";
+												}
+												else if($revision['table']=='people'){
+													$table = "person";
+												}
+												else if($revision['table']=='investment_orgs'){
+													$table = "investment_org";
+												}
+												echo "<div class='revision padb5'>[ ".date("M d, Y H:i:s", $revision['dateupdated_ts'])." ] Edited <b><a href='".site_url().$table."/".$ipc['slug']."'>".$ipc['name']."</a></b> ... $approved </div>";
 											}
-										?>
-									</td>
-								</tr>
-							</table>
+										}
+									?>
+								</td>
+							</tr>
 							<?php
 						}
-						if(is_array($contributions)&&count($contributions)){
-							?>
-							<br>
-							<table cellpadding="0" cellspacing="0" class="p100">
-								<tr>
-									<td class="account_head">
-										Recent Contributions
-									</td>
-								</tr>
-								<tr>
-									<td class="description">
-										<?php
-											if(is_array($contributions)){
-												foreach($contributions as $key=>$contribution){
-													$sql = "select * from `".$contribution['table']."` where `id`=".$this->db->escape($contribution['ipc_id']);
-													$q = $this->db->query($sql);
-													$ipc = $q->result_array();
-													$ipc = $ipc[0];
-													$data = json_decode($contribution['json_data']);
-													$data = objectToArray($data);
-													$approved = "";
-													if($contribution['approved']=='1'){
-														$approved = "<a style='color:green' class='bold'>APPROVED</a>";
-													}
-													else if($contribution['approved']=='-1'){
-														$approved = "<a style='color:red' class='bold'>REJECTED</a>";
-													}
-													else{
-														$approved = "<a style='color:black' class='bold'>PENDING</a>";
-													}
-													if($contribution['table']=='companies'){
-														$table = "company";
-													}
-													else if($contribution['table']=='people'){
-														$table = "person";
-													}
-													else if($contribution['table']=='investment_orgs'){
-														$table = "investment_org";
-													}
-													//print_r($sql);
-													if($ipc['slug']){
-														echo "<div class='revision padb5'>[ ".date("M d, Y H:i:s", $revision['dateupdated_ts'])." ] Contributed <b><a href='".site_url().$table."/".$ipc['slug']."'>".$ipc['name']."</a></b> ... $approved </div>";			
-													}
-													else{
-														echo "<div class='revision padb5'>[ ".date("M d, Y H:i:s", $revision['dateupdated_ts'])." ] Contributed <b>".$data['name']."</b> ... $approved </div>";
-													}
-												}
-											}
-										?>
-									</td>
-								</tr>
-							</table>
-							<?php
+						else{
+							echo "<tr><td class='description center' style='border:0px'>No recent edits.</td></tr>";
 						}
 						?>
+						</table>
+						<br>
+						<table cellpadding="0" cellspacing="0" class="p100">
+							<tr>
+								<td class="account_head">
+									Recent Contributions
+								</td>
+							</tr>
+						<?php
+						if(is_array($contributions)&&count($contributions)){
+							?>
+							<tr>
+								<td class="description">
+									<?php
+										if(is_array($contributions)){
+											foreach($contributions as $key=>$contribution){
+												$sql = "select * from `".$contribution['table']."` where `id`=".$this->db->escape($contribution['ipc_id']);
+												$q = $this->db->query($sql);
+												$ipc = $q->result_array();
+												$ipc = $ipc[0];
+												$data = json_decode($contribution['json_data']);
+												$data = objectToArray($data);
+												$approved = "";
+												if($contribution['approved']=='1'){
+													$approved = "<a style='color:green' class='bold'>APPROVED</a>";
+												}
+												else if($contribution['approved']=='-1'){
+													$approved = "<a style='color:red' class='bold'>REJECTED</a>";
+												}
+												else{
+													$approved = "<a style='color:black' class='bold'>PENDING</a>";
+												}
+												if($contribution['table']=='companies'){
+													$table = "company";
+												}
+												else if($contribution['table']=='people'){
+													$table = "person";
+												}
+												else if($contribution['table']=='investment_orgs'){
+													$table = "investment_org";
+												}
+												//print_r($sql);
+												if($ipc['slug']){
+													echo "<div class='revision padb5'>[ ".date("M d, Y H:i:s", $revision['dateupdated_ts'])." ] Contributed <b><a href='".site_url().$table."/".$ipc['slug']."'>".$ipc['name']."</a></b> ... $approved </div>";			
+												}
+												else{
+													echo "<div class='revision padb5'>[ ".date("M d, Y H:i:s", $revision['dateupdated_ts'])." ] Contributed <b>".$data['name']."</b> ... $approved </div>";
+												}
+											}
+										}
+									?>
+								</td>
+							</tr>
+							<?php
+						}
+						else{
+							echo "<tr><td class='description center' style='border:0px'>No recent contributions.</td></tr>";
+						}
+						?>
+						</table>
 					</td>
 					<td class='account_right'>
 						<?php
