@@ -501,7 +501,9 @@ else{
 <tr>
 <td width='100%'> 
   <table width="100%">
- 
+ 	<tr>
+      <td colspan="2" class='bold padb10 center'>* Required Fields</td>
+    </tr>
     <tr class="odd required about">
       <td>* Name:</td>
       <td><input type="text" name="name" size="40" id='person_name'><div class='inline' style='padding-left:5px;' id='co_check'></div></td>
@@ -578,7 +580,7 @@ else{
 				</tr>
 				<tr>
 					<td>Role:</td>
-					<td><input type='text' id='p_role' /></td>
+					<td><input type='text' id='p_role' /><br /><div class='hint'>E.g. CEO, Project Manager, Developer</div></td>
 				</tr>
 				<tr>
 					<td>Start Date:</td>
@@ -613,7 +615,7 @@ else{
 				</tr>
 				<tr>
 					<td>Role:</td>
-					<td><input type='text' id='iop_role' /></td>
+					<td><input type='text' id='iop_role' /><br /><div class='hint'>E.g. CEO, Project Manager, Developer</div></td>
 				</tr>
 				<tr>
 					<td>Start Date:</td>

@@ -187,7 +187,11 @@ if(!$user){
 							</tr>
 							<tr>
 								<td class="content center">
-									<?php echo startuplist::getAccountKarma($user['id']); ?>
+									<?php 
+									$karma = startuplist::getAccountKarma($user['id']);
+									echo "<div class='hint'>".$karma['approved']." Approved, ".$karma['rejected']." Rejected, ".$karma['pending']." Pending</div>";
+									echo "<br /><br />Total Points: ".($karma['approved']-$karma['rejected']);
+									 ?>
 								</td>
 							</tr>
 						</table>

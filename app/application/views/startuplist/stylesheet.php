@@ -282,6 +282,9 @@ input[type="text"].searchtext {
 	font-family:Arial, Helvetica, sans-serif;
 	color: #666666;
 }
+.sidebarblock .content .edit a:link, .sidebarblock .content .edit a:hover, .sidebarblock .content .edit a:visited{
+	text-transform:none;
+}
 .sidebar_right{
 	margin-left:10px;
 	margin:15px;
@@ -682,6 +685,7 @@ img.rounded{
 .edit a:link, .edit a:hover, .edit a:visited{
 	/*color: #21913E;*/
 	color:#505050;
+	text-transform:lowercase;
 	
 }
 
@@ -699,7 +703,7 @@ img.rounded{
 	font-style:italic;
 	color:#666666;
 	display:inline;
-	padding: 0px 5px 0px 5px;
+	margin: 3px 5px 3px 5px;
 }
 .more{
 	font-size:10px;
