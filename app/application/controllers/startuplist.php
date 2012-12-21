@@ -955,6 +955,187 @@ class startuplist extends CI_Controller {
 		}
 	}
 	
+	function forgotpass(){
+		$emailto = trim($_POST['email']);
+		if($emailto){
+			$sql = "select `id`, `name` from `web_users` where `email`='".mysql_real_escape_string($emailto)."'";
+			$q = $this->db->query($sql);
+			$account = $q->result_array();
+			if($account[0]['id']){ //if account exists
+				//create token
+				$token = md5(microtime());
+				$sql = "insert into `changepass_tokens` set 
+					`web_user_id` = '".$account[0]['id']."',
+					`token` = '".$token."',
+					`used` = 0,
+					`dateadded_ts` = -1,
+					`dateadded` = NOW()
+				";
+				$this->db->query($sql);
+				
+				//send email
+				$template = array();
+				$template['data'] = array();
+				$template['data']['name'] = $account[0]['name'];
+				$template['data']['passlink'] = site_url()."changepass/".$token;
+				$template['data'] = json_encode($template['data']);
+				$template['slug'] = "startuplist-forgot-password"; 
+				
+				$from = "mailer@startuplist.sg";
+				$fromname = "E27 Startup List";
+				$to = $emailto;
+				$toname = $account[0]['name'];
+				$subject = "E27 Startup List Password Change";
+				$passlink = site_url()."changepass/".$token;
+				
+				//send_email($from, $fromname, $to, $subject, $message, $template);
+				$this->sendChangePassLink($from, $fromname, $to, $toname, $subject, $passlink);
+				
+				
+				?>
+				jQuery("#anemail").html("An E-mail has been sent to <?php echo $emailto; ?>. ");
+				jQuery("#anemail").show();
+				jQuery("#forgotpassform").hide();
+				jQuery("#femail").val("");
+				jQuery("#forgotpassbutton").show();
+				jQuery("#forgotpassing").hide();
+				<?php
+			}
+			else{
+				?>
+				alertX("The E-mail supplied is not yet registered.");
+				jQuery("#forgotpassbutton").show();
+				jQuery("#forgotpassing").hide();
+				<?php
+			}
+		}
+		else{
+			$data['layout2'] = true;
+			$data['content'] = $this->load->view('startuplist/forgotpass', $data, true);
+			$this->load->view('startuplist/main', $data);
+		}
+	}
+	
+	function sendChangePassLink($from, $fromname, $to, $toname, $subject, $passlink){
+		$message = '
+		<table style="width:100%; height: 100%; background:#fafafa">
+			<tr>
+				<td style="text-align:center; vertical-align:top; padding:20px;">
+					<table style="width:500px; background:#ffffff; margin:auto">
+						<tr>
+							<td style="text-align:center; padding:20px;">';
+	
+	//$message .= '<img src="data:image/png;base64,'.base64_encode(file_get_contents(dirname(__FILE__)."/../../media/startuplist/startuplist_email.png")).'" />';
+	$message .= '<img src="'.site_url().'media/startuplist/startuplist_email.png" />';
+	
+	$message .= '</td>
+						</tr>
+						<tr>
+						   <td style="text-align:left; vertical-align:top; padding:20px; font-family:Arial, Helvetica, sans-serif; font-size:12px">
+							<b>Hello '.$toname.',</b>
+							<br>
+							<br>
+							To change your password please click <a href="'.$passlink.'" target="_blank">here</a> or visit the link below;<br>
+							<br>
+							'.$passlink.'
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>';
+		
+		$bouncereturn = $from; //where the email will forward in cases of bounced email
+		$emails = array();
+		$emails[0]['email'] = $to;
+		$emails[0]['name'] = $toname;
+		emailBlast($from, $fromname, $subject, $message, $emails, $bouncereturn, 0); //last parameter for running debug
+	}
+	
+	function changepass($token=""){
+		if($_POST){
+			$err = false;
+			if(!trim($_POST['password'])){
+				$err = true;
+				?>
+				alertX("Please input a Password!");
+				jQuery('input[name="password"]').css({border:"1px solid red"});
+				<?php
+			}
+			else if($_POST['password']!=$_POST['repassword']){
+				$err = true;
+				?>
+				alertX("Password and Confirm Password don't match!");
+				jQuery('input[name="password"]').css({border:"1px solid red"});
+				jQuery('input[name="repassword"]').css({border:"1px solid red"});
+				<?php
+			}
+			if($err){
+				?>
+				jQuery("#changepassbutton").show();
+				jQuery("#changepassing").hide();
+				<?php
+			}
+			else{
+				//print_r($_SESSION['changepass_user']);
+				$sql = "update `web_users` set 
+					`password`='".md5(trim($_POST['password']))."',
+					`plain_password`='".trim($_POST['password'])."'
+					where 
+					`id` = '".$_SESSION['changepass_user']['id']."'
+				";
+				$this->db->query($sql);
+				
+				$sql = "update `changepass_tokens` set 
+					`used`='1'
+					 where `token`='".mysql_real_escape_string($_SESSION['changepass_user']['token'])."'
+				";
+				$this->db->query($sql);
+				
+				?>
+				jQuery("#youmay").html("Your Password has been updated. Please click <a href='<?php echo site_url(); ?>userlogin?email=<?php echo $_SESSION['changepass_user']['email']; ?>'>here</a> to login.");
+				jQuery("#youmay").show();
+				jQuery("#changepassform").hide();
+				<?php
+				unset($_SESSION['changepass_user']);
+			}
+		}
+		else if(trim($token)){
+			$sql = "update `changepass_tokens` set 
+				`dateadded_ts`=".time()."
+				 where 
+				 `token`='".mysql_real_escape_string(trim($token))."' and
+				 `dateadded_ts`=-1
+			";
+			$this->db->query($sql);
+			
+			$sql = "select * from `changepass_tokens` where `token`='".mysql_real_escape_string($token)."' and `used`=0 and (`dateadded_ts`+".(10*60).")>=".time(); //person have 10 mins to change password otherwise it will expire
+			$q = $this->db->query($sql);
+			$token = $q->result_array();
+			$token = $token[0];
+			$sql = "select * from `web_users` where `id`='".$token['web_user_id']."'";
+			$q = $this->db->query($sql);
+			$changepass_user = $q->result_array();
+			$changepass_user = $changepass_user[0];
+			$_SESSION['changepass_user'] = $changepass_user;
+			//echo "<pre>";
+			//print_r($token);
+			if($_SESSION['changepass_user']['id']){
+				$_SESSION['changepass_user']['token'] = $token['token'];
+				$data['changepass_user'] = $_SESSION['changepass_user'];
+				$data['layout2'] = true;
+				$data['content'] = $this->load->view('startuplist/changepass', $data, true);
+				$this->load->view('startuplist/main', $data);
+			}
+			else{
+				$data['layout2'] = true;
+				$data['content'] = $this->load->view('startuplist/changepass', $data, true);
+				$this->load->view('startuplist/main', $data);
+			}
+			
+		}
+	}
+	
 	function account($userid=""){
 		$data = array();
 		if($_SERVER['HTTP_HOST']=='localhost'&&!$_SESSION['web_user']){
@@ -997,8 +1178,9 @@ class startuplist extends CI_Controller {
 	
 	function editcompany($companyid="", $part=""){
 		if(!$_SESSION['web_user']){
+			$ref = urlencode(site_url().ltrim($_SERVER['REQUEST_URI'],"/"));
 			header ('HTTP/1.1 301 Moved Permanently');
-			header("Location: ".site_url());
+			header("Location: ".site_url()."userlogin/?ref=".$ref);
 			exit();
 		}
 		$data = array();
@@ -1021,8 +1203,9 @@ class startuplist extends CI_Controller {
 	
 	function editperson($personid="", $part=""){
 		if(!$_SESSION['web_user']){
+			$ref = urlencode(site_url().ltrim($_SERVER['REQUEST_URI'],"/"));
 			header ('HTTP/1.1 301 Moved Permanently');
-			header("Location: ".site_url());
+			header("Location: ".site_url()."userlogin/?ref=".$ref);
 			exit();
 		}
 		$data = array();
@@ -1045,8 +1228,9 @@ class startuplist extends CI_Controller {
 	
 	function editinvestment_org($investment_orgid="", $part=""){
 		if(!$_SESSION['web_user']){
+			$ref = urlencode(site_url().ltrim($_SERVER['REQUEST_URI'],"/"));
 			header ('HTTP/1.1 301 Moved Permanently');
-			header("Location: ".site_url());
+			header("Location: ".site_url()."userlogin/?ref=".$ref);
 			exit();
 		}
 		$data = array();
@@ -1166,6 +1350,7 @@ class startuplist extends CI_Controller {
 	function getAccountKarma($id){
 		$goodkarma = 0;
 		$badkarma = 0;
+		$pending = 0;
 		
 		$sql = "select count(`id`) as `cnt` from `revisions` where `approved`=1 and `web_user_id`='".mysql_real_escape_string($id)."'";
 		$q = $this->db->query($sql);
@@ -1186,8 +1371,24 @@ class startuplist extends CI_Controller {
 		$q = $this->db->query($sql);
 		$cnt = $q->result_array();	
 		$badkarma += $cnt[0]['cnt'];
-		return $goodkarma - $badkarma;
+		
+		$sql = "select count(`id`) as `cnt` from `revisions` where `approved`=-0 and `web_user_id`='".mysql_real_escape_string($id)."'";
+		$q = $this->db->query($sql);
+		$cnt = $q->result_array();	
+		$pending += $cnt[0]['cnt'];
+		
+		$sql = "select count(`id`) as `cnt` from `contributions` where `approved`=0 and `web_user_id`='".mysql_real_escape_string($id)."'";
+		$q = $this->db->query($sql);
+		$cnt = $q->result_array();	
+		$pending += $cnt[0]['cnt'];
+		
+		$r = array();
+		$r['approved'] = $goodkarma;
+		$r['rejected'] = $badkarma;
+		$r['pending'] = $pending;
+		return $r;
 	}
+	
 	
 	
 	

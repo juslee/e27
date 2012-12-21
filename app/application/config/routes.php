@@ -61,6 +61,9 @@ $route['addinvestment_org/(:any)'] = "startuplist/addinvestment_org/$1";
 $route['register'] = "startuplist/register";
 $route['userlogin'] = "startuplist/userlogin";
 $route['userlogout'] = "startuplist/userlogout";
+$route['forgotpass'] = "startuplist/forgotpass";
+$route['changepass'] = "startuplist/changepass";
+$route['changepass/(:any)'] = "startuplist/changepass/$1";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

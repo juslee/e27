@@ -939,3 +939,19 @@ select[multiple="multiple"]{
 	text-align:center;	
 	font-weight:bold;
 }
+
+/** forgot password **/
+#anemail{
+	text-align:center;
+	font-size:20px;
+	padding:20px;
+	color: black;
+}
+
+/** change pass **/
+#youmay{
+	text-align:center;
+	font-size:20px;
+	padding:20px;
+	color: black;
+}

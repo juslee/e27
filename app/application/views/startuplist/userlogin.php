@@ -71,7 +71,7 @@ function recap(){
 										<tr>
 											<td class='label'>E-mail</td>
 											<td class='value'>
-												<input type='text' name='email' class='required'>	
+												<input type='text' name='email' class='required' value="<?php echo sanitizeX($_GET['email']); ?>">	
 											</td>
 										</tr>
 										<tr>
