@@ -1,6 +1,6 @@
 <?php
 @session_start();
-if($_SESSION['web_user']){
+if($_SESSION['web_user']||1){
 	?>
 	<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_right' >
 		<tr>

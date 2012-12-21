@@ -21,7 +21,11 @@ function userlogin(){
 	else{
 		formdata = jQuery("#loginform").serialize();
 		jQuery.ajax({
-			url: "<?php echo site_url(); ?>userlogin",
+			url: "<?php echo site_url(); ?>userlogin<?php
+			if($_GET['ref']){
+				echo "?ref=".$_GET['ref'];
+			}
+			?>",
 			type: "POST",
 			data: formdata,
 			dataType: "script",
@@ -75,17 +79,28 @@ function recap(){
 											<td class='value'><input type='password' name='password' class='required' id='upass'></td>
 										</tr>
 										<tr>
+											<td class='submit' colspan="2" >
+												<table style='margin:auto'>
+													<tr>
+														<td style="vertical-align:middle">
+															<img id='loginbutton' src='<?php echo site_url(); ?>media/startuplist/login.jpg' onclick='userlogin();'  />
+															<div id='logging' class='hidden'>Logging in... <img src='<?php echo site_url(); ?>media/ajax-loader.gif' /> </div>
+														</td>
+														<td style='vertical-align:middle'>
+															<img id='fb_loginbutton' src='<?php echo site_url(); ?>media/startuplist/fb_login.jpg' onclick='fb_login();'  />
+															<div id='fb_logging' class='hidden'>Logging in... <img src='<?php echo site_url(); ?>media/ajax-loader.gif' /> </div>
+														</td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+										<tr>
 											<td class='spiels' colspan="2">
 												No account yet? Click <a href='<?php echo site_url() ?>register'>here</a> to register.
 												Forgot Password? Click <a href='<?php echo site_url() ?>forgotpass'>here</a>.
 											</td>
 										</tr>
-										<tr>
-											<td class='submit' colspan="2" >
-												<img id='loginbutton' src='<?php echo site_url(); ?>media/startuplist/login.jpg' onclick='userlogin();'  />
-												<div id='logging' class='hidden'>Loggin in... <img src='<?php echo site_url(); ?>media/ajax-loader.gif' /> </div>
-											</td>
-										</tr>
+										
 									</table>
 									</form>
 									<script>

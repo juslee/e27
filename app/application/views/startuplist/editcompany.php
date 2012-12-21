@@ -30,7 +30,7 @@ function showRows(obj, alt){
 		<td class="contents2">
 			<table cellpadding="0" cellspacing="0" class='p100'>
 				<tr>
-					<td class='breadcrumbs'>
+					<td class='breadcrumbs' colspan="2">
 					<a href='<?php echo site_url(); ?>'>Home</a> >
 					<?php
 					if($method=='editcompany'){

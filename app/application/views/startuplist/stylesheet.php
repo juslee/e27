@@ -676,7 +676,7 @@ img.rounded{
 }
 .contribute div{
 	padding-bottom:5px;
-	font-weight:bold;
+	/*font-weight:bold;*/
 }
 
 .edit a:link, .edit a:hover, .edit a:visited{

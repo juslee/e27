@@ -894,7 +894,11 @@ class startuplist extends CI_Controller {
 	
 	
 	function userlogin(){
-		
+		if($_SESSION['web_user']){
+			header ('HTTP/1.1 301 Moved Permanently');
+			header("Location: ".site_url()."account");
+			exit();
+		}
 		if($_POST){
 			//echo "<pre>";
 			//print_r($_POST);
@@ -931,9 +935,16 @@ class startuplist extends CI_Controller {
 			}
 			else{
 				$_SESSION['web_user'] = $web_user;
-				?>
-				self.location = "<?php echo site_url(); ?>account";
-				<?php
+				if($_GET['ref']){
+					?>
+					self.location = "<?php echo urldecode($_GET['ref']); ?>";
+					<?php
+				}
+				else{
+					?>
+					self.location = "<?php echo site_url(); ?>account";
+					<?php
+				}
 			}
 		}
 		else{
@@ -1058,8 +1069,9 @@ class startuplist extends CI_Controller {
 	
 	function addcompany($part=""){
 		if(!$_SESSION['web_user']){
+			$ref = urlencode(site_url().ltrim($_SERVER['REQUEST_URI'],"/"));
 			header ('HTTP/1.1 301 Moved Permanently');
-			header("Location: ".site_url());
+			header("Location: ".site_url()."userlogin/?ref=".$ref);
 			exit();
 		}
 		$sql = "select * from `categories`";
@@ -1092,8 +1104,9 @@ class startuplist extends CI_Controller {
 	
 	function addperson($part=""){
 		if(!$_SESSION['web_user']){
+			$ref = urlencode(site_url().ltrim($_SERVER['REQUEST_URI'],"/"));
 			header ('HTTP/1.1 301 Moved Permanently');
-			header("Location: ".site_url());
+			header("Location: ".site_url()."userlogin/?ref=".$ref);
 			exit();
 		}
 		$sql = "select * from `countries`";
@@ -1120,8 +1133,9 @@ class startuplist extends CI_Controller {
 	
 	function addinvestment_org($part=""){
 		if(!$_SESSION['web_user']){
+			$ref = urlencode(site_url().ltrim($_SERVER['REQUEST_URI'],"/"));
 			header ('HTTP/1.1 301 Moved Permanently');
-			header("Location: ".site_url());
+			header("Location: ".site_url()."userlogin/?ref=".$ref);
 			exit();
 		}
 		$sql = "select * from `categories`";
@@ -1149,6 +1163,31 @@ class startuplist extends CI_Controller {
 		$this->load->view('startuplist/main', $data);
 	}
 	
+	function getAccountKarma($id){
+		$goodkarma = 0;
+		$badkarma = 0;
+		
+		$sql = "select count(`id`) as `cnt` from `revisions` where `approved`=1 and `web_user_id`='".mysql_real_escape_string($id)."'";
+		$q = $this->db->query($sql);
+		$cnt = $q->result_array();	
+		$goodkarma += $cnt[0]['cnt'];
+		
+		$sql = "select count(`id`) as `cnt` from `contributions` where `approved`=1 and `web_user_id`='".mysql_real_escape_string($id)."'";
+		$q = $this->db->query($sql);
+		$cnt = $q->result_array();	
+		$goodkarma += $cnt[0]['cnt'];
+		
+		$sql = "select count(`id`) as `cnt` from `revisions` where `approved`=-1 and `web_user_id`='".mysql_real_escape_string($id)."'";
+		$q = $this->db->query($sql);
+		$cnt = $q->result_array();	
+		$badkarma += $cnt[0]['cnt'];
+		
+		$sql = "select count(`id`) as `cnt` from `contributions` where `approved`=-1 and `web_user_id`='".mysql_real_escape_string($id)."'";
+		$q = $this->db->query($sql);
+		$cnt = $q->result_array();	
+		$badkarma += $cnt[0]['cnt'];
+		return $goodkarma - $badkarma;
+	}
 	
 	
 	

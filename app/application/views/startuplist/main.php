@@ -187,7 +187,14 @@ function saveFBUserFriends (userid, userfriends){
 		data: formdata,
 		dataType: "script",
 		success: function(){
-			refreshPage();
+			<?php
+			if($_GET['ref']){
+				?>self.location="<?php echo $_GET['ref']; ?>"<?
+			}
+			else{
+				?>refreshPage();<?php
+			}
+			?>
 		}
 	});
 }
@@ -220,6 +227,8 @@ function fb_login() {
 			if (response.authResponse) {
 				refreshx = true;
 				fetchFBData();
+				jQuery("#fb_logging").show();
+				jQuery("#fb_loginbutton").hide();
 				jQuery("#loggedin").html("<br />Logging in...");
 				jQuery("#loggedin").show();
 				jQuery("#loggedout").hide();
@@ -395,9 +404,7 @@ window.fbAsyncInit = function() {
 					<td class="sidebar">
 						<div class="sidebarblockcontainer">
 						<?php
-						if($_SESSION['web_user']){
-							$this->load->view("startuplist/contribute_block");
-						}
+						$this->load->view("startuplist/contribute_block");
 						
 						if($method=='company'||$method=='person'||$method=='investment_org'||$method=='index'||$method=='register'){
 							$this->load->view("startuplist/sharer");
