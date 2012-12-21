@@ -518,7 +518,7 @@
 						echo htmlentitiesX($company['name']);
 						?>
 						<?php
-						if($_SESSION['web_user']){ echo "<div class='edit inline right'><a href='".site_url()."editcompany/".$company['id']."/about'>EDIT</div>"; }
+						if($_SESSION['web_user']||1){ echo "<div class='edit inline right'><a href='".site_url()."editcompany/".$company['id']."/about'>EDIT</div>"; }
 						?>
 					</td>
 				</tr>

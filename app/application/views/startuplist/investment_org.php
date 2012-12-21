@@ -313,7 +313,7 @@
 					<td class="company_name">
 						<?php
 						echo htmlentitiesX($investment_org['name']);
-						if($_SESSION['web_user']){ echo "<div class='edit inline right'><a href='".site_url()."editinvestment_org/".$investment_org['id']."/about'>EDIT</div>"; }
+						if($_SESSION['web_user']||1){ echo "<div class='edit inline right'><a href='".site_url()."editinvestment_org/".$investment_org['id']."/about'>EDIT</div>"; }
 						?>
 					</td>
 				</tr>
