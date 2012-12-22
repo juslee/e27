@@ -204,7 +204,7 @@ class Snoopy
 				if(isset($_SERVER['WINDIR']) && strpos($_SERVER['WINDIR'], 'Windows') !== false){
 					$this->curl_path = dirname(__FILE__)."/curlwin32/curl.exe";
 				}
-		
+
 		
 				if(!$this->curl_path)
 					return false;
@@ -286,6 +286,7 @@ class Snoopy
 		
 		unset($postdata);
 		
+		
 		$postdata = $this->_prepare_post_body($formvars, $formfiles);
 			
 		$URI_PARTS = parse_url($URI);
@@ -298,6 +299,7 @@ class Snoopy
 		if (empty($URI_PARTS["path"]))
 			$URI_PARTS["path"] = '';
 
+		
 		switch(strtolower($URI_PARTS["scheme"]))
 		{
 			case "http":
@@ -378,7 +380,7 @@ class Snoopy
 				//    if (!is_executable($this->curl_path))
 				//        return false;
 				//echo $this->curl_path;
-				
+				//exit();
 				
 				
 				$this->host = $URI_PARTS["host"];
@@ -1264,11 +1266,14 @@ class Snoopy
 				while(list($key,$val) = each($formvars)) {
 					if (is_array($val) || is_object($val)) {
 						while (list($cur_key, $cur_val) = each($val)) {
+							//print_r($cur_val);
+							//echo "<hr>";
 							$postdata .= urlencode($key)."[]=".urlencode($cur_val)."&";
 						}
 					} else
 						$postdata .= urlencode($key)."=".urlencode($val)."&";
 				}
+			
 				break;
 
 			case "multipart/form-data":

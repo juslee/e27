@@ -956,9 +956,9 @@ class startuplist extends CI_Controller {
 	}
 	
 	function forgotpass(){
-		$emailto = trim($_POST['email']);
+		$emailto = strtolower(trim($_POST['email']));
 		if($emailto){
-			$sql = "select `id`, `name` from `web_users` where `email`='".mysql_real_escape_string($emailto)."'";
+			$sql = "select `id`, `name` from `web_users` where lower(`email`)='".mysql_real_escape_string($emailto)."'";
 			$q = $this->db->query($sql);
 			$account = $q->result_array();
 			if($account[0]['id']){ //if account exists
@@ -974,24 +974,26 @@ class startuplist extends CI_Controller {
 				$this->db->query($sql);
 				
 				//send email
-				$template = array();
-				$template['data'] = array();
-				$template['data']['name'] = $account[0]['name'];
-				$template['data']['passlink'] = site_url()."changepass/".$token;
-				$template['data'] = json_encode($template['data']);
-				$template['slug'] = "startuplist-forgot-password"; 
-				
 				$from = "mailer@startuplist.sg";
 				$fromname = "E27 Startup List";
 				$to = $emailto;
 				$toname = $account[0]['name'];
+				$emailtos = array();
+				$email = array();
+				$email['email'] = $to;
+				$email['name'] = $toname;
+				$emailtos[] = $email;
 				$subject = "E27 Startup List Password Change";
 				$passlink = site_url()."changepass/".$token;
-				
-				//send_email($from, $fromname, $to, $subject, $message, $template);
-				$this->sendChangePassLink($from, $fromname, $to, $toname, $subject, $passlink);
-				
-				
+				$template = array();
+				$template['data'] = array();
+				$template['data']['name'] = $toname;
+				$template['data']['passlink'] = $passlink ;
+				$template['data']['passlinkhere'] = "<a href='".$template['data']['passlink']."'>here</a>";
+				//$template['data'] = json_encode($template['data']);
+				$template['slug'] = "startuplist-forgot-password"; 
+				send_email($from, $fromname, $emailtos, $subject, $message, $template); //mandrill
+				//$this->sendChangePassLink($from, $fromname, $to, $toname, $subject, $passlink); //smtp
 				?>
 				jQuery("#anemail").html("An E-mail has been sent to <?php echo $emailto; ?>. ");
 				jQuery("#anemail").show();
@@ -1014,6 +1016,28 @@ class startuplist extends CI_Controller {
 			$data['content'] = $this->load->view('startuplist/forgotpass', $data, true);
 			$this->load->view('startuplist/main', $data);
 		}
+	}
+	
+	function testemail(){
+		$from = "mailer@startuplist.sg";
+		$fromname = "E27 Startup List";
+		$to = "jairus@nmgresources.ph";
+		$toname = "Jairus Bondoc";
+		$emailtos = array();
+		$email = array();
+		$email['email'] = $to;
+		$email['name'] = $toname;
+		$emailtos[] = $email;
+		$subject = "test email 4";
+		$template = array();
+		$template['data'] = array();
+		$template['data']['name'] = $toname;
+		$template['data']['passlink'] = "http://e27.sg";
+		$template['data']['passlinkhere'] = "<a href='".$template['data']['passlink']."'>here</a>";
+		//$template['data'] = json_encode($template['data']);
+		$template['slug'] = "startuplist-forgot-password"; 
+		
+		send_email($from, $fromname, $emailtos, $subject, $message, $template);
 	}
 	
 	function sendChangePassLink($from, $fromname, $to, $toname, $subject, $passlink){
@@ -1393,3 +1417,24 @@ class startuplist extends CI_Controller {
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

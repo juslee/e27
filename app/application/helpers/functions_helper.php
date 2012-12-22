@@ -6,6 +6,7 @@ include_once(dirname(__FILE__)."/magpie_0.72/rss_fetch.inc");
 //include_once(dirname(__FILE__)."/Swift-4.2.2/lib/swift_required.php");
 //include_once(dirname(__FILE__)."/PHPMailer_5.2.2/class.phpmailer.php");
 include_once(dirname(__FILE__)."/mailer/emailer/email.php");
+include_once(dirname(__FILE__)."/mandrill-api-php/src/Mandrill.php");
 
 function captcha(){
 	?><img id='captchaimg' src='<?php echo site_url(); ?>media/startuplist/cool-php-captcha-0.3.1/captcha.php' ><?php
@@ -241,6 +242,65 @@ function swap(&$arr, $a, $b) {
     $arr[$a] = $arr[$b];
     $arr[$b] = $tmp;
 }
+
+//mandrill
+function send_email($from, $fromname, $emailtos, $subject, $message, $template){
+	$formvars['key'] ='ed3f246e-b16c-4ffb-8a19-e0c36c8877ea';
+	
+	$formvars['template_name'] =  $template['slug'];
+	$formvars['template_content'] = array();
+	foreach($template['data'] as $key=>$value){
+		$content = array();
+		$content['name'] = $key;
+		$content['content'] = $value;
+		$formvars['template_content'][] = $content;
+	}
+	$formvars['message'] = array();
+	//$formvars['message']['html'] = "test email";
+	//$formvars['message']['text'] = "test email";
+	$formvars['message']['subject'] = $subject;
+	$formvars['message']['from_email'] = $from;
+	$formvars['message']['from_name'] = $fromname;
+	/*
+	$email = array();
+	$email['email'] = $to;
+	$email['name'] = $toname;
+	$formvars['message']['to'][] = $emails;
+	*/
+	$formvars['message']['to'] = $emailtos;
+	/*
+	$formvars['message']['headers'] = array();
+	$formvars['message']['headers']["X-MC-MergeVars"] = $template['data'];
+	$formvars['message']['headers']["X-MC-Template"] = $template['slug'];
+	*/
+	$formvars['message']['track_opens'] = true;
+	$formvars['message']['track_clicks'] = true;
+	$formvars['message']['auto_text'] = true;
+	$formvars['message']['async'] = true;
+	//exit();
+	/*
+	$sp = new Snoopy();
+	//agent spoof and curl binary setup
+	$sp->agent = "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8 (.NET CLR 3.5.30729)";
+	if(isset($_SERVER['WINDIR']) && strpos($_SERVER['WINDIR'], 'Windows') !== false)
+		$sp->curl_path = dirname(__FILE__)."/magpie_0.72/extlib/curlwin32/curl";
+	else
+		$sp->curl_path = "/usr/bin/curl"; //assumed return curl binary path for linux
+	$sp->temp_dir = dirname(__FILE__)."/tmp";
+	//$URI = "https://mandrillapp.com/api/1.0/messages/send.json";
+	$URI = "http://mandrillapp.com/api/1.0/users/info.json";
+	$sp->submit($URI, $formvars);
+	echo $sp->results;
+	*/
+	$m = new Mandrill('ed3f246e-b16c-4ffb-8a19-e0c36c8877ea');
+	//print_r($m->call("users/info", $formvars['message']));
+	$r = $m->call("messages/send-template", $formvars);
+	if(trim($r[0]['status'])!='sent'){
+		print_r($formvars);
+		print_r($r);
+	}
+}
+
 /*
 	usage:
 	$template = array();
