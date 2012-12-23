@@ -16,7 +16,7 @@ class Mandrill {
     
     public $apikey;
     public $ch;
-    public $root = 'http://mandrillapp.com/api/1.0';
+    public $root = 'https://mandrillapp.com/api/1.0';
     public $debug = false;
 
     public static $error_map = array(
