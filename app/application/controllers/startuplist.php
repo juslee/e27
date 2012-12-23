@@ -63,6 +63,11 @@ class startuplist extends CI_Controller {
 	
 	function ajax_logout(){
 		unset($_SESSION['web_user']);
+		//linkedin
+		unset($_SESSION['requestToken']);
+		unset($_SESSION['oauth_verifier']);
+		unset($_SESSION['oauth_access_token']);
+		
 	}
 	function userlogout(){
 		$this->ajax_logout();

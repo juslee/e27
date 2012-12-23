@@ -139,11 +139,14 @@ a:link, a:hover, a:visited{
 	top:50px;
 	display:none;
 }
-#logins a:hover{
-	text-decoration:underline;
+#logins a:link, #logins a:visited{
 	color:white; 
+	text-decoration:none;
 }
-
+#logins a:hover{
+	color:white; 
+	text-decoration:underline;
+}
 .fb_details{
 	color:#21913F;
 }

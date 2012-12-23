@@ -177,6 +177,15 @@ function getWebUser($web_user){
 		$web_user['twitter'] = "";
 		$web_user['linkedin'] = "";
 	}
+	else if($web_user['in_data']){
+		$web_user['type'] = 'in'; //linkedin
+		$web_user['in'] = objectToArray(json_decode($web_user['in_data']));
+		$web_user['name'] = $web_user['in']['first-name']." ".$web_user['in']['last-name'];
+		$web_user['img'] = $web_user['in']['picture-url'];
+		$web_user['email'] = "";
+		$web_user['twitter'] = "";
+		$web_user['linkedin'] = "";
+	}
 	return $web_user;
 }
 
@@ -416,4 +425,11 @@ function send_email_php($from, $fromname, $to, $subject, $message, $template){
 	}
 }
 */
+//used for linked in responseg
+function getXMLtoArr($xml){
+	$xmlobj = json_decode(json_encode((array) simplexml_load_string($xml)), 1);
+	//$xmlobj = objectToArray($xmlobj);
+	return $xmlobj;
+}
+
 ?>

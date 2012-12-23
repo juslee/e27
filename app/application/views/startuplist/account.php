@@ -53,14 +53,19 @@ if(!$user){
 												<?php echo $user['name']; ?>
 											</td>
 										</tr>
-										<tr>
-											<td class='bold'>
-												E-mail:
-											</td>
-											<td>
-												<?php echo $user['email']; ?>
-											</td>
-										</tr>
+										<?php if(trim($user['email'])&&$user['id']==$_SESSION['web_user']['id']){
+											?>
+											<tr>
+												<td class='bold'>
+													E-mail:
+												</td>
+												<td>
+													<?php echo $user['email']; ?>
+												</td>
+											</tr>
+											<?php
+										}
+										?>
 									</table>
 								</td>
 							</tr>

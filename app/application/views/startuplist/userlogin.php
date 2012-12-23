@@ -82,13 +82,20 @@ function recap(){
 											<td class='submit' colspan="2" >
 												<table style='margin:auto'>
 													<tr>
-														<td style="vertical-align:middle">
+														<td style="vertical-align:middle; text-align:center" colspan="2">
 															<img id='loginbutton' src='<?php echo site_url(); ?>media/startuplist/login.jpg' onclick='userlogin();'  />
 															<div id='logging' class='hidden'>Logging in... <img src='<?php echo site_url(); ?>media/ajax-loader.gif' /> </div>
 														</td>
-														<td style='vertical-align:middle'>
+													</tr>
+													<tr>
+														<td style='vertical-align:middle; padding-top:10px; padding-right:10px;'>
 															<img id='fb_loginbutton' src='<?php echo site_url(); ?>media/startuplist/fb_login.jpg' onclick='fb_login();'  />
 															<div id='fb_logging' class='hidden'>Logging in... <img src='<?php echo site_url(); ?>media/ajax-loader.gif' /> </div>
+														</td>
+														<td style='vertical-align:middle; padding-top:14px'>
+															<a href='<?php echo site_url(); ?>media/startuplist/linkedin/auth.php'>
+															<img src='<?php echo site_url(); ?>media/startuplist/in_login.jpg'  />
+															</a>
 														</td>
 													</tr>
 												</table>

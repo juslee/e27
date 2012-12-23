@@ -17,6 +17,76 @@ if($method=='editcompany'){
 	$editmode = true;
 }
 
+//linkedin
+$config['base_url']             =   'http://www.startuplist.sg/media/startuplist/linkedin/auth.php';
+$config['callback_url']         =   'http://www.startuplist.sg';
+$config['linkedin_access']      =   'ivfdie7hflz3';
+$config['linkedin_secret']      =   'SQ7Tp9Vxf2i5KDsz';
+include_once dirname(__FILE__)."/../../../media/startuplist/linkedin/linkedin.php";
+# First step is to initialize with your consumer key and secret. We'll use an out-of-band oauth_callback
+$linkedin = new LinkedIn($config['linkedin_access'], $config['linkedin_secret'], $config['callback_url'] );
+//$linkedin->debug = true;
+//print_r($_SESSION);
+if (isset($_REQUEST['oauth_verifier'])){
+	$_SESSION['oauth_verifier'] = $_REQUEST['oauth_verifier'];
+	$linkedin->request_token    =   unserialize($_SESSION['requestToken']);
+	$linkedin->oauth_verifier   =   $_SESSION['oauth_verifier'];
+	$linkedin->getAccessToken($_REQUEST['oauth_verifier']);
+	$_SESSION['oauth_access_token'] = serialize($linkedin->access_token);
+	header("Location: " . $config['callback_url']);
+	exit;
+}
+else{
+	$linkedin->request_token    =   unserialize($_SESSION['requestToken']);
+	$linkedin->oauth_verifier   =   $_SESSION['oauth_verifier'];
+	$linkedin->access_token     =   unserialize($_SESSION['oauth_access_token']);
+}
+# You now have a $linkedin->access_token and can make calls on behalf of the current member
+$xml_response = $linkedin->getProfile("~:(id,first-name,last-name,headline,picture-url)");
+if($xml_response){
+	$linkedinarr = getXMLtoArr($xml_response);
+	if($linkedinarr['id']){
+		/*
+		echo '<pre>';
+		echo 'My Profile Info';
+		echo $xml_response;
+		echo '<br />';
+		print_r($linkedinarr);
+		$json = json_encode($linkedinarr);
+		echo $json; 
+		$a = (json_decode($json));
+		$a = objectToArray($a);
+		echo $a['first-name'];
+		*/
+		//check in linkedin use already exists
+		$sql = "select * from `web_users` where `in_id`='".mysql_real_escape_string($linkedinarr['id'])."'";
+		$q = $this->db->query($sql);
+		$web_user = $q->result_array();
+		$web_user = $web_user[0];
+		if(!$web_user['id']){
+			$sql = "insert into `web_users` set 
+				`in_id` = ".$this->db->escape($linkedinarr['id']).",
+				`in_data` = ".$this->db->escape(json_encode($linkedinarr)).",
+				`dateadded` = NOW();
+			";	
+			$q = $this->db->query($sql);
+			$userid = $this->db->insert_id();
+		}
+		else{
+			$sql = "update `web_users` set 
+				`in_id` = ".$this->db->escape($linkedinarr['id']).",
+				`in_data` = ".$this->db->escape(json_encode($linkedinarr)).",
+				`dateupdated` = NOW()
+				where `in_id`=".$this->db->escape($linkedinarr['id']);	
+			$q = $this->db->query($sql);
+		}
+		$sql = "select * from `web_users` where `in_id`=".$this->db->escape($linkedinarr['id']);
+		$q = $this->db->query($sql);
+		$web_user = $q->result_array();
+		$_SESSION['web_user'] = $web_user[0];
+	}
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -346,10 +416,8 @@ window.fbAsyncInit = function() {
 								<div onmouseover="jQuery('#logins').show()" onmouseout="jQuery('#logins').hide()" id='login' <?php if($_SESSION['web_user']){ echo "style='display:none'"; } ?>>Login w/
 									<div id='logins'>
 										<a id='fb_login' onclick='fb_login()'>Facebook</a>
-										<!--
 											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<a id='li_login'>Linkedin</a>
-										-->
+										<a id='li_login' href='<?php echo site_url(); ?>media/startuplist/linkedin/auth.php'>Linkedin</a>
 									</div>
 								</div>
 							</td>
@@ -368,6 +436,12 @@ window.fbAsyncInit = function() {
 								$fb_data = json_decode($_SESSION['web_user']['fb_data']);
 								//print_r($fb_data);
 								$str = "<table cellpadding=0 cellspacing=0 style='float:right'><tr><td style='padding:5px;' class='fb_details'>Hello ".$fb_data->first_name."!<br /><a href='#' onclick='fb_logout(); return false;' style='color:#21913E' >Log Out</a></td><td><img style='height:48px; width:48px;' src='http://graph.facebook.com/".$fb_data->id."/picture' /></td></tr></table>";
+								echo $str;
+							}
+							else if($_SESSION['web_user']['in_data']){
+								$in_data = objectToArray(json_decode($_SESSION['web_user']['in_data']));
+								//print_r($fb_data);
+								$str = "<table cellpadding=0 cellspacing=0 style='float:right'><tr><td style='padding:5px;' class='fb_details'>Hello ".$in_data['first-name']."!<br /><a href='#' onclick='self.location=\"".site_url()."userlogout\"; return false;' style='color:#21913E' >Log Out</a></td><td class=''><img style='height:48px; width:48px;' src='".$in_data['picture-url']."' /></td></tr></table>";
 								echo $str;
 							}
 							else if($_SESSION['web_user']['email']){
