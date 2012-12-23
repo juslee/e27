@@ -900,9 +900,16 @@ class startuplist extends CI_Controller {
 	
 	function userlogin(){
 		if($_SESSION['web_user']){
-			header ('HTTP/1.1 301 Moved Permanently');
-			header("Location: ".site_url()."account");
-			exit();
+			if($_POST){
+				?>
+				self.location = "<?php echo site_url(); ?>account";
+				<?php
+			}
+			else{
+				header ('HTTP/1.1 301 Moved Permanently');
+				header("Location: ".site_url()."account");
+				exit();
+			}
 		}
 		if($_POST){
 			//echo "<pre>";
