@@ -1,0 +1,364 @@
+/*  
+Theme Name: Pop Blue
+Theme URI: http://www.blogohblog.com/
+Description: Pop Blue is a 2 columns Wordpress theme. Clean, simple and lightwieght theme. I love to hear of my work being used :). This work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>. This means you may use it for any purpose, and make any changes you like. Just leave my Bob link under your footer :)
+Version: 
+Author: Bob 
+Author URI: http://www.blogohblog.com/
+
+This theme was designed and built by Bob of <a href="http://www.blogohblog.com/">Blog Oh Blog</a> based on the famous <a href="http://binarybonsai.com/kubrick/">Kubrick</a>.
+*/
+body{font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;margin:0;padding:0; color: #333333;}
+#top{width:860px;margin:0px auto; overflow:hidden; padding:0;}
+#header{margin:0 auto;padding:0;}
+h1, h2, h3 { font-family:Verdana, Arial, Helvetica, sans-serif; padding:0; margin:0; font-size:14px; font-weight:bold;}
+h1 {font-size:20px;}
+h2 {color: black;}
+a:link { text-decoration: none; color : #399A4D; border: none;}
+#rightcolumn a:link { text-decoration: none; color : #4CC417; border: none;}
+#rightcolumn a:visited { text-decoration: none; color : #4CC417; border: none;}
+#rightcolumn a:hover { text-decoration: underline; color : #5EFB6E; border: none;} 
+a:active {outline:none; text-decoration: none; color : #399A4D; border: none;}
+a:focus {-moz-outline-style:none;}
+a:visited { text-decoration: none; color : #15C638; border: none;}
+a:hover	{ text-decoration: underline; color : #56C16B; border: none;} 
+/**/
+.postmetadata { background:#E1E8E5; padding:5px;}
+span.cmt{background:transparent url(images/comment.gif) no-repeat;border:0;margin:0;padding:0 0 5px 20px;}
+span.cty{background:transparent url(images/category.gif) no-repeat;border:0;margin:0;padding:0 0 5px 20px;}
+#main{width:860px;margin:0 auto;padding:0;}
+#content{border-right-color: #cccccc; float:left;width:640px;margin:10px 0 0;padding:0; border-right:1px solid;}
+.entry{float:left;width:630px;margin:0;padding:0; overflow:hidden;display:block;}
+#sidebar{float:right;width:200px;margin:10px 0 0;padding:0;margin-bottom:20px;}
+#rsidebar{float:right;width:200px;margin:0;padding-top:0; overflow:hidden;}
+#rsidebar h2{font-size:12px;border-bottom:#eee 1px solid;margin:0 0 5px;padding:0;color:white;}
+#rsidebar ul{list-style-type:none;margin:0;padding:0;color:white;}
+#rsidebar ul li{list-style-type:square; margin:0 0 10px 20px;padding-top:15pt;}
+#rsidebar ul li ul{list-style-type:none;margin:0;padding:0 3px;}
+#rsidebar ul li ul li{list-style-type:none;background:transparent url(images/li.gif) no-repeat 0 3px;border:0;margin:0;padding:0 0 3px 15px;}
+#rside ul li{list-style-type:none;margin-left:0px;}
+#jobs ul li{list-style-type:none; margin-left:0px; padding:0px;}
+.navigation{width:640px;color:#666;margin:0 auto; padding:0;}
+.alignright{float:right;margin-top:10px; margin-bottom:10px; margin-right:10px;}
+.alignleft{float:left;margin-top:10px; margin-bottom:10px;}
+#searchform { height:35px; line-height:35px; float:right; margin-right: 35px; padding: 0;}
+#IEroot input#s{margin-top:4px;}
+#IEroot input#f{margin-top:-1px;}
+input#s { color: #5188d2; width: 120px; background:#fcfcfc; margin-top:5px;}
+/* #footer{background:#929292;clear:both;height:5px !important;margin:0;padding:0;} */
+#footerbox{background:url(images/footer.png) no-repeat; position:relative; width:980px; clear:both; margin:12px auto; height:55px;line-height:30px !important;padding:0;}
+.footer{text-align:center; width:980px;color: white;height:45px;line-height:65px !important;margin: 0px;padding:0}
+.footer a:hover{text-decoration:underline;color:#fff;border:none;}
+.footer a:link,.footer a:active,.footer a:visited{text-decoration:underline;color:#25aacd;border:none;}
+
+.boxcomments{border-top:5px solid #ddd;border-bottom:5px solid #ddd;margin-bottom:20px;width:640px;}
+#commentform{border-top:1px solid #eee;margin:0;padding:15px 15px 1px;}
+#commentform label{display:block;margin:0;}
+#commentform input{width:170px;margin:0 5px 10px 0;padding:1px;}
+#commentform textarea{width:400px;margin:0 0 10px;padding:0;}
+#commentform #submit{margin:0 0 20px;}
+#commentform p{margin:5px 0;}
+.odd{background:#f5f5f5;}
+ol.commentlist {margin:0 0 1px;padding:0;}
+ol.commentlist :hover{background:#e7f9ff;}
+ol.commentlist li{border-top:1px solid #eee;display:block;list-style:none;margin:0;padding:5px 15px 1px;}
+ol.commentlist li :hover{background:none;}
+ol.commentlist li.commenthead{display:block;list-style:none;margin:0;padding:5px 15px;}
+ol.commentlist li.commenthead h2{margin:0; color:black;}
+ol.tblist{border-top:1px solid #fff;list-style:none;margin:0 0 1px;padding:15px;}
+ol.tblist li{display:block;list-style:none;background:#e7f9ff;padding-left:15px;margin:0 0 5px;}
+
+#rsidebar ul li ul
+{
+list-style-type: none;
+background-color: /*#143278*/black;
+color: white;
+}
+table{border-collapse:collapse;}
+th{font-size:10px;line-height: 25px; background:url(images/th.jpg) no-repeat;  padding:30; color:white;}
+td{color: black; background:url(images/td.jpg) no-repeat; padding: 0 10px 10px 10px;}
+
+.specialquote{
+	text-align: center;
+	text-transform: capitalize;
+	text-decoration: none;
+	letter-spacing: 1.2px;
+	/*text-shadow: 2px 2px 1px black; */
+	color: navy;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	line-height: 22px;
+	font-size: 17px;
+}
+
+#rightcolumn{
+	color: #CCCCCC;
+	height:100%;
+	min-height: 500px;
+	background-color: black;/* #143278; */
+	padding-bottom:10px;
+	/*width: 200px; Width of left column*/
+	/*margin-left: -840px; Set left margin to -(MainContainerWidth)*/
+}
+
+#IEroot #rightcolumn{margin-top:60px; width:200px;}
+
+#rightcolumn p {color:#e0e0e0;}
+
+.innertube{
+	margin: 10px; /*Margins for inner DIV inside each column (to provide padding)*/
+	margin-top: 0pt;
+}
+#IEroot .innertube{margin-top: 0pt;}
+
+a.menu{
+	text-decoration: none;
+	color: white;
+}
+
+a.menu:hover{
+	text-decoration: underline;
+	color: white;
+}
+
+.specialquote{
+	text-align: left;
+	text-transform: capitalize;
+	text-decoration: none;
+	letter-spacing: 1.2px;
+	text-shadow: 2px 2px 1px black;
+	color: navy;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	line-height: 28px;
+	font-size: 24px;
+}
+
+/*Credits: Dynamic Drive CSS Library */
+/*URL: http://www.dynamicdrive.com/style/ */
+
+#nav{background:url(images/nav.png) no-repeat; height:35px; width:980px; margin:12px auto;padding:0;}
+#nav2{height:35px;width:600px;font-weight:700;margin-left:10px; auto;padding-left:0px; float:left}
+ul.nav2{height:35px;line-height:35px;float:left;list-style:none;font-size:12px;font-weight:700;margin:0;padding:0;}
+ul.nav2 li{float:left !important;list-style-type:none;margin:0;padding:0; text-align: center;}
+ul.nav2 li ul li{background-color: #000000;}
+ul.nav2 li a,ul.nav2 li a:link,ul.nav2 li a:visited{text-decoration:none;color: white;float:left;display:block;padding:0 2px;}
+ul.nav2 li a:hover{color:#FFFFFF;text-decoration:underline; background-color: #143278;}
+ul.nav2 li a:active{text-decoration:none; }
+ul.nav2 li.current_page_item a{text-decoration:none; color:#000000; background-color: #EEEEEE;}
+ul.nav2 li.current_page_item a:hover{text-decoration:none; color:#FFFFFF; background-color: #4E9258;}
+ul.nav2 li ul li.current_page_item a{text-decoration:none; color:#000000; background-color: #EEEEEE;}
+ul.nav2 li ul{float:left;margin:0;padding:0;}
+
+.suckertreemenu ul{
+margin: 0;
+padding: 0;
+list-style-type: none;
+z-index:1000;
+position:relative;
+}
+
+/*Top level list items*/
+.suckertreemenu ul li{
+position: relative;
+display: inline;
+float: left;
+background-color: black; /*overall menu background color*/
+}
+
+/*Top level menu link items style*/
+.suckertreemenu ul li a{
+display: block;
+width: 85px; /*Width of top level menu link items*/
+padding: 2px;
+border: none;
+border-left-width: 0;
+text-decoration: none;
+color: white;
+}
+	
+/*1st sub level menu*/
+.suckertreemenu ul li ul{
+left: 0;
+position: absolute;
+top: 1em; /* no need to change, as true value set by script */
+display: block;
+visibility: hidden;
+background-color: black;
+font-size: 0.8em;
+}
+
+/*Sub level menu list items (undo style from Top level List Items)*/
+.suckertreemenu ul li ul li{
+display: list-item;
+float: none;
+background-color: #000000;
+}
+
+/*All subsequent sub menu levels offset after 1st level sub menu */
+.suckertreemenu ul li ul li ul{ 
+left: 159px; /* no need to change, as true value set by script */
+top: 0;
+
+}
+
+/* Sub level menu links style */
+.suckertreemenu ul li ul li a{
+display: block;
+width: 180px; /*width of sub menu levels*/
+color: white;
+background-color: black;
+text-decoration: none;
+padding: 1px 5px;
+border: 1px solid #ccc;
+
+}
+
+.suckertreemenu ul li a:hover{
+background-color: #4CC552; /**/
+color: white;
+}
+
+/*Background image for top level menu list links */
+.suckertreemenu .mainfoldericon{
+background: #000000 url(media/arrow-down.gif) no-repeat center right;
+}
+
+/*Background image for subsequent level menu list links */
+.suckertreemenu .subfoldericon{
+background: #000000 url(media/arrow-right.gif) no-repeat center right;
+}
+
+* html p#iepara{ /*For a paragraph (if any) that immediately follows suckertree menu, add 1em top spacing between the two in IE*/
+padding-top: 1em;
+}
+
+/*Credits: Dynamic Drive CSS Library */
+/*URL: http://www.dynamicdrive.com/style/ */
+.cssbutton{
+background-color: #DDDDDD;
+border: 2px #d1ec4c outset;
+padding: 1px 4px;
+color: gray;
+text-decoration: none;
+}
+
+body .cssbutton{font: bold 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif; color: black;font-size:16px;}
+
+.cssbutton:visited{
+color: gray;
+}
+
+.cssbutton:hover{
+border-style: inset;
+background-color: white;
+padding: 2px 3px 0 5px; /*shift text 1px to the right and down*/
+}
+
+.cssbutton:active{
+color: gray;
+}
+
+/*Search Bar*/
+.searchleft{
+	/*background:transparent url(http://images.apple.com/global/nav/images/searchfield_leftcap.png) no-repeat scroll left top;*/
+	display:inline;
+	border:0px none;
+	height:23px;
+	width:27px;
+	margin-top:4px;
+	padding-top:1px;
+}
+
+.searchright{
+	/*background:transparent url(http://images.apple.com/global/nav/images/searchfield_rightcap.png) no-repeat scroll right top;*/
+	display:inline;
+	border:0px none;
+	height:23px;
+	width:5px;
+	margin-top:4px;
+	padding:none;
+	position:relative;
+	left:-8px;
+}
+
+.fieldright{
+	/*background:transparent url(http://images.apple.com/global/nav/images/searchfield_rightcap.png) no-repeat scroll right top;*/
+	display:inline;
+	border:0px none;
+	height:20px;
+	width:5px;
+	padding:none;
+	position:relative;
+	left:-8px;
+}
+
+.fieldleft{
+	/*background:transparent url(http://images.apple.com/global/nav/images/searchfield_rightcap.png) no-repeat scroll right top;*/
+	display:inline;
+	border:0px none;
+	height:20px;
+	width:5px;
+	padding:none;
+	position:relative;
+}
+.fieldtext{
+	/*background:transparent url(http://images.apple.com/global/nav/images/searchfield_repeat.png) repeat-x scroll top;*/
+	border:0px none;
+	font-family:"Lucida Grande",Geneva,Arial,sans-serif;
+	font-size:12px;
+	font-size-adjust:none;
+	font-stretch:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:normal;
+	margin:0pt;
+	padding:4px 0px 0px 2px;
+	width:160px;
+	height:16px;
+	vertical-align:top;
+	position:relative;
+	left:-4px;
+}
+
+.searchtext{
+	/*background:transparent url(http://images.apple.com/global/nav/images/searchfield_repeat.png) repeat-x scroll top;*/
+	border:0px none;
+	font-family:"Lucida Grande",Geneva,Arial,sans-serif;
+	font-size:12px;
+	font-size-adjust:none;
+	font-stretch:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:normal;
+	margin:0pt;
+	padding:4px 0px 0px 2px;
+	width:150px;
+	height:19px;
+	vertical-align:top;
+	position:relative;
+	left:-4px;
+}
+#links {overflow:hidden;padding:5px 20px 0px 5px;}
+
+#links li{
+	padding:2px;	
+}
+#links ul{
+	list-style-type:none;
+	margin: 0 0 0 -30px;
+}
+
+#fixedtipdiv{
+position:absolute;
+padding: 10px;
+border:1px solid black;
+font:normal 12px Verdana;
+line-height:18px;
+z-index:99999999999;
+}
+
+/* Holly Hack for IE \*/
+* html .suckertreemenu ul li { float: left; height: 1%; }
+* html .suckertreemenu ul li a { height: 1%; }
+/* End */

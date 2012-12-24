@@ -4,7 +4,7 @@ get_header();
 	<div id="content" class="hfeed">
 		<?php if(have_posts()) { ?>
 		<?php the_post(); ?>
-		<div class="hentry">
+		<div class="hentry">jairus
 			<?php include('inc/headline.php'); ?>
 			<div class="entry-content"><?php the_content(); ?></div>
 		</div>

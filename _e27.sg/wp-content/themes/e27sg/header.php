@@ -107,7 +107,8 @@ position: relative; top: -8; font-size: 10px;
 
 	<div id="header">
 		<div class="container container_2 clearfix">
-			<div id="logo" class='grid_1' style="width: 25%;">
+			<div id="logo" class='grid_1' style="width: 25%; position:relative; left:-30px; top:-30px; ">
+				<div style='position:absolute'><img src="<?php bloginfo('template_directory') ?>/img/santa_hat.png" alt="<?php bloginfo('name'); ?>" /></div>
 				<a href="<?php bloginfo('url'); ?>"><img src="<?php bloginfo('template_directory') ?>/img/e27-logo.png" alt="<?php bloginfo('name'); ?>" /></a>
 			</div>
 			<div id="e27topads">

@@ -1,0 +1,182 @@
+@CHARSET "UTF-8";
+
+.post.full {
+	margin: 0px 0 10px 0; /* 10px */
+}
+
+.post.full div.title h1.post-title {
+	font-size: 34px;
+	color: #333333;
+	margin-bottom: 10px;
+	line-height: 37px;
+	font-family: "Myriad Pro", Arial, Helvetica, sans-serif;
+}
+
+.post.full div.title h1.post-title span.nav-description {
+	display: block;
+	font-size: 14px;
+}
+
+.post.full .description, .listing .description {
+    position: relative;
+    font-size: 17px;
+}
+
+.post.full .description a, .listing .description a,
+.post.full .description a:visited, .listing .description a:visited {
+	font-weight: bold;
+}
+
+.post.full .description a, .listing .description a,
+.post.full .description a:visited, .listing .description a:visited,
+#we_also_recommend_stories .we_also_recommend_story a, 
+#we_also_recommend_stories .we_also_recommend_story a:visited {
+	color: #00A059;
+}
+
+.post.full .description a:hover, 
+.listing .description a:hover, 
+.post.full .description a:hover, 
+.listing .description a:hover,
+#we_also_recommend_stories .we_also_recommend_story a:hover {
+	text-decoration: underline;
+	color: #00A059;
+}
+
+.post.full .description p {
+	margin-top: 15px;
+	margin-bottom: 15px; 
+	line-height: 20px;
+	font-family: "Myriad Pro", Arial, Helvetica, sans-serif;
+}
+
+.post.full .description p strong {
+	font-family: "Myriad Pro", Arial, Helvetica, sans-serif;
+	font-size: 17px;
+	line-height: 20px;
+	font-weight: 600;
+	clear: both;
+    /* display: block; */
+    color: #000000;
+}
+
+.post.full .description div.alignleft {
+	float: left;
+}
+
+.post.full .description p em {
+	font-style: italic;
+}
+
+.post.full .description p a img.alignleft {
+	float: left;
+	margin: 0 10px 10px 0;
+}
+
+.post.full .description p a img.alignright {
+	float: right;
+	margin: 0 0 10px 10px;
+}
+
+.post.full .description ul, .post.full .description ol {
+	list-style-position: inside;
+}
+
+.post.full .description ul, .post.full .description ul li {
+	list-style-type: disc;
+}
+
+.post.full .description ol, .post.full .description ol li {
+	list-style-type: decimal;
+}
+
+.aligncenter {
+	margin: 10px auto 10px auto;
+	display: block;
+}
+
+.post.full .post_share, .listing .post_share {
+    background: none repeat scroll 0 0 white;
+}
+.post.full .post_share.rail, .listing .post_share.rail {
+    background: none repeat scroll 0 0 white;
+    padding: 4px 8px 0;
+    z-index: 11500;
+}
+.post.full .post_share, .listing .post_share {
+    background: none repeat scroll 0 0 white;
+    margin-right: 15px;
+    position: absolute;
+    /* right: 100%; */
+    top: 0;
+}
+
+.post.full .navigation a, .post.full .navigation a:visited {
+	font-family: "Myriad Pro", Arial, Helvetica, sans-serif;
+	color: #333333;
+	font-weight: bold;
+}
+
+.post.full .navigation {
+	margin-top: 10px;
+}
+
+.post.full .navigation .nav-previous,
+.post.full .navigation .nav-next {
+	background-color: #F3F3F3;
+	padding: 5px 5px 5px 10px;	
+	white-space: nowrap;
+	width: 300px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+} 
+
+.post.full .navigation .nav-previous {
+	float: left;
+	background: #F3F3F3 url("../img/post-nav-meta-left.png") no-repeat left center;
+}
+
+.post.full .navigation .nav-next {
+	float: right;
+	padding: 5px 10px 5px 5px;
+	background: #F3F3F3 url("../img/post-nav-meta-right.png") no-repeat right center;
+}
+
+#we_also_recommend_stories {
+	text-align: center;
+	padding-bottom: 10px;
+	border-bottom: 3px double #CCCCCC;
+	margin-bottom: 10px;
+}
+
+#we_also_recommend_stories .we_also_recommend_story {
+	float: left;
+	width: 25%;
+}
+
+#we_also_recommend_stories .we_also_recommend_story .story_image img {
+	border: 3px solid #20913E;
+}
+
+#we_also_recommend_stories .we_also_recommend_story .story_title {
+	overflow: hidden;
+	text-overflow: ellipsis;	
+	margin-top: 5px;
+	font-size: 14px;
+	line-height: 17px;
+}
+
+#we_also_recommend_stories .we_also_recommend_story a,
+#we_also_recommend_stories .we_also_recommend_story a:visited {
+	font-family: "Myriad Pro", Arial, Helvetica, sans-serif;
+	color: #000000;
+}
+
+.share-buttons.share-button-rail {
+	text-align: center;
+}
+
+.share-buttons.share-button-rail .fb-like {
+	padding-left: 5px;
+	width: 50px !important;
+}

@@ -1,0 +1,22 @@
+Install notes:
+
+**************
+Install Files:
+**************
+
+If you already have a "tantan" directory in your plugins directory (from one of my previous Wordpress plugins), first back up this existing tantan directory. Then take the files of this plugin's tantan directory and overwrite any files in your existing tantan directory, which should be just some "lib.*.php" library files. 
+
+Otherwise, just copy the entire tantan directory to your Wordpress plugins directory.
+ 
+Your Wordpress plugins directory should be something like [WORDPRESS DIR]/wp-content/plugins.
+
+**************
+Configuration:
+**************
+
+Go into your Wordpress admin, click on the "Plugins" tab, and then 
+activate the plugin.
+
+Click on the "Options" tab, and click the "Flickr Post Bar" subtab.
+
+Follow additional instructions on this screen.

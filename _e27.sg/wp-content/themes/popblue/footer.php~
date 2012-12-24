@@ -1,0 +1,11 @@
+</div>
+<div id="footer"></div>
+<div id="footerbox">
+<div class="footer"> 
+&copy 2006–2007 Entrepreneur 27 Singapore: Web 2.0 Unconferences, Sites & Cool Tech
+
+  <!-- <?php echo get_num_queries(); ?> queries. <?php timer_stop(1); ?> seconds. -->
+<?php wp_footer(); ?></div></div>
+</body>
+</html>
+

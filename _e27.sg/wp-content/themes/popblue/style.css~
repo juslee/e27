@@ -1,0 +1,225 @@
+/*  
+Theme Name: Pop Blue
+Theme URI: http://www.blogohblog.com/
+Description: Pop Blue is a 2 columns Wordpress theme. Clean, simple and lightwieght theme. I love to hear of my work being used :). This work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>. This means you may use it for any purpose, and make any changes you like. Just leave my Bob link under your footer :)
+Version: 
+Author: Bob 
+Author URI: http://www.blogohblog.com/
+
+This theme was designed and built by Bob of <a href="http://www.blogohblog.com/">Blog Oh Blog</a> based on the famous <a href="http://binarybonsai.com/kubrick/">Kubrick</a>.
+*/
+body{font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;margin:0;padding:0; color: #333333;}
+#top{width:860px;height: 80px;margin:10px auto;padding:0;}
+#header{margin:0 auto;padding:0;}
+#header h1{text-indent:-10000px;margin:0;padding:0;}
+#header h1 a{display:block;background:url(images/logo.gif) no-repeat left;height:80px; padding:10px}
+h1, h2, h3 { font-family:Verdana, Arial, Helvetica, sans-serif; padding:0; margin:0; font-size:14px; font-weight:bold;}
+h1 {font-size:20px;}
+a:link { text-decoration: none; color : #006699; border: none;}
+#rightcolumn a:link { text-decoration: none; color : #4CC417; border: none;}
+#rightcolumn a:visited { text-decoration: none; color : #4CC417; border: none;}
+#rightcolumn a:hover { text-decoration: underline; color : #5EFB6E; border: none;} 
+a:active { text-decoration: none; color : #006699; border: none;}
+a:visited { text-decoration: none; color : #006699; border: none;}
+a:hover	{ text-decoration: underline; color : #4192e5; border: none;} 
+/**/
+.postmetadata { background:#e7f9ff; padding:5px;}
+span.cmt{background:transparent url(images/comment.gif) no-repeat;border:0;margin:0;padding:0 0 5px 20px;}
+span.cty{background:transparent url(images/category.gif) no-repeat;border:0;margin:0;padding:0 0 5px 20px;}
+#main{width:860px;margin:0 auto;padding:0;}
+#content{border-right-color: #cccccc; float:left;width:640px;margin:10px 0 0;padding:0; border-right:1px solid;}
+.entry{float:left;width:630px;margin:0;padding:0; overflow:hidden;}
+#sidebar{float:right;width:200px;margin:10px 0 0;padding:0;margin-bottom:20px;}
+#rsidebar{float:right;width:200px;margin:0;padding-top:25px; overflow:hidden;}
+#rsidebar h2{font-size:12px;border-bottom:#eee 1px solid;margin:0 0 5px;padding:0;color:black;}
+#rsidebar ul{list-style-type:none;margin:0;padding:0;color:black;}
+#rsidebar ul li{list-style-type:none;margin:0 0 10px;padding:0;}
+#rsidebar ul li ul{list-style-type:square;margin:0;padding:0 3px;}
+#rsidebar ul li ul li{list-style-type:none;background:transparent url(images/li.gif) no-repeat 0 3px;border:0;margin:0;padding:0 0 3px 15px;}
+.navigation{width:640px;color:#666;margin:0 auto; padding:0;}
+.alignright{float:right;margin-top:10px; margin-bottom:10px;}
+.alignleft{float:left;margin-top:10px; margin-bottom:10px;}
+#searchform { height:35px; line-height:35px; float:right; margin: 0; padding: 0;  }
+input#s { color: #5188d2; width: 120px; border: 1px solid #cbcbcb; background:#fcfcfc;}
+#footer{background:#929292;clear:both;height:5px !important;margin:0;padding:0;}
+#footerbox{background:black;height:30px;line-height:30px !important;margin:0;padding:0;}
+.footer{text-align: center; width:860px;color: white;height:30px;line-height:30px !important;margin:0 auto;padding:0}
+.footer a:hover{text-decoration:underline;color:#fff;border:none;}
+.footer a:link,.footer a:active,.footer a:visited{text-decoration:underline;color:#25aacd;border:none;}
+.boxcomments{border-top:5px solid #ddd;border-bottom:5px solid #ddd;margin-bottom:20px;width:640px;}
+#commentform{border-top:1px solid #eee;margin:0;padding:15px 15px 1px;}
+#commentform label{display:block;margin:0;}
+#commentform input{width:170px;margin:0 5px 10px 0;padding:1px;}
+#commentform textarea{width:400px;margin:0 0 10px;padding:0;}
+#commentform #submit{margin:0 0 20px;}
+#commentform p{margin:5px 0;}
+ol.commentlist{margin:0 0 1px;padding:0;}
+ol.commentlist :hover{background:#e7f9ff;}
+ol.commentlist li{border-top:1px solid #eee;display:block;list-style:none;margin:0;padding:15px 15px 1px;}
+ol.commentlist li :hover{background:none;}
+ol.commentlist li.commenthead{display:block;list-style:none;margin:0;padding:5px 15px;}
+ol.commentlist li.commenthead h2{margin:0;}
+ol.tblist{border-top:1px solid #fff;list-style:none;margin:0 0 1px;padding:15px;}
+ol.tblist li{display:block;list-style:none;background:#e7f9ff;padding-left:15px;margin:0 0 5px;}
+
+th{
+background-color: /*#143278*/black;
+color: #FFFFFF;
+}
+
+td{
+color: #000000;
+}
+
+.specialquote{
+	text-align: center;
+	text-transform: capitalize;
+	text-decoration: none;
+	letter-spacing: 1.2px;
+	/*text-shadow: 2px 2px 1px black; */
+	color: navy;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	line-height: 22px;
+	font-size: 17px;
+}
+
+#rightcolumn{
+	color: white;
+	height:100%;
+	min-height: 500px;
+	background-color: black;/* #143278; */
+	/*width: 200px; Width of left column*/
+	/*margin-left: -840px; Set left margin to -(MainContainerWidth)*/
+}
+#rightcolumn p {color:#e0e0e0;}
+
+.innertube{
+	margin: 10px; /*Margins for inner DIV inside each column (to provide padding)*/
+	margin-top: 0;
+}
+
+a.menu{
+	text-decoration: none;
+	color: white;
+}
+
+a.menu:hover{
+	text-decoration: underline;
+	color: white;
+}
+
+.specialquote{
+	text-align: left;
+	text-transform: capitalize;
+	text-decoration: none;
+	letter-spacing: 1.2px;
+	text-shadow: 2px 2px 1px black;
+	color: navy;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	line-height: 28px;
+	font-size: 24px;
+}
+
+
+/*Credits: Dynamic Drive CSS Library */
+/*URL: http://www.dynamicdrive.com/style/ */
+
+#nav{ background-color: black;height:35px;border-bottom: none ;margin:15px;padding:0; border-top: 2px solid #143278;}
+#nav2{height:35px;width:860px;font-weight:700;margin:0 auto;padding:0;}
+ul.nav2{height:35px;line-height:35px;float:left;list-style:none;font-size:12px;font-weight:700;margin:0;padding:0;}
+ul.nav2 li{float:left !important;list-style-type:none;margin:0;padding:0; text-align: center;}
+ul.nav2 li ul li{background-color: #000000;}
+ul.nav2 li a,ul.nav2 li a:link,ul.nav2 li a:visited{text-decoration:none;color: white;float:left;display:block;padding:0 2px;}
+ul.nav2 li a:hover{color:#FFFFFF;text-decoration:underline; background-color: #143278;}
+ul.nav2 li a:active{text-decoration:none; }
+ul.nav2 li.current_page_item a{text-decoration:none; color:#000000; background-color: #EEEEEE;}
+ul.nav2 li.current_page_item a:hover{text-decoration:none; color:#FFFFFF; background-color: #4E9258;}
+ul.nav2 li ul li.current_page_item a{text-decoration:none; color:#000000; background-color: #EEEEEE;}
+ul.nav2 li ul{float:left;margin:0;padding:0;}
+
+.suckertreemenu ul{
+margin: 0;
+padding: 0;
+list-style-type: none;
+}
+
+/*Top level list items*/
+.suckertreemenu ul li{
+position: relative;
+display: inline;
+float: left;
+background-color: black; /*overall menu background color*/
+}
+
+/*Top level menu link items style*/
+.suckertreemenu ul li a{
+display: block;
+width: 85px; /*Width of top level menu link items*/
+padding: 2px;
+border: none;
+border-left-width: 0;
+text-decoration: none;
+color: white;
+}
+	
+/*1st sub level menu*/
+.suckertreemenu ul li ul{
+left: 0;
+position: absolute;
+top: 1em; /* no need to change, as true value set by script */
+display: block;
+visibility: hidden;
+background-color: black;
+font-size: 0.8em;
+z-index:10000000;
+}
+
+/*Sub level menu list items (undo style from Top level List Items)*/
+.suckertreemenu ul li ul li{
+display: list-item;
+float: none;
+background-color: #000000;
+}
+
+/*All subsequent sub menu levels offset after 1st level sub menu */
+.suckertreemenu ul li ul li ul{ 
+left: 159px; /* no need to change, as true value set by script */
+top: 0;
+
+}
+
+/* Sub level menu links style */
+.suckertreemenu ul li ul li a{
+display: block;
+width: 180px; /*width of sub menu levels*/
+color: white;
+background-color: black;
+text-decoration: none;
+padding: 1px 5px;
+border: 1px solid #ccc;
+
+}
+
+.suckertreemenu ul li a:hover{
+background-color: #4CC552; /**/
+color: white;
+}
+
+/*Background image for top level menu list links */
+.suckertreemenu .mainfoldericon{
+background: #000000 url(media/arrow-down.gif) no-repeat center right;
+}
+
+/*Background image for subsequent level menu list links */
+.suckertreemenu .subfoldericon{
+background: #000000 url(media/arrow-right.gif) no-repeat center right;
+}
+
+* html p#iepara{ /*For a paragraph (if any) that immediately follows suckertree menu, add 1em top spacing between the two in IE*/
+padding-top: 1em;
+}
+	
+/* Holly Hack for IE \*/
+* html .suckertreemenu ul li { float: left; height: 1%; }
+* html .suckertreemenu ul li a { height: 1%; }
+/* End */

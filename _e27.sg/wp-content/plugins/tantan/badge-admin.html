@@ -1,0 +1,172 @@
+<?if ($status):?>
+<div class="updated"><p><?=$status?></p></div>
+<?endif;?>
+<div class="wrap">
+<h2>Flickr DHTML Badge</h2>
+
+<form method='post' id="tantan_mainForm" name="tantan_mainForm">
+<input type="hidden" name="tantan_action" value="save" />
+
+<fieldset  class="options">
+<legend>General Notes</legend>
+<p>
+This Wordpress plugin displays and rotates thumbnails from your Flickr library without using any flash.
+The Javascript code used for this <a href="http://tantannoodles.com/toolkit/flickr-dhtml-badge/">plugin can be found here</a>.
+</p>
+<p>
+    <strong>Installation:</strong> After configuring these settings below you will want to insert some code
+    into your current theme so that your Flickr badge will appear.
+    This is done by copying and pasting the following code into your current theme.
+    The <a href="theme-editor.php">sidebar template</a> would be a good place to start.
+</p>
+<p>
+<code>
+&lt;?php tantan_fbShowBadge() ?&gt;
+</code>
+</p>
+<p>
+If you are using a customized theme and the badge isn't working, make sure the theme calls <code>wp_header()</code> and <code>wp_footer()</code> in the <a href="http://codex.wordpress.org/Theme_Development#Defining_Custom_Templates">appropriate places</a>.
+</p>
+<p>
+Check for the latest updates for this plugin here: <a href="http://tantannoodles.com/toolkit/wp-flickr-dhtml-badge/">http://tantannoodles.com/toolkit/wp-flickr-dhtml-badge/</a><br>
+<br>
+Please send any comments / suggestions / flames to:<br>
+Joe Tan (<a href="mailto:joetan54@gmail.com">joetan54@gmail.com</a>)<br>
+<a href="http://tantannoodles.com">tantannoodles.com</a>
+
+</p>
+</fieldset>
+
+<fieldset  class="options">
+<legend>Flickr Settings</legend>
+
+<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
+      <tr valign="top">
+        <th width="33%" scope="row">Flickr API Key: </th>
+        <td><input type="text" name="tantan_flickrAPI" value="<?=$tantan_flickrAPI?>" /> (optional)<br>
+        Enter your Flickr API key if you have one.
+        </td>
+      </tr>
+      <tr valign="top">
+        <th scope="row">Flickr Username: </th>
+        <td><input type="text" name="tantan_flickrUser" value="<?=$tantan_flickrUser?>" /><br>
+        Photos will be retrieved from this user. <a href="http://flickr.com/profile_name.gne" target="_blank">Configure &gt;</a>
+        </td>
+      </tr>
+      <tr valign="top">
+        <th scope="row">Tags: </th>
+        <td><input type="text" name="tantan_fbTags" value="<?=$tantan_fbTags ? $tantan_fbTags : '' ?>" /> (optional)<br />
+        Photos with these tags will be retrieved</td>
+      </tr>
+      
+      <tr valign="top">
+        <th scope="row">Number of recent photos to retrieve: </th>
+        <td><input type="text" size="4" name="tantan_flickrMaxPhotos" value="<?=$tantan_flickrMaxPhotos ? $tantan_flickrMaxPhotos : 18 ?>" /></td>
+      </tr>
+</table>
+</fieldset>
+<fieldset class="options">
+<legend>Badge Display Settings</legend>
+<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
+      <tr valign="top">
+        <th width="33%" scope="row">Width:</th>
+        <td><input type="text" name="tantan_fbWidth" value="<?=$tantan_fbWidth ? $tantan_fbWidth : '150px' ?>" /> (eg <code>150px</code>, or <code>100%</code>)</td>
+      </tr>
+      <tr valign="top">
+        <th width="33%" scope="row">Height:</th>
+        <td><input type="text" name="tantan_fbHeight" value="<?=$tantan_fbHeight ? $tantan_fbHeight : '150px' ?>" /> (eg <code>150px</code>, or <code>100%</code>)</td>
+      </tr>
+      <tr valign="top">
+        <th width="33%" scope="row">Additional Custom Styles:</th>
+        <td><input type="text" name="tantan_fbStyles" value="<?=$tantan_fbStyles?>" /> (eg <code>background-color:red;</code>)</td>
+      </tr>
+</table>
+</fieldset>
+
+<fieldset class="options">
+<legend>Thumbnail Settings</legend>
+<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
+      <tr valign="top">
+        <th width="33%" scope="row">Thumbnail Size:</th>
+        <td><input type="text" size="4" name="tantan_fbSize" value="<?=$tantan_fbSize ? $tantan_fbSize : '48' ?>" />px<br />
+        Width and height of thumbnails</td>
+      </tr>
+      <tr valign="top">
+        <th width="33%" scope="row">Delay:</th>
+        <td><input type="text" size="6" name="tantan_fbDelay" value="<?=$tantan_fbDelay ? $tantan_fbDelay : '3000' ?>" /> milliseconds (1000 = 1 second)<br />
+        How long to pause before a new thumbnail appears</td>
+      </tr>
+      <tr valign="top">
+        <th width="33%" scope="row">Margin:</th>
+        <td><input type="text" size="4" name="tantan_fbMargin" value="<?=$tantan_fbMargin ? $tantan_fbMargin : '1' ?>" />px<br />
+        Space between thumbnails</td>
+      </tr>
+
+
+      <?
+      $falbum = get_option('falbum_options');
+      $falbum_url_root = $falbum['falbum_url_root'];
+      $falbum_friendly_urls = $falbum['falbum_friendly_urls'];
+      ?>
+      
+          <script type="text/javascript">
+      function fbLinkDest (obj) {
+        var input = document.getElementById('tantan_fbLinkDestValue')
+        if (!input)
+            input = document.tantan_mainForm.tantan_fbLinkDestValue
+
+        if (obj.value == 'flickr') {
+            input.value = ''
+        } else if (obj.value == 'falbum') {
+            <?if ($falbum_friendly_urls == 'true'):?>
+            input.value = '<?=bloginfo('url')?>/photos/show/recent/photo/$PHOTOID'
+            <?else:?>
+            input.value = '<?=bloginfo('url')?>/wp-content/plugins/falbum/falbum-wp.php?show=recent&photo=$PHOTOID'
+            <?endif;?>
+        } else if (obj.value == 'none') {
+            input.value = ''
+        } else if (obj.value == 'other') {
+            input.focus()
+        }
+      }
+      function fbLinkDestValue(obj) {
+        var input = document.tantan_mainForm.tantan_fbLinkDest
+        input[input.length - 1].checked = true
+      }
+      </script>
+      <tr valign="top">
+        <th width="33%" scope="row">Thumbnail Link: </th>
+        <td>
+        <label><input type="radio" name="tantan_fbLinkDest" onclick="fbLinkDest(this)" value="flickr" <?= ($tantan_fbLinkDest == 'flickr' || !$tantan_fbLinkDest ? 'checked="checked"' : '') ?> /> Flickr profile</label> (default)<br />
+        <label><input type="radio" name="tantan_fbLinkDest" onclick="fbLinkDest(this)" value="falbum" <?= ($tantan_fbLinkDest == 'falbum' ? 'checked="checked"' : '') ?> /> FAlbum plugin</label>
+        <?if (falbum_url_root): ?>
+         (<a href="http://www.randombyte.net/blog/projects/falbum/" target="_blank">plugin homepage</a>)
+        <?else:?>
+         (FAlbum is not installed, get the optional <a href="http://www.randombyte.net/blog/projects/falbum/" target="_blank">plugin here</a>)
+        <?endif;?>
+        <br />
+        <label><input type="radio" name="tantan_fbLinkDest" onclick="fbLinkDest(this)" value="none" <?= ($tantan_fbLinkDest == 'none' ? 'checked="checked"' : '') ?> /> None</label> (do not link photos)<br />
+        <label><input type="radio" name="tantan_fbLinkDest" onclick="fbLinkDest(this)" value="other" <?= ($tantan_fbLinkDest == 'other' ? 'checked="checked"' : '') ?> />  Custom destination</label> ($PHOTOID is Flickr's photo id)<br />
+        &nbsp; &nbsp; &nbsp; <input type="text" name="tantan_fbLinkDestValue" onclick="fbLinkDestValue(this)" style="width:80%;" value="<?=$tantan_fbLinkDestValue ? $tantan_fbLinkDestValue : ''?>" /><br />
+        Where the thumbnails should link to. 
+        </td>
+      </tr>
+
+
+
+
+</table>
+</fieldset>
+
+<p>
+    <label><input type="checkbox" name="tantan_clearCache" value="yes"  /> 
+        Clear data cache used to store Flickr photos</label>
+</p>
+    
+<p class="submit"> 
+	<input type="submit" name="Submit" value="Save Settings &raquo;" />
+</p>
+
+
+</form>
+</div>

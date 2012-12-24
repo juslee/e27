@@ -1,0 +1,2 @@
+[16-Nov-2007 08:24:16] PHP Fatal error:  Call to undefined function get_header() in /home/e27sg/public_html/blog/wp-content/themes/default/index.php on line 1
+[04-Jul-2008 23:43:31] PHP Fatal error:  Call to undefined function get_header() in /home/e27sg/public_html/blog/wp-content/themes/default/index.php on line 1

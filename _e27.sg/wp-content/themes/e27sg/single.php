@@ -69,14 +69,15 @@
 						        </div>
 						    </div>   
 							<?php the_content(); ?>
-                            <?
+							
+							<?
 								$tags = wp_get_post_tags(get_the_ID());
 								if($tags) {
 									$taglinks = array();
 									foreach($tags as $t) {
 										array_push($taglinks, '<a href="'.get_tag_link($t->term_id).'">'.$t->name.'</a>');
 									}
-									echo '<p>Tags: '.implode(', ', $taglinks).'</p>';
+									//echo '<p>Tags: '.implode(', ', $taglinks).'</p>';
 								}
 							?>
 							<?php edit_post_link(); ?>
@@ -91,6 +92,45 @@
 							<?php previous_post_link( '<div class="nav-previous-btn fl">%link</div>', '&lsaquo; Prev Story'); ?>
 							<?php next_post_link( '<div class="nav-next-btn fr">%link</div>', 'Next Story &rsaquo;'); ?>
 						</div><!-- #nav-below -->
+
+
+						<?php
+						if($_GET['outbrain']){
+							?>
+						<!-- outbrain -->
+							<style>
+								.AR_1 {
+									border-left: 0px dotted #329330!important;
+									border-right: 0px dotted #329330!important;
+									border-top: 0px dotted #329330!important;
+									border-top-left-radius: 0px!important;
+									border-top-right-radius: 0px!important;
+									padding: 10px!important;
+								}
+								.AR_2 {
+									border-bottom: 0px dotted #329330!important;
+									border-bottom-left-radius: 0px!important;
+									border-bottom-right-radius: 0px!important;
+									border-left: 0px dotted #329330!important;
+									border-right: 0px dotted #329330!important;
+									padding: 10px!important;
+								}
+								#outbrainx img {
+									margin:0px!important;
+								}
+								#outbrainx{
+									padding-top:20px;
+								}
+							</style>
+							<div id='outbrainx'>
+								<div class="OUTBRAIN" data-src="<?php the_permalink() ?>" data-widget-id="AR_1" data-ob-template="e27" ></div> 
+	<div class="OUTBRAIN" data-src="<?php the_permalink() ?>" data-widget-id="AR_2" data-ob-template="e27" ></div> 
+	<script type="text/javascript" async="async" src="http://widgets.outbrain.com/outbrain.js"></script>
+                            </div>
+
+						<?php
+					}
+					?>
 
 					</div>
 					<?php endwhile; // end of the loop. ?>

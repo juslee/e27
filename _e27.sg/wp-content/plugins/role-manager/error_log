@@ -1,0 +1,14 @@
+[12-Apr-2009 20:39:16] PHP Fatal error:  Call to undefined function  load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
+[15-May-2009 06:51:16] PHP Fatal error:  Call to undefined function load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
+[18-May-2009 03:16:40] PHP Fatal error:  Call to undefined function load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
+[19-Jun-2009 23:29:34] PHP Fatal error:  Call to undefined function load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
+[21-Jun-2009 03:53:33] PHP Fatal error:  Call to undefined function load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
+[23-Jul-2009 00:58:41] PHP Fatal error:  Call to undefined function load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
+[17-Aug-2009 13:55:28] PHP Fatal error:  Call to undefined function load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
+[16-Sep-2009 22:09:50] PHP Fatal error:  Call to undefined function load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
+[22-Sep-2009 21:45:02] PHP Fatal error:  Call to undefined function load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
+[16-Dec-2009 23:50:07] PHP Fatal error:  Call to undefined function  load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
+[10-Feb-2010 02:03:35] PHP Fatal error:  Call to undefined function  load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
+[30-Apr-2010 15:13:07] PHP Fatal error:  Call to undefined function  load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
+[19-Jun-2010 07:46:30] PHP Fatal error:  Call to undefined function  load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
+[22-Jun-2010 11:24:41] PHP Fatal error:  Call to undefined function  load_plugin_textdomain() in /home/e27sg/public_html/blog/wp-content/plugins/role-manager/role-manager.php on line 19
