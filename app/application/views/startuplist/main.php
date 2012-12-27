@@ -88,6 +88,10 @@ if(!$_SESSION['web_user']){
 		}
 	}
 }
+if(!$_SESSION['web_user']['email']&&!$_GET['missingemail']){
+	header("Location: " . site_url()."editaccount?missingemail=1");
+	exit;
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -281,7 +285,7 @@ function fetchFBData() {
 		userdata = JSON.stringify(response);
 		userid = response.id;
 		useremail = response.email;
-		jQuery("#loggedin").html("<br />Logging in...");
+		jQuery("#loggedin").html("<br />Logging in... <img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
 		jQuery("#loggedin").show();
 		saveFBUserData(userid, useremail, userdata);
 		FB.api('/me/friends', function(response) {
@@ -300,7 +304,7 @@ function fb_login() {
 				fetchFBData();
 				jQuery("#fb_logging").show();
 				jQuery("#fb_loginbutton").hide();
-				jQuery("#loggedin").html("<br />Logging in...");
+				jQuery("#loggedin").html("<br />Logging in... <img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
 				jQuery("#loggedin").show();
 				jQuery("#loggedout").hide();
 				jQuery("#login").hide();

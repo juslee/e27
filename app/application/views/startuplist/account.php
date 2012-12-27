@@ -53,7 +53,8 @@ if(!$user){
 												<?php echo $user['name']; ?>
 											</td>
 										</tr>
-										<?php if(trim($user['email'])&&$user['id']==$_SESSION['web_user']['id']){
+										<?php 
+										if(trim($user['email'])&&$user['id']==$_SESSION['web_user']['id']){
 											?>
 											<tr>
 												<td class='bold'>
@@ -61,6 +62,30 @@ if(!$user){
 												</td>
 												<td>
 													<?php echo $user['email']; ?>
+												</td>
+											</tr>
+											<?php
+										}
+										if(trim($user['twitter'])){
+											?>
+											<tr>
+												<td class='bold'>
+													Twitter:
+												</td>
+												<td>
+													<?php echo $user['twitter']; ?>
+												</td>
+											</tr>
+											<?php
+										}
+										if(trim($user['homepage'])){
+											?>
+											<tr>
+												<td class='bold'>
+													URL:
+												</td>
+												<td>
+													<?php echo $user['homepage']; ?>
 												</td>
 											</tr>
 											<?php

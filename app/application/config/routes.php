@@ -64,6 +64,7 @@ $route['userlogout'] = "startuplist/userlogout";
 $route['forgotpass'] = "startuplist/forgotpass";
 $route['changepass'] = "startuplist/changepass";
 $route['changepass/(:any)'] = "startuplist/changepass/$1";
+$route['editaccount'] = "startuplist/editaccount";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

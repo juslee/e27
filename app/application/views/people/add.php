@@ -768,8 +768,14 @@ else if($web_user&&$contribution){
 		else{
 			?><input type="button" id='savebutton' value="Save" onclick="savePerson()" /><?php
 		}
-	
-		if($person['id']||($company&&$contribution&&$web_user)){
+		
+		//print_r($person);
+		//echo "<hr>";
+		//print_r($contribution);
+		?>
+		</td>
+		<?php
+		if($person['id']||($person&&$contribution&&$web_user)){
 			if($web_user){
 				if($revision){
 					if(!$revision['approved']){
@@ -787,7 +793,6 @@ else if($web_user&&$contribution){
 			}
 		}
 		?>
-		</td>
 		</tr>
 		</table>
 	</td>

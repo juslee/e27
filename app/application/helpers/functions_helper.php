@@ -174,17 +174,17 @@ function getWebUser($web_user){
 		$web_user['name'] = $web_user['fb']->name;
 		$web_user['img'] = "http://graph.facebook.com/".$web_user['fb']->id."/picture?type=large";
 		$web_user['email'] = $web_user['fb']->email;
-		$web_user['twitter'] = "";
-		$web_user['linkedin'] = "";
+		$web_user['twitter'] = $web_user['twitter'];
+		$web_user['homepage'] = $web_user['homepage'];
 	}
 	else if($web_user['in_data']){
 		$web_user['type'] = 'in'; //linkedin
 		$web_user['in'] = objectToArray(json_decode($web_user['in_data']));
 		$web_user['name'] = $web_user['in']['first-name']." ".$web_user['in']['last-name'];
 		$web_user['img'] = $web_user['in']['picture-url'];
-		$web_user['email'] = "";
-		$web_user['twitter'] = "";
-		$web_user['linkedin'] = "";
+		$web_user['email'] = $web_user['email'];
+		$web_user['twitter'] = $web_user['twitter'];
+		$web_user['homepage'] = $web_user['homepage'];
 	}
 	return $web_user;
 }

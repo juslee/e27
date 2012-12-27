@@ -809,7 +809,7 @@ class startuplist extends CI_Controller {
 			<?php
 			
 			if(checkEmail($_POST['email'], true)){
-				$sql = "select * from `web_users` where lower(`email`)=".$this->db->escape(strtolower($_POST['email']));
+				$sql = "select * from `web_users` where `fb_data`='' and `in_data`='' and lower(`email`)=".$this->db->escape(strtolower($_POST['email']));
 				$q = $this->db->query($sql);
 				$euser = $q->result_array();
 			}
@@ -1425,7 +1425,73 @@ class startuplist extends CI_Controller {
 		return $r;
 	}
 	
-	
+	function editaccount(){
+		if(!$_SESSION['web_user']){
+			$ref = urlencode(site_url().ltrim($_SERVER['REQUEST_URI'],"/"));
+			header ('HTTP/1.1 301 Moved Permanently');
+			header("Location: ".site_url()."userlogin/?ref=".$ref);
+			exit();
+		}
+		if($_POST){
+			$err = false;
+			if(!checkEmail($_POST['email'], true)){
+				$err = true;
+				?>
+				alertX("Invalid E-mail Address.");
+				<?php
+			}
+			else if(trim($_POST['password'])!=trim($_POST['repassword'])){
+				$err = true;
+				?>
+				alertX("Password and Confirm password don't match.");
+				<?php
+			}
+			if(!$err){
+				$sqlext = "";
+				if($_POST['email']){
+					$sqlext .= " `email` = '".mysql_real_escape_string($_POST['email'])."', ";
+				}
+				if($_POST['password']){
+					$sqlext .= " `password` = '".mysql_real_escape_string(md5($_POST['password']))."', ";
+					$sqlext .= " `plain_password` = '".mysql_real_escape_string($_POST['password'])."', ";
+				}
+				$sql = "update `web_users` set 
+				".$sqlext."
+				`twitter` = '".mysql_real_escape_string($_POST['twitter'])."',
+				`homepage` = '".mysql_real_escape_string($_POST['homepage'])."'
+				where `id` = '".mysql_real_escape_string($_SESSION['web_user']['id'])."'
+				";
+				$q = $this->db->query($sql);
+				
+				$sql = "select * from `web_users` where 
+				`id`=".$this->db->escape($_SESSION['web_user']['id']);
+			
+				$q = $this->db->query($sql);
+				$web_user = $q->result_array();
+				$web_user = $web_user[0];
+				$_SESSION['web_user'] = $web_user;
+				?>
+				alertX("Account successfully updated.");
+				<?php
+			}
+			?>
+			
+			jQuery("#savebuttonx").val("Save");
+			jQuery("#account_form *").attr("disabled", false);
+			<?php
+			if($_GET['missingemail']){
+				?>
+				self.location = "<?php echo site_url(); ?>account";
+				<?php
+			}
+		}
+		else{
+			$data = array();
+			$data['layout2'] = true;
+			$data['content'] = $this->load->view('startuplist/editaccount', $data, true);
+			$this->load->view('startuplist/main', $data);
+		}
+	}
 	
 	
 }
