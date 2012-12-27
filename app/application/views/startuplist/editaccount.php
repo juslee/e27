@@ -131,11 +131,11 @@ function saveaccount(){
 										?>
 										<tr>
 										  <td class='pad5'>Password:</td>
-										  <td class='pad5'><input type="password" name="password" size="40"><br><div class='hint'>Fill in password to change password</div></td>
+										  <td class='pad5'><input type="password" name="password" size="40" placeholder="Password" ><br><div class='hint'>Fill in password to change password</div></td>
 										</tr>
 										<tr>
 										  <td class='pad5'>Confirm Password:</td>
-										  <td class='pad5'><input type="password" name="repassword" size="40"></td>
+										  <td class='pad5'><input type="password" name="repassword" size="40" placeholder="Password"></td>
 										</tr>
 										<?php
 									}

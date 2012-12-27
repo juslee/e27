@@ -86,6 +86,7 @@ class startuplist extends CI_Controller {
 			if($web_user[0]){
 				$sql = "update `web_users` set 
 					`fb_id` = ".$this->db->escape($userid).",
+					`email` = ".$this->db->escape($useremail).",
 					`fb_email` = ".$this->db->escape($useremail).",
 					`fb_data` = ".$this->db->escape($userdata).",
 					`dateupdated` = NOW()
@@ -95,6 +96,7 @@ class startuplist extends CI_Controller {
 			}
 			else{
 				$sql = "insert into `web_users` set 
+					`email` = ".$this->db->escape($useremail).",
 					`fb_id` = ".$this->db->escape($userid).",
 					`fb_email` = ".$this->db->escape($useremail).",
 					`fb_data` = ".$this->db->escape($userdata).",
@@ -1434,7 +1436,7 @@ class startuplist extends CI_Controller {
 		}
 		if($_POST){
 			$err = false;
-			if(!checkEmail($_POST['email'], true)){
+			if(!checkEmail($_POST['email'], true)&&$_SESSION['web_user']['in_data']){
 				$err = true;
 				?>
 				alertX("Invalid E-mail Address.");

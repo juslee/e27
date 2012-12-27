@@ -88,7 +88,7 @@ if(!$_SESSION['web_user']){
 		}
 	}
 }
-if(!$_SESSION['web_user']['email']&&!$_GET['missingemail']){
+if($_SESSION['web_user']['in_data']&&!$_SESSION['web_user']['email']&&!$_GET['missingemail']){
 	header("Location: " . site_url()."editaccount?missingemail=1");
 	exit;
 }
@@ -285,15 +285,23 @@ function fetchFBData() {
 		userdata = JSON.stringify(response);
 		userid = response.id;
 		useremail = response.email;
-		jQuery("#loggedin").html("<br />Logging in... <img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
-		jQuery("#loggedin").show();
-		saveFBUserData(userid, useremail, userdata);
-		FB.api('/me/friends', function(response) {
-			//html = jQuery('#fbdata').html();
-			//jQuery('#fbdata').html(html+JSON.stringify(response));
-			userfriends = JSON.stringify(response);
-			saveFBUserFriends(userid, userfriends);
-		});
+		if(userid){
+			jQuery("#fb_logging").show();
+			jQuery("#fb_loginbutton").hide();
+			jQuery("#loggedin").html("<br />Logging in... <img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
+			jQuery("#loggedin").show();
+			jQuery("#loggedout").hide();
+			jQuery("#login").hide();
+			jQuery("#loggedin").html("<br />Logging in... <img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
+			jQuery("#loggedin").show();
+			saveFBUserData(userid, useremail, userdata);
+			FB.api('/me/friends', function(response) {
+				//html = jQuery('#fbdata').html();
+				//jQuery('#fbdata').html(html+JSON.stringify(response));
+				userfriends = JSON.stringify(response);
+				saveFBUserFriends(userid, userfriends);
+			});
+		}
     });
 }
 function fb_login() {
@@ -302,12 +310,7 @@ function fb_login() {
 			if (response.authResponse) {
 				refreshx = true;
 				fetchFBData();
-				jQuery("#fb_logging").show();
-				jQuery("#fb_loginbutton").hide();
-				jQuery("#loggedin").html("<br />Logging in... <img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");
-				jQuery("#loggedin").show();
-				jQuery("#loggedout").hide();
-				jQuery("#login").hide();
+				
 				
 			} else {	
 			}
