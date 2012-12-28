@@ -19,6 +19,16 @@
 	<meta name="description" content="<?php echo htmlentities(get_the_excerpt()); ?>" > 
 	<!--wp_head()-->
 	<?php 
+	if(is_single()){
+		$tags = wp_get_post_tags(get_the_ID());
+		$tagstr = array();
+		foreach($tags as $t) {
+			$tagstr[] = $t->name;
+		}
+		$tagstr = implode(", ", $tagstr);
+		?><meta name="news_keywords" content="<?php echo addslashes($tagstr); ?>"><?php
+	}
+	
 	//this is the fix for bug with double title when sharing to google plus
 	ob_start();
 	wp_head(); 
@@ -38,6 +48,8 @@
 	echo $matches[0][0];
 	
 	echo $c;
+	
+	
 	?>
 	<!--/wp_head()-->
 	
@@ -107,8 +119,24 @@ position: relative; top: -8; font-size: 10px;
 
 	<div id="header">
 		<div class="container container_2 clearfix">
-			<div id="logo" class='grid_1' style="width: 25%; position:relative; left:-30px; top:-30px; ">
-				<div style='position:absolute'><img src="<?php bloginfo('template_directory') ?>/img/santa_hat.png" alt="<?php bloginfo('name'); ?>" /></div>
+			<div id="logo" class='grid_1' style="width: 25%; position:relative;">
+				<?php
+				$date = date("md");
+				if($date=="01012013"||$_GET['ny']){
+					?>
+					<div style='position:absolute; left:170px; top:-30px;'>
+					<img src="<?php bloginfo('template_directory') ?>/img/2013.png" alt="<?php bloginfo('name'); ?>" />
+					</div>
+					<?php
+				}
+				else if($date=="1225"||$date=="1226"||$_GET['ch']){
+					?>
+					<div style='position:absolute; left:-30px; top:-30px;'>
+					<img src="<?php bloginfo('template_directory') ?>/img/santa_hat.png" alt="<?php bloginfo('name'); ?>" />
+					</div>
+					<?php
+				}
+				?>
 				<a href="<?php bloginfo('url'); ?>"><img src="<?php bloginfo('template_directory') ?>/img/e27-logo.png" alt="<?php bloginfo('name'); ?>" /></a>
 			</div>
 			<div id="e27topads">

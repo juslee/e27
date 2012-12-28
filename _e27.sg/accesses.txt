@@ -25,7 +25,31 @@ http://e27.sg/wp-login.php
 
 
 
-SFTP
+SFTP LIVE (e27.sg)
 e27.wpengine.com
 e27-jairus
-jairus
+mow357burn437
+
+SFTP STAGING (e27.staging.wpengine.com)
+e27.wpengine.com
+e27-jairuss
+mow357burn437
+
+
+
+MAILCHIMP / MANDRILL CREDS
+id: e27sg
+psswrd : coll3ctive@12
+
+
+echelon2011 wp-admin
+admin
+$P$BCzFwliQtW9p8O80A293Hj2Zfw0HZm1
+
+
+
+old cpanel
+http://weatherwax.fragnetics.com:2082/
+e27sg
+bEnterpriSING27
+

@@ -16,8 +16,34 @@
 							<h1 class="post-title"><?php the_title(); ?></h1>
 						</div>
 						<div class="post_info">
+							<table cellpadding="0" cellspacing="0" style='display:inline'>
+							<tr>
+							<td>
 							By <span class="author_name"><?php the_author_posts_link(); ?></span>
-                            <?php 
+							</td>
+							<td id='gplusauthor'>
+							<?php
+							$googleplus = get_the_author_meta('googleplus');
+							
+							$gid = str_replace("https://plus.google.com/u/0/", "", $googleplus);
+							$gid = str_replace("https://plus.google.com/", "", $gid);
+							$gid = str_replace("/posts", "", $gid);
+							if(trim($gid)){
+								?><a href="https://plus.google.com/<?php echo $gid; ?>?rel=author"><img style='margin: 0 5px 0 5px !important;' src="<?php bloginfo('template_directory') ?>/gplus.png" /></a><?php
+								/*?><a href="<?php echo $googleplus; ?>?rel=author"><img style='margin: 0 5px 0 5px !important;' src="<?php bloginfo('template_directory') ?>/gplus.png" /><?php*/
+                            	echo get_option( 'siteurl' );
+								echo str_replace("http://www.", "http://", $permalink);
+							}
+							
+							?>
+							</td>
+							</tr>
+							</table>
+							<script>
+							jQuery("#gplusauthor").hide();
+							</script>
+							<?php
+
 								/*$googleplus = get_the_author_meta('googleplus');
 								if(!empty($googleplus)) {
 									echo '<a href="'.$googleplus.'?rel=author" target="_blank"><img src="'.get_bloginfo('template_directory').'/img/icon-googleplus-author-24x24.png" class="authoricon" /></a>';
@@ -41,10 +67,10 @@
 										<div class="fb-like" data-href="<?php the_permalink() ?>" data-send="false" data-layout="box_count" data-width="50" data-show-faces="false" data-font="arial"></div>
 									</div>
 									<div>
-										<a href="https://twitter.com/share?count=vertical" class="twitter-share-button" data-url="<?php the_permalink() ?>">Tweet</a>
+										<a href="https://twitter.com/share?count=vertical" class="twitter-share-button" data-url="<?php echo str_replace("http://www.", "http://", $permalink); ?>">Tweet</a>
 									</div>
 									<div>
-										<g:plusone href="<?php the_permalink() ?>" size="tall"></g:plusone>
+										<g:plusone href="<?php echo str_replace("http://www.", "http://", $permalink); ?>" size="tall"></g:plusone>
 									</div>
 									<div>
 										<script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
