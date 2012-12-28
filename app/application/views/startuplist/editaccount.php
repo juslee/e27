@@ -130,6 +130,10 @@ function saveaccount(){
 									if($user['type']!='fb'&&$user['type']!='in'){
 										?>
 										<tr>
+										  <td class='pad5'>Name:</td>
+										  <td class='pad5'><input type="text" name="name" size="40" style='width: 220px;' placeholder="Name"  value="<?php echo sanitizeX($user['name']); ?>" ></td>
+										</tr>
+										<tr>
 										  <td class='pad5'>Password:</td>
 										  <td class='pad5'><input type="password" name="password" size="40" placeholder="Password" ><br><div class='hint'>Fill in password to change password</div></td>
 										</tr>

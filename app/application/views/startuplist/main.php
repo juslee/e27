@@ -64,9 +64,11 @@ if(!$_SESSION['web_user']){
 			$q = $this->db->query($sql);
 			$web_user = $q->result_array();
 			$web_user = $web_user[0];
+
 			if(!$web_user['id']){
 				$sql = "insert into `web_users` set 
 					`in_id` = ".$this->db->escape($linkedinarr['id']).",
+					`in_name` = ".$this->db->escape($linkedinarr['first-name']." ".$linkedinarr['last-name']).",
 					`in_data` = ".$this->db->escape(json_encode($linkedinarr)).",
 					`dateadded` = NOW();
 				";	
@@ -76,6 +78,7 @@ if(!$_SESSION['web_user']){
 			else{
 				$sql = "update `web_users` set 
 					`in_id` = ".$this->db->escape($linkedinarr['id']).",
+					`in_name` = ".$this->db->escape($linkedinarr['first-name']." ".$linkedinarr['last-name']).",
 					`in_data` = ".$this->db->escape(json_encode($linkedinarr)).",
 					`dateupdated` = NOW()
 					where `in_id`=".$this->db->escape($linkedinarr['id']);	

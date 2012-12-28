@@ -30,4 +30,7 @@ if($method=='contribution'){
 	<li <?php if($controller=="contributions"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."contributions";?>"'>
 		Web User Contributions
 	</li>
+	<li <?php if($controller=="webusers"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."webusers";?>"'>
+		Web Users
+	</li>
 </ul>

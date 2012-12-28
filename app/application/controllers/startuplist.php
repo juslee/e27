@@ -1442,6 +1442,12 @@ class startuplist extends CI_Controller {
 				alertX("Invalid E-mail Address.");
 				<?php
 			}
+			else if($_POST['name']&&!trim($_POST['name'])){
+				$err = true;
+				?>
+				alertX("Invalid Name.");
+				<?php
+			}
 			else if(trim($_POST['password'])!=trim($_POST['repassword'])){
 				$err = true;
 				?>
@@ -1450,6 +1456,9 @@ class startuplist extends CI_Controller {
 			}
 			if(!$err){
 				$sqlext = "";
+				if($_POST['name']){
+					$sqlext .= " `name` = '".mysql_real_escape_string($_POST['name'])."', ";
+				}
 				if($_POST['email']){
 					$sqlext .= " `email` = '".mysql_real_escape_string($_POST['email'])."', ";
 				}

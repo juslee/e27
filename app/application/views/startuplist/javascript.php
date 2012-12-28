@@ -65,7 +65,11 @@ jQuery(function(){
 	
 	jQuery( "#dialog" ).dialog({ autoOpen: false, closeOnEscape: true, title: "",
 		open: function(){
-			setTimeout(function(){jQuery("#dialog").dialog("close");}, 2000);
+			setTimeout(function(){
+				jQuery(".ui-dialog").fadeOut(200, function(){
+					jQuery("#dialog").dialog("close");
+				});
+			}, 2000);
 		}
 	});
 
