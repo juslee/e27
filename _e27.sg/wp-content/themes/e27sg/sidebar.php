@@ -94,7 +94,20 @@
 					<?php 
 						$current_year = date('Y');
 						$current_month = date('m');
-						query_posts(array('showposts' => 10, 'orderby' => 'meta_value_num', 'order' => 'DESC', 'meta_key' => '_shares_total', 'year' => $current_year, 'monthnum' => $current_month, 'w' => $week)); ?>
+						//query_posts(array('showposts' => 10, 'orderby' => 'meta_value_num', 'order' => 'DESC', 'meta_key' => '_shares_total', 'year' => $current_year, 'monthnum' => $current_month, 'w' => $week));
+						
+						function filter_where( $where = '' ) {
+							// posts in the last 30 days
+							$where .= " AND post_date > '" . date('Y-m-d', strtotime('-30 days')) . "'";
+							return $where;
+						}
+						
+						add_filter( 'posts_where', 'filter_where' );
+
+						query_posts(array('showposts' => 10, 'orderby' => 'meta_value_num', 'order' => 'DESC', 'meta_key' => '_shares_total')); 
+						
+						remove_filter( 'posts_where', 'filter_where' );
+						?>
 					<?php if (have_posts()) : $count = 0; ?>
 					<div id="top_posts_container" class="container container_2 clearfix">
 						<h3><span>Popular Posts</span></h3>

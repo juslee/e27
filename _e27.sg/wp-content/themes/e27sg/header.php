@@ -122,7 +122,8 @@ position: relative; top: -8; font-size: 10px;
 			<div id="logo" class='grid_1' style="width: 25%; position:relative;">
 				<?php
 				$date = date("md");
-				if($date=="01012013"||$_GET['ny']){
+				$datey = date("mdY");
+				if($datey=="01012013"||$datey=="01022013"||$datey=="01032013"||$_GET['ny']){
 					?>
 					<div style='position:absolute; left:170px; top:-30px;'>
 					<img src="<?php bloginfo('template_directory') ?>/img/2013.png" alt="<?php bloginfo('name'); ?>" />
