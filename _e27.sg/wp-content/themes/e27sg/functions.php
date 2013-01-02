@@ -710,4 +710,27 @@ if(!function_exists('get_the_content_first_paragraph')) {
 		return $return_data;
 	}
 }
+
+
+function mytheme_tinymce_config( $init ) {
+ $valid_iframe = 'iframe[id|class|title|style|align|frameborder|height|longdesc|marginheight|marginwidth|name|scrolling|src|width]';
+ if ( isset( $init['extended_valid_elements'] ) ) {
+  $init['extended_valid_elements'] .= ',' . $valid_iframe;
+ } else {
+  $init['extended_valid_elements'] = $valid_iframe;
+ }
+ return $init;
+}
+add_filter('tiny_mce_before_init', 'mytheme_tinymce_config');
+
+
+global $allowedposttags;
+$allowedposttags["iframe"] = array("id" => array(),"class" => array(), "align" => array(),"frameborder" => array(),"title" => array(),"style" => array(),"name" => array(),"scrolling" => array(),"src" => array(),"height" => array(),"width" => array());
+
+if($_GET['allowedposttags']){
+	echo "<pre>";
+	print_r($allowedposttags);
+	echo "</pre>";
+}
+
 ?>
