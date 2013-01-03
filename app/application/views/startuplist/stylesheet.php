@@ -964,7 +964,26 @@ select[multiple="multiple"]{
 	color: black;
 }
 
+/** footer **/
+.footer{
+	padding-top:40px;
+	text-align:center;
+	color:#B5B5B5;
+}
 
+.footer a:link, .footer a:visited, .footer a:hover {
+	color:#f0f0f0;
+}
+
+/** link farm **/
+.linkfarm{
+	padding:80px;
+	padding-top:30px;
+}
+
+.linkfarm a:link, .linkfarm a:visited, .linkfarm a:hover {
+	color:#B5B5B5;
+}
 
 
 

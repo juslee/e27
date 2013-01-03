@@ -212,7 +212,7 @@ class startuplist extends CI_Controller {
 		
 
 		
-		$sql = "select count(`id`) as `cnt` from `companies` where `active`=1";
+		$sql = "select count(`id`) as `cnt` from `companies` where `active`=1 ".$sqlext;
 		$q = $this->db->query($sql);
 		$cnt = $q->result_array();
 		$cnt = $cnt[0]['cnt'];
@@ -1545,6 +1545,41 @@ class startuplist extends CI_Controller {
 		}
 	}
 	
+	function companylist(){
+		$sql = "select `name`, `slug` from `companies` where `active`=1  order by `name` asc";
+		$q = $this->db->query($sql);
+		$companies = $q->result_array();
+		$data = array();
+		$data['type'] = "company";
+		$data['list'] = $companies;
+		$data['layout2'] = true;
+		$data['content'] = $this->load->view('startuplist/linkfarm', $data, true);
+		$this->load->view('startuplist/main', $data);
+	}
+	
+	function personlist(){
+		$sql = "select `name`, `slug` from `people` where `active`=1  order by `name` asc";
+		$q = $this->db->query($sql);
+		$people = $q->result_array();
+		$data = array();
+		$data['type'] = "person";
+		$data['list'] = $people;
+		$data['layout2'] = true;
+		$data['content'] = $this->load->view('startuplist/linkfarm', $data, true);
+		$this->load->view('startuplist/main', $data);
+	}
+	
+	function investment_orglist(){
+		$sql = "select `name`, `slug` from `investment_orgs` where `active`=1  order by `name` asc";
+		$q = $this->db->query($sql);
+		$investment_orgs = $q->result_array();
+		$data = array();
+		$data['type'] = "investment_org";
+		$data['list'] = $investment_orgs;
+		$data['layout2'] = true;
+		$data['content'] = $this->load->view('startuplist/linkfarm', $data, true);
+		$this->load->view('startuplist/main', $data);
+	}
 	
 }
 

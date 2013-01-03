@@ -527,6 +527,13 @@ window.fbAsyncInit = function() {
 		?>
 	</td>
 </tr>
+<tr>
+	<td class='footer'>
+		<?php
+		$this->load->view("startuplist/footer");
+		?>
+	</td>
+</tr>
 </table>
 </body>
 </html>

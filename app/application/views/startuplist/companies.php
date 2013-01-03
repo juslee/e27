@@ -54,37 +54,37 @@ function loadMore(){
 								<table cellpadding="0" cellspacing="0" width="100%">
 									<tr>
 										<td class='f32'>
-											<div class='flag sg' ></div></td><td style='vertical-align:middle;  padding:3px' >
+											<div class='flag sg' ></div></td><td style='vertical-align:middle;  padding:6px; text-align:left' >
 											<a href='<?php echo site_url()?>country/singapore'>Singapore</a>
 										</td>
 									</tr>
 									<tr>
 										<td class='f32'>
-											<div class='flag id' ></div></td><td style='vertical-align:middle;  padding:3px' >
+											<div class='flag id' ></div></td><td style='vertical-align:middle;  padding:6px; text-align:left' >
 											<a href='<?php echo site_url()?>country/indonesia'>Indonesia</a>
 										</td>
 									</tr>
 									<tr>
 										<td class='f32'>
-											<div class='flag jp' ></div></td><td style='vertical-align:middle;  padding:3px' >
+											<div class='flag jp' ></div></td><td style='vertical-align:middle;  padding:6px; text-align:left' >
 											<a href='<?php echo site_url()?>country/japan'>Japan</a>
 										</td>
 									</tr>
 									<tr>
 										<td class='f32'>
-											<div class='flag my' ></div></td><td style='vertical-align:middle;  padding:3px' >
+											<div class='flag my' ></div></td><td style='vertical-align:middle;  padding:6px; text-align:left' >
 											<a href='<?php echo site_url()?>country/malaysia'>Malaysia</a>
 										</td>
 									</tr>
 									<tr>
 										<td class='f32'>
-											<div class='flag ph' ></div></td><td style='vertical-align:middle;  padding:3px' >
+											<div class='flag ph' ></div></td><td style='vertical-align:middle;  padding:6px; text-align:left' >
 											<a href='<?php echo site_url()?>country/philippines'>Philippines</a>
 										</td>
 									</tr>
 									<tr>
 										<td class='f32'>
-											<div class='flag th' ></div></td><td style='vertical-align:middle;  padding:3px' >
+											<div class='flag th' ></div></td><td style='vertical-align:middle;  padding:6px; text-align:left' >
 											<a href='<?php echo site_url()?>country/thailand'>Thailand</a>
 										</td>
 									</tr>

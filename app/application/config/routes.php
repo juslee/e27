@@ -44,6 +44,11 @@ $route['company/(:any)'] = "startuplist/company/$1";
 $route['investment_org/(:any)'] = "startuplist/investment_org/$1";
 $route['person/(:any)'] = "startuplist/person/$1";
 $route['country/(:any)'] = "startuplist/country/$1";
+$route['companylist'] = "startuplist/companylist";
+$route['companylist'] = "startuplist/companylist";
+$route['personlist'] = "startuplist/personlist";
+$route['investment_orglist'] = "startuplist/investment_orglist";
+
 $route['searchcountry/(:any)'] = "search/all/country:$1";
 $route['category/(:any)/(:any)'] = "search/all/category:$1/$2";
 $route['login'] = "main";
@@ -66,6 +71,7 @@ $route['forgotpass'] = "startuplist/forgotpass";
 $route['changepass'] = "startuplist/changepass";
 $route['changepass/(:any)'] = "startuplist/changepass/$1";
 $route['editaccount'] = "startuplist/editaccount";
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

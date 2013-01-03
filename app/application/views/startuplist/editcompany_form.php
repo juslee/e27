@@ -1639,7 +1639,7 @@ else{
     </tr>
     <tr class="even overview">
       <td>Number of Employees: </td>
-      <td><input type="text" name="number_of_employees" size="5"></td>
+      <td><input type="text" name="number_of_employees" size="5"> <div class='hint'>e.g. 10</div></td>
     </tr>
 
     <tr class="odd overview">
@@ -1656,7 +1656,7 @@ else{
 	  <input type='hidden' id='logopath' name='logo' />
 	  <input type='text' id="co_logo" />
 	  <!--<input type='button' class='button normal' value='Upload' onclick="jQuery('#co_logo').uploadifyUpload();" >-->
-	  <br><div class='hint'>e.g. Image Suggestion 220 x 220 pixels .jpg file</div>
+	  <br><div class='hint'>e.g. Suggested image file type is a .jpg file</div>
 	  </td>
     </tr>
     <tr class="odd overview">
@@ -1698,11 +1698,11 @@ else{
 		?>
       </td>
     </tr>
-    <tr class="even tags">
+    <tr class="even tags overview">
       <td>Tags:</td>
       <td><textarea name="tags" ></textarea>
       <br/>
-      <div class='hint'>multiple tags must be comma separated. e.g. company,person,power</div>
+      <div class='hint'>Tags are keywords related to the company.<br>Multiple tags must be comma separated. e.g. company,person,power</div>
       </td>
     </tr>
 	<tr class="odd screenshots">
@@ -1711,6 +1711,7 @@ else{
 	  <div id='sspathhtml' style='padding-bottom:10px;'></div>
 	  <input type='text' id="co_screenshots" />
 	  <!--<input type='button' class='button normal' value='Upload' onclick="jQuery('#co_screenshots').uploadifyUpload();" >-->
+	  <br><div class='hint'>e.g. Suggested image file type is a .jpg file</div>
 	  
 	  </td>
     </tr>
@@ -1825,7 +1826,7 @@ else{
 				
 				<tr>
 					<td colspan="2" align="center" class='pad10'>
-					
+					<div class='hint'>Click on the following to add the involved Investment Org, Person or Company in the funding round.</div><br /><br />
 					<a class='cursor bold underline font14' onclick='addFI()'>Investment Org</a>&nbsp;&nbsp;&nbsp;
 					<a class='cursor bold underline font14' onclick='addFP()'>Person</a>&nbsp;&nbsp;&nbsp
 					<a class='cursor bold underline font14' onclick='addFC()'>Company</a>
@@ -1881,7 +1882,7 @@ else{
 	<td colspan="2" class='center'>
 		<table width='100%'>
 		<tr>
-		<td width='100%'>
+		<td width='100%' style='padding-top:30px;'>
 		<input type="button" id='savebutton' value="Submit" onclick="saveCompany()" />
 		</td>
 		<?php 
