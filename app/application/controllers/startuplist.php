@@ -151,14 +151,50 @@ class startuplist extends CI_Controller {
 		}
 	}
 	
+	public function country($country="all"){
+		if($country=='all'){
+			unset($_SESSION['country']);
+			unset($_SESSION['countryshort']);
+		}
+		else{
+			$_SESSION['country'] = strtolower($country);
+			if($_SESSION['country']=='singapore'){
+				$_SESSION['countryshort'] = 'sg';
+			}
+			else if($_SESSION['country']=='singapore'){
+				$_SESSION['countryshort'] = 'sg';
+			}
+			else if($_SESSION['country']=='indonesia'){
+				$_SESSION['countryshort'] = 'id';
+			}
+			else if($_SESSION['country']=='malaysia'){
+				$_SESSION['countryshort'] = 'my';
+			}
+			else if($_SESSION['country']=='japan'){
+				$_SESSION['countryshort'] = 'jp';
+			}
+			else if($_SESSION['country']=='thailand'){
+				$_SESSION['countryshort'] = 'th';
+			}
+			else if($_SESSION['country']=='philippines'){
+				$_SESSION['countryshort'] = 'ph';
+			}
+		}
+		$this->index();
+	}
+	
 	public function index($type="newlyadded"){
 		$start = 0;
 		$limit = 12;
+		if($_SESSION['country']){
+			$sqlext = " and lower(`country`)='".mysql_real_escape_string($_SESSION['country'])."' ";
+		}
+		
 		if($type=="newlyadded"){
-			$sql = "select `companies`.* from `companies` where `active`=1  order by `id` desc limit $start , $limit";
+			$sql = "select `companies`.* from `companies` where `active`=1 ".$sqlext."  order by `id` desc limit $start , $limit";
 		}
 		else if($type=="newlyupdated"){
-			$sql = "select `companies`.* from `companies` where `active`=1  order by `dateupdated` desc limit $start , $limit";
+			$sql = "select `companies`.* from `companies` where `active`=1 ".$sqlext." order by `dateupdated` desc limit $start , $limit";
 		}
 		$q = $this->db->query($sql);
 		$companies = $q->result_array();
@@ -195,11 +231,16 @@ class startuplist extends CI_Controller {
 	
 	public function ajax_loadmore($start, $type="newlyadded"){
 		$limit = 12;
+		
+		if($_SESSION['country']){
+			$sqlext = " and lower(`country`)='".mysql_real_escape_string($_SESSION['country'])."' ";
+		}
+		
 		if($type=="newlyadded"){
-			$sql = "select `companies`.* from `companies` where `active`=1  order by `id` desc limit $start , $limit";
+			$sql = "select `companies`.* from `companies` where `active`=1 ".$sqlext."  order by `id` desc limit $start , $limit";
 		}
 		else if($type=="newlyupdated"){
-			$sql = "select `companies`.* from `companies` where `active`=1  order by `dateupdated` desc limit $start , $limit";
+			$sql = "select `companies`.* from `companies` where `active`=1 ".$sqlext."  order by `dateupdated` desc limit $start , $limit";
 		}
 		$q = $this->db->query($sql);
 		$companies = $q->result_array();

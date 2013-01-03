@@ -394,6 +394,32 @@ class blogs_rss extends CI_Controller {
 		//$items = @array_slice($rss->items, 0, 10);
 		
 	}
+	
+	function e27(){
+		$date = date("Y-m-d");
+		$day = 24*60*60;
+		$tsnow = strtotime($date);
+		$ts = $tsnow;
+		header('Content-type: application/ms-excel;');
+		header("Content-Type: application/force-download");
+		header('Content-Disposition: attachment; filename=techinasia.xls');
+		echo '<table border="1">';
+		while(date("Y-m-d", $ts)!="2012-09-30"){
+			$url = "http://www.e27.sg/".date("Y/m/d", $ts)."/feed/";
+			$rss = @fetch_rss( $url );
+			foreach($rss->items as $key=>$value){
+				echo "<tr>";
+				echo "<td>".date("M d, Y",strtotime($value['pubdate']))."</td>";
+				echo "<td>".htmlentitiesX($value['title'])."</td>";
+				echo "</tr>";
+			}
+			$ts -= $day;
+		}
+		echo "</table>";
+		
+		//$items = @array_slice($rss->items, 0, 10);
+		
+	}
 }
 
 /* End of file welcome.php */

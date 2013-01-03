@@ -103,7 +103,7 @@ if($_SESSION['web_user']['in_data']&&!$_SESSION['web_user']['email']&&!$_GET['mi
 <title><?php
 $metatitle = "Startup List";
 $method = $this->router->method;
-if($method!="index"){
+if($method!="index"&&$method!="country"){
 	$metatitle .= " | "; 
 	if($person['name']){
 		$metatitle .= strip_tags($person['name']);
@@ -121,7 +121,7 @@ if($method!="index"){
 echo $metatitle;
 ?></title>
 <?php
-if($method!="index"){
+if($method!="index"&&$method!="country"){
 	if($person['description']){
 		$metadesc = strip_tags($person['description']);
 	}
@@ -208,6 +208,7 @@ if(!$editmode){
 ?>
 <link type="text/css" rel="stylesheet" href="<?php echo site_url(); ?>startuplist/assets/styles.css">
 <script language="javascript" src="<?php echo site_url(); ?>startuplist/assets/javascript.js"></script>
+
 
 </head>
 <body class="font">
