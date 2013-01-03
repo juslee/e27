@@ -51,6 +51,22 @@ class webusers extends CI_Controller {
 		exit();
 	}
 
+	public function editwebuser($id){
+		$sql = "select * from `web_users` where `id`='".mysql_real_escape_string($id)."'";
+		$q = $this->db->query($sql);
+		$web_user = $q->result_array();
+		$web_user = $web_user[0];
+		if($web_user['id']){
+			$data['web_user'] = $web_user;
+			$data['content'] = $this->load->view('webusers/edit', $data, true);
+			$this->load->view('layout/main', $data);
+		}
+		else{
+			header ('HTTP/1.1 301 Moved Permanently');
+			header("Location: ".site_url()."webusers");
+			exit();
+		}
+	}
 	
 	
 }

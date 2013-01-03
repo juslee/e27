@@ -30,11 +30,11 @@
 			<td>
 				<?php
 				if(trim($user['email'])){
-					echo "<a href='".site_url().$user['table']."/webusers/editwebuser/".$user['id']."'>".$user['email']."</a>";
+					echo "<a href='".site_url()."webusers/editwebuser/".$user['id']."'>".$user['email']."</a>";
 					
 				}
 				else{
-					echo "<a href='".site_url().$user['table']."/webusers/editwebuser/".$user['id']."'>No email</a>";
+					echo "<a href='".site_url()."webusers/editwebuser/".$user['id']."'>No email</a>";
 				}
 				?>
 			</td>
