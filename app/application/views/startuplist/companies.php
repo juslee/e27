@@ -89,7 +89,7 @@ function loadMore(){
 										</td>
 									</tr>
 									<tr>
-										<td style='vertical-align:middle; text-align:center; padding:3px' colspan="2" >
+										<td style='vertical-align:middle; text-align:center; padding:6px' colspan="2" >
 											<a href='<?php echo site_url()?>country/all'>Any Country</a>
 										</td>
 									</tr>

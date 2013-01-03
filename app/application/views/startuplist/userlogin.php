@@ -67,6 +67,15 @@ function recap(){
 											</tr>
 											<?php
 										}
+										else if(trim($_GET['ref'])){
+											?>
+											<tr>
+												<td class='thankyou' colspan="2">
+												Please Login to Continue
+												</td>
+											</tr>
+											<?php
+										}
 										?>
 										<tr>
 											<td class='label'>E-mail</td>

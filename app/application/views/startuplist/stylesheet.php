@@ -12,7 +12,7 @@ body{
 }
 td{
 	vertical-align:top;
-	text-align:left;
+
 	font-weight:500;
 }
 textarea{
@@ -424,6 +424,10 @@ img.rounded{
 
 .pad30{
 	padding:30px;
+}
+
+.margin10{
+	margin:10px;
 }
 
 .hidden{
@@ -865,7 +869,8 @@ select[multiple="multiple"]{
 }
 .f_check img{
 	position:absolute;
-	top:-3px;
+	/*top:-3px;*/
+	top:-15px;
 }
 .f_delete{
 	padding-left:18px;

@@ -1567,7 +1567,7 @@ else{
 <tr>
 <td width='100%'> 
   <table width="100%">
-    <tr>
+    <tr class='about even'>
       <td colspan="2" class='bold padb10 center'>* Required Fields</td>
     </tr>
 	<tr class="odd required about">
@@ -1580,7 +1580,7 @@ else{
     </tr>
     <tr class="odd overview">
       <td>Category:</td>
-      <td>
+      <td style='padding-bottom:5px;'>
 	  <select multiple="multiple" name='categories[]'>
        <?php
 	  	foreach($categories as $value){
@@ -1598,8 +1598,9 @@ else{
 		}
 	  ?>
         </select>
-		<br />
+		<div style='padding-bottom:5px;'></div>
 		<div class='hint'>COMMAND+Click or CTRL+Click to select multiple categories.</div>
+		
       </td>
     </tr>
 	<tr class="even about">
@@ -1654,7 +1655,7 @@ else{
 	  <div id='logopathhtml'></div>
 	  <input type='hidden' id='logopath' name='logo' />
 	  <input type='text' id="co_logo" />
-	  <input type='button' class='button normal' value='Upload' onclick="jQuery('#co_logo').uploadifyUpload();" >
+	  <!--<input type='button' class='button normal' value='Upload' onclick="jQuery('#co_logo').uploadifyUpload();" >-->
 	  <br><div class='hint'>e.g. Image Suggestion 220 x 220 pixels .jpg file</div>
 	  </td>
     </tr>
@@ -1709,7 +1710,9 @@ else{
       <td>
 	  <div id='sspathhtml' style='padding-bottom:10px;'></div>
 	  <input type='text' id="co_screenshots" />
-	  <input type='button' class='button normal' value='Upload' onclick="jQuery('#co_screenshots').uploadifyUpload();" ></td>
+	  <!--<input type='button' class='button normal' value='Upload' onclick="jQuery('#co_screenshots').uploadifyUpload();" >-->
+	  
+	  </td>
     </tr>
 	<tr class="even">
       <td>Status:</td>
@@ -1731,6 +1734,9 @@ else{
 		  <td>People:</td>
 		  <td>
 		  <input type="text" size: "30" id="people_search" /><div class='inline' id='person_add_loader'></div><div class='hint'>Type in the name to search and add people.</div>
+		  <div style='padding:5px'>
+		  	<div class='hint'>If person did not appear in search list you may contribute a person record <a href='<?php echo site_url()?>addperson/about'>here</a>.</div>
+		  </div>
 		  <div id='peopleadd' style='display:none'>
 		  	<input type='hidden' id='p_id' />
 		  	<table class='border margin10 pad10'>

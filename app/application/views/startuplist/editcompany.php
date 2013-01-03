@@ -77,7 +77,7 @@ function showRows(obj, alt){
 									echo "<div class='edit pad5 $class'><a href='#' alt='logo' onclick='showRows(jQuery(this)); return false;'>LOGO</div>";
 									
 									if($part=="screenshots"){ $class="parted"; } else { $class=""; }
-									echo "<div class='edit pad5 $class'><a href='#' alt='screenshots' onclick='showRows(jQuery(this)); return false;'>SCREEN SHOTS</div>";
+									echo "<div class='edit pad5 $class'><a href='#' alt='screenshots' onclick='showRows(jQuery(this)); return false;'>PRODUCT SCREEN SHOTS</div>";
 									
 									if($part=="people"){ $class="parted"; } else { $class=""; }
 									echo "<div class='edit pad5 $class'><a href='#' alt='people' onclick='showRows(jQuery(this)); return false;'>PEOPLE</div>";

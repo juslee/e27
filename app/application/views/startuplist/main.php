@@ -118,6 +118,10 @@ if($method!="index"&&$method!="country"){
 		$metatitle .= "Account";
 	}
 }
+else if($_SESSION['country']){
+	$metatitle .= " | "; 
+	$metatitle .= ucfirst($_SESSION['country']);
+}
 echo $metatitle;
 ?></title>
 <?php
@@ -144,9 +148,16 @@ if($method!="index"&&$method!="country"){
 	?>
 	<meta name="description" content="<?php echo sanitizeX($metadesc); ?>" />
 	<meta name="keywords" content="<?php echo sanitizeX($metakw); ?>" />
-	
+	<?php	
+}
+else if($_SESSION['country']){
+	$metadesc = ucfirst($_SESSION['country']);
+	$metakw = ucfirst($_SESSION['country']);
+	?>
+	<meta name="description" content="<?php echo sanitizeX($metadesc); ?>" />
+	<meta name="keywords" content="<?php echo sanitizeX($metakw); ?>" />
 	<?php
-	
+
 }
 
 //facebook
