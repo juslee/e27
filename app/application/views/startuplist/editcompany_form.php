@@ -1568,7 +1568,7 @@ else{
 <td width='100%'> 
   <table width="100%">
     <tr class=''>
-      <td colspan="2" class='bold padb10 center'>* Required Fields</td>
+      <td colspan="2" class='bold padb10 center'>Fields with * are required.</td>
     </tr>
 	<tr class="odd required about">
       <td>* Company Name:</td>

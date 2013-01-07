@@ -68,5 +68,31 @@ class webusers extends CI_Controller {
 		}
 	}
 	
+	public function ajax_editwebuser(){
+		if(!$_SESSION['user']){
+			return false;
+		}
+		$sqlvalues = "";
+		$vals = array();
+		foreach($_POST as $key=>$value){
+			if($key=='password'){
+				$vals[] = " `".$key."` = '".mysql_real_escape_string(md5($value))."' ";
+				$vals[] = " `plain_password` = '".mysql_real_escape_string(($value))."' ";
+			}
+			else{
+				$vals[] = " `".$key."` = '".mysql_real_escape_string($value)."' ";
+			}
+		}
+		$sqlvalues = implode(", ", $vals);
+		
+		$sql = "update `web_users` set $sqlvalues where `id`='".mysql_real_escape_string($_GET['id'])."'";
+		$q = $this->db->query($sql);
+		?>
+		alertX("Successfully updated web user.");
+		jQuery("#savebutton").val("Save");
+		jQuery("#webuser_form *").attr("disabled", false);
+		<?php
+	}
+	
 	
 }
