@@ -1499,7 +1499,7 @@ function addFI(){
 	html += "<tr>";
 	html += "<td>Investment Org:</td>";
 	html += "<td>";
-	html += "<input type='text' class='f_investment_org' alt='fi"+fi+"'>";
+	html += "<input type='text' class='f_investment_org' alt='fi"+fi+"' placeholder='Type to search & Add'>";
 	html += "<input type='hidden' class='f_investment_org_val' id='fi"+fi+"'>";
 	html += "<div class='inline f_check' id='check_fi"+fi+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
 	html += "</td>";
@@ -1515,7 +1515,7 @@ function addFP(){
 	html += "<tr>";
 	html += "<td>Person:</td>";
 	html += "<td>";
-	html += "<input type='text' class='f_person' alt='pi"+pi+"'>";
+	html += "<input type='text' class='f_person' alt='pi"+pi+"' placeholder='Type to search & Add'>";
 	html += "<input type='hidden' class='f_person_val' id='pi"+pi+"'>";
 	html += "<div class='inline f_check' id='check_pi"+pi+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
 	html += "</td>";
@@ -1531,7 +1531,7 @@ function addFC(){
 	html += "<tr>";
 	html += "<td>Company:</td>";
 	html += "<td>";
-	html += "<input type='text' class='f_company' alt='ci"+ci+"'>";
+	html += "<input type='text' class='f_company' alt='ci"+ci+"' placeholder='Type to search & Add'>";
 	html += "<input type='hidden' class='f_company_val' id='ci"+ci+"'>";
 	html += "<div class='inline f_check' id='check_ci"+ci+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
 	html += "</td>";
@@ -1572,16 +1572,22 @@ else{
     </tr>
 	<tr class="odd required about">
       <td>* Company Name:</td>
-      <td><input type="text" name="name" size="40" id='co_name'><div class='inline' style='padding-left:5px;' id='co_check'></div></td>
+      <td><input type="text" name="name" size="40" id='co_name' >
+	  <img class='tooltip' src='<?php echo site_url(); ?>media/startuplist/tooltip.png' title='The name of the company is recommended instead of the names of the products under the company' alt='The name of the company is recommended instead of the names of the products under the company' />
+	  <div class='inline' style='padding-left:5px;' id='co_check'></div></td>
     </tr>
     <tr class="even required about">
       <td>* Description:</td>
-      <td><textarea name="description"></textarea></td>
+      <td><textarea name="description"></textarea>
+	  <img class='tooltip' src='<?php echo site_url(); ?>media/startuplist/tooltip.png' title='This should describes what the company does and if relevant, mentioning any of its products. Eg “Startuplist is a product by Optimatic, the holding company for e27”' alt='This should describes what the company does and if relevant, mentioning any of its products. Eg “Startuplist is a product by Optimatic, the holding company for e27”' />
+	  </td>
     </tr>
     <tr class="odd overview">
       <td>Category:</td>
       <td style='padding-bottom:5px;'>
-	  <select multiple="multiple" name='categories[]'>
+	  <div class='hint' style='margin:0px'>Choose the most appropriate category this company falls into. You may choose more than one.</div>
+	  
+	  <select multiple="multiple" name='categories[]' style='margin-top:5px;'>
        <?php
 	  	foreach($categories as $value){
 			
@@ -1605,7 +1611,9 @@ else{
     </tr>
 	<tr class="even about">
       <td>* Email Address: </td>
-      <td><input type="text" name="email_address" size="35"></td>
+      <td><input type="text" name="email_address" size="35">
+	  <img class='tooltip' src='<?php echo site_url(); ?>media/startuplist/tooltip.png' title='The general email contact information for the company' alt='The general email contact information for the company' />
+	  </td>
     </tr>
     <tr class="odd overview">
       <td>Website: </td>
@@ -1656,7 +1664,7 @@ else{
 	  <input type='hidden' id='logopath' name='logo' />
 	  <input type='text' id="co_logo" />
 	  <!--<input type='button' class='button normal' value='Upload' onclick="jQuery('#co_logo').uploadifyUpload();" >-->
-	  <br><div class='hint'>e.g. Suggested image file type is a .jpg file</div>
+	  <br><div class='hint'>e.g. Suggested image file type is a .jpg file. Recommended resolution: 500pixels</div>
 	  </td>
     </tr>
     <tr class="odd overview">
@@ -1689,20 +1697,14 @@ else{
 		}
 	  ?>
         </select>
-		<?php
-		if($company['id']){
-			if(!$incountrylist){
-				?><div class='hint bold' style='color:red'>Imported country value: <?php echo $company['country']; ?></div><?php
-			}
-		}
-		?>
+		 <img class='tooltip' src='<?php echo site_url(); ?>media/startuplist/tooltip.png' title='Company’s main operating country if not Company’s official incorporation country.' alt='Company’s main operating country if not Company’s official incorporation country.' />
       </td>
     </tr>
     <tr class="even tags overview">
       <td>Tags:</td>
-      <td><textarea name="tags" ></textarea>
+      <td><textarea name="tags" style='margin-bottom:5px;'></textarea>
       <br/>
-      <div class='hint'>Tags are keywords related to the company.<br>Multiple tags must be comma separated. e.g. company,person,power</div>
+      <div class='hint' style='margin:0px'>Tags are key identifiers for the Company’s area of focus.<br>Multiple tags must be comma separated. e.g. company,person,power</div>
       </td>
     </tr>
 	<tr class="odd screenshots">
@@ -1711,7 +1713,7 @@ else{
 	  <div id='sspathhtml' style='padding-bottom:10px;'></div>
 	  <input type='text' id="co_screenshots" />
 	  <!--<input type='button' class='button normal' value='Upload' onclick="jQuery('#co_screenshots').uploadifyUpload();" >-->
-	  <br><div class='hint'>e.g. Suggested image file type is a .jpg file</div>
+	  <br><div class='hint'>e.g. Suggested image file type is a .jpg file. Recommended resolution: 500pixels</div>
 	  
 	  </td>
     </tr>
@@ -1734,7 +1736,7 @@ else{
 		<tr class="odd people">
 		  <td>People:</td>
 		  <td>
-		  <input type="text" size: "30" id="people_search" /><div class='inline' id='person_add_loader'></div><div class='hint'>Type in the name to search and add people.</div>
+		  <input type="text" size: "30" id="people_search" placeholder="Type to search" /><div class='inline' id='person_add_loader'></div><div class='hint'>Add current & past founders / employees / staff.</div>
 		  <div style='padding:5px'>
 		  	<div class='hint'>If person did not appear in search list you may contribute a person record <a href='<?php echo site_url()?>addperson/about'>here</a>.</div>
 		  </div>
@@ -1779,11 +1781,11 @@ else{
 		<tr class="odd funding" id="funding">
 		  <td>Funding:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class='cursor' onclick='addFIntro()'>[+]</a></td>
 		  <td>
-		  	<table class='border margin10 pad10 hidden' id='fundingadd' >
+		  	<table class='border margin10 pad10' id='fundingadd' >
 				<tr>
 					<td>Round:</td>
 					<td>
-						<select id='f_round'>
+						<select id='f_round' style='margin-bottom:5px'>
 						<?php
 						$t = count($funding_rounds);
 						for($i=0; $i<$t; $i++){
@@ -1791,6 +1793,10 @@ else{
 						}
 						?>
 						</select>
+						<br />
+						<div class='hint' style="margin:0px;">Rough guide : Seed – 50k - Series A. Series A: USD1-2Mil -10Mil Unsure? <a href='http://en.wikipedia.org/wiki/Venture_round'>http://en.wikipedia.org/wiki/Venture_round</a> (Look under Round names)</div>
+						<div style='padding-bottom:5px;'></div>
+
 					</td>
 				</tr>
 				<tr>

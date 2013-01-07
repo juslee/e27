@@ -985,6 +985,10 @@ select[multiple="multiple"]{
 	color:#B5B5B5;
 }
 
+/** tool tip **/
+.tooltip{
+	margin-left:5px;
+}
 
 
 /*********************** flags *************************/

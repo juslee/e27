@@ -184,9 +184,10 @@ echo '<meta property="og:image" content="'.$og_image.'" />';
 echo '<meta property="og:description" content="'.$metadesc.'" />';
 //echo '<meta property="fb:admins" content="'.$fb_admins.'" />';
 //echo '<meta property="fb:app_id" content="'.$fb_app_id.'" />';
+
+/*
 ?>
 <script language="javascript" src="<?php echo site_url(); ?>media/js/jquery-1.7.2.min.js"></script>
-
 <link rel="stylesheet" href="<?php echo site_url(); ?>media/js/development-bundle/themes/base/jquery.ui.all.css">
 <script src="<?php echo site_url(); ?>media/js/development-bundle/jquery-1.8.0.js"></script>
 <script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.core.js"></script>
@@ -199,6 +200,13 @@ echo '<meta property="og:description" content="'.$metadesc.'" />';
 <script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.resizable.js"></script>
 <script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.dialog.js"></script>
 <script src="<?php echo site_url(); ?>media/js/development-bundle/ui/jquery.ui.datepicker.js"></script>
+*/
+?>
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+
 <script type="text/javascript" src="<?php echo site_url(); ?>media/js/jquery.alerts-1.1/jquery.alerts.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo site_url(); ?>media/js/jquery.alerts-1.1/jquery.alerts.css" media="screen" />
 <script type="text/javascript" src="<?php echo site_url(); ?>media/js/uploadify/swfobject.js"></script>
@@ -379,6 +387,15 @@ window.fbAsyncInit = function() {
 	}
 	?>
 };
+
+
+
+</script>
+
+<script>
+jQuery(function() {
+        jQuery( document ).tooltip();
+});
 </script>
 <?php
 //echo "<pre>";
