@@ -43,7 +43,7 @@ if(!$_SESSION['web_user']){
 		$linkedin->access_token     =   unserialize($_SESSION['oauth_access_token']);
 	}
 	# You now have a $linkedin->access_token and can make calls on behalf of the current member
-	$xml_response = $linkedin->getProfile("~:(id,first-name,last-name,headline,picture-url)");
+	$xml_response = $linkedin->getProfile("~:(id,first-name,last-name,headline,picture-url,public-profile-url)");
 	if($xml_response){
 		$linkedinarr = getXMLtoArr($xml_response);
 		if($linkedinarr['id']){

@@ -53,6 +53,33 @@ if(!$user){
 												<?php echo $user['name']; ?>
 											</td>
 										</tr>
+										<?php
+										if($user['fb']->link){
+											?>
+											<tr>
+												<td class='bold'>
+													Facebook:
+												</td>
+												<td>
+													<?php echo "<a href='".$user['fb']->link."'>".$user['name']."</a>"; ?>
+												</td>
+											</tr>
+											<?php
+										}
+										if($user['in']['public-profile-url']){
+											?>
+											<tr>
+												<td class='bold'>
+													LinkedIn:
+												</td>
+												<td>
+													<?php echo "<a href='".$user['in']['public-profile-url']."'>".$user['name']."</a>"; ?>
+												</td>
+											</tr>
+											<?php
+										}
+										?>
+										
 										<?php 
 										if(trim($user['email'])&&$user['id']==$_SESSION['web_user']['id']){
 											?>

@@ -82,10 +82,26 @@ function saveWebuser(){
 				  <td>
 				  <?php
 				  	if(trim($web_user['fb_id'])!=""){
-						echo $web_user['name'];
+						$fb_data = json_decode($web_user['fb_data']);
+						//echo "<pre>";
+						//print_r($fb_data);
+						//echo "</pre>";
+						
+						echo "<a href='".$fb_data->link."'>".$fb_data->name."</a>";
+						//echo $web_user['name'];
 					}
 					else if(trim($web_user['in_id'])!=""){
-						echo $web_user['name'];
+						$in_data = objectToArray(json_decode($web_user['in_data']));
+						if($in_data['public-profile-url']){
+							echo "<a href='".$in_data['public-profile-url']."'>".$in_data['first-name']." ".$in_data['last-name']."</a>"; 
+						}
+						else{
+							echo $in_data['first-name']." ".$in_data['last-name']; 
+						}
+						//echo "<pre>";
+						//print_r($in_data);
+						//echo "</pre>";
+						//echo $web_user['name'];
 					}
 					else{
 						?>
@@ -99,13 +115,13 @@ function saveWebuser(){
 				<tr class="even">
 				  <td>Twitter:</td>
 				  <td>
-					<input type='text' style='width:300px;' name='twitter' value="<?php echo htmlentitiesX($web_user['homepage']); ?>" />
+					<input type='text' style='width:300px;' name='twitter' value="<?php echo htmlentitiesX($web_user['twitter']); ?>" />
 				  </td>
 				</tr>
 				<tr class="odd">
 				  <td>Homepage:</td>
 				  <td>
-					<input type='text' style='width:300px;' name='homepage' value="<?php echo htmlentitiesX($web_user['twitter']); ?>" />
+					<input type='text' style='width:300px;' name='homepage' value="<?php echo htmlentitiesX($web_user['homepage']); ?>" />
 				  </td>
 				</tr>
 				<?php
@@ -114,7 +130,7 @@ function saveWebuser(){
 						<tr class="even">
 						  <td>Password:</td>
 						  <td>
-							<input type='text' style='width:300px;' name='password' placeholder='Input value to change password.' value="<?php echo htmlentitiesX($web_user['twitter']); ?>" />
+							<input type='text' style='width:300px;' name='password' placeholder='Input value to change password.'  />
 						  </td>
 						</tr>
 						<?php
