@@ -1662,7 +1662,7 @@ else{
     <tr class="even logo">
       <td>Company logo:</td>
       <td>
-	  <div id='logopathhtml'></div>
+	  <div id='logopathhtml'></div><br />&nbsp;
 	  <input type='hidden' id='logopath' name='logo' />
 	  <input type='text' id="co_logo" />
 	  <!--<input type='button' class='button normal' value='Upload' onclick="jQuery('#co_logo').uploadifyUpload();" >-->

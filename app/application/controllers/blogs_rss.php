@@ -385,6 +385,7 @@ class blogs_rss extends CI_Controller {
 				echo "<tr>";
 				echo "<td>".date("M d, Y",strtotime($value['pubdate']))."</td>";
 				echo "<td>".htmlentitiesX($value['title'])."</td>";
+				echo "<td>".htmlentitiesX($value['dc']['creator'])."</td>";
 				echo "</tr>";
 			}
 			$ts -= $day;
@@ -402,15 +403,20 @@ class blogs_rss extends CI_Controller {
 		$ts = $tsnow;
 		header('Content-type: application/ms-excel;');
 		header("Content-Type: application/force-download");
-		header('Content-Disposition: attachment; filename=techinasia.xls');
+		header('Content-Disposition: attachment; filename=e27.xls');
 		echo '<table border="1">';
 		while(date("Y-m-d", $ts)!="2012-09-30"){
 			$url = "http://www.e27.sg/".date("Y/m/d", $ts)."/feed/";
 			$rss = @fetch_rss( $url );
 			foreach($rss->items as $key=>$value){
+				//echo "<pre>";
+				//print_r($value);
+				//echo "</pre>";
+				//exit();
 				echo "<tr>";
 				echo "<td>".date("M d, Y",strtotime($value['pubdate']))."</td>";
 				echo "<td>".htmlentitiesX($value['title'])."</td>";
+				echo "<td>".htmlentitiesX($value['dc']['creator'])."</td>";
 				echo "</tr>";
 			}
 			$ts -= $day;

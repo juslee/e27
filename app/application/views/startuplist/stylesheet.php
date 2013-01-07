@@ -991,6 +991,15 @@ select[multiple="multiple"]{
 	cursor:pointer;
 }
 
+/** next prev **/
+#bnext{
+	font-weight:bold;
+}
+#bprev{
+	font-weight:bold;
+}
+
+
 
 /*********************** flags *************************/
 .f32 .flag{display:inline-block;height:32px;width:32px;vertical-align:text-top;line-height:32px;background:url(<?php echo site_url(); ?>media/startuplist/world-flags-sprite-master/images/flags32.png) no-repeat;}
