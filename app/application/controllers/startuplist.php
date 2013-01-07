@@ -372,24 +372,29 @@ class startuplist extends CI_Controller {
 			
 			//related e27 articles
 			//echo "fetching...".$url;
-			if(trim($person[0]['tags'])){
+			if(trim($person[0]['tags'])||1){
 				$tags = explode(",", $person[0]['tags']);
 				
 				$tt = count($tags);
 				for($it=0; $it<$tt; $it++){
 					$tags[$it] = seoIze($tags[$it]);
 				}
+				if(!in_array(seoIze($person[0]['name']), $tags)){
+					$tags[] = seoIze($person[0]['name']);
+				}
+				
 				$tagsstr = implode(",", $tags);
 				
-				$url = "http://e27.sg/tag/".$tagsstr."/feed";
-				
-				$rss = @fetch_rss( $url );
-				$items = @array_slice($rss->items, 0, 10);
-				$feeds = array();
-				$feeds['rss'] = $rss;
-				$feeds['items'] = $items;
-				$feeds['url'] = $url;
-				$feeds['time'] = $time;
+				if($tagsstr){
+					$url = "http://e27.sg/tag/".$tagsstr."/feed?".time();
+					$rss = @fetch_rss( $url );
+					$items = @array_slice($rss->items, 0, 10);
+					$feeds = array();
+					$feeds['rss'] = $rss;
+					$feeds['items'] = $items;
+					$feeds['url'] = $url;
+					$feeds['time'] = $time;
+				}
 			}
 			$data['feeds'] = $feeds;
 			
@@ -594,23 +599,30 @@ class startuplist extends CI_Controller {
 			
 			//related e27 articles
 			//echo "fetching...".$url;
-			if(trim($company[0]['tags'])){
+			if(trim($company[0]['tags'])||1){
 				$tags = explode(",", $company[0]['tags']);
 				
 				$tt = count($tags);
 				for($it=0; $it<$tt; $it++){
 					$tags[$it] = seoIze($tags[$it]);
 				}
+				if(!in_array(seoIze($company[0]['name']), $tags)){
+					$tags[] = seoIze($company[0]['name']);
+				}
+				
+				//print_r($tags);
 				$tagsstr = implode(",", $tags);
 				
-				$url = "http://e27.sg/tag/".$tagsstr."/feed";
-				$rss = @fetch_rss( $url );
-				$items = @array_slice($rss->items, 0, 10);
-				$feeds = array();
-				$feeds['rss'] = $rss;
-				$feeds['items'] = $items;
-				$feeds['url'] = $url;
-				$feeds['time'] = $time;
+				if(trim($tagsstr)){
+					$url = "http://e27.sg/tag/".$tagsstr."/feed?".time();
+					$rss = @fetch_rss( $url );
+					$items = @array_slice($rss->items, 0, 10);
+					$feeds = array();
+					$feeds['rss'] = $rss;
+					$feeds['items'] = $items;
+					$feeds['url'] = $url;
+					$feeds['time'] = $time;
+				}
 			}
 			$data['feeds'] = $feeds;
 			
@@ -695,23 +707,30 @@ class startuplist extends CI_Controller {
 			
 			//related e27 articles
 			//echo "fetching...".$url;
-			if(trim($investment_org[0]['tags'])){
+			if(trim($investment_org[0]['tags'])||1){
 				$tags = explode(",", $investment_org[0]['tags']);
 				
 				$tt = count($tags);
 				for($it=0; $it<$tt; $it++){
 					$tags[$it] = seoIze($tags[$it]);
 				}
+				
+				if(!in_array(seoIze($investment_org[0]['name']), $tags)){
+					$tags[] = seoIze($investment_org[0]['name']);
+				}
+				
 				$tagsstr = implode(",", $tags);
 				
-				$url = "http://e27.sg/tag/".$tagsstr."/feed";
-				$rss = @fetch_rss( $url );
-				$items = @array_slice($rss->items, 0, 10);
-				$feeds = array();
-				$feeds['rss'] = $rss;
-				$feeds['items'] = $items;
-				$feeds['url'] = $url;
-				$feeds['time'] = $time;
+				if($tagsstr){
+					$url = "http://e27.sg/tag/".$tagsstr."/feed?".time();
+					$rss = @fetch_rss( $url );
+					$items = @array_slice($rss->items, 0, 10);
+					$feeds = array();
+					$feeds['rss'] = $rss;
+					$feeds['items'] = $items;
+					$feeds['url'] = $url;
+					$feeds['time'] = $time;
+				}
 			}
 			$data['feeds'] = $feeds;
 			
