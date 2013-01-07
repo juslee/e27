@@ -1567,7 +1567,7 @@ else{
 <tr>
 <td width='100%'> 
   <table width="100%">
-    <tr class='about even'>
+    <tr class=''>
       <td colspan="2" class='bold padb10 center'>* Required Fields</td>
     </tr>
 	<tr class="odd required about">
@@ -1846,7 +1846,7 @@ else{
 					</td>
 				</tr>
 				<tr>
-					<td align="center" colspan="2" style='padding-top:10px;'><input id='f_save_button' type='button' class='button normal hidden' value='   Done Editing   ' onclick='editFJS(this.alt)'>&nbsp;&nbsp;<input id='f_add_button' type='button' class='button normal' value='   Add Funding   ' onclick='addFJS()'>&nbsp;&nbsp;<input type='button' class='button normal' id='f_cancel_button' value='Cancel' onclick='cancelFJS(this.alt)'> </td>
+					<td align="center" colspan="2" style='padding-top:10px;'><input id='f_save_button' type='button' class='button normal hidden' value='   Done Editing   ' onclick='editFJS(this.alt)'>&nbsp;&nbsp;<input id='f_add_button' type='button' class='button normal' value='   Add Funding   ' onclick='addFJS()'><!--&nbsp;&nbsp;<input type='button' class='button normal' id='f_cancel_button' value='Cancel' onclick='cancelFJS(this.alt)'> --></td>
 				</tr>
 			</table>
 			
@@ -1891,6 +1891,10 @@ else{
 		<table width='100%'>
 		<tr>
 		<td width='100%' style='padding-top:30px;'>
+		Step <span id='step'></span> of <span id='steps'></span> - <span id='steplabel'></span><br /><br />
+		<a href='#' id='bprev'  onclick="prev(); return false; " ><font size="+1">&laquo;</font> PREVIOUS</a>&nbsp;
+		<a href='#' id='bnext' onclick="next(); return false; " >NEXT <font size="+1">&raquo;</font></a>&nbsp;
+		<br /><br /><br />
 		<input type="button" id='savebutton' value="Submit" onclick="saveCompany()" />
 		</td>
 		<?php 

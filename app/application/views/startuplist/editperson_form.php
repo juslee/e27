@@ -673,7 +673,7 @@ else{
 	<td colspan="2" class='center'>
 		<table width='100%'>
 		<tr>
-		<td width='100%'>
+		<td width='100%' style='padding-top:30px;'>
 		<input type="button" id='savebutton' value="Save" onclick="savePerson()" />
 		</td>
 		<?php 
