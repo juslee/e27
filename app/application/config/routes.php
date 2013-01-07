@@ -51,6 +51,7 @@ $route['investment_orglist'] = "startuplist/investment_orglist";
 
 $route['searchcountry/(:any)'] = "search/all/country:$1";
 $route['category/(:any)/(:any)'] = "search/all/category:$1/$2";
+$route['category/(:any)'] = "search/all/category:$1";
 $route['login'] = "main";
 $route['backend'] = "main";
 $route['admin'] = "main";

@@ -13,10 +13,27 @@ class search extends CI_Controller {
 	}
 	
 	public function all($q="", $id=""){
+	
+		
+		
+		
 		$search = urldecode(trim($_GET['q']));
 		if(!$search){
 			$search = urldecode(trim($q));
 		}
+		
+		
+		//get the categories
+		$sql = "select * from `categories` where 1";
+		$q = $this->db->query($sql);
+		$zcategories = $q->result_array();
+		$categories = array();
+		foreach($zcategories as $value){
+			$categories[seoIze(strtolower($value['category']))] = $value['id'];
+		}
+		
+		//print_r($categories);
+		
 		$searchx = $search;
 		$search = strtolower($search);
 		$search2 = explode(":",$search);
@@ -27,7 +44,7 @@ class search extends CI_Controller {
 				$exact = "";
 			}
 			if($exact=="category"){
-				$search2 = $id;
+				$search2 = $categories[seoIze(strtolower($search2))];
 			}
 		}
 		$gfilter = trim($_GET['filter']);
@@ -74,6 +91,7 @@ class search extends CI_Controller {
 		$thecnt = 0;
 		$results['results'] = array();
 		
+		
 		//counts
 		if($gfilter==""||$gfilter=="companies"){
 			$table = "companies";
@@ -97,7 +115,12 @@ class search extends CI_Controller {
 						LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
 						LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
 						LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
-						LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'";
+						LOWER(`country`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`tags`) like '%".mysql_real_escape_string($search)."%' or
+						`id` in ( select `company_id` from `company_category` where `category_id` in (select `id` from `categories` where `category` = '".mysql_real_escape_string($search)."') )
+						
+						
+						";
 					}
 			$sql .="
 				)
@@ -226,7 +249,10 @@ class search extends CI_Controller {
 						LOWER(`facebook`) like '%".mysql_real_escape_string($search)."%' or 
 						LOWER(`linkedin`) like '%".mysql_real_escape_string($search)."%' or 
 						LOWER(`description`) like '%".mysql_real_escape_string($search)."%' or 
-						LOWER(`tags`) like '%".mysql_real_escape_string($search)."%'";
+						LOWER(`country`) like '%".mysql_real_escape_string($search)."%' or
+						LOWER(`tags`) like '%".mysql_real_escape_string($search)."%' or
+						`id` in ( select `company_id` from `company_category` where `category_id` in (select `id` from `categories` where `category` = '".mysql_real_escape_string($search)."') )
+						";
 					}
 			$sql .="
 				)
