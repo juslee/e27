@@ -988,6 +988,7 @@ select[multiple="multiple"]{
 /** tool tip **/
 .tooltip{
 	margin-left:5px;
+	cursor:pointer;
 }
 
 

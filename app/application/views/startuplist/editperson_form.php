@@ -509,12 +509,19 @@ else{
       <td><input type="text" name="name" size="40" id='person_name'><div class='inline' style='padding-left:5px;' id='co_check'></div></td>
     </tr>
     <tr class="even about">
-      <td>* Description:</td>
-      <td><textarea name="description"></textarea></td>
+      <td>* Summary:</td>
+      <td><textarea name="description"></textarea>
+	 <div style='position:relative'>
+	 <img style='position:absolute; top:-85px; left:363px' class='tooltip' src='<?php echo site_url(); ?>media/startuplist/tooltip.png' title='Professional experiences, brief description of what the person have done, doing, and the kinds of things interested in.' alt='Professional experiences, brief description of what the person have done, doing, and the kinds of things interested in.' />
+	 </div>
+	 </td>
     </tr>		
     <tr class="odd required about">
       <td>* Email Address: </td>
-      <td><input type="text" name="email_address" size="35" id='email_address'> <div class='inline' style='padding-left:5px;' id='email_check'></div></td>
+      <td><input type="text" name="email_address" size="35" id='email_address'>
+	  <img class='tooltip' src='<?php echo site_url(); ?>media/startuplist/tooltip.png' title='E-mail addresses are not shown on the profile page but within the edit page.' alt='E-mail addresses are not shown on the profile page but within the edit page.' />
+	  
+	  <div class='inline' style='padding-left:5px;' id='email_check'></div></td>
     </tr>	
 	<tr class="even overview">
       <td>Blog URL:</td>
@@ -548,8 +555,8 @@ else{
 	  <div id='profilepathhtml'></div>
 	  <input type='hidden' id='profilepath' name='profile_image' />
 	  <input type='text' id="profile_image" />
-	  <input type='button' class='button normal' value='Upload' onclick="jQuery('#profile_image').uploadifyUpload();" >
-	  <br><div class='hint'>e.g. Image Suggestion 220 x 220 pixels .jpg file</div>
+	  <!--<input type='button' class='button normal' value='Upload' onclick="jQuery('#profile_image').uploadifyUpload();" >-->
+	  <br><div class='hint'>Suggested image file type is a .jpg file. Recommended resolution: 500pixels</div>
 	  </td>
     </tr>
     <tr class="odd">
@@ -570,7 +577,7 @@ else{
 		<tr class="odd career">
 		  <td>Companies:</td>
 		  <td>
-		  <input type="text" size: "30" id="company_search" /><div class='inline' id='company_add_loader' ></div><br /><div class='hint'>Type in the company name to search and add a company.</div>
+		  <input type="text" size: "30" id="company_search" placeholder="Type to search & add" /><div class='inline' id='company_add_loader' ></div><br /><div class='hint'>Type in the company name to search and add a company.</div>
 		  <div id='companyadd' style='display:none'>
 		  	<input type='hidden' id='c_id' />
 		  	<table class='border margin10 pad10'>
@@ -605,7 +612,7 @@ else{
 		<tr class="even investment_orgs">
 		  <td>Investment Orgs:</td>
 		  <td>
-		  <input type="text" size: "30" id="investment_org_search" /><div class='inline' id='investment_org_add_loader'></div><br /><div class='hint'>Type in the investment organization name to search and add.</div>
+		  <input type="text" size: "30" id="investment_org_search" placeholder="Type to search & add" /><div class='inline' id='investment_org_add_loader'></div><br /><div class='hint'>Type in the investment organization name to search and add.</div>
 		  <div id='investment_orgadd' style='display:none'>
 		  	<input type='hidden' id='io_id' />
 		  	<table class='border margin10 pad10'>

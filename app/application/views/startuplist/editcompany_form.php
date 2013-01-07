@@ -1499,7 +1499,7 @@ function addFI(){
 	html += "<tr>";
 	html += "<td>Investment Org:</td>";
 	html += "<td>";
-	html += "<input type='text' class='f_investment_org' alt='fi"+fi+"' placeholder='Type to search & Add'>";
+	html += "<input type='text' class='f_investment_org' alt='fi"+fi+"' placeholder='Type to search & add'>";
 	html += "<input type='hidden' class='f_investment_org_val' id='fi"+fi+"'>";
 	html += "<div class='inline f_check' id='check_fi"+fi+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
 	html += "</td>";
@@ -1515,7 +1515,7 @@ function addFP(){
 	html += "<tr>";
 	html += "<td>Person:</td>";
 	html += "<td>";
-	html += "<input type='text' class='f_person' alt='pi"+pi+"' placeholder='Type to search & Add'>";
+	html += "<input type='text' class='f_person' alt='pi"+pi+"' placeholder='Type to search & add'>";
 	html += "<input type='hidden' class='f_person_val' id='pi"+pi+"'>";
 	html += "<div class='inline f_check' id='check_pi"+pi+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
 	html += "</td>";
@@ -1531,7 +1531,7 @@ function addFC(){
 	html += "<tr>";
 	html += "<td>Company:</td>";
 	html += "<td>";
-	html += "<input type='text' class='f_company' alt='ci"+ci+"' placeholder='Type to search & Add'>";
+	html += "<input type='text' class='f_company' alt='ci"+ci+"' placeholder='Type to search & add'>";
 	html += "<input type='hidden' class='f_company_val' id='ci"+ci+"'>";
 	html += "<div class='inline f_check' id='check_ci"+ci+"'></div>&nbsp;<div class='red cursor inline f_delete' onclick='deleteIPC(this)'>[ x ]</div>";
 	html += "</td>";
@@ -1579,7 +1579,9 @@ else{
     <tr class="even required about">
       <td>* Description:</td>
       <td><textarea name="description"></textarea>
-	  <img class='tooltip' src='<?php echo site_url(); ?>media/startuplist/tooltip.png' title='This should describes what the company does and if relevant, mentioning any of its products. Eg “Startuplist is a product by Optimatic, the holding company for e27”' alt='This should describes what the company does and if relevant, mentioning any of its products. Eg “Startuplist is a product by Optimatic, the holding company for e27”' />
+	  <div style='position:relative'>
+	 <img style='position:absolute; top:-85px; left:363px' class='tooltip' src='<?php echo site_url(); ?>media/startuplist/tooltip.png' title='This should describes what the company does and if relevant, mentioning any of its products. Eg “Startuplist is a product by Optimatic, the holding company for e27”' alt='This should describes what the company does and if relevant, mentioning any of its products. Eg “Startuplist is a product by Optimatic, the holding company for e27”' />
+	 </div>
 	  </td>
     </tr>
     <tr class="odd overview">
@@ -1664,7 +1666,7 @@ else{
 	  <input type='hidden' id='logopath' name='logo' />
 	  <input type='text' id="co_logo" />
 	  <!--<input type='button' class='button normal' value='Upload' onclick="jQuery('#co_logo').uploadifyUpload();" >-->
-	  <br><div class='hint'>e.g. Suggested image file type is a .jpg file. Recommended resolution: 500pixels</div>
+	  <br><div class='hint'>Suggested image file type is a .jpg file. Recommended resolution: 500pixels</div>
 	  </td>
     </tr>
     <tr class="odd overview">
