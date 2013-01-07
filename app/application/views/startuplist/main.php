@@ -392,12 +392,24 @@ window.fbAsyncInit = function() {
 
 </script>
 
-<script>
-jQuery(function() {
-        jQuery( document ).tooltip();
-});
-</script>
 <?php
+if(
+$method=='editcompany' ||
+$method=='editperson' ||
+$method=='editinvestment_org' ||
+$method=='addcompany' ||
+$method=='addperson' ||
+$method=='addinvestment_org' 
+){
+	?>
+	<script>
+	jQuery(function() {
+			jQuery( document ).tooltip();
+	});
+	</script>
+	<?php	
+}
+
 //echo "<pre>";
 //print_r($_SESSION['web_user']);
 //echo "</pre>";
@@ -525,10 +537,12 @@ jQuery(function() {
 						}
 						//$this->load->view("startuplist/bannerad_block");
 						
+						/*
 						$data = array();
 						$data['newlyfunded'] = $newlyfunded;
 						$this->load->view("startuplist/nfcompany_block", $data);
-	
+						*/
+						
 						$data = array();
 						if(is_array($feeds)){
 							$data['feeds'] = $feeds;

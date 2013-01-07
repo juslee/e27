@@ -38,7 +38,7 @@ function loadMore(){
 		<td class="contentsheadright" id="filter">
 			<table cellpadding="0" cellspacing="0" width="100%">
 				<tr>
-					<td width="100%" style='text-align:right; vertical-align:middle; padding-right:40px;'>
+					<td width="100%" style='text-align:right; vertical-align:middle; padding-right:40px;' class='hidden' >
 						<table class='right' >
 						<tr>
 							<td style='vertical-align:middle; padding:10px'>Country: </td>
