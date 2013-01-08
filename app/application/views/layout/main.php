@@ -644,6 +644,34 @@ $user = $_SESSION['user'];
 	#dialoghtml{
 		text-align:center;
 	}
+	
+	/** alerts **/
+	#revcount{
+		background:red;
+		color:white;
+		z-index:1000;
+		position:absolute;
+		border-radius: 10px;
+		height:20px;
+		width:20px;
+		font-size:9px;
+		text-align:center;
+		top: -10px;
+		left: 110px;
+	}
+	#concount{
+		background:red;
+		color:white;
+		z-index:1000;
+		position:absolute;
+		border-radius: 10px;
+		height:20px;
+		width:20px;
+		font-size:9px;
+		text-align:center;
+		top: -10px;
+		left: 120px;
+	}
 	</style>
 </head>
 <body>

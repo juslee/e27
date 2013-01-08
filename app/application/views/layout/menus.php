@@ -24,13 +24,36 @@ if($method=='contribution'){
 	<li <?php if($controller=="blogs_rss"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."blogs_rss";?>"'>
 		Blogs RSS Feeds
 	</li>
-	<li <?php if($controller=="revisions"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."revisions";?>"'>
+	<li <?php if($controller=="revisions"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."revisions";?>"' style="position:relative">
 		Web User Revisions
+		<div id='revcount' class='hidden'></div>
 	</li>
-	<li <?php if($controller=="contributions"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."contributions";?>"'>
+	<li <?php if($controller=="contributions"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."contributions";?>"' style="position:relative">
 		Web User Contributions
+		<div id='concount' class='hidden'></div>
 	</li>
 	<li <?php if($controller=="webusers"){ echo "class='selected'"; } ?> onclick='self.location="<?php echo site_url()."webusers";?>"'>
 		Web Users
 	</li>
 </ul>
+
+<script>
+jQuery.ajax({
+	url: "<?php echo site_url(); ?>revisions/countpending",
+	type: "POST",
+	data: "",
+	success: function(data){
+		jQuery("#revcount").html(data);
+		jQuery("#revcount").show();
+	}
+});
+jQuery.ajax({
+	url: "<?php echo site_url(); ?>contributions/countpending",
+	type: "POST",
+	data: "",
+	success: function(data){
+		jQuery("#concount").html(data);
+		jQuery("#concount").show();
+	}
+});
+</script>

@@ -58,5 +58,11 @@ class contributions extends CI_Controller {
 		exit();
 	}
 	
+	public function countpending(){
+		$sql = "select count(id) as `cnt` from `contributions` where `approved`=0";
+		$q = $this->db->query($sql);
+		$cnt = $q->result_array();
+		echo $cnt[0]['cnt'];
+	}
 	
 }

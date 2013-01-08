@@ -43,13 +43,16 @@ $route['404_override'] = 'startuplist/page_not_found';
 $route['company/(:any)'] = "startuplist/company/$1";
 $route['investment_org/(:any)'] = "startuplist/investment_org/$1";
 $route['person/(:any)'] = "startuplist/person/$1";
-$route['country/(:any)'] = "startuplist/country/$1";
+//temporarily use the search to sort country
+$route['country/(:any)'] = "search/all/country:$1";
+//$route['country/(:any)'] = "startuplist/country/$1";
 $route['companylist'] = "startuplist/companylist";
 $route['companylist'] = "startuplist/companylist";
 $route['personlist'] = "startuplist/personlist";
 $route['investment_orglist'] = "startuplist/investment_orglist";
 
 $route['searchcountry/(:any)'] = "search/all/country:$1";
+
 $route['category/(:any)/(:any)'] = "search/all/category:$1/$2";
 $route['category/(:any)'] = "search/all/category:$1";
 $route['login'] = "main";
