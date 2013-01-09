@@ -88,6 +88,78 @@
 					</div>			
 					
 					
+					<?php
+					if($_GET['related']){
+						
+						$tags = wp_get_post_tags(get_the_ID());
+						/*
+						echo "<pre>";
+						print_r($tags);
+						echo "</pre>";
+						*/
+						$tags = wp_get_post_tags(get_the_ID(), array( 'fields' => 'ids' ));
+						
+						if ($tags) {
+							/*$args = array(
+								'tag__in' => $tags,
+								'post__not_in' => array(get_the_ID()),
+								'showposts'=> 4,
+								'ignore_sticky_posts'=>1
+							);
+							
+							echo "<pre>";
+							print_r($args);
+							echo "</pre>";
+							$my_query = new WP_Query($args);
+							if(!$my_query->have_posts()) {
+								$my_query = new WP_Query(array('post__not_in' => array(get_the_ID()), 'posts_per_page' => 4, 'orderby' => 'rand' ));
+							}
+							*/
+							$tags = wp_get_post_tags(get_the_ID());
+							if($tags) {
+								$tagslugs = array();
+								foreach($tags as $t) {
+									array_push($tagslugs, str_replace(" ", "_", $t->name));
+								}
+								
+							}
+							if($_GET['tags']){
+								$tagslugs = explode(",", $_GET['tags']);
+							}
+							$args = array(
+								'posts_per_page' => 10,
+								'tag_slug__in' => $tagslugs,
+								'post__not_in' => array(get_the_ID()),
+								'orderby' => 'date', 
+								'order' => 'DESC'
+							);
+							query_posts( $args );
+							?>
+							<?php if (have_posts()) : $count = 0; ?>
+							<div id="top_posts_container" class="container container_2 clearfix">
+								<h3><span>Related Posts</span></h3>
+								<?php while (have_posts()) : the_post(); $count++; ?>		
+								<div class="top_posts_story container container_2 clearfix">
+									<div class='top_posts_image grid_1' style="width: 30%; display:none">
+										
+										<a href="<?php the_permalink() ?>" class="clearfix">
+										<?php echo_first_image(get_the_ID(), 90); ?>
+										</a>
+										
+									</div>
+									<div class='grid_1' style="width: 100%;">
+										<div class="top_posts_teaser">
+											<p> <a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title(); ?>"><?php the_time('M j, Y'); ?> - <?php the_title(); ?></a></p>
+										</div>
+									</div>
+								</div>
+								<?php endwhile; ?> 					
+							</div>
+							<?php endif; 
+							wp_reset_query();
+						}
+					}
+					?>
 
 					
 					<?php $saved = $wp_query; ?>

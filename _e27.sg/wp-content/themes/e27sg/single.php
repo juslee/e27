@@ -103,7 +103,9 @@
 									foreach($tags as $t) {
 										array_push($taglinks, '<a href="'.get_tag_link($t->term_id).'">'.$t->name.'</a>');
 									}
-									//echo '<p>Tags: '.implode(', ', $taglinks).'</p>';
+									if($_GET['showtags']){
+										echo '<p>Tags: '.implode(', ', $taglinks).'</p>';
+									}
 								}
 							?>
 							<?php edit_post_link(); ?>

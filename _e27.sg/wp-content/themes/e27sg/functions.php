@@ -24,16 +24,43 @@ function fix_custom_fields_in_wp342() {
 add_action( 'admin_print_footer_scripts', 'fix_custom_fields_in_wp342' );
 
 function attachment_image_link_remove_filter( $content ) {
- 	$content =
- 	preg_replace(
+ 	
+	/*
+	$content =
+ 	
+	preg_replace(
  	array('{<a(.*?)(wp-att|wp-content\/uploads)[^>]*><img}',
  	'{ wp-image-[0-9]*" /></a>}'),
  	array('<img','" />'),
  	$content
  	);
+	*/
+	/*
+	<img src="http://e27.wpengine.netdna-cdn.com/wp-content/uploads/2013/01/East-Ventures-2010-2012-investments1-56x300.png" class="attachment-medium" alt="East Ventures 2010-2012 investments" title="East Ventures 2010-2012 investments" />
+	*/
+	if($_GET['test']||1){
+		$matches = array();
+		//ob_end_clean();
+		//echo $content."\n\n\n\n";
+		
+		preg_match_all("/<a href='(.*)'.*><img.*class=\"attachment-medium.*\/><\/a>/iUs", $content, $matches);
+
+		//cho "<pre>";
+		//print_r($matches);
+		//exit();
+
+		foreach($matches[0] as $key=>$value){
+			$new = "<img src='".$matches[1][$key]."' />";
+			$content = str_replace($value, $new, $content);
+		}
+	}
+	
  	return $content;
 }
 add_filter( 'the_content', 'attachment_image_link_remove_filter' );
+
+
+
 
 function register_gig_menus() {
 	register_nav_menus(
