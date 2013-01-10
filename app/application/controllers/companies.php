@@ -692,6 +692,7 @@ class companies extends CI_Controller {
 					`id`='".$revision['id']."'
 				";
 				$this->db->query($sql);
+				
 			}
 			else{
 				$sql = "insert into `revisions` set 
@@ -868,6 +869,11 @@ class companies extends CI_Controller {
 					}
 				}
 			}
+			
+			if($revisionid){
+				$this->sendApproveRevision($revisionid, trim($_POST['id']));
+			}
+		
 			?>
 			alertX("Successfully Updated Company '<?php echo htmlentitiesX($_POST['name']); ?>'.");
 			//self.location = "<?php echo site_url(); ?>companies/edit/<?php echo $_POST['id']; ?>"; //refresh
@@ -1983,6 +1989,95 @@ class companies extends CI_Controller {
 		}
 	}
 	
+	
+	function sendApproveRevision($rev_id, $company_id){
+		$sql = "select * from `companies` where `id`='".mysql_real_escape_string($company_id)."'";
+		$q = $this->db->query($sql);
+		$company = $q->result_array();
+		$company = $company[0];
+		
+	
+		$sql = "select * from `web_users` where `id` in (select `web_user_id` from `revisions` where `id`='".mysql_real_escape_string($rev_id)."')";
+		$q = $this->db->query($sql);
+		$web_user = $q->result_array();
+		$web_user = $web_user[0];
+		$user = getWebUser($web_user);
+		$emailtos = array();
+		$name = $user['name'];
+		$zemail = $web_user['email'];
+		$business_email = $web_user['business_email'];
+		$fb_email = $web_user['fb_email'];
+		$emails = array();
+		if($zemail){
+			if(!in_array($zemail, $emails)){
+				$email = array();
+				$email['name'] = $name;
+				$email['email'] = $zemail;
+				$emailtos[] = $email;
+				$emails[] = $zemail;
+			}
+			
+		}
+		if($business_email){
+			if(!in_array($business_email, $emails)){
+				$email = array();
+				$email['name'] = $name;
+				$email['email'] = $business_email;
+				$emailtos[] = $email;
+				$emails[] = $business_email;
+			}
+		}
+		if($fb_email){
+			if(!in_array($fb_email, $emails)){
+				$email = array();
+				$email['name'] = $name;
+				$email['email'] = $fb_email;
+				$emailtos[] = $email;
+				$emails[] = $fb_email;
+			}
+		}
+		
+		
+		//print_r($emailtos);
+		//print_r($company['id']);
+		
+		if(count($emailtos)&&$company['id']){
+			$from = "mailer@startuplist.sg";
+			$fromname = "e27 Startup List";
+			$subject = "Your Edit on '".$company['name']."' has been Approved";
+			$template = array();
+			$template['data'] = array();
+			$template['data']['content'] = "Hi $name,
+
+			Your StartupList revision on <b>".$company['name']."</b> was approved and is now accessible <a href='http://www.startuplist.sg/company/".$company['slug']."'>http://www.startuplist.sg/company/".$company['slug']."</a>
+
+			You can edit it further by:
+			
+			a) Checking that the general information is complete
+			b) Adding funding milestones for this company 
+			c) Adding a screenshot of the company's products.
+			d) Make sure the funding data is up-to-date.
+			e) Fill out profiles for the executive team and linking them to the company.
+			
+			
+			You can also follow any changes made to this company's data by viewing the Revision History
+			<a href='http://www.startuplist.sg/editcompany/".$company['id']."/revisions'>http://www.startuplist.sg/editcompany/".$company['id']."/revisions</a>
+			
+			
+			Thanks!
+			
+			- StartupList Admin
+			<a href='http://www.startuplist.sg'>StartupList.sg</a>
+			";
+			$template['data']['content'] = nl2br($template['data']['content']);
+			
+			//$template['data'] = json_encode($template['data']);
+			$template['slug'] = "startuplist-wrap"; 
+			send_email($from, $fromname, $emailtos, $subject, $message, $template);
+		}
+	}
+	
+	
 	function sendApproveContrib($contrib_id, $company_id){
 		$sql = "select * from `companies` where `id`='".mysql_real_escape_string($company_id)."'";
 		$q = $this->db->query($sql);
@@ -2038,7 +2133,7 @@ class companies extends CI_Controller {
 			$template['data'] = array();
 			$template['data']['content'] = "Hi $name,
 
-			Your StartupList contribution ".$company['name']." is now accessible <a href='http://www.startuplist.sg/company/".$company['slug']."'>http://www.startuplist.sg/company/".$company['slug']."</a>
+			Your StartupList contribution <b>".$company['name']."</b> is now accessible <a href='http://www.startuplist.sg/company/".$company['slug']."'>http://www.startuplist.sg/company/".$company['slug']."</a>
 
 			You can edit it further by:
 			

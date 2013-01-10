@@ -707,7 +707,11 @@ class people extends CI_Controller {
 					$this->db->query($sql);
 				}
 			}
-
+			
+			if($revisionid){
+				$this->sendApproveRevision($revisionid, trim($_POST['id']));
+			}
+			
 			?>
 			alertX("Successfully Updated Person '<?php echo htmlentitiesX($_POST['name']); ?>'.");
 			self.location = self.location; //refresh
@@ -1002,6 +1006,7 @@ class people extends CI_Controller {
 			if($contributionid){
 				$sql = "update `contributions` set `ipc_id`='".$id."', `approved`=1 where `id`='".mysql_real_escape_string($contributionid)."'";
 				$q = $this->db->query($sql);
+				$this->sendApproveContrib($contributionid, $id);
 			}
 			
 			?>
@@ -1340,6 +1345,175 @@ class people extends CI_Controller {
 			}while($rowtemp[0]['id']);
 			$sql = "update `".$table."` set `slug`='".$slug."' where `id`='".$row['id']."'";
 			$q = $this->db->query($sql);
+		}
+	}
+	
+	function sendApproveRevision($rev_id, $person_id){
+		$sql = "select * from `people` where `id`='".mysql_real_escape_string($person_id)."'";
+		$q = $this->db->query($sql);
+		$person = $q->result_array();
+		$person = $person[0];
+		
+	
+		$sql = "select * from `web_users` where `id` in (select `web_user_id` from `revisions` where `id`='".mysql_real_escape_string($rev_id)."')";
+		$q = $this->db->query($sql);
+		$web_user = $q->result_array();
+		$web_user = $web_user[0];
+		$user = getWebUser($web_user);
+		$emailtos = array();
+		$name = $user['name'];
+		$zemail = $web_user['email'];
+		$business_email = $web_user['business_email'];
+		$fb_email = $web_user['fb_email'];
+		$emails = array();
+		if($zemail){
+			if(!in_array($zemail, $emails)){
+				$email = array();
+				$email['name'] = $name;
+				$email['email'] = $zemail;
+				$emailtos[] = $email;
+				$emails[] = $zemail;
+			}
+			
+		}
+		if($business_email){
+			if(!in_array($business_email, $emails)){
+				$email = array();
+				$email['name'] = $name;
+				$email['email'] = $business_email;
+				$emailtos[] = $email;
+				$emails[] = $business_email;
+			}
+		}
+		if($fb_email){
+			if(!in_array($fb_email, $emails)){
+				$email = array();
+				$email['name'] = $name;
+				$email['email'] = $fb_email;
+				$emailtos[] = $email;
+				$emails[] = $fb_email;
+			}
+		}
+		
+		
+		//print_r($emailtos);
+		//print_r($person['id']);
+		
+		if(count($emailtos)&&$person['id']){
+			$from = "mailer@startuplist.sg";
+			$fromname = "e27 Startup List";
+			$subject = "Your Edit on '".$person['name']."' has been Approved";
+			$template = array();
+			$template['data'] = array();
+			$template['data']['content'] = "Hi $name,
+
+			Your StartupList revision on <b>".$person['name']."</b> was approved and is now accessible <a href='http://www.startuplist.sg/person/".$person['slug']."'>http://www.startuplist.sg/person/".$person['slug']."</a>
+
+			You can edit it further by:
+			
+			a) Checking that the general information is complete.
+			b) Adding career details.
+			c) Adding a profile image of the person.
+			d) Make sure associated ivestment organization is updated.
+			
+			
+			You can also follow any changes made to this person's data by viewing the Revision History
+			<a href='http://www.startuplist.sg/editperson/".$person['id']."/revisions'>http://www.startuplist.sg/editcompany/".$person['id']."/revisions</a>
+			
+			
+			Thanks!
+			
+			- StartupList Admin
+			<a href='http://www.startuplist.sg'>StartupList.sg</a>
+			";
+			$template['data']['content'] = nl2br($template['data']['content']);
+			
+			//$template['data'] = json_encode($template['data']);
+			$template['slug'] = "startuplist-wrap"; 
+			send_email($from, $fromname, $emailtos, $subject, $message, $template);
+		}
+	}
+	
+	
+	function sendApproveContrib($contrib_id, $person_id){
+		$sql = "select * from `people` where `id`='".mysql_real_escape_string($person_id)."'";
+		$q = $this->db->query($sql);
+		$person = $q->result_array();
+		$person = $person[0];
+		
+	
+		$sql = "select * from `web_users` where `id` in (select `web_user_id` from `contributions` where `id`='".mysql_real_escape_string($contrib_id)."')";
+		$q = $this->db->query($sql);
+		$web_user = $q->result_array();
+		$web_user = $web_user[0];
+		$user = getWebUser($web_user);
+		$emailtos = array();
+		$name = $user['name'];
+		$zemail = $web_user['email'];
+		$business_email = $web_user['business_email'];
+		$fb_email = $web_user['fb_email'];
+		$emails = array();
+		if($zemail){
+			if(!in_array($zemail, $emails)){
+				$email = array();
+				$email['name'] = $name;
+				$email['email'] = $zemail;
+				$emailtos[] = $email;
+				$emails[] = $zemail;
+			}
+			
+		}
+		if($business_email){
+			if(!in_array($business_email, $emails)){
+				$email = array();
+				$email['name'] = $name;
+				$email['email'] = $business_email;
+				$emailtos[] = $email;
+				$emails[] = $business_email;
+			}
+		}
+		if($fb_email){
+			if(!in_array($fb_email, $emails)){
+				$email = array();
+				$email['name'] = $name;
+				$email['email'] = $fb_email;
+				$emailtos[] = $email;
+				$emails[] = $fb_email;
+			}
+		}
+		
+		if(count($emailtos)&&$person['id']){
+			$from = "mailer@startuplist.sg";
+			$fromname = "e27 Startup List";
+			$subject = "Your Submission is now Online";
+			$template = array();
+			$template['data'] = array();
+			$template['data']['content'] = "Hi $name,
+
+			Your StartupList contribution <b>".$person['name']."</b> is now accessible <a href='http://www.startuplist.sg/person/".$person['slug']."'>http://www.startuplist.sg/person/".$person['slug']."</a>
+
+			You can edit it further by:
+			
+			a) Checking that the general information is complete.
+			b) Adding career details.
+			c) Adding a profile image of the person.
+			d) Make sure associated ivestment organization is updated.
+			
+			
+			You can also follow any changes made to this person's data by viewing the Revision History
+			<a href='http://www.startuplist.sg/editperson/".$person['id']."/revisions'>http://www.startuplist.sg/editperson/".$person['id']."/revisions</a>
+			
+			
+			Thanks!
+			
+			- StartupList Admin
+			<a href='http://www.startuplist.sg'>StartupList.sg</a>
+			";
+			$template['data']['content'] = nl2br($template['data']['content']);
+			
+			//$template['data'] = json_encode($template['data']);
+			$template['slug'] = "startuplist-wrap"; 
+			send_email($from, $fromname, $emailtos, $subject, $message, $template);
 		}
 	}
 }
