@@ -9,7 +9,14 @@ function showThumb($src, $thumbWidth, $thumbHeight, $dest="")
 	//$src  = "http://google.com";
 	//echo file_get_contents($src);
 	//exit();
-	$img = imagecreatefromjpeg( $src );
+	if(strpos($src, "http://".$_SERVER['HTTP_HOST']."/media/") === 0 ){
+		$src = str_replace("http://".$_SERVER['HTTP_HOST']."/media/", dirname(__FILE__)."/", $src);
+	}
+	if($_GET['showsrc']){
+		echo $src;
+		exit();	
+	}
+	$img = @imagecreatefromjpeg( $src );
 	if(!$img){
 		$img = @imagecreatefrompng ( $src );
 	}
@@ -93,34 +100,46 @@ if($_GET['b']){
 
 $md5file = dirname(__FILE__)."/imgcache/".md5($p)."_mx".$mx."_mxh".$mxh."_mxw".$mxw.".jpg";
 
-if(file_exists($md5file)){
+if(file_exists($md5file)&&!$_GET['nocache']){
 	if($mx){
-		header('Content-Type: image/jpeg');
+		if(!$_GET['nohead']){
+			header('Content-Type: image/jpeg');
+		}
 		//echo $md5file;
 		echo file_get_contents($md5file);
 	}
 	else if($mxw&&$mxh){
-		header('Content-Type: image/jpeg');
+		if(!$_GET['nohead']){
+			header('Content-Type: image/jpeg');
+		}
 		echo file_get_contents($md5file);
 	}
 	else
 	{
-		header('Content-Type: image/jpeg');
+		if(!$_GET['nohead']){
+			header('Content-Type: image/jpeg');
+		}
 		echo file_get_contents($md5file);
 	}
 }
 else{
 	if($mx){
-		header('Content-Type: image/jpeg');
+		if(!$_GET['nohead']){
+			header('Content-Type: image/jpeg');
+		}
 		showThumb($p, $mx, $mx, $md5file);	
 	}
 	else if($mxw&&$mxh){
-		header('Content-Type: image/jpeg');
+		if(!$_GET['nohead']){
+			header('Content-Type: image/jpeg');
+		}
 		showThumb($p, $mxw, $mxh, $md5file);	
 	}
 	else
 	{
-		header('Content-Type: image/jpeg');
+		if(!$_GET['nohead']){
+			header('Content-Type: image/jpeg');
+		}
 		showThumb($p, 1000, 1000, $md5file);
 	}
 }
