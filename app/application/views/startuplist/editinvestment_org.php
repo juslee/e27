@@ -7,6 +7,42 @@ if(!$user){
 }
 ?>
 <script>
+
+gpart = "<?php echo $part; ?>";
+gstep = 0;
+asteps = [];
+asteps[0] = 'about';
+asteps[1] = 'overview';
+asteps[2] = 'logo';
+asteps[3] = 'people';
+
+osteps = {};
+for(i in asteps){
+	osteps[asteps[i]] = i;
+}
+
+function prev(){
+	if(gstep==0){
+		return false;
+	}
+	else{
+		gstep=gstep*1-1;
+		gpart = asteps[gstep];
+		showRows(jQuery("#p"+gpart));	
+	}
+}
+
+function next(){
+	if(gstep==(asteps.length-1)){
+		return false;
+	}
+	else{
+		gstep=gstep*1+1;
+		gpart = asteps[gstep];
+		showRows(jQuery("#p"+gpart));	
+	}
+}
+/*
 function showRows(obj, alt){
 	if(alt){
 		if(alt=='revisions'){
@@ -19,6 +55,44 @@ function showRows(obj, alt){
 		obj.parent().addClass("parted");
 		alt = obj.attr("alt");
 	}
+	jQuery("#revisionsx").hide();
+	jQuery("#editx").show();
+	jQuery("#investment_org_form tr.odd, #investment_org_form tr.even").hide();
+	jQuery("#investment_org_form tr."+alt).show();
+}
+*/
+
+function showRows(obj, alt){
+	if(alt){
+		if(alt=='revisions'){
+			jQuery("#revisionsx").show();
+			return true;
+		}
+	}
+	else{
+		jQuery(".edit").removeClass("parted");
+		obj.parent().addClass("parted");
+		alt = obj.attr("alt");
+	}
+	
+	gpart = alt;
+	gstep = osteps[gpart];
+	
+	jQuery("#bprev").show();
+	jQuery("#bnext").show();
+	jQuery("#savebutton").hide();
+	if(gstep==0){
+		jQuery("#bprev").hide();
+	}
+	if(gstep==(asteps.length-1)){
+		jQuery("#bnext").hide();
+		jQuery("#savebutton").show();
+	}
+	
+	jQuery("#step").html(gstep*1+1);
+	jQuery("#steps").html(asteps.length); 
+	jQuery("#steplabel").html(gpart.toUpperCase()); 
+
 	jQuery("#revisionsx").hide();
 	jQuery("#editx").show();
 	jQuery("#investment_org_form tr.odd, #investment_org_form tr.even").hide();
@@ -68,16 +142,16 @@ function showRows(obj, alt){
 									<?php
 									
 									if($part=="about"){ $class="parted"; } else { $class=""; }
-									echo "<div class='edit pad5 $class'><a href='#' alt='about' onclick='showRows(jQuery(this)); return false;'>ABOUT</div>";
+									echo "<div class='edit pad5 $class'><a href='#' alt='about' id='pabout' onclick='showRows(jQuery(this)); return false;'>ABOUT</div>";
 									
 									if($part=="overview"){ $class="parted"; } else { $class=""; }
-									echo "<div class='edit pad5 $class'><a href='#' alt='overview' onclick='showRows(jQuery(this)); return false;'>OVERVIEW</div>";
+									echo "<div class='edit pad5 $class'><a href='#' alt='overview' id='poverview' onclick='showRows(jQuery(this)); return false;'>OVERVIEW</div>";
 									
 									if($part=="logo"){ $class="parted"; } else { $class=""; }
-									echo "<div class='edit pad5 $class'><a href='#' alt='logo' onclick='showRows(jQuery(this)); return false;'>LOGO</div>";
+									echo "<div class='edit pad5 $class'><a href='#' alt='logo' id='plogo' onclick='showRows(jQuery(this)); return false;'>LOGO</div>";
 									
 									if($part=="people"){ $class="parted"; } else { $class=""; }
-									echo "<div class='edit pad5 $class'><a href='#' alt='people' onclick='showRows(jQuery(this)); return false;'>PEOPLE</div>";
+									echo "<div class='edit pad5 $class'><a href='#' alt='people' id='ppeople' onclick='showRows(jQuery(this)); return false;'>PEOPLE</div>";
 									
 									//if($part=="investments"){ $class="parted"; } else { $class=""; }
 									//echo "<div class='edit pad5 $class'><a href='".site_url()."editinvestment_org/".$investment_org['id']."/investments'>INVESTMENTS</div>";

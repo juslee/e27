@@ -43,8 +43,10 @@ jQuery.ajax({
 	type: "POST",
 	data: "",
 	success: function(data){
-		jQuery("#revcount").html(data);
-		jQuery("#revcount").show();
+		if(data!="0"){
+			jQuery("#revcount").html(data);
+			jQuery("#revcount").show();
+		}
 	}
 });
 jQuery.ajax({
@@ -52,8 +54,10 @@ jQuery.ajax({
 	type: "POST",
 	data: "",
 	success: function(data){
-		jQuery("#concount").html(data);
-		jQuery("#concount").show();
+		if(data!="0"){
+			jQuery("#concount").html(data);
+			jQuery("#concount").show();
+		}
 	}
 });
 </script>

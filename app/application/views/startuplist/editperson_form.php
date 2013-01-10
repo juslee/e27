@@ -674,12 +674,18 @@ else{
 		<table width='100%'>
 		<tr>
 		<td width='100%' style='padding-top:30px;'>
-		<input type="button" id='savebutton' value="Save" onclick="savePerson()" />
+		Step <span id='step'></span> of <span id='steps'></span> - <span id='steplabel'></span><br /><br />
+		<a href='#' id='bprev'  onclick="prev(); return false; " ><font size="+1">&laquo;</font> PREVIOUS</a>&nbsp;
+		<a href='#' id='bnext' onclick="next(); return false; " >NEXT <font size="+1">&raquo;</font></a>&nbsp;
+		<br /><br /><br />
+		<input type="button" id='savebutton' value="Submit" onclick="savePerson()" />
 		</td>
 		<?php 
+		/*
 		if($person['id']){
 			?><td><input type="button" style='background:red; color:white' value="Delete" onclick="deletePerson('<?php echo $person['id']; ?>')" /></td><?php
 		}
+		*/
 		?>
 		</tr>
 		</table>

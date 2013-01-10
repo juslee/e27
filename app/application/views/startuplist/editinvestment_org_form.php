@@ -412,8 +412,8 @@ else{
 	  <div id='logopathhtml'></div>
 	  <input type='hidden' id='logopath' name='logo' />
 	  <input type='text' id="io_logo" />
-	  <input type='button' class='button normal' value='Upload' onclick="jQuery('#io_logo').uploadifyUpload();" >
-	  <br><div class='hint'>e.g. Image Suggestion 220 x 220 pixels .jpg file</div>
+	  <!--<input type='button' class='button normal' value='Upload' onclick="jQuery('#io_logo').uploadifyUpload();" >-->
+	  <br><div class='hint'>Suggested image file type is a .jpg file. Recommended resolution: 500pixels</div>
 	  </td>
     </tr>
     <tr class="even overview">
@@ -543,7 +543,13 @@ else{
 	<td colspan="2" class='center'>
 		<table width='100%'>
 		<tr>
-		<td width='100%'><input type="button" id='savebutton' value="Submit" onclick="saveInvestmentOrg()" /></td>
+		<td width='100%' style='padding-top:30px;'>
+		Step <span id='step'></span> of <span id='steps'></span> - <span id='steplabel'></span><br /><br />
+		<a href='#' id='bprev'  onclick="prev(); return false; " ><font size="+1">&laquo;</font> PREVIOUS</a>&nbsp;
+		<a href='#' id='bnext' onclick="next(); return false; " >NEXT <font size="+1">&raquo;</font></a>&nbsp;
+		<br /><br /><br />
+		<input type="button" id='savebutton' value="Submit" onclick="saveInvestmentOrg()" />
+		</td>
 		<?php 
 		/*
 		if($investment_org['id']){

@@ -429,7 +429,11 @@ $method=='addinvestment_org'
 				<td>
 					<table class="p100" cellpadding="0" cellspacing="0">
 						<tr>
-							<td class='bannerleft left middle'><a href="<?php echo site_url(); ?>"><img src="<?php echo site_url(); ?>media/startuplist/startuplist.png"></a></td>
+							<td class='bannerleft left middle'>
+							<div style='position:relative'>
+							<a href="<?php echo site_url(); ?>"><img src="<?php echo site_url(); ?>media/startuplist/startuplist.png"></a>
+							<img style='position:absolute; left:275px; top: -20px;' src="<?php echo site_url(); ?>media/startuplist/beta.png" /></div>
+							</td>
 							<td class='bannerright right  p100 hidden'><img src="<?php echo site_url(); ?>media/startuplist/banner.png"></td>
 						</tr>
 					</table>

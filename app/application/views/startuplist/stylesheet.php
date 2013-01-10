@@ -164,6 +164,7 @@ input[type="text"].searchtext {
     border-radius: 3px 3px 3px 3px;
 	width:400px;
 	padding-left:10px;
+	font-size:20px;
 }
 .contents{
 	height:500px;
