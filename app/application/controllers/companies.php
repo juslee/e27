@@ -57,6 +57,11 @@ class companies extends CI_Controller {
 				LOWER(`country`) like '%".mysql_real_escape_string($search)."%'
 			";
 		}
+		else if($filter=='status'){
+			$sql .= "
+				LOWER(`status`) like '%".mysql_real_escape_string($search)."%'
+			";
+		}
 		else{
 			$sql .= "LOWER(`".$filter."`) like '%".mysql_real_escape_string($search)."%'";
 		}

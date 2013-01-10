@@ -1606,7 +1606,13 @@ else if($web_user&&$contribution){
 
     <tr class="odd required <?php if(in_array("name", $changed)){ echo "changed";} ?>">
       <td>* Company Name:</td>
-      <td><input type="text" name="name" size="40" id='co_name'><div class='inline' style='padding-left:5px;' id='co_check'></div></td>
+      <td><input type="text" name="name" size="40" id='co_name'><div class='inline' style='padding-left:5px;' id='co_check'></div> <?php
+	  
+	  if($company['status']=="Closed"){
+			echo " <a style='color:red'>[Closed]</a>";
+		}
+	  
+	  ?></td>
     </tr>
     <tr class="even required <?php if(in_array("description", $changed)){ echo "changed";} ?>">
       <td>* Description:</td>

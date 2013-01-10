@@ -227,7 +227,19 @@
 								</tr>
 								<?php
 							}
-							
+							if($company['status']=="Closed"){
+								?>
+								<tr>
+									<td class='label'>
+										Status
+									</td>
+									<td class='value'>
+										<?php echo "<a style='color:red'>Closed</a>"; ?>
+									</td>
+								</tr>
+								<?php
+								
+							}
 							?>
 							
 						</table>
@@ -516,6 +528,8 @@
 					<td class="company_name">
 						<?php
 						echo htmlentitiesX($company['name']);
+						
+						
 						?>
 						<?php
 						if($_SESSION['web_user']||1){ echo "<div class='edit inline right'><a href='".site_url()."editcompany/".$company['id']."/about'>EDIT</div>"; }
