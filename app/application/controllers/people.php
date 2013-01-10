@@ -1414,7 +1414,7 @@ class people extends CI_Controller {
 			a) Checking that the general information is complete.
 			b) Adding career details.
 			c) Adding a profile image of the person.
-			d) Make sure associated ivestment organization is updated.
+			d) Make sure associated investment organization is updated.
 			
 			
 			You can also follow any changes made to this person's data by viewing the Revision History
@@ -1497,7 +1497,7 @@ class people extends CI_Controller {
 			a) Checking that the general information is complete.
 			b) Adding career details.
 			c) Adding a profile image of the person.
-			d) Make sure associated ivestment organization is updated.
+			d) Make sure associated investment organization is updated.
 			
 			
 			You can also follow any changes made to this person's data by viewing the Revision History
