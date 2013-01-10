@@ -78,9 +78,11 @@ class search extends CI_Controller {
 
 		if($gfilter=='newlyadded'){
 			$filter = "UNIX_TIMESTAMP(`dateadded`)>".(time()-(5*24*60*60)).""; //within 5 days
+			$gfilter = "";
 		}
 		else if($gfilter=='newlyupdated'){
 			$filter = "UNIX_TIMESTAMP(`dateupdated`)>".(time()-(5*24*60*60)).""; //within 5 days
+			$gfilter = "";
 		}
 		else{
 			$filter = 1;
