@@ -62,21 +62,40 @@ function saveWebuser(){
 				  ?>
 				  </td>
 				</tr>
+				<?php
+				if($web_user['fb_email']){
+				?>
 				<tr class="even">
-				  <td>E-mail:</td>
+				  <td>FB E-mail:</td>
 				  <td>
 				  <?php
-				  	if(trim($web_user['fb_id'])!=""){
-						echo $web_user['fb_email'];
-					}
-					else{
-						?>
-						<input type='text' style='width:300px;' name='email' value="<?php echo htmlentitiesX($web_user['email']); ?>" />
-						<?php
-					}
+					echo $web_user['fb_email'];
 				  ?>
 				  </td>
 				</tr>
+				<?php
+				}
+				if($web_user['email']){
+					?>
+					<tr class="even">
+					  <td>E-mail:</td>
+					  <td>
+							<input type='text' style='width:300px;' name='email' value="<?php echo htmlentitiesX($web_user['email']); ?>" />
+					  </td>
+					</tr>
+					<?php
+				}
+				if(trim($web_user['in_id'])||trim($web_user['fb_id'])){
+					?>
+					<tr class="even">
+					  <td>Business E-mail:</td>
+					  <td>
+							<input type='text' style='width:300px;' name='business_email' value="<?php echo htmlentitiesX($web_user['business_email']); ?>" />
+					  </td>
+					</tr>
+					<?php
+				}
+				?>
 				<tr class="odd">
 				  <td>Name:</td>
 				  <td>

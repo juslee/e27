@@ -81,6 +81,18 @@ if(!$user){
 										?>
 										
 										<?php 
+										if(trim($user['fb_email'])&&$user['id']==$_SESSION['web_user']['id']){
+											?>
+											<tr>
+												<td class='bold'>
+													FB E-mail:
+												</td>
+												<td>
+													<?php echo $user['fb_email']; ?>
+												</td>
+											</tr>
+											<?php
+										}
 										if(trim($user['email'])&&$user['id']==$_SESSION['web_user']['id']){
 											?>
 											<tr>
@@ -89,6 +101,18 @@ if(!$user){
 												</td>
 												<td>
 													<?php echo $user['email']; ?>
+												</td>
+											</tr>
+											<?php
+										}
+										if(trim($user['business_email'])&&$user['id']==$_SESSION['web_user']['id']){
+											?>
+											<tr>
+												<td class='bold'>
+													Business E-mail:
+												</td>
+												<td>
+													<?php echo $user['business_email']; ?>
 												</td>
 											</tr>
 											<?php

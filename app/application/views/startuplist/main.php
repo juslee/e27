@@ -74,6 +74,7 @@ if(!$_SESSION['web_user']){
 				";	
 				$q = $this->db->query($sql);
 				$userid = $this->db->insert_id();
+				
 			}
 			else{
 				$sql = "update `web_users` set 
@@ -91,7 +92,8 @@ if(!$_SESSION['web_user']){
 		}
 	}
 }
-if($_SESSION['web_user']['in_data']&&!$_SESSION['web_user']['email']&&!$_GET['missingemail']){
+
+if($_SESSION['web_user']&&!$_SESSION['web_user']['business_email']&&($_SESSION['web_user']['fb_data']||$_SESSION['in_data'])&&!$_GET['missingemail']){
 	header("Location: " . site_url()."editaccount?missingemail=1");
 	exit;
 }

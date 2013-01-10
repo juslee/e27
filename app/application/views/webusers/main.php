@@ -10,7 +10,7 @@
 <table>
 	<tr>
 		<th style="width:20px"></th>
-		<th>E-mail</th>
+		<th>Login E-mail / Business E-mail</th>
 		<th>Name</th>
 		<th>Type</th>
 		<th>Date Added</th>
@@ -29,10 +29,15 @@
 			<td><?php echo $start+$i+1; ?></td>
 			<td>
 				<?php
-				if(trim($user['email'])){
+				if(trim($user['business_email'])){
+					echo "<a href='".site_url()."webusers/editwebuser/".$user['id']."'>".$user['business_email']."</a>";
+					
+				}
+				else if(trim($user['email'])){
 					echo "<a href='".site_url()."webusers/editwebuser/".$user['id']."'>".$user['email']."</a>";
 					
 				}
+				
 				else{
 					echo "<a href='".site_url()."webusers/editwebuser/".$user['id']."'>No email</a>";
 				}

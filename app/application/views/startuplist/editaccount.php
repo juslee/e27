@@ -68,6 +68,18 @@ function saveaccount(){
 											</td>
 										</tr>
 										<?php
+										if(trim($user['fb_email'])&&$user['id']==$_SESSION['web_user']['id']){
+											?>
+											<tr>
+												<td class='bold'>
+													FB E-mail:
+												</td>
+												<td>
+													<?php echo $user['fb_email']; ?>
+												</td>
+											</tr>
+											<?php
+										}
 										if(trim($user['email'])&&$user['id']==$_SESSION['web_user']['id']){
 											?>
 											<tr>
@@ -76,6 +88,18 @@ function saveaccount(){
 												</td>
 												<td>
 													<?php echo $user['email']; ?>
+												</td>
+											</tr>
+											<?php
+										}
+										if(trim($user['business_email'])&&$user['id']==$_SESSION['web_user']['id']){
+											?>
+											<tr>
+												<td class='bold'>
+													Business E-mail:
+												</td>
+												<td>
+													<?php echo $user['business_email']; ?>
 												</td>
 											</tr>
 											<?php
@@ -143,25 +167,36 @@ function saveaccount(){
 										</tr>
 										<?php
 									}
-									else if($user['type']=='in'||$_GET['missingemail']){
+									else if($user['type']=='in'||$user['type']=='fb'||$_GET['missingemail']){
 										if($_GET['missingemail']){
 											?>
 											<tr>
 											  <td class='center' colspan="2" style='padding:10px;' >
-												Please complete your registration by registering your E-mail Address.
+												Please complete your registration by registering your Business E-mail Address.
 											  </td>
 											</tr>
 											<?php
 										}
 										?>
 										<tr>
-										  <td class='pad5'>E-mail Address:</td>
-										  <td class='pad5'><input type="text" name="email" size="40" value="<?php echo sanitizeX($user['email']); ?>"></td>
+										  <td class='pad5'>Business E-mail Address:</td>
+										  <td class='pad5'><input type="text" name="business_email" size="40" value="<?php
+										  
+										  if(!trim($user['business_email'])&&$user['type']=='fb'){
+										  	echo sanitizeX($user['fb_email']); 
+										  }
+										  else{
+										  	echo sanitizeX($user['business_email']); 
+										  }
+										  
+										  ?>"></td>
 										</tr>
 										<?php
 									}
 									if(!$_GET['missingemail']){
+										
 										?>
+										
 										<tr>
 										  <td class='pad5'>Twitter Handle:</td>
 										  <td class='pad5'><input type="text" name="twitter" size="40" value="<?php echo sanitizeX($user['twitter']); ?>"><div class='hint'>E.g. @twitter</div></td>

@@ -84,6 +84,7 @@ class startuplist extends CI_Controller {
 		$web_user = $q->result_array();
 		if(trim($userid)){
 			if($web_user[0]){
+				/*
 				$sql = "update `web_users` set 
 					`fb_id` = ".$this->db->escape($userid).",
 					`email` = ".$this->db->escape($useremail).",
@@ -92,24 +93,42 @@ class startuplist extends CI_Controller {
 					`dateupdated` = NOW()
 					where `id`='".$web_user[0]['id']."'
 				";
+				*/
+				$sql = "update `web_users` set 
+					`fb_id` = ".$this->db->escape($userid).",
+					`fb_email` = ".$this->db->escape($useremail).",
+					`fb_data` = ".$this->db->escape($userdata).",
+					`dateupdated` = NOW()
+					where `id`='".$web_user[0]['id']."'
+				";
 				$q = $this->db->query($sql);
 			}
 			else{
+				/*
 				$sql = "insert into `web_users` set 
 					`email` = ".$this->db->escape($useremail).",
 					`fb_id` = ".$this->db->escape($userid).",
 					`fb_email` = ".$this->db->escape($useremail).",
 					`fb_data` = ".$this->db->escape($userdata).",
 					`dateadded` = NOW();
-				";		
+				";
+				*/		
+				$sql = "insert into `web_users` set 
+					`fb_id` = ".$this->db->escape($userid).",
+					`fb_email` = ".$this->db->escape($useremail).",
+					`fb_data` = ".$this->db->escape($userdata).",
+					`dateadded` = NOW();
+				";
 				//echo $sql;
 				$q = $this->db->query($sql);
 				$userid = $this->db->insert_id();
 				$sql = "select * from `web_users` where `fb_id`=".$this->db->escape($userid);
 				$q = $this->db->query($sql);
 				$web_user = $q->result_array();
+				$this->sendWelcome($userid);
 			}
 			$_SESSION['web_user'] = $web_user[0];
+			
 		}
 	}
 	
@@ -940,6 +959,7 @@ class startuplist extends CI_Controller {
 				//echo $sql;
 				$q = $this->db->query($sql);
 				$userid = $this->db->insert_id();
+				$this->sendWelcome($userid);
 				?>
 				jQuery("#registerbutton").hide();
 				jQuery("#registering").show();
@@ -1090,6 +1110,49 @@ class startuplist extends CI_Controller {
 			$data['content'] = $this->load->view('startuplist/forgotpass', $data, true);
 			$this->load->view('startuplist/main', $data);
 		}
+	}
+	
+	function sendWelcome($userid){
+		$sql = "select * from `web_users` where `id`='".$userid."'";
+		$q = $this->db->query($sql);
+		$web_user = $q->result_array();
+		$web_user = $web_user[0];
+		$user = getWebUser($web_user);
+		if($user['email']){
+			$from = "mailer@startuplist.sg";
+			$fromname = "e27 Startup List";
+			$to = $user['email'];
+			if(!$to){
+				$to = $user['business_email'];
+			}
+			$toname = $user['name'];
+			$emailtos = array();
+			$email = array();
+			$email['email'] = $to;
+			$email['name'] = $toname;
+			$emailtos[] = $email;
+			$subject = "Welcome to StartupList (Beta)";
+			$template = array();
+			$template['data'] = array();
+			$template['data']['name'] = $toname;
+			$template['data']['content'] = "Hi $toname,
+
+			Welcome to StartupList.
+			
+			You are now able to edit and create company and people profiles with your user account.  Other users will be able to see that you're the contributor who made these edits. Please note that all edits and contributions are still subjected to admin approval to ensure the accuracy of the data.
+			
+			Thanks and hope to see your contribution on StartupList.
+			
+			- StartupList Admin
+			<a href='http://www.startuplist.sg'>StartupList.sg</a>
+			";
+			$template['data']['content'] = nl2br($template['data']['content']);
+			
+			//$template['data'] = json_encode($template['data']);
+			$template['slug'] = "startuplist-wrap"; 
+			send_email($from, $fromname, $emailtos, $subject, $message, $template);
+		}
+		
 	}
 	
 	function testemail(){
@@ -1496,10 +1559,10 @@ class startuplist extends CI_Controller {
 		}
 		if($_POST){
 			$err = false;
-			if(!checkEmail($_POST['email'], true)&&$_SESSION['web_user']['in_data']){
+			if(!checkEmail($_POST['business_email'], true)&&($_SESSION['web_user']['in_data']||$_SESSION['web_user']['fb_data'])){
 				$err = true;
 				?>
-				alertX("Invalid E-mail Address.");
+				alertX("Invalid Business E-mail Address.");
 				<?php
 			}
 			else if($_POST['name']&&!trim($_POST['name'])){
@@ -1519,8 +1582,8 @@ class startuplist extends CI_Controller {
 				if($_POST['name']){
 					$sqlext .= " `name` = '".mysql_real_escape_string($_POST['name'])."', ";
 				}
-				if($_POST['email']){
-					$sqlext .= " `email` = '".mysql_real_escape_string($_POST['email'])."', ";
+				if($_POST['business_email']){
+					$sqlext .= " `business_email` = '".mysql_real_escape_string($_POST['business_email'])."', ";
 				}
 				if($_POST['password']){
 					$sqlext .= " `password` = '".mysql_real_escape_string(md5($_POST['password']))."', ";
@@ -1551,6 +1614,7 @@ class startuplist extends CI_Controller {
 			jQuery("#account_form *").attr("disabled", false);
 			<?php
 			if($_GET['missingemail']){
+				$this->sendWelcome($web_user['id']);
 				?>
 				self.location = "<?php echo site_url(); ?>account";
 				<?php
