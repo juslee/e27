@@ -282,19 +282,12 @@ function saveFBUserFriends (userid, userfriends){
 	//alert(userfriends);
 	formdata = "userid="+userid+"&userfriends="+userfriends;
 	jQuery.ajax({
-		url: "<?php echo site_url(); ?>startuplist/ajax_saveFbUserFriends",
+		url: "<?php echo site_url(); ?>startuplist/ajax_saveFbUserFriends?ref=<?php echo urlencode($_GET['ref']); ?>",
 		type: "POST",
 		data: formdata,
 		dataType: "script",
 		success: function(){
-			<?php
-			if($_GET['ref']){
-				?>self.location="<?php echo $_GET['ref']; ?>"<?
-			}
-			else{
-				?>refreshPage();<?php
-			}
-			?>
+			
 		}
 	});
 }
@@ -310,7 +303,7 @@ function fetchFBData() {
 		userdata = JSON.stringify(response);
 		userid = response.id;
 		useremail = response.email;
-		if(userid){
+		if(userid&&useremail&&userdata){
 			jQuery("#fb_logging").show();
 			jQuery("#fb_loginbutton").hide();
 			jQuery("#loggedin").html("<br />Logging in... <img src='<?php echo site_url(); ?>media/ajax-loader.gif' />");

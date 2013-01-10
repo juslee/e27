@@ -172,7 +172,7 @@ function saveaccount(){
 											?>
 											<tr>
 											  <td class='center' colspan="2" style='padding:10px;' >
-												Please complete your registration by registering your Business E-mail Address.
+												Please continue by registering your Business E-mail Address.
 											  </td>
 											</tr>
 											<?php

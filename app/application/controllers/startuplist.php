@@ -102,6 +102,7 @@ class startuplist extends CI_Controller {
 					where `id`='".$web_user[0]['id']."'
 				";
 				$q = $this->db->query($sql);
+				$_SESSION['web_user'] = $web_user[0];
 			}
 			else{
 				/*
@@ -122,13 +123,12 @@ class startuplist extends CI_Controller {
 				//echo $sql;
 				$q = $this->db->query($sql);
 				$userid = $this->db->insert_id();
-				$sql = "select * from `web_users` where `fb_id`=".$this->db->escape($userid);
+				$sql = "select * from `web_users` where `id`=".$this->db->escape($userid);
 				$q = $this->db->query($sql);
 				$web_user = $q->result_array();
-				$this->sendWelcome($userid);
-			}
-			$_SESSION['web_user'] = $web_user[0];
-			
+				$_SESSION['web_user'] = $web_user[0];
+			}	
+			//print_r($_SESSION['web_user']);
 		}
 	}
 	
@@ -157,6 +157,15 @@ class startuplist extends CI_Controller {
 				";		
 				//echo $sql;
 				$q = $this->db->query($sql);
+			}
+			?>
+			//alert("here...");
+			<?php
+			if($_GET['ref']){
+				?>self.location="<?php echo $_GET['ref']; ?>"<?
+			}
+			else{
+				?>refreshPage();<?php
 			}
 		}
 	}
@@ -1118,24 +1127,53 @@ class startuplist extends CI_Controller {
 		$web_user = $q->result_array();
 		$web_user = $web_user[0];
 		$user = getWebUser($web_user);
-		if($user['email']){
+		
+		$name = $user['name'];
+		$zemail = $web_user['email'];
+		$business_email = $web_user['business_email'];
+		$fb_email = $web_user['fb_email'];
+		$emails = array();
+		if($zemail){
+			if(!in_array($zemail, $emails)){
+				$email = array();
+				$email['name'] = $name;
+				$email['email'] = $zemail;
+				$emailtos[] = $email;
+				$emails[] = $zemail;
+			}
+			
+		}
+		if($business_email){
+			if(!in_array($business_email, $emails)){
+				$email = array();
+				$email['name'] = $name;
+				$email['email'] = $business_email;
+				$emailtos[] = $email;
+				$emails[] = $business_email;
+			}
+		}
+		if($fb_email){
+			if(!in_array($fb_email, $emails)){
+				$email = array();
+				$email['name'] = $name;
+				$email['email'] = $fb_email;
+				$emailtos[] = $email;
+				$emails[] = $fb_email;
+			}
+		}
+		
+		if(count($emailtos)){
 			$from = "mailer@startuplist.sg";
 			$fromname = "e27 Startup List";
 			$to = $user['email'];
 			if(!$to){
 				$to = $user['business_email'];
 			}
-			$toname = $user['name'];
-			$emailtos = array();
-			$email = array();
-			$email['email'] = $to;
-			$email['name'] = $toname;
-			$emailtos[] = $email;
 			$subject = "Welcome to StartupList (Beta)";
 			$template = array();
 			$template['data'] = array();
 			$template['data']['name'] = $toname;
-			$template['data']['content'] = "Hi $toname,
+			$template['data']['content'] = "Hi $name,
 
 			Welcome to StartupList.
 			
