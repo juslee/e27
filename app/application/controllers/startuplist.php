@@ -1129,9 +1129,9 @@ class startuplist extends CI_Controller {
 		$user = getWebUser($web_user);
 		
 		$name = $user['name'];
-		$zemail = $web_user['email'];
-		$business_email = $web_user['business_email'];
-		$fb_email = $web_user['fb_email'];
+		$zemail = trim(strtolower($web_user['email']));
+		$business_email = trim(strtolower($web_user['business_email']));
+		$fb_email = trim(strtolower($web_user['fb_email']));
 		$emails = array();
 		if($zemail){
 			if(!in_array($zemail, $emails)){
