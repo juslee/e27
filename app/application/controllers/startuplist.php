@@ -1079,7 +1079,7 @@ class startuplist extends CI_Controller {
 				
 				//send email
 				$from = "feedback@27x.co";
-				$fromname = "27x Startup List";
+				$fromname = "27x";
 				$to = $emailto;
 				$toname = $account[0]['name'];
 				$emailtos = array();
@@ -1165,12 +1165,12 @@ class startuplist extends CI_Controller {
 		
 		if(count($emailtos)){
 			$from = "feedback@27x.co";
-			$fromname = "27x Startup List";
+			$fromname = "27x";
 			$to = $user['email'];
 			if(!$to){
 				$to = $user['business_email'];
 			}
-			$subject = "Welcome to 27x Startup Lisr (Beta)";
+			$subject = "Welcome to 27x (Beta)";
 			$template = array();
 			$template['data'] = array();
 			$template['data']['name'] = $toname;

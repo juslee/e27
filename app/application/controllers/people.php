@@ -1401,7 +1401,7 @@ class people extends CI_Controller {
 		
 		if(count($emailtos)&&$person['id']){
 			$from = "feedback@27x.co";
-			$fromname = "27x Startup List";
+			$fromname = "27x";
 			$subject = "Your Edit on '".$person['name']."' has been Approved";
 			$template = array();
 			$template['data'] = array();
@@ -1484,7 +1484,7 @@ class people extends CI_Controller {
 		
 		if(count($emailtos)&&$person['id']){
 			$from = "feedback@27x.co";
-			$fromname = "27x Startup List";
+			$fromname = "27x";
 			$subject = "Your Submission is now Online";
 			$template = array();
 			$template['data'] = array();
