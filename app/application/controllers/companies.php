@@ -2047,14 +2047,14 @@ class companies extends CI_Controller {
 		//print_r($company['id']);
 		
 		if(count($emailtos)&&$company['id']){
-			$from = "mailer@startuplist.sg";
-			$fromname = "e27 Startup List";
+			$from = "feedback@27x.co";
+			$fromname = "27x Startup List";
 			$subject = "Your Edit on '".$company['name']."' has been Approved";
 			$template = array();
 			$template['data'] = array();
 			$template['data']['content'] = "Hi $name,
 
-			Your StartupList revision on <b>".$company['name']."</b> was approved and is now accessible <a href='http://www.startuplist.sg/company/".$company['slug']."'>http://www.startuplist.sg/company/".$company['slug']."</a>
+			Your 27x Startup List revision on <b>".$company['name']."</b> was approved and is now accessible <a href='http://27x.co/company/".$company['slug']."'>http://27x.co/company/".$company['slug']."</a>
 
 			You can edit it further by:
 			
@@ -2066,13 +2066,13 @@ class companies extends CI_Controller {
 			
 			
 			You can also follow any changes made to this company's data by viewing the Revision History
-			<a href='http://www.startuplist.sg/editcompany/".$company['id']."/revisions'>http://www.startuplist.sg/editcompany/".$company['id']."/revisions</a>
+			<a href='http://27x.co/editcompany/".$company['id']."/revisions'>http://27x.co/editcompany/".$company['id']."/revisions</a>
 			
 			
 			Thanks!
 			
-			- StartupList Admin
-			<a href='http://www.startuplist.sg'>StartupList.sg</a>
+			- 27x Team
+			<a href='http://27x.co'>27x.co</a>
 			";
 			$template['data']['content'] = nl2br($template['data']['content']);
 			
@@ -2131,14 +2131,14 @@ class companies extends CI_Controller {
 		}
 		
 		if(count($emailtos)&&$company['id']){
-			$from = "mailer@startuplist.sg";
-			$fromname = "e27 Startup List";
+			$from = "feedback@27x.co";
+			$fromname = "27x Startup List";
 			$subject = "Your Submission is now Online";
 			$template = array();
 			$template['data'] = array();
 			$template['data']['content'] = "Hi $name,
 
-			Your StartupList contribution <b>".$company['name']."</b> is now accessible <a href='http://www.startuplist.sg/company/".$company['slug']."'>http://www.startuplist.sg/company/".$company['slug']."</a>
+			Your 27x Startup List contribution <b>".$company['name']."</b> is now accessible <a href='http://27x.co/company/".$company['slug']."'>http://27x.co/company/".$company['slug']."</a>
 
 			You can edit it further by:
 			
@@ -2150,13 +2150,13 @@ class companies extends CI_Controller {
 			
 			
 			You can also follow any changes made to this company's data by viewing the Revision History
-			<a href='http://www.startuplist.sg/editcompany/".$company['id']."/revisions'>http://www.startuplist.sg/editcompany/".$company['id']."/revisions</a>
+			<a href='http://27x.co/editcompany/".$company['id']."/revisions'>http://27x.co/editcompany/".$company['id']."/revisions</a>
 			
 			
 			Thanks!
 			
-			- StartupList Admin
-			<a href='http://www.startuplist.sg'>StartupList.sg</a>
+			- 27x Team
+			<a href='http://27x.co'>27x.co</a>
 			";
 			$template['data']['content'] = nl2br($template['data']['content']);
 			

@@ -254,6 +254,7 @@ class startuplist extends CI_Controller {
 		$data['newlyfunded'] = $this->newlyFunded();
 		$data['fb'] = $this->fb;
 		$data['content'] = $this->load->view('startuplist/companies', $data, true);
+		$data['company'] = '';
 		$this->load->view('startuplist/main', $data);
 	}
 	
@@ -1077,8 +1078,8 @@ class startuplist extends CI_Controller {
 				$this->db->query($sql);
 				
 				//send email
-				$from = "mailer@startuplist.sg";
-				$fromname = "E27 Startup List";
+				$from = "feedback@27x.co";
+				$fromname = "27x Startup List";
 				$to = $emailto;
 				$toname = $account[0]['name'];
 				$emailtos = array();
@@ -1086,7 +1087,7 @@ class startuplist extends CI_Controller {
 				$email['email'] = $to;
 				$email['name'] = $toname;
 				$emailtos[] = $email;
-				$subject = "E27 Startup List Password Change";
+				$subject = "27x Startup List Password Change";
 				$passlink = site_url()."changepass/".$token;
 				$template = array();
 				$template['data'] = array();
@@ -1163,27 +1164,45 @@ class startuplist extends CI_Controller {
 		}
 		
 		if(count($emailtos)){
-			$from = "mailer@startuplist.sg";
-			$fromname = "e27 Startup List";
+			$from = "feedback@27x.co";
+			$fromname = "27x Startup List";
 			$to = $user['email'];
 			if(!$to){
 				$to = $user['business_email'];
 			}
-			$subject = "Welcome to StartupList (Beta)";
+			$subject = "Welcome to 27x Startup Lisr (Beta)";
 			$template = array();
 			$template['data'] = array();
 			$template['data']['name'] = $toname;
+			/*
 			$template['data']['content'] = "Hi $name,
 
-			Welcome to StartupList.
+			Welcome to 27x Startup List.
 			
 			You are now able to edit and create company and people profiles with your user account.  Other users will be able to see that you're the contributor who made these edits. Please note that all edits and contributions are still subjected to admin approval to ensure the accuracy of the data.
 			
 			Thanks and hope to see your contribution on StartupList.
 			
-			- StartupList Admin
-			<a href='http://www.startuplist.sg'>StartupList.sg</a>
+			- 27x Team
+			<a href='http://27x.co'>27x.co</a>
 			";
+			*/
+			$email_content = "Welcome to 27x
+
+				Before you get started, here's a few things you should know:
+				
+				1. <b>This is Real Beta</b> - You're using a version of 27x that's still in it's infancy. You should be prepared to see incorrect data, links that are broken, and general stuff that just don't work. Fret not, we're here to build this for the long term. We value you feedback, so if you see something that needs to be fixed, or if you have a great idea on how something can be done, send us feedback at <a href='mailto:feedback@27x.co'>feedback@27x.co</a>.
+				
+				2. <b>We're small, but still growing</b> - Right now, we just have a handle of entries in the system. We're looking to build that base overtime through your support. Feel free to add in new entries and edit them, as you deem fit.
+				
+				3. We like criticism - As a new site, we're sure you can find lots to criticize. Remember though, constructive criticism will help make the site better.
+				
+				Thank you for using 27x. Let us know what you think!
+				
+				- 27x Team
+				<a href='http://27x.co'>27x.co</a>
+				";
+			$template['data']['content'] = $email_content;
 			$template['data']['content'] = nl2br($template['data']['content']);
 			
 			//$template['data'] = json_encode($template['data']);

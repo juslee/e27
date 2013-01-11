@@ -7,7 +7,7 @@ $user = $_SESSION['user'];
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" href="http://e27.wpengine.netdna-cdn.com/wp-content/themes/e27sg/favicon.ico" />
-	<title>E27 Startup List</title>
+	<title>27X Startup List</title>
 
 
 	<script language="javascript" src="<?php echo site_url(); ?>media/js/jquery-1.7.2.min.js"></script>
@@ -691,7 +691,7 @@ $user = $_SESSION['user'];
 			<td id='header'>
 				<table cellpadding="0" cellspacing="0" width="100%">
 					<tr>
-						<td><img onclick='self.location="<?php echo site_url(); ?>main"' src="<?php echo site_url()."media/logo.png"; ?>"  style='cursor:pointer'/></td>
+						<td><img onclick='self.location="<?php echo site_url(); ?>main"' src="<?php echo site_url()."media/startuplist/logo.jpg"; ?>"  style='cursor:pointer'/></td>
 						<?php
 						if($user){ //if logged in
 							?>

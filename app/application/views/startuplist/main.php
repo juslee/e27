@@ -1,14 +1,20 @@
 <?php
 @session_start();
 $this->load->helper('url');
-//force www
-if($_SERVER['HTTP_HOST']!="localhost"&&strpos($_SERVER['HTTP_HOST'], "www.")===false){
+//force no www
+if(strtolower($_SERVER['HTTP_HOST'])!='27x.co'){
+	header ('HTTP/1.1 301 Moved Permanently');
+	header("Location: ".sanitizeX("http://27x.co/".uri_string().$qs));
+	exit();
+}
+else if(($_SERVER['HTTP_HOST']!="localhost"&&strpos($_SERVER['HTTP_HOST'], "www.")===0)){
 	$qs = "";
 	if($_SERVER['QUERY_STRING']){
 		$qs = "?".$_SERVER['QUERY_STRING'];
 	}
 	header ('HTTP/1.1 301 Moved Permanently');
-	header("Location: ".sanitizeX("http://www.".$_SERVER['HTTP_HOST']."/".uri_string().$qs));
+	$http_host = substr($_SERVER['HTTP_HOST'], 4);
+	header("Location: ".sanitizeX("http://".$http_host."/".uri_string().$qs));
 	exit();
 }
 
@@ -103,7 +109,7 @@ if($_SESSION['web_user']&&!$_SESSION['web_user']['business_email']&&($_SESSION['
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php
-$metatitle = "Startup List";
+$metatitle = "27X Startup List";
 $method = $this->router->method;
 if($method!="index"&&$method!="country"){
 	$metatitle .= " | "; 
@@ -177,10 +183,13 @@ else if(trim($person['profile_image'])){
 else if(trim($investment_org['logo'])){
 	$og_image = site_url()."media/image.php?p=".$investment_org['logo']."&mx=200";
 }
-else{
+else if($company['id']||$person['id']||$investment_org['id']){
 	$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
 	$og_image = site_url()."media/image.php?p=".$logo."&mx=250";
 	/*?><link rel="image_src" href="<?php echo site_url(); ?>media/image.php?p=<?php echo $logo; ?>&mx=250" /><?php	*/
+}
+else{
+	$og_image = site_url()."media/startuplist/og_image.jpg";
 }
 echo '<meta property="og:image" content="'.$og_image.'" />';
 echo '<meta property="og:description" content="'.$metadesc.'" />';
@@ -248,6 +257,10 @@ if(!$editmode){
 
 </head>
 <body class="font">
+<?php
+//echo "<pre>";
+//print_r($company);
+?>
 <div id="dialog" title="">
     <div id='dialoghtml'></div>
 </div>
@@ -441,8 +454,8 @@ $method=='addinvestment_org'
 						<tr>
 							<td class='bannerleft left middle'>
 							<div style='position:relative'>
-							<a href="<?php echo site_url(); ?>"><img src="<?php echo site_url(); ?>media/startuplist/startuplist.png"></a>
-							<img style='position:absolute; left:275px; top: -20px;' src="<?php echo site_url(); ?>media/startuplist/beta.png" /></div>
+							<a href="<?php echo site_url(); ?>"><img src="<?php echo site_url(); ?>media/startuplist/logo.jpg"></a>
+							<img style='position:absolute; left:380px; top: -10px;' src="<?php echo site_url(); ?>media/startuplist/beta.png" /></div>
 							</td>
 							<td class='bannerright right  p100 hidden'><img src="<?php echo site_url(); ?>media/startuplist/banner.png"></td>
 						</tr>

@@ -1400,14 +1400,14 @@ class people extends CI_Controller {
 		//print_r($person['id']);
 		
 		if(count($emailtos)&&$person['id']){
-			$from = "mailer@startuplist.sg";
-			$fromname = "e27 Startup List";
+			$from = "feedback@27x.co";
+			$fromname = "27x Startup List";
 			$subject = "Your Edit on '".$person['name']."' has been Approved";
 			$template = array();
 			$template['data'] = array();
 			$template['data']['content'] = "Hi $name,
 
-			Your StartupList revision on <b>".$person['name']."</b> was approved and is now accessible <a href='http://www.startuplist.sg/person/".$person['slug']."'>http://www.startuplist.sg/person/".$person['slug']."</a>
+			Your 27x Startup List revision on <b>".$person['name']."</b> was approved and is now accessible <a href='http://27x.co/person/".$person['slug']."'>http://27x.co/person/".$person['slug']."</a>
 
 			You can edit it further by:
 			
@@ -1418,13 +1418,13 @@ class people extends CI_Controller {
 			
 			
 			You can also follow any changes made to this person's data by viewing the Revision History
-			<a href='http://www.startuplist.sg/editperson/".$person['id']."/revisions'>http://www.startuplist.sg/editcompany/".$person['id']."/revisions</a>
+			<a href='http://27x.co/editperson/".$person['id']."/revisions'>http://27x.co/editcompany/".$person['id']."/revisions</a>
 			
 			
 			Thanks!
 			
-			- StartupList Admin
-			<a href='http://www.startuplist.sg'>StartupList.sg</a>
+			- 27x Team
+			<a href='http://27x.co'>27x.co</a>
 			";
 			$template['data']['content'] = nl2br($template['data']['content']);
 			
@@ -1483,14 +1483,14 @@ class people extends CI_Controller {
 		}
 		
 		if(count($emailtos)&&$person['id']){
-			$from = "mailer@startuplist.sg";
-			$fromname = "e27 Startup List";
+			$from = "feedback@27x.co";
+			$fromname = "27x Startup List";
 			$subject = "Your Submission is now Online";
 			$template = array();
 			$template['data'] = array();
 			$template['data']['content'] = "Hi $name,
 
-			Your StartupList contribution <b>".$person['name']."</b> is now accessible <a href='http://www.startuplist.sg/person/".$person['slug']."'>http://www.startuplist.sg/person/".$person['slug']."</a>
+			Your 27x Startup List contribution <b>".$person['name']."</b> is now accessible <a href='http://27x.co/person/".$person['slug']."'>http://27x.co/person/".$person['slug']."</a>
 
 			You can edit it further by:
 			
@@ -1501,13 +1501,13 @@ class people extends CI_Controller {
 			
 			
 			You can also follow any changes made to this person's data by viewing the Revision History
-			<a href='http://www.startuplist.sg/editperson/".$person['id']."/revisions'>http://www.startuplist.sg/editperson/".$person['id']."/revisions</a>
+			<a href='http://27x.co/editperson/".$person['id']."/revisions'>http://27x.co/editperson/".$person['id']."/revisions</a>
 			
 			
 			Thanks!
 			
-			- StartupList Admin
-			<a href='http://www.startuplist.sg'>StartupList.sg</a>
+			- 27x Team
+			<a href='http://27x.co'>27x.co</a>
 			";
 			$template['data']['content'] = nl2br($template['data']['content']);
 			
