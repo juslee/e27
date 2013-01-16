@@ -123,7 +123,7 @@
 
 
 						<?php
-						if($_GET['outbrain']){
+						if($_GET['outbrain']||1){
 							?>
 						<!-- outbrain -->
 							<style>
@@ -163,6 +163,7 @@
 					</div>
 					<?php endwhile; // end of the loop. ?>
 					<?php
+						/*
 						//for use in the loop, list 5 post titles related to first tag on current post
 						$tags = wp_get_post_tags(get_the_ID(), array( 'fields' => 'ids' ));
 						if ($tags) {
@@ -177,26 +178,28 @@
 								$my_query = new WP_Query(array('post__not_in' => array(get_the_ID()), 'posts_per_page' => 4, 'orderby' => 'rand' ));
 							}
 							if( $my_query->have_posts() ) {
-					?>
-					<div id="we_also_recommend" class="clearfix">
-						<h3><span class="midline">You Might Like:</span></h3>
-						<div id="we_also_recommend_stories" class="clearfix">					
-								<?php while ($my_query->have_posts()) : $my_query->the_post(); ?>
-							<div class="we_also_recommend_story">
-								<div class="story_image">
-									<a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php echo_first_image(get_the_ID(), 132); ?></a>
+								?>
+								<div id="we_also_recommend" class="clearfix">
+									<h3><span class="midline">You Might Like:</span></h3>
+									<div id="we_also_recommend_stories" class="clearfix">					
+											<?php while ($my_query->have_posts()) : $my_query->the_post(); ?>
+										<div class="we_also_recommend_story">
+											<div class="story_image">
+												<a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php echo_first_image(get_the_ID(), 132); ?></a>
+											</div>
+											<div class="story_title">
+												<a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a>
+											</div>
+										</div>
+											<?php endwhile; ?>
+									</div>
 								</div>
-								<div class="story_title">
-									<a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a>
-								</div>
-							</div>
-								<?php endwhile; ?>
-						</div>
-					</div>
-							<?php 	
+								<?php 	
 							}
 							wp_reset_query();
+							
 						}
+						*/
 						//<div class="fb-comments" data-href=" echo $permalink " data-num-posts="2" data-width="719"></div>
 					?>
 					<?php comments_template(); ?>
