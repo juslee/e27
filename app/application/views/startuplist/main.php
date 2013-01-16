@@ -25,8 +25,8 @@ if($method=='editcompany'){
 
 //linkedin
 if(!$_SESSION['web_user']){
-	$config['base_url']             =   'http://www.startuplist.sg/media/startuplist/linkedin/auth.php';
-	$config['callback_url']         =   'http://www.startuplist.sg';
+	$config['base_url']             =   'http://27x.co/media/startuplist/linkedin/auth.php';
+	$config['callback_url']         =   'http://27x.co';
 	$config['linkedin_access']      =   'ivfdie7hflz3';
 	$config['linkedin_secret']      =   'SQ7Tp9Vxf2i5KDsz';
 	include_once dirname(__FILE__)."/../../../media/startuplist/linkedin/linkedin.php";
@@ -109,7 +109,7 @@ if($_SESSION['web_user']&&!$_SESSION['web_user']['business_email']&&($_SESSION['
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php
-$metatitle = "27X Startup List";
+$metatitle = "27x Startup List";
 $method = $this->router->method;
 if($method!="index"&&$method!="country"){
 	$metatitle .= " | "; 
@@ -240,10 +240,10 @@ if(!$editmode){
 <script language="javascript" src="<?php echo site_url(); ?>startuplist/assets/javascript.js"></script>
 
 <script type="text/javascript">
- //gooogle analytics
+
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-37562699-1']);
-  _gaq.push(['_setDomainName', 'startuplist.sg']);
+  _gaq.push(['_setDomainName', '27x.co']);
   _gaq.push(['_setAllowLinker', true]);
   _gaq.push(['_trackPageview']);
 

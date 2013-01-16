@@ -78,7 +78,7 @@
 							foreach($company['categories'] as $value){
 								$count++;
 								echo "<a href='".site_url()."category/".seoIze($value['category'])."'>".$value['category']."</a> ";
-								if($count>=4){
+								if($count>=3){
 									if($count<$ct){
 										?><a href="<?php echo site_url(); ?>company/<?php echo $company['slug']; ?>">...<?php
 									}

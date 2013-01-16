@@ -1,8 +1,8 @@
 <?php
     session_start();
 
-    $config['base_url']             =   'http://www.startuplist.sg/media/startuplist/linkedin/auth.php';
-    $config['callback_url']         =   'http://www.startuplist.sg';
+    $config['base_url']             =   'http://27x.co/media/startuplist/linkedin/auth.php';
+    $config['callback_url']         =   'http://27x.co';
     $config['linkedin_access']      =   'ivfdie7hflz3';
     $config['linkedin_secret']      =   'SQ7Tp9Vxf2i5KDsz';
 

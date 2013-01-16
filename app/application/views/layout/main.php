@@ -7,7 +7,7 @@ $user = $_SESSION['user'];
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" href="http://e27.wpengine.netdna-cdn.com/wp-content/themes/e27sg/favicon.ico" />
-	<title>27X Startup List</title>
+	<title>27x Startup List</title>
 
 
 	<script language="javascript" src="<?php echo site_url(); ?>media/js/jquery-1.7.2.min.js"></script>

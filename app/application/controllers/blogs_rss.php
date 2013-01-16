@@ -397,7 +397,13 @@ class blogs_rss extends CI_Controller {
 	}
 	
 	function e27(){
-		$date = date("Y-m-d");
+		$datefrom = $_GET['datefrom'];
+		$dateto = $_GET['dateto'];
+		if(!trim($datefrom)||!trim($dateto)){
+			echo "Incomplete parameters!";
+			exit();
+		}
+		$date = date($dateto);
 		$day = 24*60*60;
 		$tsnow = strtotime($date);
 		$ts = $tsnow;
@@ -405,7 +411,9 @@ class blogs_rss extends CI_Controller {
 		header("Content-Type: application/force-download");
 		header('Content-Disposition: attachment; filename=e27.xls');
 		echo '<table border="1">';
-		while(date("Y-m-d", $ts)!="2012-09-30"){
+		$datefrom = strtotime($datefrom)-$day;
+		$datefrom = date("Y-m-d", $datefrom);
+		while(date("Y-m-d", $ts)!=$datefrom){
 			$url = "http://www.e27.sg/".date("Y/m/d", $ts)."/feed/";
 			$rss = @fetch_rss( $url );
 			foreach($rss->items as $key=>$value){
