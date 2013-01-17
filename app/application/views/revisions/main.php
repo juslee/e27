@@ -56,6 +56,11 @@
 				$web_user = $q->result_array();
 				$web_user = $web_user[0];
 				$web_user = getWebUser($web_user);
+				
+				//echo "<pre>";
+				//print_r($web_user);
+				//echo "</pre>";
+				
 				echo "<a href='".site_url()."account/".$web_user['id']."'>".$web_user['name']."</a>";
 				
 				?>

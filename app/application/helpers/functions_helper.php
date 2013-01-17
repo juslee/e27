@@ -172,6 +172,9 @@ function getWebUser($web_user){
 		$web_user['type'] = 'fb';
 		$web_user['fb'] = json_decode($web_user['fb_data']);
 		$web_user['name'] = $web_user['fb']->name;
+		if(!trim($web_user['name'])){
+			$web_user['name'] = $web_user['business_email'];
+		}
 		$web_user['img'] = "http://graph.facebook.com/".$web_user['fb']->id."/picture?type=large";
 		$web_user['fb_email'] = $web_user['fb']->email;
 		$web_user['business_email'] = $web_user['business_email'];
@@ -182,6 +185,9 @@ function getWebUser($web_user){
 		$web_user['type'] = 'in'; //linkedin
 		$web_user['in'] = objectToArray(json_decode($web_user['in_data']));
 		$web_user['name'] = $web_user['in']['first-name']." ".$web_user['in']['last-name'];
+		if(!trim($web_user['name'])){
+			$web_user['name'] = $web_user['business_email'];
+		}
 		$web_user['img'] = $web_user['in']['picture-url'];
 		$web_user['business_email'] = $web_user['business_email'];
 		$web_user['twitter'] = $web_user['twitter'];

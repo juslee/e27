@@ -92,8 +92,12 @@ function showRows(obj, alt){
 	
 	jQuery("#step").html(gstep*1+1);
 	jQuery("#steps").html(asteps.length); 
-	jQuery("#steplabel").html(gpart.toUpperCase()); 
-
+	if(gpart.toUpperCase()=="LOGO"){
+		jQuery("#steplabel").html("PROFILE IMAGE"); 
+	}
+	else{
+		jQuery("#steplabel").html(gpart.toUpperCase()); 
+	}
 	jQuery("#revisionsx").hide();
 	jQuery("#editx").show();
 	jQuery("#person_form tr.odd, #person_form tr.even").hide();

@@ -1881,7 +1881,7 @@ class companies extends CI_Controller {
 					$company_funding['round'] = $value;
 					$company_funding['company_id'] = $company_id;
 					$company_funding['currency'] = $company['f_currencies'][$key];
-					$company_funding['amount'] = $company['f_currencies'][$key];
+					$company_funding['amount'] = number_format($company['f_fund_amounts'][$key], "4", ".", "").""; //must format amount
 					$company_funding['date'] = $company['f_dates'][$key];
 					$company_funding['date_ts'] = strtotime($company['f_dates'][$key]);
 					$company_funding['companies'] = array();
