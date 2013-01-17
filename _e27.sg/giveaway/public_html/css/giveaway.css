@@ -1,0 +1,204 @@
+/****************  HTML Tag Overwrites ****************/
+
+HTML, BODY {
+	height: 100%;
+	font-family:Helvetica, Arial, Verdana;
+}
+
+BODY {
+	background: url(../images/bg_front.png);
+	font-size:15px;
+	line-height: 1.3em;
+}
+
+H2, H3 {
+	color:#539306;
+	margin-bottom: 15px;
+}
+
+/****************  Structure ****************/
+
+#wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+    margin-top:40px;
+    margin-bottom:40px;
+    background: #fff;
+}
+
+#header {
+	display: block;
+	padding:5px 15px;
+}
+
+#banner {
+	display: block;
+}
+
+#content {
+	display: block;
+	padding:20px;
+}
+
+#content-description {
+	float:left;
+	width:47%;
+	padding-right:2.5%;
+}
+
+#content-form {
+	float:right;
+	width:47%;
+}
+
+/****************  Page Elements ****************/
+
+#banner IMG {
+	width:100%;
+}
+
+#ending_date {
+	color:#5e5e5e;
+	font-style: italic;
+}
+
+/****************  Content Styles ****************/
+
+A {
+	color:#539306;
+	text-decoration: none;
+}
+
+A:hover {
+	color: #3f6d08;
+	text-decoration: underline;
+}
+
+/****************  Table Styles ****************/
+
+TABLE {
+	background: #fff;
+	width:100%;
+	margin-bottom:15px;
+}
+
+TABLE TD, TABLE TH {
+	padding:10px;
+	border:1px solid #dedede;
+	text-align: left;
+	margin:0px;
+	vertical-align: middle;
+}
+
+TABLE TH {
+	width:35%;
+	font-weight: bold;
+	font-size:90%;
+}
+
+TABLE TD {
+	width:65%;
+}
+
+TABLE.form_area TD, TABLE.form_area TH {
+	border:1px dashed #dedede;
+}
+
+/****************  Form Styles ****************/
+
+INPUT[type=text],INPUT[type=password], SELECT {
+	width:90%;
+	font-size:13px;
+	padding:3px;
+}
+
+SPAN.error {
+	color:red;
+	font-size:12px;
+}
+
+SPAN.info {
+	font-size:12px;
+	color:#777;
+}
+
+
+/****************  Content Buttons ****************/
+
+.button_medium {
+	border:0;
+	padding:0;
+	text-align: center;
+	font-size:15px;
+	color:#996633;
+	width:155px;
+	cursor:pointer;
+	height: 40px;
+	background: url(../images/button_medium.png);
+}
+
+.button_medium::-moz-focus-inner {
+    padding: 0;
+    border: 0
+}
+
+.button_medium:hover {
+	color:#996633;
+	text-decoration: none;
+	background: url(../images/button_medium.png) 0 -42px;
+}
+
+.button_medium:active {
+	color:#996633;
+	background: url(../images/button_medium.png) 0 -84px;
+}
+
+
+/****************  Responsive Styles for screens below 768px ****************/
+
+@media screen and (max-width:768px) {
+
+	#wrapper {  
+		margin:0;
+		width:100%;
+		overflow: hidden;
+	}
+
+}
+
+/****************  Responsive Styles for screens below 450px ****************/
+
+@media screen and (max-width:600px) {
+	
+	#content-description {
+		float:none;
+		display: block;
+		width:100%;
+		padding-bottom:20px;
+		margin-bottom:20px;
+		margin-right:0;
+		border:none;
+		border-bottom:1px dashed #dfdfdf;
+	}
+	
+	#content-form {
+		float:none;
+		display: block;
+		width: 96%;
+	}
+
+}
+
+/****************  Responsive Styles for screens below 450px ****************/
+
+@media screen and (max-width:320px) {
+
+	BODY {
+		font-size:17px;
+		line-height:1.2em;
+	}
+
+}
+

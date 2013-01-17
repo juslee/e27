@@ -1,0 +1,76 @@
+/****************  Generic Content ****************/
+
+B { font-weight: bold; }
+STRONG { font-weight: bold; }
+U { text-decoration: underline; }
+STRIKE { text-decoration: line-through; }
+
+UL LI { list-style: disc; }
+OL LI { list-style: decimal; }
+
+UL { margin-top:-15px; margin-left:15px; line-height: 1.3em; }
+OL { margin-top:-15px; margin-left:22px; line-height: 1.3em; }
+
+P { margin-bottom: 20px; }
+
+CENTER { text-align: center; }
+
+.align_right { text-align: right; }
+.align_left { text-align: left; }
+.align_center { text-align: center; }
+
+.clearfloat { clear:both; }
+
+H1 { font-size:30px; }
+H2 { font-size:25px; }
+H3 { font-size:20px; }
+H4 { font-size:18px; }
+H5, H6, H7 { font-size:15px; }
+
+HR { clear:both; margin-bottom:15px; }
+
+/****************  Message/Informational Boxes ****************/
+
+.msgbox {
+  text-align: center;
+  padding: 7px 8px 5px 8px;
+  color:#333;
+  margin: 0px 0px 20px;
+}
+ 
+.msgbox.clean {
+  background-color: #efefef;
+  border-top: 2px solid #dedede;
+  border-bottom: 2px solid #dedede;
+  color: #555;
+}
+.msgbox.info  {
+  background-color: #f7fafd;
+  border-top: 2px solid #b5d3ff;
+  border-bottom: 2px solid #b5d3ff;
+}
+.msgbox.success {
+  background-color: #d7f7c4;
+  border-top: 2px solid #82cb2f;
+  border-bottom: 2px solid #82cb2f;
+}
+.msgbox.alert {
+  background-color: #fef5be;
+  border-top: 2px solid #fdd425;
+  border-bottom: 2px solid #fdd425;
+}
+.msgbox.error {
+  background-color: #ffcdd1;
+  border-top: 2px solid #e10c0c;
+  border-bottom: 2px solid #e10c0c;
+}
+ 
+.msgbox ol {
+  margin: 6px 20px 6px 20px;
+  list-style-type: lower-roman;
+}
+.msgbox ol li {
+  margin-left: 20px;
+  padding-left: 10px;
+  list-style-type: decimal;
+}
