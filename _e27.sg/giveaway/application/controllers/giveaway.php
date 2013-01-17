@@ -26,10 +26,6 @@ class Giveaway extends CI_Controller {
 	{
 	
 		// Set giveaway_id from URI
-		
-		
-	
-
 		$giveaway_permalink=$this->uri->segment(1);
 		
 		if($this->uri->segment(2)=='')
@@ -39,16 +35,15 @@ class Giveaway extends CI_Controller {
 		
 		$form_stage=$this->uri->segment(3);
 		
-
-		
 		// Checks for valid giveaway_permalink and returns giveaway data
 		if(empty($giveaway_permalink) || !$giveaway_data=$this->giveaways->get_by_permalink($giveaway_permalink)){
-			show_404();
+			$this->e27();
 		}
+		
 			
 		// Check whether start_date is later then current date
 		if(strtotime($giveaway_data['start_date'])>time()){
-			show_404();
+			$this->e27();
 		}
 			
 		// Check whether end_date is earlier then current date
@@ -253,6 +248,12 @@ class Giveaway extends CI_Controller {
 		{
 			return TRUE;
 		}
+	}
+	
+	function e27(){
+		header ('HTTP/1.1 301 Moved Permanently');
+		header("Location: http://e27.sg");
+		exit();
 	}
 }
 

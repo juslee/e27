@@ -33,6 +33,7 @@ $(document).ready(function() {
 		$('.date_picker').datepicker({
 			defaultDate: "+0",
 			changeMonth: true,
+			changeYear: true,
 			dateFormat: "dd-mm-yy"});
 	
 	// Initialize Facebox
