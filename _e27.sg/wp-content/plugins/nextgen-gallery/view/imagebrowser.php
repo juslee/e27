@@ -20,18 +20,46 @@ Follow variables are useable :
 
 	<!--<h3><?php echo $image->alttext ?></h3>-->
 	
+	<!--
 	<div class="ngg-imagebrowser-nav"> 
-		<div class="back">
-			<a class="ngg-browser-prev" id="ngg-prev-<?php echo $image->previous_pid ?>" href="<?php echo $image->previous_image_link ?>">&#9668; <?php _e('Back', 'nggallery') ?></a>
-		</div>
-		<div class="next">
-			<a class="ngg-browser-next" id="ngg-next-<?php echo $image->next_pid ?>" href="<?php echo $image->next_image_link ?>"><?php _e('Next', 'nggallery') ?> &#9658;</a>
-		</div>
-		<div class="counter"><?php _e('Picture', 'nggallery') ?> <?php echo $image->number ?> <?php _e('of', 'nggallery')?> <?php echo $image->total ?></div>
-		<div class="ngg-imagebrowser-desc"><p><?php echo $image->description ?></p></div>
+		
 	</div>	
+	-->
+	<style>
 	
-	<div class="pic"><?php echo $image->href_link ?></div>
+	.post.full .ngg-imagebrowser img {
+		border: 1px solid #F0F0F0;
+		margin:0px !important;
+	}
+	</style>
+	<div class="pic">
+	
+	<table width='100%'>
+		<tr>
+			<td valign="top" style='width:75%; vertical-align:top; padding:10px;'>
+				<b><?php echo $image->description ?></b>
+			</td>
+			<td valign="top" style='width:25%; text-align:center; vertical-align:top;'>
+				<center>
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td width='34px' style='vertical-align:top;'>
+							<a href="<?php echo $image->previous_image_link ?>"><img style='margin:0px !important; padding:0px; width:34px; height:34px;  border:0px; vertical-align:top;' src='/wp-content/plugins/nextgen-gallery/images/prev.jpg' /></a>&nbsp;
+						</td>
+						<td width='50px' style='vertical-align:top; padding-top:10px; text-align:center'>
+							<?php echo $image->number ?> / <?php echo $image->total ?>
+						</td>
+						<td  width='34px' style='vertical-align:top;'>
+							<a href="<?php echo $image->next_image_link ?>"><img style='margin:0px !important; padding:0px;  width:34px; height:34px; border:0px; vertical-align:top; ' src='/wp-content/plugins/nextgen-gallery/images/next.jpg' /></a>
+						</td>
+					</tr>
+				</table>
+				</center>
+			</td>
+		</tr>
+	</table>
+	
+	<?php echo $image->href_link ?></div>
 	
 
 </div>	
