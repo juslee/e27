@@ -345,6 +345,9 @@ class startuplist extends CI_Controller {
 	}
 	
 	function person($name="", $person_id="", $return=false){
+		$namearr = explode("~", $name);
+		$name = $namearr[0];
+		$json = trim($namearr[1]);
 		if(!$person_id){
 			$sql = "select * from `people` where `slug`=".$this->db->escape($name);
 		}
@@ -431,6 +434,10 @@ class startuplist extends CI_Controller {
 			$data['investment_orgs'] = $investment_orgs;
 			$data['companies'] = $companies;
 			$data['person'] = $person[0];
+			if($json!=""){
+				echo json_encode($person[0]);
+				exit();
+			}
 			if($return){
 				return $data;
 			}
@@ -446,6 +453,9 @@ class startuplist extends CI_Controller {
 	}
 	
 	function company($name="", $company_id="", $return=false){
+		$namearr = explode("~", $name);
+		$name = $namearr[0];
+		$json = trim($namearr[1]);
 		if(!$company_id){
 			$sql = "select * from `companies` where `slug`=".$this->db->escape($name)." and `active`=1";
 		}
@@ -669,6 +679,11 @@ class startuplist extends CI_Controller {
 			$data['countries'] = $countries;
 			$data['company'] = $company[0];
 			
+			if($json!=""){
+				echo json_encode($company[0]);
+				exit();
+			}
+			
 			if($return){
 				return $data;
 			}
@@ -686,6 +701,9 @@ class startuplist extends CI_Controller {
 	}
 	
 	function investment_org($name="", $investment_org_id="", $return=false){
+		$namearr = explode("~", $name);
+		$name = $namearr[0];
+		$json = trim($namearr[1]);
 		if(!$investment_org_id){
 			$sql = "select * from `investment_orgs` where `slug`=".$this->db->escape($name)." and `active`=1";
 		}
@@ -768,6 +786,13 @@ class startuplist extends CI_Controller {
 			$data['countries'] = $countries;
 			$data['investment_org'] = $investment_org[0];
 			$data['newlyfunded'] = $this->newlyFunded();
+			
+			if($json!=""){
+				echo json_encode($investment_org[0]);
+				exit();
+			}
+			
+			
 			if($return){
 				return $data;
 			}
