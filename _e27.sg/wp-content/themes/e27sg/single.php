@@ -110,6 +110,240 @@
 							?>
 							<?php edit_post_link(); ?>
 						</div>
+						
+						
+						<?php
+						if($_GET['27x']){
+							function word_limit($str, $limit){
+								$str .= "";
+								$str = trim($str);
+								$l = strlen($str);
+								$s = "";
+								for($i=0; $i<$l; $i++)
+								{
+									$s .= $str[$i];
+									if($limit>0&&(preg_match("/\s/", $str[$i])))
+									{  
+										if(!preg_match("/\s/", $str[$i+1]))
+											$limit--;
+										if(!$limit)
+										{
+											return $s."...";
+											break;
+										}
+									}
+								}
+								return $s;
+							}
+							
+							function company27x($slug){
+								$json = file_get_contents("http://27x.co/company/".$slug."~json");
+								$data27x = json_decode($json);
+								if(!trim($data27x->name)){
+									return false;
+								}
+								?>
+								<table class='x27tablecontent'>
+									<tr>
+										<td width='25%'>
+											<a href='http://27x.co/company/<?php echo $data27x->slug; ?>'><img src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=100' /></a>
+										</td>
+										<td width='25%'>
+											<div class='label'>Company</div>
+											<div class='value'><?php echo $data27x->name; ?></div>
+											<?php
+											if(trim($data27x->website)){
+												?>
+												<div class='label'>Website</div>
+												<div class='value'><a href='<?php echo $data27x->website; ?>'><?php echo $data27x->website; ?></a></div>
+												<?php
+											}
+											
+											if(trim($data27x->Founded)){
+												?>
+												<div class='label'>Founded</div>
+												<div class='value'><?php echo $data27x->founded; ?></div>
+												<?php
+											}
+											?>
+										</td>
+										<td width='50%'>
+											<div class='description'>
+												<?php echo nl2br(word_limit($data27x->description, 45)); ?>
+												
+												<div class='more'><a href='http://27x.co/company/<?php echo $data27x->slug; ?>' style='font-weight:bold; font-size:12px'>More on <?php echo $data27x->name; ?></a></div>
+											</div>
+										</td>
+									</tr>
+								</table>
+								<?php
+							}
+							
+							function investment_org27x($slug){
+								$json = file_get_contents("http://27x.co/investment_org/".$slug."~json");
+								$data27x = json_decode($json);
+								if(!trim($data27x->name)){
+									return false;
+								}
+								?>
+								<table class='x27tablecontent'>
+									<tr>
+										<td width='25%'>
+											<a href='http://27x.co/investment_org/<?php echo $data27x->slug; ?>'><img src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=100' /></a>
+										</td>
+										<td width='25%'>
+											<div class='label'>Investment Organization</div>
+											<div class='value'><?php echo $data27x->name; ?></div>
+											<?php
+											if(trim($data27x->website)){
+												?>
+												<div class='label'>Website</div>
+												<div class='value'><a href='<?php echo $data27x->website; ?>'><?php echo $data27x->website; ?></a></div>
+												<?php
+											}
+											
+											if(trim($data27x->Founded)){
+												?>
+												<div class='label'>Founded</div>
+												<div class='value'><?php echo $data27x->founded; ?></div>
+												<?php
+											}
+											?>
+											
+										</td>
+										<td width='50%'>
+											<div class='description'>
+												<?php echo nl2br(word_limit($data27x->description, 45)); ?>
+												
+												<div class='more'><a href='http://27x.co/investment_org/<?php echo $data27x->slug; ?>' style='font-weight:bold; font-size:12px'>More on <?php echo $data27x->name; ?></a></div>
+											</div>
+										</td>
+									</tr>
+								</table>
+								<?php
+							}
+							
+							function person27x($slug){
+								$json = file_get_contents("http://27x.co/person/".$slug."~json");
+								$data27x = json_decode($json);
+								if(!trim($data27x->name)){
+									return false;
+								}
+								?>
+								<table class='x27tablecontent'>
+									<tr>
+										<td width='25%'>
+											<a href='http://27x.co/person/<?php echo $data27x->slug; ?>'><img src='http://27x.co/media/image.php?p=<?php echo $data27x->profile_image; ?>&mx=100' /></a>
+										</td>
+										<td width='25%'>
+											<div class='label'>Name</div>
+											<div class='value'><?php echo $data27x->name; ?></div>
+											<?php
+											if(trim($data27x->blog_url)){
+												?>
+												<div class='label'>Blog</div>
+												<div class='value'><a href='<?php echo $data27x->blog_url; ?>'><?php echo $data27x->blog_url; ?></a></div>
+												<?php
+											}
+											?>
+										</td>
+										<td width='50%'>
+											<div class='description'>
+												<?php echo nl2br(word_limit($data27x->description, 45)); ?>
+												
+												<div class='more'><a href='http://27x.co/person/<?php echo $data27x->slug; ?>' style='font-weight:bold; font-size:12px'>More on <?php echo $data27x->name; ?></a></div>
+											</div>
+										</td>
+									</tr>
+								</table>
+								<?php
+							}
+
+							
+							
+							
+							?>
+							<style>
+								#x27 .x27head{
+									background:#21913E;
+									color: white;
+									padding:3px;
+									font-size:22px;
+									font-weight:bold;
+									border: 1px solid #21913E;
+								}
+								#x27 .x27content{
+									border-left:1px solid #CCCCCC;;
+									border-right:1px solid #CCCCCC;;
+									border-bottom:1px solid #CCCCCC;;
+								}
+								#x27 td{
+									vertical-align:top;
+								}
+								#x27 .x27table{
+									width:100%;
+									
+								}
+								
+								#x27 .x27tablecontent td{
+									padding:20px;
+								}
+								#x27 .label{
+									font-size:12px;
+									color:#333333;
+								}
+								#x27 .value{
+									font-size:14px;
+									color: black;
+									padding-bottom:10px;
+								}
+								#x27 .description{
+									font-size:14px;
+									color: black;
+									border: 0px;
+									padding:0px;
+								}
+								#x27 .more{
+									font-size:12px;
+									padding-top:10px;
+								}
+								#x27 a:link, #x27 a:hover, #x27 a:visited {
+									color: #21913E;
+									text-decoration: none;
+									font-size:12px;
+								}
+								.post.full #x27 img {
+									margin: 0px 0px 0px 0px !important;
+									float:none;
+									border:0px;
+								}
+							</style>
+							<div id='x27'>
+							<table class='x27table'>
+								<tr>
+									<td class='x27head'>
+										27X.CO
+									</td>
+								</tr>
+								<tr>
+									<td class='x27content'>
+										<?php
+											company27x("e27");
+											company27x("YOOSE");
+											investment_org27x("Red-Dot-Ventures-Pte-Ltd");
+											person27x("Mohan-Belani");
+										?>
+									</td>
+								</tr>
+								
+							</table>
+							</div>
+							<?php
+							
+							
+						}
+						?>
+						
 
 						<div id="nav-below" class="navigation clearfix">
 							<?php previous_post_link( '<div class="nav-previous fl">%link</div>', '%title' ); ?>
@@ -120,8 +354,12 @@
 							<?php previous_post_link( '<div class="nav-previous-btn fl">%link</div>', '&lsaquo; Prev Story'); ?>
 							<?php next_post_link( '<div class="nav-next-btn fr">%link</div>', 'Next Story &rsaquo;'); ?>
 						</div><!-- #nav-below -->
+						
+						
+						
 
-
+						
+						
 						<?php
 						if($_GET['outbrain']||1){
 							?>
@@ -201,6 +439,7 @@
 						}
 						*/
 						//<div class="fb-comments" data-href=" echo $permalink " data-num-posts="2" data-width="719"></div>
+						
 					?>
 					<?php comments_template(); ?>
 				</div>
