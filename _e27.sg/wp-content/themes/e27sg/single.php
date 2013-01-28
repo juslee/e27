@@ -113,7 +113,11 @@
 						
 						
 						<?php
-						if($_GET['27x']||1){
+						$post_id = get_the_ID();
+						$companies = trim(get_post_meta( $post_id, 'startuplist_companies', true ));
+						$investment_orgs = trim(get_post_meta( $post_id, 'startuplist_investment_orgs', true ));
+						$people = trim(get_post_meta( $post_id, 'startuplist_people', true ));
+						if(count($companies)||count($investment_orgs)||count($people)){
 							function word_limit($str, $limit){
 								$str .= "";
 								$str = trim($str);
@@ -146,7 +150,7 @@
 								<table class='x27tablecontent'>
 									<tr>
 										<td width='25%'>
-											<a href='http://27x.co/company/<?php echo $data27x->slug; ?>'><img src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=100' /></a>
+											<a href='http://27x.co/company/<?php echo $data27x->slug; ?>'><img src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=150' /></a>
 										</td>
 										<td width='25%'>
 											<div class='label'>Company</div>
@@ -155,7 +159,7 @@
 											if(trim($data27x->website)){
 												?>
 												<div class='label'>Website</div>
-												<div class='value'><a href='<?php echo $data27x->website; ?>' style='font-size:10px;'><?php echo $data27x->website; ?></a></div>
+												<div class='value'><a href='<?php echo $data27x->website; ?>'><?php echo $data27x->website; ?></a></div>
 												<?php
 											}
 											
@@ -189,7 +193,7 @@
 								<table class='x27tablecontent'>
 									<tr>
 										<td width='25%'>
-											<a href='http://27x.co/investment_org/<?php echo $data27x->slug; ?>'><img src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=100' /></a>
+											<a href='http://27x.co/investment_org/<?php echo $data27x->slug; ?>'><img src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=150' /></a>
 										</td>
 										<td width='25%'>
 											<div class='label'>Investment Organization</div>
@@ -198,7 +202,7 @@
 											if(trim($data27x->website)){
 												?>
 												<div class='label'>Website</div>
-												<div class='value'><a href='<?php echo $data27x->website; ?>' style='font-size:10px;'><?php echo $data27x->website; ?></a></div>
+												<div class='value'><a href='<?php echo $data27x->website; ?>'><?php echo $data27x->website; ?></a></div>
 												<?php
 											}
 											
@@ -233,7 +237,7 @@
 								<table class='x27tablecontent'>
 									<tr>
 										<td width='25%'>
-											<a href='http://27x.co/person/<?php echo $data27x->slug; ?>'><img src='http://27x.co/media/image.php?p=<?php echo $data27x->profile_image; ?>&mx=100' /></a>
+											<a href='http://27x.co/person/<?php echo $data27x->slug; ?>'><img src='http://27x.co/media/image.php?p=<?php echo $data27x->profile_image; ?>&mx=150' /></a>
 										</td>
 										<td width='25%'>
 											<div class='label'>Name</div>
@@ -242,7 +246,7 @@
 											if(trim($data27x->blog_url)){
 												?>
 												<div class='label'>Blog</div>
-												<div class='value'><a href='<?php echo $data27x->blog_url; ?>' style='font-size:10px;'><?php echo $data27x->blog_url; ?></a></div>
+												<div class='value'><a href='<?php echo $data27x->blog_url; ?>'><?php echo $data27x->blog_url; ?></a></div>
 												<?php
 											}
 											?>
@@ -272,6 +276,12 @@
 									font-weight:bold;
 									border: 1px solid #21913E;
 								}
+								#x27 .x27head a:link, #x27 .x27head a:hover, #x27 .x27head a:visited{
+									font-size:22px;
+									font-weight:bold;
+									color: white;
+									text-decoration:none;
+								}
 								#x27 .x27content{
 									border-left:1px solid #CCCCCC;;
 									border-right:1px solid #CCCCCC;;
@@ -289,17 +299,17 @@
 									padding:20px;
 								}
 								#x27 .label{
-									font-size:12px;
+									font-size:16px;
 									color:#333333;
 									font-weight:bold;
 								}
 								#x27 .value{
-									font-size:12px;
+									font-size:16px;
 									color: black;
 									padding-bottom:10px;
 								}
 								#x27 .description{
-									font-size:12px;
+									font-size:16px;
 									color: black;
 									border: 0px;
 									padding:0px;
@@ -311,7 +321,7 @@
 								#x27 a:link, #x27 a:hover, #x27 a:visited {
 									color: #21913E;
 									text-decoration: none;
-									font-size:12px;
+									font-size:16px;
 								}
 								.post.full #x27 img {
 									margin: 0px 0px 0px 0px !important;
@@ -323,30 +333,25 @@
 							<table class='x27table'>
 								<tr>
 									<td class='x27head'>
-										27X.CO
+										<a href='http://27x.co'>27X.CO</a>
 									</td>
 								</tr>
 								<tr>
 									<td class='x27content'>
 										<?php
-											$post_id = get_the_ID();
-											$companies = trim(get_post_meta( $post_id, 'startuplist_companies', true ));
+											
 											if($companies){
 												$companies = json_decode($companies);
 												foreach($companies as $value){
 													company27x("id", $value);
 												}
 											}
-											
-											$investment_orgs = trim(get_post_meta( $post_id, 'startuplist_investment_orgs', true ));
 											if($investment_orgs){
 												$investment_orgs = json_decode($investment_orgs);
 												foreach($investment_orgs as $value){
 													investment_org27x("id", $value);
 												}
 											}
-											
-											$people = trim(get_post_meta( $post_id, 'startuplist_people', true ));
 											if($people){
 												$people = json_decode($people);
 												foreach($people as $value){
