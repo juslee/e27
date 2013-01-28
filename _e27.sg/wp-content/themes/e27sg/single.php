@@ -117,7 +117,7 @@
 						$companies = trim(get_post_meta( $post_id, 'startuplist_companies', true ));
 						$investment_orgs = trim(get_post_meta( $post_id, 'startuplist_investment_orgs', true ));
 						$people = trim(get_post_meta( $post_id, 'startuplist_people', true ));
-						if(count($companies)||count($investment_orgs)||count($people)){
+						if($companies!=""||$investment_orgs!=""||$people!=""){
 							function word_limit($str, $limit){
 								$str .= "";
 								$str = trim($str);
@@ -150,16 +150,24 @@
 								<table class='x27tablecontent'>
 									<tr>
 										<td width='25%'>
-											<a href='http://27x.co/company/<?php echo $data27x->slug; ?>'><img src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=150' /></a>
+											<a href='http://27x.co/company/<?php echo $data27x->slug; ?>'><img title="<?php echo htmlentities($data27x->name); ?>" alt="<?php echo htmlentities($data27x->name); ?>" src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=150' /></a>
 										</td>
 										<td width='25%'>
 											<div class='label'>Company</div>
 											<div class='value'><?php echo $data27x->name; ?></div>
 											<?php
 											if(trim($data27x->website)){
+												$website = preg_replace("/http:\/\//i", "", $data27x->website);
+												$website = preg_replace("/https:\/\//i", "", $data27x->website);
+												if(
+													strpos(strtolower(trim($data27x->website)),"http://")===false&&
+													strpos(strtolower(trim($data27x->website)),"https://")===false
+												){
+													$hwebsite = "http://".$website;
+												}
 												?>
 												<div class='label'>Website</div>
-												<div class='value'><a href='<?php echo $data27x->website; ?>'><?php echo $data27x->website; ?></a></div>
+												<div class='value'><a href='<?php echo $hwebsite; ?>'><?php echo $website; ?></a></div>
 												<?php
 											}
 											
@@ -175,7 +183,7 @@
 											<div class='description'>
 												<?php echo nl2br(word_limit($data27x->description, 45)); ?>
 												
-												<div class='more'><a href='http://27x.co/company/<?php echo $data27x->slug; ?>' style='font-weight:bold; font-size:12px'>More on <?php echo $data27x->name; ?> &raquo;</a></div>
+												<div class='more'><a href='http://27x.co/company/<?php echo $data27x->slug; ?>' >More on <?php echo $data27x->name; ?> &raquo;</a></div>
 											</div>
 										</td>
 									</tr>
@@ -193,16 +201,24 @@
 								<table class='x27tablecontent'>
 									<tr>
 										<td width='25%'>
-											<a href='http://27x.co/investment_org/<?php echo $data27x->slug; ?>'><img src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=150' /></a>
+											<a href='http://27x.co/investment_org/<?php echo $data27x->slug; ?>'><img title="<?php echo htmlentities($data27x->name); ?>" alt="<?php echo htmlentities($data27x->name); ?>" src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=150' /></a>
 										</td>
 										<td width='25%'>
 											<div class='label'>Investment Organization</div>
 											<div class='value'><?php echo $data27x->name; ?></div>
 											<?php
 											if(trim($data27x->website)){
+												$website = preg_replace("/http:\/\//i", "", $data27x->website);
+												$website = preg_replace("/https:\/\//i", "", $data27x->website);
+												if(
+													strpos(strtolower(trim($data27x->website)),"http://")===false&&
+													strpos(strtolower(trim($data27x->website)),"https://")===false
+												){
+													$hwebsite = "http://".$website;
+												}
 												?>
 												<div class='label'>Website</div>
-												<div class='value'><a href='<?php echo $data27x->website; ?>'><?php echo $data27x->website; ?></a></div>
+												<div class='value'><a href='<?php echo $hwebsite; ?>'><?php echo $website; ?></a></div>
 												<?php
 											}
 											
@@ -219,7 +235,7 @@
 											<div class='description'>
 												<?php echo nl2br(word_limit($data27x->description, 45)); ?>
 												
-												<div class='more'><a href='http://27x.co/investment_org/<?php echo $data27x->slug; ?>' style='font-weight:bold; font-size:12px'>More on <?php echo $data27x->name; ?> &raquo;</a></div>
+												<div class='more'><a href='http://27x.co/investment_org/<?php echo $data27x->slug; ?>' >More on <?php echo $data27x->name; ?> &raquo;</a></div>
 											</div>
 										</td>
 									</tr>
@@ -237,16 +253,24 @@
 								<table class='x27tablecontent'>
 									<tr>
 										<td width='25%'>
-											<a href='http://27x.co/person/<?php echo $data27x->slug; ?>'><img src='http://27x.co/media/image.php?p=<?php echo $data27x->profile_image; ?>&mx=150' /></a>
+											<a href='http://27x.co/person/<?php echo $data27x->slug; ?>'><img title="<?php echo htmlentities($data27x->name); ?>" alt="<?php echo htmlentities($data27x->name); ?>" src='http://27x.co/media/image.php?p=<?php echo $data27x->profile_image; ?>&mx=150' /></a>
 										</td>
 										<td width='25%'>
 											<div class='label'>Name</div>
 											<div class='value'><?php echo $data27x->name; ?></div>
 											<?php
 											if(trim($data27x->blog_url)){
+												$website = preg_replace("/http:\/\//i", "", $data27x->blog_url);
+												$website = preg_replace("/https:\/\//i", "", $data27x->blog_url);
+												if(
+													strpos(strtolower(trim($data27x->blog_url)),"http://")===false&&
+													strpos(strtolower(trim($data27x->blog_url)),"https://")===false
+												){
+													$hwebsite = "http://".$website;
+												}
 												?>
 												<div class='label'>Blog</div>
-												<div class='value'><a href='<?php echo $data27x->blog_url; ?>'><?php echo $data27x->blog_url; ?></a></div>
+												<div class='value'><a href='<?php echo $hwebsite; ?>'><?php echo $website; ?></a></div>
 												<?php
 											}
 											?>
@@ -255,7 +279,7 @@
 											<div class='description'>
 												<?php echo nl2br(word_limit($data27x->description, 45)); ?>
 												
-												<div class='more'><a href='http://27x.co/person/<?php echo $data27x->slug; ?>' style='font-weight:bold; font-size:12px'>More on <?php echo $data27x->name; ?> &raquo;</a></div>
+												<div class='more'><a href='http://27x.co/person/<?php echo $data27x->slug; ?>' >More on <?php echo $data27x->name; ?> &raquo;</a></div>
 											</div>
 										</td>
 									</tr>
@@ -315,8 +339,11 @@
 									padding:0px;
 								}
 								#x27 .more{
-									font-size:12px;
-									padding-top:10px;
+									padding-top:16px;
+								}
+								#x27 .more a:link, #x27 .more a:hover, #x27 .more a:visited{
+									font-size:16px;
+									font-weight:bold;
 								}
 								#x27 a:link, #x27 a:hover, #x27 a:visited {
 									color: #21913E;
