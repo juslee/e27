@@ -822,6 +822,7 @@ class companies extends CI_Controller {
 					`company_id`=".$this->db->escape($id).", 
 					`currency`=".$this->db->escape($_POST['f_currencies'][$key]).", 
 					`amount`=".$this->db->escape($_POST['f_fund_amounts'][$key]).", 
+					`amount_public`=".$this->db->escape($_POST['f_fund_amount_public'][$key]*1).",  
 					`date`=".$this->db->escape($_POST['f_dates'][$key]).",
 					`date_ts`=".$this->db->escape(strtotime($_POST['f_dates'][$key]))."
 					";
@@ -1325,8 +1326,9 @@ class companies extends CI_Controller {
 						$sql = "insert into `company_fundings` set 
 						`round`=".$this->db->escape($value).", 
 						`company_id`=".$this->db->escape($id).", 
-						`currency`=".$this->db->escape($_POST['f_currencies'][$key]).", 
+						`currency`=".$this->db->escape($_POST['f_currencies'][$key]).",  
 						`amount`=".$this->db->escape($_POST['f_fund_amounts'][$key]).", 
+						`amount_public`=".$this->db->escape($_POST['f_fund_amount_public'][$key]*1).",  
 						`date`=".$this->db->escape($_POST['f_dates'][$key]).",
 						`date_ts`=".$this->db->escape(strtotime($_POST['f_dates'][$key]))."
 						";
@@ -1574,6 +1576,7 @@ class companies extends CI_Controller {
 			`a`.`round`,
 			`a`.`currency`,
 			`a`.`amount`,
+			`a`.`amount_public`,
 			`a`.`date_ts`,
 			`a`.`company_id`,
 			`b`.`name` as `company_name`
@@ -1668,6 +1671,7 @@ class companies extends CI_Controller {
 					$company_funding['company_id'] = $company_id;
 					$company_funding['currency'] = $company['f_currencies'][$key];
 					$company_funding['amount'] = number_format($company['f_fund_amounts'][$key], "4", ".", "").""; //must format amount
+					$company_funding['amount_public'] = $company['f_fund_amount_public'][$key]*1;
 					$company_funding['date'] = $company['f_dates'][$key];
 					$company_funding['date_ts'] = strtotime($company['f_dates'][$key]).""; //stringify the thing
 					$company_funding['companies'] = array();
@@ -1882,6 +1886,7 @@ class companies extends CI_Controller {
 					$company_funding['company_id'] = $company_id;
 					$company_funding['currency'] = $company['f_currencies'][$key];
 					$company_funding['amount'] = number_format($company['f_fund_amounts'][$key], "4", ".", "").""; //must format amount
+					$company_funding['amount_public'] = $company['f_fund_amount_public'][$key]*1;
 					$company_funding['date'] = $company['f_dates'][$key];
 					$company_funding['date_ts'] = strtotime($company['f_dates'][$key]);
 					$company_funding['companies'] = array();
