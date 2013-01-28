@@ -113,7 +113,7 @@
 						
 						
 						<?php
-						if($_GET['27x']){
+						if($_GET['27x']||1){
 							function word_limit($str, $limit){
 								$str .= "";
 								$str = trim($str);
@@ -136,8 +136,8 @@
 								return $s;
 							}
 							
-							function company27x($slug){
-								$json = file_get_contents("http://27x.co/company/".$slug."~json");
+							function company27x($slug, $id=""){
+								$json = file_get_contents("http://27x.co/company/".$slug."~json/".$id);
 								$data27x = json_decode($json);
 								if(!trim($data27x->name)){
 									return false;
@@ -155,7 +155,7 @@
 											if(trim($data27x->website)){
 												?>
 												<div class='label'>Website</div>
-												<div class='value'><a href='<?php echo $data27x->website; ?>'><?php echo $data27x->website; ?></a></div>
+												<div class='value'><a href='<?php echo $data27x->website; ?>' style='font-size:10px;'><?php echo $data27x->website; ?></a></div>
 												<?php
 											}
 											
@@ -171,7 +171,7 @@
 											<div class='description'>
 												<?php echo nl2br(word_limit($data27x->description, 45)); ?>
 												
-												<div class='more'><a href='http://27x.co/company/<?php echo $data27x->slug; ?>' style='font-weight:bold; font-size:12px'>More on <?php echo $data27x->name; ?></a></div>
+												<div class='more'><a href='http://27x.co/company/<?php echo $data27x->slug; ?>' style='font-weight:bold; font-size:12px'>More on <?php echo $data27x->name; ?> &raquo;</a></div>
 											</div>
 										</td>
 									</tr>
@@ -179,8 +179,8 @@
 								<?php
 							}
 							
-							function investment_org27x($slug){
-								$json = file_get_contents("http://27x.co/investment_org/".$slug."~json");
+							function investment_org27x($slug, $id=""){
+								$json = file_get_contents("http://27x.co/investment_org/".$slug."~json/".$id);
 								$data27x = json_decode($json);
 								if(!trim($data27x->name)){
 									return false;
@@ -198,7 +198,7 @@
 											if(trim($data27x->website)){
 												?>
 												<div class='label'>Website</div>
-												<div class='value'><a href='<?php echo $data27x->website; ?>'><?php echo $data27x->website; ?></a></div>
+												<div class='value'><a href='<?php echo $data27x->website; ?>' style='font-size:10px;'><?php echo $data27x->website; ?></a></div>
 												<?php
 											}
 											
@@ -215,7 +215,7 @@
 											<div class='description'>
 												<?php echo nl2br(word_limit($data27x->description, 45)); ?>
 												
-												<div class='more'><a href='http://27x.co/investment_org/<?php echo $data27x->slug; ?>' style='font-weight:bold; font-size:12px'>More on <?php echo $data27x->name; ?></a></div>
+												<div class='more'><a href='http://27x.co/investment_org/<?php echo $data27x->slug; ?>' style='font-weight:bold; font-size:12px'>More on <?php echo $data27x->name; ?> &raquo;</a></div>
 											</div>
 										</td>
 									</tr>
@@ -223,8 +223,8 @@
 								<?php
 							}
 							
-							function person27x($slug){
-								$json = file_get_contents("http://27x.co/person/".$slug."~json");
+							function person27x($slug, $id=""){
+								$json = file_get_contents("http://27x.co/person/".$slug."~json/".$id);
 								$data27x = json_decode($json);
 								if(!trim($data27x->name)){
 									return false;
@@ -242,7 +242,7 @@
 											if(trim($data27x->blog_url)){
 												?>
 												<div class='label'>Blog</div>
-												<div class='value'><a href='<?php echo $data27x->blog_url; ?>'><?php echo $data27x->blog_url; ?></a></div>
+												<div class='value'><a href='<?php echo $data27x->blog_url; ?>' style='font-size:10px;'><?php echo $data27x->blog_url; ?></a></div>
 												<?php
 											}
 											?>
@@ -251,7 +251,7 @@
 											<div class='description'>
 												<?php echo nl2br(word_limit($data27x->description, 45)); ?>
 												
-												<div class='more'><a href='http://27x.co/person/<?php echo $data27x->slug; ?>' style='font-weight:bold; font-size:12px'>More on <?php echo $data27x->name; ?></a></div>
+												<div class='more'><a href='http://27x.co/person/<?php echo $data27x->slug; ?>' style='font-weight:bold; font-size:12px'>More on <?php echo $data27x->name; ?> &raquo;</a></div>
 											</div>
 										</td>
 									</tr>
@@ -291,14 +291,15 @@
 								#x27 .label{
 									font-size:12px;
 									color:#333333;
+									font-weight:bold;
 								}
 								#x27 .value{
-									font-size:14px;
+									font-size:12px;
 									color: black;
 									padding-bottom:10px;
 								}
 								#x27 .description{
-									font-size:14px;
+									font-size:12px;
 									color: black;
 									border: 0px;
 									padding:0px;
@@ -328,10 +329,38 @@
 								<tr>
 									<td class='x27content'>
 										<?php
+											$post_id = get_the_ID();
+											$companies = trim(get_post_meta( $post_id, 'startuplist_companies', true ));
+											if($companies){
+												$companies = json_decode($companies);
+												foreach($companies as $value){
+													company27x("id", $value);
+												}
+											}
+											
+											$investment_orgs = trim(get_post_meta( $post_id, 'startuplist_investment_orgs', true ));
+											if($investment_orgs){
+												$investment_orgs = json_decode($investment_orgs);
+												foreach($investment_orgs as $value){
+													investment_org27x("id", $value);
+												}
+											}
+											
+											$people = trim(get_post_meta( $post_id, 'startuplist_people', true ));
+											if($people){
+												$people = json_decode($people);
+												foreach($people as $value){
+													person27x("id", $value);
+												}
+											}
+											
+											
+											/*
 											company27x("e27");
 											company27x("YOOSE");
 											investment_org27x("Red-Dot-Ventures-Pte-Ltd");
 											person27x("Mohan-Belani");
+											*/
 										?>
 									</td>
 								</tr>

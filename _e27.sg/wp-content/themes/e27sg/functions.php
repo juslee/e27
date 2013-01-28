@@ -760,4 +760,343 @@ if($_GET['allowedposttags']){
 	echo "</pre>";
 }
 
+
+
+
+//27x
+/* Fire our meta box setup function on the post editor screen. */
+add_action( 'load-post.php', 'startuplist_post_meta_boxes_setup' );
+add_action( 'load-post-new.php', 'startuplist_post_meta_boxes_setup' );
+
+/* Meta box setup function. */
+function startuplist_post_meta_boxes_setup() {
+
+	/* Add meta boxes on the 'add_meta_boxes' hook. */
+	add_action( 'add_meta_boxes', 'startuplist_add_post_meta_boxes' );
+	
+	/* Save post meta on the 'save_post' hook. */
+	add_action( 'save_post', 'startuplist_save_post_class_meta', 10, 2 );
+}
+
+
+/* Create one or more meta boxes to be displayed on the post editor screen. */
+function startuplist_add_post_meta_boxes() {
+
+	add_meta_box(
+		'startuplist-post-class',			// Unique ID
+		esc_html__( '27x.co', 'example' ),		// Title
+		'startuplist_post_class_meta_box',		// Callback function
+		'post',					// Admin page (or post type)
+		'side',					// Context
+		'default'					// Priority
+	);
+}
+
+if($_GET['companies27x']){
+	ob_end_clean();
+	$data = file_get_contents("http://27x.co/companies/ajax_search?term=".$_GET['term']);
+	echo $data;
+	exit();
+}
+else if($_GET['people27x']){
+	ob_end_clean();
+	$data = file_get_contents("http://27x.co/people/ajax_search?term=".$_GET['term']);
+	echo $data;
+	exit();
+}
+else if($_GET['investment_orgs27x']){
+	ob_end_clean();
+	$data = file_get_contents("http://27x.co/investment_orgs/ajax_search?term=".$_GET['term']);
+	echo $data;
+	exit();
+}
+
+/* Display the post meta box. */
+function startuplist_post_class_meta_box( $object, $box ) { ?>
+	<script>
+	jQuery(function(){
+		jQuery("#startuplist_company_search").autocomplete({
+			//define callback to format results
+			source: function(req, add){
+				//pass request to server
+				jQuery.getJSON("/?companies27x=1", req, function(data) {
+					//create array for response objects
+					var suggestions = [];
+					//process response
+					jQuery.each(data, function(i, val){								
+						suggestions.push(val);
+					});
+					//pass array to callback
+					add(suggestions);
+				});
+			},
+			//define select handler
+			select: function(e, ui) {
+				label = ui.item.label;
+				value = ui.item.value;
+				jQuery("#startuplist_people_search").val("");
+				jQuery("#startuplist_companies").append("<div><input class=\"widefat\" type=\"hidden\" name=\"startuplist_companies[]\" value=\""+value+"\" /><a onclick='this.parentElement.outerHTML = \"\"' style='cursor:pointer'>[ x ]</a>&nbsp;<a href='http://27x.co/company/id/"+value+"' target='_blank'>"+label+"</a></div>");
+				//self.location = "http://27x.co/companies/edit/"+value;
+				return false;
+			},
+			focus: function(e, ui) {
+				label = ui.item.label;
+				value = ui.item.value;
+				jQuery("#startuplist_company_search").val(label);
+				return false;
+			},
+
+
+		});
+
+		
+		jQuery("#startuplist_investment_orgs_search").autocomplete({
+			//define callback to format results
+			source: function(req, add){
+				//pass request to server
+				jQuery.getJSON("/?investment_orgs27x=1", req, function(data) {
+					//create array for response objects
+					var suggestions = [];
+					//process response
+					jQuery.each(data, function(i, val){								
+						suggestions.push(val);
+					});
+					//pass array to callback
+					add(suggestions);
+				});
+			},
+			//define select handler
+			select: function(e, ui) {
+				label = ui.item.label;
+				value = ui.item.value;
+				jQuery("#startuplist_people_search").val("");
+				jQuery("#startuplist_investment_orgs").append("<div><input class=\"widefat\" type=\"hidden\" name=\"startuplist_investment_orgs[]\" value=\""+value+"\" /><a onclick='this.parentElement.outerHTML = \"\"' style='cursor:pointer'>[ x ]</a>&nbsp;<a href='http://27x.co/investment_org/id/"+value+"' target='_blank'>"+label+"</a></div>");
+				return false;
+			},
+			focus: function(e, ui) {
+				label = ui.item.label;
+				value = ui.item.value;
+				jQuery("#startuplist_investment_orgs_search").val(label);
+				return false;
+			},
+		});
+		
+		jQuery("#startuplist_people_search").autocomplete({
+			//define callback to format results
+			source: function(req, add){
+				//pass request to server
+				jQuery.getJSON("/?people27x=1", req, function(data) {
+					//create array for response objects
+					var suggestions = [];
+					//process response
+					jQuery.each(data, function(i, val){								
+						suggestions.push(val);
+					});
+					//pass array to callback
+					add(suggestions);
+				});
+			},
+			//define select handler
+			select: function(e, ui) {
+				label = ui.item.label;
+				value = ui.item.value;
+				jQuery("#startuplist_people_search").val("");
+				jQuery("#startuplist_people").append("<div><input class=\"widefat\" type=\"hidden\" name=\"startuplist_people[]\" value=\""+value+"\" /><a onclick='this.parentElement.outerHTML = \"\"' style='cursor:pointer'>[ x ]</a>&nbsp;<a href='http://27x.co/person/id/"+value+"' target='_blank'>"+label+"</a></div>");
+				return false;
+			},
+			focus: function(e, ui) {
+				label = ui.item.label;
+				value = ui.item.value;
+				jQuery("#startuplist_people_search").val(label);
+				return false;
+			},
+		});
+	});
+	</script>
+	<div class='startuplist'>
+	<?php wp_nonce_field( basename( __FILE__ ), 'startuplist_post_class_nonce' ); ?>
+	
+	<p>
+		<label for="startuplist-post-class"><?php _e( "Key in the Company / Person or Investment Organization to add to article", 'example' ); ?></label>
+		<br />
+		<br />
+		<label for="startuplist_companies">Companies</label>
+		<?php
+		$companies = trim(get_post_meta( $object->ID, 'startuplist_companies', true ));
+		//echo $companies;
+		?>
+		<br />
+		<input id="startuplist_company_search" class="form-input-tip" type="text" value="" style='width: 100%;' />
+		<div id='startuplist_companies' style='padding:5px;'>
+			<?php
+			if($companies){
+				$companies = json_decode($companies);
+				foreach($companies as $value){
+					$json = file_get_contents("http://27x.co/company/id~jsonmin/".$value);
+					$data27x = @json_decode($json);
+					if($data27x->name){
+						?>
+						<div>
+						<input class="widefat" type="hidden" name="startuplist_companies[]" value="<?php echo htmlentities($value); ?>" />
+						<a onclick='this.parentElement.outerHTML = ""' style='cursor:pointer'>[ x ]</a>&nbsp;<?php
+						echo "<a href='http://27x.co/company/id/".$value."' target='_blank'>".$data27x->name."</a>";
+						?>
+						</div>
+						<?php
+					}
+				}
+			}
+			?>
+		</div>
+		<br />
+		<label for="startuplist_investment_orgs">Investment Organizations</label>
+		<?php
+		$investment_orgs = trim(get_post_meta( $object->ID, 'startuplist_investment_orgs', true ));
+		//echo $investment_orgs;
+		?>
+		<br />
+		<input id="startuplist_investment_orgs_search" class="form-input-tip" type="text" value="" style='width: 100%;' />
+		<div id='startuplist_investment_orgs' style='padding:5px;'>
+			<?php
+			if($investment_orgs){
+				$investment_orgs = json_decode($investment_orgs);
+				foreach($investment_orgs as $value){
+					$json = file_get_contents("http://27x.co/investment_org/id~jsonmin/".$value);
+					$data27x = @json_decode($json);
+					if($data27x->name){
+						?>
+						<div>
+						<input class="widefat" type="hidden" name="startuplist_investment_orgs[]" value="<?php echo htmlentities($value); ?>" />
+						<a onclick='this.parentElement.outerHTML = ""' style='cursor:pointer'>[ x ]</a>&nbsp;<?php
+							echo "<a href='http://27x.co/investment_org/id/".$value."' target='_blank'>".$data27x->name."</a><br />";
+						?>
+						</div>
+						<?php
+					}
+				}
+			}
+			?>
+		</div>
+		<br />
+		<label for="startuplist_people">People</label>
+		<?php
+		$people = trim(get_post_meta( $object->ID, 'startuplist_people', true ));
+		//echo $people;
+		?>
+		<br />
+		<input id="startuplist_people_search" class="form-input-tip" type="text" value="" style='width: 100%;' />
+		<div id='startuplist_people' style='padding:5px;'>
+			<?php
+			if($people){
+				$people = json_decode($people);
+				foreach($people as $value){
+					$json = file_get_contents("http://27x.co/person/id~jsonmin/".$value);
+					$data27x = @json_decode($json);
+					if($data27x->name){
+						?>
+						<div>
+						<input class="widefat" type="hidden" name="startuplist_people[]" value="<?php echo htmlentities($value); ?>" />
+						<a onclick='this.parentElement.outerHTML = ""' style='cursor:pointer'>[ x ]</a>&nbsp;
+						<?php
+							echo "<a href='http://27x.co/person/id/".$value."' target='_blank'>".$data27x->name."</a><br />";
+						?>
+						</div>
+						<?php
+					}
+				}
+			}
+			?>
+		</div>
+		<br />
+	</p>
+	</div>
+	<?php 
+}
+
+
+/* Save the meta box's post metadata. */
+function startuplist_save_post_class_meta( $post_id, $post ) {
+	
+	/* Verify the nonce before proceeding. */
+	if ( !isset( $_POST['startuplist_post_class_nonce'] ) || !wp_verify_nonce( $_POST['startuplist_post_class_nonce'], basename( __FILE__ ) ) )
+		return $post_id;
+
+	/* Get the post type object. */
+	$post_type = get_post_type_object( $post->post_type );
+
+	/* Check if the current user has permission to edit the post. */
+	if ( !current_user_can( $post_type->cap->edit_post, $post_id ) )
+		return $post_id;
+
+	/* Get the posted data and sanitize it for use as an HTML class. */
+	$new_meta_value = ( isset( $_POST['startuplist_companies'] ) ? json_encode( $_POST['startuplist_companies'] ) : '' );
+
+	/* Get the meta key. */
+	$meta_key = 'startuplist_companies';
+
+	/* Get the meta value of the custom field key. */
+	$meta_value = get_post_meta( $post_id, $meta_key, true );
+
+	/* If a new meta value was added and there was no previous value, add it. */
+	if ( $new_meta_value && '' == $meta_value )
+		add_post_meta( $post_id, $meta_key, $new_meta_value, true );
+
+	/* If the new meta value does not match the old value, update it. */
+	elseif ( $new_meta_value && $new_meta_value != $meta_value )
+		update_post_meta( $post_id, $meta_key, $new_meta_value );
+
+	/* If there is no new meta value but an old value exists, delete it. */
+	elseif ( '' == $new_meta_value && $meta_value )
+		delete_post_meta( $post_id, $meta_key, $meta_value );
+		
+	//--
+	
+	/* Get the posted data and sanitize it for use as an HTML class. */
+	$new_meta_value = ( isset( $_POST['startuplist_people'] ) ? json_encode( $_POST['startuplist_people'] ) : '' );
+
+	/* Get the meta key. */
+	$meta_key = 'startuplist_people';
+
+	/* Get the meta value of the custom field key. */
+	$meta_value = get_post_meta( $post_id, $meta_key, true );
+
+	/* If a new meta value was added and there was no previous value, add it. */
+	if ( $new_meta_value && '' == $meta_value )
+		add_post_meta( $post_id, $meta_key, $new_meta_value, true );
+
+	/* If the new meta value does not match the old value, update it. */
+	elseif ( $new_meta_value && $new_meta_value != $meta_value )
+		update_post_meta( $post_id, $meta_key, $new_meta_value );
+
+	/* If there is no new meta value but an old value exists, delete it. */
+	elseif ( '' == $new_meta_value && $meta_value )
+		delete_post_meta( $post_id, $meta_key, $meta_value );
+		
+	//--
+	
+	/* Get the posted data and sanitize it for use as an HTML class. */
+	$new_meta_value = ( isset( $_POST['startuplist_investment_orgs'] ) ? json_encode( $_POST['startuplist_investment_orgs'] ) : '' );
+
+	/* Get the meta key. */
+	$meta_key = 'startuplist_investment_orgs';
+
+	/* Get the meta value of the custom field key. */
+	$meta_value = get_post_meta( $post_id, $meta_key, true );
+
+	/* If a new meta value was added and there was no previous value, add it. */
+	if ( $new_meta_value && '' == $meta_value )
+		add_post_meta( $post_id, $meta_key, $new_meta_value, true );
+
+	/* If the new meta value does not match the old value, update it. */
+	elseif ( $new_meta_value && $new_meta_value != $meta_value )
+		update_post_meta( $post_id, $meta_key, $new_meta_value );
+
+	/* If there is no new meta value but an old value exists, delete it. */
+	elseif ( '' == $new_meta_value && $meta_value )
+		delete_post_meta( $post_id, $meta_key, $meta_value );
+	
+}
+
+
+
 ?>
