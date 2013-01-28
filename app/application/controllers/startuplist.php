@@ -224,6 +224,9 @@ class startuplist extends CI_Controller {
 		else if($type=="newlyupdated"){
 			$sql = "select `companies`.* from `companies` where `active`=1 ".$sqlext." order by `dateupdated` desc limit $start , $limit";
 		}
+		else if($type=="rand"){
+			$sql = "select `companies`.* from `companies` where `active`=1 ".$sqlext." order by rand()";
+		}
 		$q = $this->db->query($sql);
 		$companies = $q->result_array();
 		$t = count($companies);
@@ -434,10 +437,20 @@ class startuplist extends CI_Controller {
 			$data['investment_orgs'] = $investment_orgs;
 			$data['companies'] = $companies;
 			$data['person'] = $person[0];
+			
 			if($json!=""){
-				echo json_encode($person[0]);
+				if(strtolower($json)=='json'){
+					echo json_encode($person[0]);
+				}
+				else if(strtolower($json)=='jsonmin'){
+					$data = array();
+					$data['id'] = $person[0]['id'];
+					$data['name'] = $person[0]['name'];
+					echo json_encode($data);
+				}
 				exit();
 			}
+			
 			if($return){
 				return $data;
 			}
@@ -680,7 +693,15 @@ class startuplist extends CI_Controller {
 			$data['company'] = $company[0];
 			
 			if($json!=""){
-				echo json_encode($company[0]);
+				if(strtolower($json)=='json'){
+					echo json_encode($company[0]);
+				}
+				else if(strtolower($json)=='jsonmin'){
+					$data = array();
+					$data['id'] = $company[0]['id'];
+					$data['name'] = $company[0]['name'];
+					echo json_encode($data);
+				}
 				exit();
 			}
 			
@@ -786,9 +807,18 @@ class startuplist extends CI_Controller {
 			$data['countries'] = $countries;
 			$data['investment_org'] = $investment_org[0];
 			$data['newlyfunded'] = $this->newlyFunded();
+
 			
 			if($json!=""){
-				echo json_encode($investment_org[0]);
+				if(strtolower($json)=='json'){
+					echo json_encode($investment_org[0]);
+				}
+				else if(strtolower($json)=='jsonmin'){
+					$data = array();
+					$data['id'] = $investment_org[0]['id'];
+					$data['name'] = $investment_org[0]['name'];
+					echo json_encode($data);
+				}
 				exit();
 			}
 			
