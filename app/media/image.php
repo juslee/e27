@@ -77,11 +77,11 @@ function showThumb($src, $thumbWidth, $thumbHeight, $dest="")
 	imagecopyresampled( $tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
 	
 	if(!trim($dest)){
-		imagejpeg( $tmp_img , null, 100);
+		imagepng( $tmp_img , null, 0);
 	}
 	else{
-		@imagejpeg( $tmp_img , $dest, 100);
-		imagejpeg( $tmp_img , null, 100);
+		@imagepng ( $tmp_img , $dest, 0);
+		imagepng ( $tmp_img , null, 0);
 	}
 	// save thumbnail into a file
 	
@@ -90,34 +90,42 @@ $mx = $_GET['mx']*1;
 $mxh = $_GET['mxh']*1;
 $mxw = $_GET['mxw']*1;
 
+if($mx==0){
+	$mx = 10000;
+}
+
 @mkdir(dirname(__FILE__)."/imgcache", 0777);
 $p = urldecode($_GET['p']);
 $p = dirname($p)."/".rawurlencode(basename($p));
+
+
+
 
 if($_GET['b']){
 	$p = base64_decode($_GET['p']);
 }
 
-$md5file = dirname(__FILE__)."/imgcache/".md5($p)."_mx".$mx."_mxh".$mxh."_mxw".$mxw.".jpg";
+$md5file = dirname(__FILE__)."/imgcache/".md5($p)."_mx".$mx."_mxh".$mxh."_mxw".$mxw.".png";
+
 
 if(file_exists($md5file)&&!$_GET['nocache']){
 	if($mx){
 		if(!$_GET['nohead']){
-			header('Content-Type: image/jpeg');
+			header('Content-Type: image/png');
 		}
 		//echo $md5file;
 		echo file_get_contents($md5file);
 	}
 	else if($mxw&&$mxh){
 		if(!$_GET['nohead']){
-			header('Content-Type: image/jpeg');
+			header('Content-Type: image/png');
 		}
 		echo file_get_contents($md5file);
 	}
 	else
 	{
 		if(!$_GET['nohead']){
-			header('Content-Type: image/jpeg');
+			header('Content-Type: image/png');
 		}
 		echo file_get_contents($md5file);
 	}
@@ -125,20 +133,21 @@ if(file_exists($md5file)&&!$_GET['nocache']){
 else{
 	if($mx){
 		if(!$_GET['nohead']){
-			header('Content-Type: image/jpeg');
+			header('Content-Type: image/png');
 		}
+
 		showThumb($p, $mx, $mx, $md5file);	
 	}
 	else if($mxw&&$mxh){
 		if(!$_GET['nohead']){
-			header('Content-Type: image/jpeg');
+			header('Content-Type: image/png');
 		}
 		showThumb($p, $mxw, $mxh, $md5file);	
 	}
 	else
 	{
 		if(!$_GET['nohead']){
-			header('Content-Type: image/jpeg');
+			header('Content-Type: image/png');
 		}
 		showThumb($p, 1000, 1000, $md5file);
 	}
