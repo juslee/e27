@@ -609,6 +609,7 @@
 								<div id='tweet<?php echo $n; ?>'></div><br />
 								<script>
 								jQuery(function($){
+									/*
 									jQuery("#tweet<?php echo $n; ?>").tweet({
 										join_text: "auto",
 										username: "<?php echo $twitter_username; ?>",
@@ -620,6 +621,15 @@
 										auto_join_text_reply: " we replied ",
 										auto_join_text_url: " we were checking out ",
 										loading_text: "loading tweets..."
+									});
+									*/
+									jQuery("#tweet<?php echo $n; ?>").tweet({
+										username: "<?php echo $twitter_username; ?>",
+										avatar_size: 48,
+										count: 5,
+										fetch: 20,
+										filter: function(t){ return ! /^@\w+/.test(t.tweet_raw_text); },
+										loading_text: "Loading tweets..."
 									});
 								});
 								</script>
