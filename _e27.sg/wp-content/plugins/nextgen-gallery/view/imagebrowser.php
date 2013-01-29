@@ -139,7 +139,8 @@ Follow variables are useable :
 				ngindex = 0;
 			}
 		}
-		jQuery("#"+ngpids[ngindex]).show();
+		ngHideAll();
+		jQuery("#ng"+ngpids[ngindex]).show();
 		jQuery("#ngdescription").html(jQuery("#ng"+ngpids[ngindex]+" a").attr("title"));
 		jQuery("#ngcounter").html((ngindex+1)+" / "+ngpids.length);
 	</script>
