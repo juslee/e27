@@ -72,18 +72,69 @@ Follow variables are useable :
 			jQuery("#ngdescription").html(jQuery("#ng"+ngpids[ngindex]+" a").attr("title"));
 			jQuery("#ngcounter").html((ngindex+1)+" / "+ngpids.length);
 		}
+		function showNgGallery(n){
+			if(n){
+				ngindex = n;
+			}
+			else{
+				ngindex = 0;
+			}
+			self.location = "#image_"+(ngindex+1);
+			jQuery(".description p").each(function(){
+				jQuery(this).hide();
+			});
+			jQuery(".description h3").each(function(){
+				jQuery(this).hide();
+			});
+			jQuery("#nggallery").show();
+			ngHideAll();
+			jQuery("#ng"+ngpids[ngindex]).show();
+			jQuery("#ngdescription").html(jQuery("#ng"+ngpids[ngindex]+" a").attr("title"));
+			jQuery("#ngcounter").html((ngindex+1)+" / "+ngpids.length);
+		}
+		function hideNgGallery(){
+			window.location.hash = "";
+			jQuery(".description p").each(function(){
+				jQuery(this).show();
+			});
+			jQuery(".description h3").each(function(){
+				jQuery(this).show();
+			});
+			jQuery("#nggallery").hide();
+		}
 	</script>
-	<div class="pic">
+	
+	<div>
+	<a onclick='showNgGallery()' style='cursor:pointer'>
+	<?php
+	foreach($images as $image){
+		echo stripslashes($image->galdesc)." &raquo;";
+		break;
+	}
+	
+	?></a>
+	</div>
+	<div class="pic" id='nggallery' style='display:none'>
 	<a style='font-size:5px;'>&nbsp;</a>
 	<table style='width:100%'>
 		<tr>
 			<td valign="top" style='width:75%; vertical-align:top; padding:10px;'>
-				<div style='font-weight:bold' id='ngdescription'></div>
+				<table cellpadding="0" cellspacing="0" style='width:100%;' name='image_1'>
+				<tr>
+					<td> 
+						<div style='font-weight:bold' id='ngdescription'></div>
+					</td>
+					<td style='vertical-align:top; text-align:right; width:120px; font-size:14px;'>
+							<a onclick='hideNgGallery()' style='cursor:pointer'>&laquo; Back to Article</a>
+					</td>
+				</tr>
+				</table>
 			</td>
 			<td valign="top" style='width:25%; text-align:center; vertical-align:top;'>
 				<center>
 				<table cellpadding="0" cellspacing="0">
 					<tr>
+						
 						<td width='34px' style='vertical-align:top;'>
 							<a style='cursor:pointer' onclick='ngPrev()'><img style='margin:0px !important; padding:0px; width:34px; height:34px;  border:0px; vertical-align:top;' src='/wp-content/plugins/nextgen-gallery/images/prev.jpg' /></a>&nbsp;
 						</td>
@@ -103,8 +154,7 @@ Follow variables are useable :
 			<td valign="top" style='vertical-align:top; padding:10px; text-align:center' colspan='2'>
 			<center>
 			 <?php 
-			 //echo "<pre>";
-			 //print_r($images );
+			 
 			 $i = 0;
 			 foreach($images as $image){
 				$link = str_replace(".jpg", ".jpg?_".time(),$image->imageHTML);
@@ -138,16 +188,14 @@ Follow variables are useable :
 			if(ngindex<=0){
 				ngindex = 0;
 			}
+			
+			showNgGallery(ngindex);
 		}
-		ngHideAll();
-		jQuery("#ng"+ngpids[ngindex]).show();
-		jQuery("#ngdescription").html(jQuery("#ng"+ngpids[ngindex]+" a").attr("title"));
-		jQuery("#ngcounter").html((ngindex+1)+" / "+ngpids.length);
 	</script>
 		
 	</div>
-	
-
 </div>	
-
+<br />
+<br />
+<br />
 <?php endif; ?>
