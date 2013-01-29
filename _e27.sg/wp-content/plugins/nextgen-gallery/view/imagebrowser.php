@@ -15,9 +15,17 @@ Follow variables are useable :
 **/
 ?>
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?><?php if (!empty ($image)) : ?>
-
+<style>	
+.post.full .ngg-imagebrowser img {
+	border: 1px solid #F0F0F0;
+	margin:0px !important;
+	width: inherit;
+}
+</style>
 <div class="ngg-imagebrowser" id="<?php echo $image->anchor ?>">
-
+	<?php
+	/*
+	?>
 	<!--<h3><?php echo $image->alttext ?></h3>-->
 	
 	<!--
@@ -25,16 +33,13 @@ Follow variables are useable :
 		
 	</div>	
 	-->
-	<style>
+	<?php
+	*/
+	?>
 	
-	.post.full .ngg-imagebrowser img {
-		border: 1px solid #F0F0F0;
-		margin:0px !important;
-	}
-	</style>
 	<div class="pic">
-	
-	<table width='100%'>
+	<a style='font-size:5px;'>&nbsp;</a>
+	<table style='width:100%'>
 		<tr>
 			<td valign="top" style='width:75%; vertical-align:top; padding:10px;'>
 				<b><?php echo $image->description ?></b>
@@ -46,7 +51,7 @@ Follow variables are useable :
 						<td width='34px' style='vertical-align:top;'>
 							<a href="<?php echo $image->previous_image_link ?>"><img style='margin:0px !important; padding:0px; width:34px; height:34px;  border:0px; vertical-align:top;' src='/wp-content/plugins/nextgen-gallery/images/prev.jpg' /></a>&nbsp;
 						</td>
-						<td width='50px' style='vertical-align:top; padding-top:10px; text-align:center'>
+						<td width='50px' style='vertical-align:top; padding-top:10px; text-align:center; color:#21913E'>
 							<?php echo $image->number ?> / <?php echo $image->total ?>
 						</td>
 						<td  width='34px' style='vertical-align:top;'>
@@ -57,9 +62,24 @@ Follow variables are useable :
 				</center>
 			</td>
 		</tr>
+		<tr>
+			<td valign="top" style='vertical-align:top; padding:10px; text-align:center' colspan='2'>
+			<center>
+			 <?php 
+			 //echo "<pre>";
+			 //print_r($image);
+			 $link = str_replace(".jpg", ".jpg?_".time(),$image->href_link);
+			 $link = str_replace(".JPG", ".JPG?_".time(),$link);
+			 echo $link;
+			 
+			 ?>
+			</center>
+			</td>
+		</tr>
 	</table>
-	
-	<?php echo $image->href_link ?></div>
+
+		
+	</div>
 	
 
 </div>	
