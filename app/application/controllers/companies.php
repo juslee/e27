@@ -579,7 +579,7 @@ class companies extends CI_Controller {
 		$co_name = strtolower($_GET['term'])."%";
 		$sql = "select `id` as `value`, `name` as `label` from `companies` where LOWER(`name`) like ".$this->db->escape(trim($co_name))." limit 10" ;
 		$q = $this->db->query($sql);
-		$companies = $q->result_array();
+		$companies = $q->result_array();		header('Content-type: application/json');
 		echo json_encode($companies);
 		exit();
 	}

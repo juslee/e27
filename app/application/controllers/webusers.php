@@ -155,9 +155,9 @@ class webusers extends CI_Controller {
 		$email['email'] = "mohan@e27.sg";
 		$emailtos[] = $email;
 		*/
-		echo "Nothing here last log 20130117_1628 last id 371";
+		echo "Nothing here last log 20130124_1737.htm last id 586";
 		exit();
-		//$sql = "select `id`, `name`, `email_address`, `slug`, status, active from `companies` where id>371 order by `id` asc limit 50";
+		$sql = "select `id`, `name`, `email_address`, `slug`, status, active from `companies` where id>586 order by `id` asc limit 50";
 		$q = $this->db->query($sql);
 		$companies = $q->result_array();
 		$t = count($companies);

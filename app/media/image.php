@@ -10,7 +10,8 @@ function showThumb($src, $thumbWidth, $thumbHeight, $dest="")
 	//echo file_get_contents($src);
 	//exit();
 	if(strpos($src, "http://".$_SERVER['HTTP_HOST']."/media/") === 0 ){
-		$src = str_replace("http://".$_SERVER['HTTP_HOST']."/media/", dirname(__FILE__)."/", $src);
+		$p = urldecode($_GET['p']);
+		$src = str_replace("http://".$_SERVER['HTTP_HOST']."/media/", dirname(__FILE__)."/", $p);
 	}
 	if($_GET['showsrc']){
 		echo $src;

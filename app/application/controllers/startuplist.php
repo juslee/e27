@@ -185,28 +185,13 @@ class startuplist extends CI_Controller {
 			unset($_SESSION['countryshort']);
 		}
 		else{
-			$_SESSION['country'] = strtolower($country);
-			if($_SESSION['country']=='singapore'){
-				$_SESSION['countryshort'] = 'sg';
-			}
-			else if($_SESSION['country']=='singapore'){
-				$_SESSION['countryshort'] = 'sg';
-			}
-			else if($_SESSION['country']=='indonesia'){
-				$_SESSION['countryshort'] = 'id';
-			}
-			else if($_SESSION['country']=='malaysia'){
-				$_SESSION['countryshort'] = 'my';
-			}
-			else if($_SESSION['country']=='japan'){
-				$_SESSION['countryshort'] = 'jp';
-			}
-			else if($_SESSION['country']=='thailand'){
-				$_SESSION['countryshort'] = 'th';
-			}
-			else if($_SESSION['country']=='philippines'){
-				$_SESSION['countryshort'] = 'ph';
-			}
+			$sql = "select country from `countries` where `code`='".strtoupper($country)."'";
+			$q = $this->db->query($sql);
+			$countryfull = $q->result_array();
+			$countryfull = $countryfull[0]['country'];
+			$_SESSION['country'] = strtolower($countryfull);
+			$_SESSION['countryshort'] = $country;
+			
 		}
 		$this->index();
 	}
@@ -248,10 +233,13 @@ class startuplist extends CI_Controller {
 		$cnt = $q->result_array();
 		$cnt = $cnt[0]['cnt'];
 		
-		
+		$sql = "SELECT distinct b.country, b.code AS countrycode FROM `companies` AS `a` , `countries` AS `b` WHERE a.country = b.country order by `country` asc";
+		$q = $this->db->query($sql);
+		$flags = $q->result_array();
 		
 		$data = array();
 		$data['cnt'] = $cnt;
+		$data['flags'] = $flags;
 		$data['type'] = $type;
 		$data['companies'] = $companies;
 		$data['newlyfunded'] = $this->newlyFunded();

@@ -550,18 +550,19 @@
 					<tr>
 						<td class="productgal">
 							<div class="productgal_title">Product Gallery</div>
-							<div class="productgal_loader" style="text-align:center; padding:50px;"><img src="<?php echo site_url(); ?>media/ajax-loader.gif"><br>&nbsp;<br>Loading Gallery...</div>
-							<div class="productgal_contents hidden">
+							<div class="productgal_loader hidden" style="text-align:center; padding:50px;"><img src="<?php echo site_url(); ?>media/ajax-loader.gif"><br>&nbsp;<br>Loading Gallery...</div>
+							<div class="productgal_contents">
 							<div id="screenshots">
 								<div class="slides_container" >
 								<?php
 									for($i=0; $i<$sst; $i++){
 										$imgfile = site_url()."media/image.php?p=".$screenshots[$i]['screenshot']."&mx=520";
+										$imgfilebig = site_url()."media/image.php?p=".$screenshots[$i]['screenshot']."&mx=0";
 										//$imagesize = getimagesize($imgfile);
 										//print_r($imagesize);
 										?>
-										<a>
-										<img src="<?php echo $imgfile; ?>" alt="<?php echo htmlentitiesX($screenshots[$i]['title']); ?>" title="<?php echo htmlentitiesX($screenshots[$i]['title']); ?>"  />
+										<a href='<?php echo $imgfilebig; ?>' target='_blank'>
+										<img style='border:0px' src="<?php echo $imgfile; ?>" alt="<?php echo htmlentitiesX($screenshots[$i]['title']); ?>" title="<?php echo htmlentitiesX($screenshots[$i]['title']); ?>"  />
 										<div class='title'><?php echo htmlentitiesX($screenshots[$i]['title']); ?></div>
 										</a>
 										<?php
