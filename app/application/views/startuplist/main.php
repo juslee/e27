@@ -111,18 +111,21 @@ if($_SESSION['web_user']&&!$_SESSION['web_user']['business_email']&&($_SESSION['
 <title><?php
 $metatitle = "27x Startup List";
 $method = $this->router->method;
-if($method!="index"&&$method!="country"){
-	$metatitle .= " | "; 
+if($method!="index"&&$method!="country"&&$method!="setcountry"){
 	if($person['name']){
+		$metatitle .= " | "; 
 		$metatitle .= strip_tags($person['name']);
 	}
 	else if($company['name']){
+		$metatitle .= " | "; 
 		$metatitle .= strip_tags($company['name']);
 	}
 	else if($investment_org['name']){
+		$metatitle .= " | "; 
 		$metatitle .= strip_tags($investment_org['name']);
 	}
 	if($method=="account"){
+		$metatitle .= " | "; 
 		$metatitle .= "Account";
 	}
 }
@@ -130,10 +133,14 @@ else if($_SESSION['country']){
 	$metatitle .= " | "; 
 	$metatitle .= ucfirst($_SESSION['country']);
 }
+else if($setcountry){
+	$metatitle .= " | "; 
+	$metatitle .= $setcountry;
+}
 echo $metatitle;
 ?></title>
 <?php
-if($method!="index"&&$method!="country"){
+if($method!="index"&&$method!="country"&&$method!="setcountry"){
 	if($person['description']){
 		$metadesc = strip_tags($person['description']);
 	}
@@ -165,7 +172,14 @@ else if($_SESSION['country']){
 	<meta name="description" content="<?php echo sanitizeX($metadesc); ?>" />
 	<meta name="keywords" content="<?php echo sanitizeX($metakw); ?>" />
 	<?php
-
+}
+else if($setcountry){
+	$metadesc = $setcountry;
+	$metakw = $setcountry;
+	?>
+	<meta name="description" content="<?php echo sanitizeX($metadesc); ?>" />
+	<meta name="keywords" content="<?php echo sanitizeX($metakw); ?>" />
+	<?php
 }
 
 //facebook
@@ -559,7 +573,7 @@ $method=='addinvestment_org'
 						<?php
 						$this->load->view("startuplist/contribute_block");
 						
-						if($method=='company'||$method=='person'||$method=='investment_org'||$method=='index'||$method=='register'){
+						if($method=='company'||$method=='person'||$method=='investment_org'||$method=='index'||$method=='register'||$method=='setcountry'){ //setcountry is for country localization
 							$this->load->view("startuplist/sharer");
 						}
 						//$this->load->view("startuplist/bannerad_block");

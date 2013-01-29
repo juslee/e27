@@ -179,7 +179,7 @@ class startuplist extends CI_Controller {
 		}
 	}
 	
-	public function country($country="all"){
+	public function setcountry($country="all"){
 		if($country=='all'){
 			unset($_SESSION['country']);
 			unset($_SESSION['countryshort']);
@@ -193,10 +193,17 @@ class startuplist extends CI_Controller {
 			$_SESSION['countryshort'] = $country;
 			
 		}
-		$this->index();
+		$this->index("newlyadded", $countryfull);
 	}
 	
-	public function index($type="newlyadded"){
+	public function index($type="", $setcountry = ""){
+		if($setcountry==""&&$type==""){
+			unset($_SESSION['country']);
+			unset($_SESSION['countryshort']);
+		}
+		if($type==""){
+			$type = "newlyadded";
+		}
 		$start = 0;
 		$limit = 12;
 		if($_SESSION['country']){
@@ -240,6 +247,7 @@ class startuplist extends CI_Controller {
 		$data = array();
 		$data['cnt'] = $cnt;
 		$data['flags'] = $flags;
+		$data['setcountry'] = $setcountry;
 		$data['type'] = $type;
 		$data['companies'] = $companies;
 		$data['newlyfunded'] = $this->newlyFunded();

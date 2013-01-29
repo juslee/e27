@@ -46,7 +46,7 @@ $route['person/(:any)'] = "startuplist/person/$1";
 //temporarily use the search to sort country
 $route['country/(:any)'] = "search/all/country:$1";
 //$route['country/(:any)'] = "startuplist/country/$1";
-$route['c/(:any)'] = "startuplist/country/$1";
+$route['c/(:any)'] = "startuplist/setcountry/$1";
 $route['companylist'] = "startuplist/companylist";
 $route['companylist'] = "startuplist/companylist";
 $route['personlist'] = "startuplist/personlist";
