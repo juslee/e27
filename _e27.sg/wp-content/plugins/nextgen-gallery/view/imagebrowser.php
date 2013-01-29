@@ -36,29 +36,66 @@ Follow variables are useable :
 	<?php
 	*/
 	?>
-	
+	<script>
+		ngindex = 0;
+		ngpids = [];
+		<?php
+		foreach($images as $image){
+			?>ngpids.push(<?php echo $image->pid; ?>);
+			<?php
+		}
+		?>
+		function ngHideAll(){
+			for(i=0; i<ngpids.length; i++){
+				jQuery("#ng"+ngpids[i]).hide();
+			}
+		}
+		function ngPrev(){
+			if(ngindex==0){
+				return 0;
+			}
+			ngHideAll();
+			ngindex--;
+			self.location = "#image_"+(ngindex+1);
+			jQuery("#ng"+ngpids[ngindex]).show();
+			jQuery("#ngdescription").html(jQuery("#ng"+ngpids[ngindex]+" a").attr("title"));
+			jQuery("#ngcounter").html((ngindex+1)+" / "+ngpids.length);
+		}
+		function ngNext(){
+			if(ngindex+1==ngpids.length){
+				return 0;
+			}
+			ngHideAll();
+			ngindex++;
+			self.location = "#image_"+(ngindex+1);
+			jQuery("#ng"+ngpids[ngindex]).show();
+			jQuery("#ngdescription").html(jQuery("#ng"+ngpids[ngindex]+" a").attr("title"));
+			jQuery("#ngcounter").html((ngindex+1)+" / "+ngpids.length);
+		}
+	</script>
 	<div class="pic">
 	<a style='font-size:5px;'>&nbsp;</a>
 	<table style='width:100%'>
 		<tr>
 			<td valign="top" style='width:75%; vertical-align:top; padding:10px;'>
-				<b><?php echo $image->description ?></b>
+				<div style='font-weight:bold' id='ngdescription'></div>
 			</td>
 			<td valign="top" style='width:25%; text-align:center; vertical-align:top;'>
 				<center>
 				<table cellpadding="0" cellspacing="0">
 					<tr>
 						<td width='34px' style='vertical-align:top;'>
-							<a href="<?php echo $image->previous_image_link ?>"><img style='margin:0px !important; padding:0px; width:34px; height:34px;  border:0px; vertical-align:top;' src='/wp-content/plugins/nextgen-gallery/images/prev.jpg' /></a>&nbsp;
+							<a style='cursor:pointer' onclick='ngPrev()'><img style='margin:0px !important; padding:0px; width:34px; height:34px;  border:0px; vertical-align:top;' src='/wp-content/plugins/nextgen-gallery/images/prev.jpg' /></a>&nbsp;
 						</td>
-						<td width='50px' style='vertical-align:top; padding-top:10px; text-align:center; color:#21913E'>
-							<?php echo $image->number ?> / <?php echo $image->total ?>
+						<td width='50px' style='vertical-align:top; padding-top:10px; text-align:center; color:#21913E' id='ngcounter'>
+							
 						</td>
 						<td  width='34px' style='vertical-align:top;'>
-							<a href="<?php echo $image->next_image_link ?>"><img style='margin:0px !important; padding:0px;  width:34px; height:34px; border:0px; vertical-align:top; ' src='/wp-content/plugins/nextgen-gallery/images/next.jpg' /></a>
+							<a style='cursor:pointer' onclick='ngNext()'><img style='margin:0px !important; padding:0px;  width:34px; height:34px; border:0px; vertical-align:top; ' src='/wp-content/plugins/nextgen-gallery/images/next.jpg' /></a>
 						</td>
 					</tr>
 				</table>
+				
 				</center>
 			</td>
 		</tr>
@@ -67,17 +104,45 @@ Follow variables are useable :
 			<center>
 			 <?php 
 			 //echo "<pre>";
-			 //print_r($image);
-			 $link = str_replace(".jpg", ".jpg?_".time(),$image->href_link);
-			 $link = str_replace(".JPG", ".JPG?_".time(),$link);
-			 echo $link;
-			 
+			 //print_r($images );
+			 $i = 0;
+			 foreach($images as $image){
+				$link = str_replace(".jpg", ".jpg?_".time(),$image->imageHTML);
+				$link = str_replace(".JPG", ".JPG?_".time(),$link);
+				if($i==0){
+					echo "<div id='ng".$image->pid."'>";
+					echo $link;
+					echo "</div>";
+				}
+				else{
+					echo "<div id='ng".$image->pid."' style='display:none'>";
+					echo $link;
+					echo "</div>";
+				}
+				$i++;
+			 }
 			 ?>
 			</center>
 			</td>
 		</tr>
 	</table>
-
+	<script>
+		if(window.location.hash){
+			ngindex = window.location.hash;
+			ngindex = ngindex.replace("#image_", "");
+			ngindex = ngindex*1;
+			ngindex -= 1;
+			if(ngindex+1==ngpids.length){
+				ngindex = ngpids.length-1;
+			}
+			if(ngindex<=0){
+				ngindex = 0;
+			}
+		}
+		jQuery("#"+ngpids[ngindex]).show();
+		jQuery("#ngdescription").html(jQuery("#ng"+ngpids[ngindex]+" a").attr("title"));
+		jQuery("#ngcounter").html((ngindex+1)+" / "+ngpids.length);
+	</script>
 		
 	</div>
 	
