@@ -429,6 +429,8 @@ class search extends CI_Controller {
 		
 		$data['search'] = $searchx;
 		$data['newlyfunded'] = $this->newlyFunded();
+		$data['categoriesCount'] = $this->categoriesCount();
+		
 		$data['content'] = $this->load->view('startuplist/search', $data, true);
 		$this->load->view('startuplist/main', $data);
 	}
@@ -490,5 +492,22 @@ class search extends CI_Controller {
 		}
 		
 		return $newlyfunded;
+	}
+	
+	private function categoriesCount(){
+		//get newly funded companies
+		$sql = "SELECT * from `categories` where 1";
+		$q = $this->db->query($sql);
+		$categories = $q->result_array();
+		$categoriescount = array();
+		foreach($categories as $key => $category){
+			$sql = "select count(`id`) as `cnt` from `company_category` where `category_id` = '".$category['id']."' ";
+			$q = $this->db->query($sql);
+			$count = $q->result_array();
+			$count = $count[0]['cnt'];
+			$categories[$key]['count'] = $count;
+		}
+		
+		return $categories;
 	}
 }

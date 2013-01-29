@@ -24,7 +24,7 @@ if(count($items)){
 				$href = $item['link'];
 				$title = ($item['title']);	
 				if($time-$pub_ts<=(5*24*60*60)){ //within 4 days
-					echo "<div style='padding-bottom:5px;'><a href=$href class='rss_title'>$title</a><br>$published</div>";
+					echo "<div style='padding-bottom:5px;'><a href=\"".$href."\" class='rss_title'>$title</a><br>$published</div>";
 				}
 			}
 			?>

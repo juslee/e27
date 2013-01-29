@@ -251,6 +251,8 @@ class startuplist extends CI_Controller {
 		$data['type'] = $type;
 		$data['companies'] = $companies;
 		$data['newlyfunded'] = $this->newlyFunded();
+		$data['categoriesCount'] = $this->categoriesCount();
+		
 		$data['fb'] = $this->fb;
 		$data['content'] = $this->load->view('startuplist/companies', $data, true);
 		$data['company'] = '';
@@ -855,6 +857,23 @@ class startuplist extends CI_Controller {
 		}
 		
 		return $newlyfunded;
+	}
+	
+	private function categoriesCount(){
+		//get newly funded companies
+		$sql = "SELECT * from `categories` where 1";
+		$q = $this->db->query($sql);
+		$categories = $q->result_array();
+		$categoriescount = array();
+		foreach($categories as $key => $category){
+			$sql = "select count(`id`) as `cnt` from `company_category` where `category_id` = '".$category['id']."' ";
+			$q = $this->db->query($sql);
+			$count = $q->result_array();
+			$count = $count[0]['cnt'];
+			$categories[$key]['count'] = $count;
+		}
+		
+		return $categories;
 	}
 	
 	function slugify(){

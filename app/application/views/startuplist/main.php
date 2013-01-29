@@ -489,7 +489,7 @@ $method=='addinvestment_org'
 					<table cellpadding="0" cellspacing="0">
 						<tr>
 							<td>
-								<input type='text' id='q' class='searchtext' placeholder="Search Startup List" value="<?php echo sanitizeX($search); ?>" />
+								<input type='text' id='q' class='searchtext' placeholder="Search 27x" value="<?php echo sanitizeX($search); ?>" />
 							</td>
 							<td class="padleft10">
 								<img src="<?php echo site_url(); ?>media/startuplist/searchbutton.png" class='pointer' onclick='searchForIt()'>
@@ -583,6 +583,11 @@ $method=='addinvestment_org'
 						$data['newlyfunded'] = $newlyfunded;
 						$this->load->view("startuplist/nfcompany_block", $data);
 						*/
+						
+						$data = array();
+						$data['categoriesCount'] = $categoriesCount;
+						$this->load->view("startuplist/categoriesCount_block", $data);
+
 						
 						$data = array();
 						if(is_array($feeds)){

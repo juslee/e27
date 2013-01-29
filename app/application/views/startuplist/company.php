@@ -329,6 +329,7 @@
 				<?php
 			}
 			$cft = count($company_fundings);
+			
 			if($cft){
 				?>
 				<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_left' >
@@ -378,26 +379,46 @@
 							
 							$cf_total = array();
 							for($cfi=0; $cfi<$cft; $cfi++){
-								$cf_total[$company_fundings[$cfi]['currency']] += $company_fundings[$cfi]['amount'];
+								if($company_fundings[$cfi]['amount_public']=="1"){
+									$cf_total[$company_fundings[$cfi]['currency']] += $company_fundings[$cfi]['amount'];
+								}
+								else{
+									$cf_total[$company_fundings[$cfi]['currency']] += 0;
+								}
+							}
+							$thereisatotal = false;
+							foreach($cf_total as $key=>$value){
+								if($value<=0){
+									continue;
+								}
+								$thereisatotal = true;
+								break;
 							}
 							?>
 							<table cellpadding="0" cellspacing="0" class="p100">
-								<tr>
-									<td class='bold padb10'>
-										Total
-									</td>
-									<td class='bold padb10 right'>
-										<?php
-										//echo "<pre>";
-										//print_r($cf_total);
-										//echo "</pre>";
-										foreach($cf_total as $key=>$value){
-											echo "<div>".$key.amountIze($value)."</div>";
-										}
-										?>
-									</td>
-								</tr>
 								<?php
+								if($thereisatotal){
+									?>
+									<tr>
+										<td class='bold padb10'>
+											Total
+										</td>
+										<td class='bold padb10 right'>
+											<?php
+											//echo "<pre>";
+											//print_r($cf_total);
+											//echo "</pre>";
+											foreach($cf_total as $key=>$value){
+												if($value<=0){
+													continue;
+												}
+												echo "<div>".$key.amountIze($value)."</div>";
+											}
+											?>
+										</td>
+									</tr>
+									<?php
+								}
 								for($cfi=0; $cfi<$cft; $cfi++){
 									?>
 									<tr>
@@ -405,7 +426,15 @@
 											<?php echo $company_fundings[$cfi]['round']; ?>
 										</td>
 										<td class='padb5 right'>
-											<?php echo $company_fundings[$cfi]['currency'].amountIze($company_fundings[$cfi]['amount']); ?>
+											<?php
+											if($company_fundings[$cfi]['amount_public']=="1"){
+												echo $company_fundings[$cfi]['currency'].amountIze($company_fundings[$cfi]['amount']);
+											}
+											else{
+												echo "Undisclosed";
+											}	
+											?>
+										
 										</td>
 									</tr>
 									<tr>
