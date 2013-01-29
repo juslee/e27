@@ -626,6 +626,12 @@ class startuplist extends CI_Controller {
 			$categories = $q->result_array();
 			$company[0]['categories'] = $categories;
 			
+			//get country code
+			$sql = "select `code` from `countries` where `country`='".$company[0]['country']."'";
+			$q = $this->db->query($sql);
+			$countrycode = $q->result_array();
+			$countrycode = $countrycode[0]['code'];
+			$company[0]['countrycode'] = $countrycode;
 			
 			$sql = "select 
 			`a`.`round`,

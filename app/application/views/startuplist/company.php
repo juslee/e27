@@ -62,7 +62,8 @@
 									<td class='label'>
 										Country
 									</td>
-									<td class='value'>
+									<td class='value f16'>
+										<div class='flag <?php echo strtolower($company['countrycode']); ?>' ></div>
 										<?php
 										echo "<a href='".site_url()."country/".rawurlencode($company['country'])."'>".trim($company['country'])."</a>";
 										?>
@@ -456,6 +457,7 @@
 				</table>
 				<?php
 			}
+			//print_r($milestones);
 			$cft = count($milestones);
 			if($cft){
 				?>
