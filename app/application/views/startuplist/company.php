@@ -12,13 +12,13 @@
 						<?php
 						if(trim($company['logo'])){
 							?>
-							<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $company['logo'] ?>&mx=220' />
+							<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $company['logo'] ?>&mx=220&square=1' />
 							<?php
 						}
 						else{
 							$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
 							?>
-							<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $logo; ?>&mx=220' />
+							<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $logo; ?>&mx=220&square=1' />
 							<?php	
 						}
 						?>
@@ -294,11 +294,11 @@
 													echo "<tr>";
 													
 													if(trim($value['profile_image'])){
-														echo "<td class='middle pad5'><a href='".site_url()."person/".$value['slug']."'><img class='rounded' src='".site_url()."media/image.php?p=".$value['profile_image']."&mx=38'></a></td>";
+														echo "<td class='middle pad5'><a href='".site_url()."person/".$value['slug']."'><img class='rounded' src='".site_url()."media/image.php?p=".$value['profile_image']."&mx=38&square=1'></a></td>";
 													}
 													else{
 														$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
-														echo "<td class='middle pad5'><a href='".site_url()."person/".$value['slug']."'><img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38'></a></td>";
+														echo "<td class='middle pad5'><a href='".site_url()."person/".$value['slug']."'><img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38&square=1'></a></td>";
 													}
 													
 													echo "<td class='middle pad5'><a href='".site_url()."person/".$value['slug']."'>".$value['name']."</a> ".$year."<br />".$value['role']."</td>";

@@ -8,7 +8,7 @@
 		<?php
 		if(trim($company['logo'])){
 			?>
-			<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $company['logo'] ?>&mx=160' />
+			<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $company['logo'] ?>&mx=160&square=1' />
 			<?php
 		}
 		else{
@@ -53,13 +53,19 @@
 						</td>
 						<td class="value">
 						<?php
+							if(amount_public)
 							$amount = 0;
 							foreach($company['funding'] as $f){
 								$amount += $f['amount'];
 							}
 							$amount = amountIze($amount);
 							
-							echo $company['funding'][0]['currency'].$amount;
+							if($company['funding'][0]['amount_public']=="1"){
+								echo $company['funding'][0]['currency'].$amount;
+							}
+							else{
+								echo "Undisclosed";
+							}
 						?>
 						</td>
 					</tr>

@@ -37,6 +37,18 @@
 							
 							?>
 							</td>
+							<td>
+								| <?php the_time('M j, Y'); ?> | 
+								<?php 
+									$categories = get_the_category();
+									if (is_array($categories) && count($categories) > 0) {
+										$category = $categories[0]->name;
+										?>
+										<span class="post_category"><a href="<?php echo get_category_link($categories[0]->cat_ID) ?>"><?php echo $category ?></a></span>
+										<?php
+									}
+								?>
+							</td>
 							</tr>
 							</table>
 							<script>
@@ -49,16 +61,8 @@
 									echo '<a href="'.$googleplus.'?rel=author" target="_blank"><img src="'.get_bloginfo('template_directory').'/img/icon-googleplus-author-24x24.png" class="authoricon" /></a>';
 								}*/
 							?>
-                             | <?php the_time('M j, Y'); ?> | 
-							<?php 
-								$categories = get_the_category();
-								if (is_array($categories) && count($categories) > 0) {
-									$category = $categories[0]->name;
-									?>
-									<span class="post_category"><a href="<?php echo get_category_link($categories[0]->cat_ID) ?>"><?php echo $category ?></a></span>
-									<?php
-								}
-							?>
+                             
+							
 						</div>
 						<div class="description clearfix">
 							<div id="sharebar" class="post_share rail">
@@ -150,7 +154,7 @@
 								<table class='x27tablecontent'>
 									<tr>
 										<td width='25%'>
-											<a href='http://27x.co/company/<?php echo $data27x->slug; ?>'><img title="<?php echo htmlentities($data27x->name); ?>" alt="<?php echo htmlentities($data27x->name); ?>" src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=150' /></a>
+											<a href='http://27x.co/company/<?php echo $data27x->slug; ?>'><img title="<?php echo htmlentities($data27x->name); ?>" alt="<?php echo htmlentities($data27x->name); ?>" src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=150&square=1' /></a>
 										</td>
 										<td width='25%'>
 											<div class='label'>Company</div>
@@ -165,6 +169,10 @@
 												){
 													$hwebsite = "http://".$website;
 												}
+												else{
+													$hwebsite = $website;
+												}
+												$hwebsite = "http://27x.co/l?url=".urlencode($hwebsite);
 												?>
 												<div class='label'>Website</div>
 												<div class='value'><a href='<?php echo $hwebsite; ?>'><?php echo $website; ?></a></div>
@@ -201,7 +209,7 @@
 								<table class='x27tablecontent'>
 									<tr>
 										<td width='25%'>
-											<a href='http://27x.co/investment_org/<?php echo $data27x->slug; ?>'><img title="<?php echo htmlentities($data27x->name); ?>" alt="<?php echo htmlentities($data27x->name); ?>" src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=150' /></a>
+											<a href='http://27x.co/investment_org/<?php echo $data27x->slug; ?>'><img title="<?php echo htmlentities($data27x->name); ?>" alt="<?php echo htmlentities($data27x->name); ?>" src='http://27x.co/media/image.php?p=<?php echo $data27x->logo; ?>&mx=150&square=1' /></a>
 										</td>
 										<td width='25%'>
 											<div class='label'>Investment Organization</div>
@@ -216,6 +224,10 @@
 												){
 													$hwebsite = "http://".$website;
 												}
+												else{
+													$hwebsite = $website;
+												}
+												$hwebsite = "http://27x.co/l?url=".urlencode($hwebsite);
 												?>
 												<div class='label'>Website</div>
 												<div class='value'><a href='<?php echo $hwebsite; ?>'><?php echo $website; ?></a></div>
@@ -253,7 +265,7 @@
 								<table class='x27tablecontent'>
 									<tr>
 										<td width='25%'>
-											<a href='http://27x.co/person/<?php echo $data27x->slug; ?>'><img title="<?php echo htmlentities($data27x->name); ?>" alt="<?php echo htmlentities($data27x->name); ?>" src='http://27x.co/media/image.php?p=<?php echo $data27x->profile_image; ?>&mx=150' /></a>
+											<a href='http://27x.co/person/<?php echo $data27x->slug; ?>'><img title="<?php echo htmlentities($data27x->name); ?>" alt="<?php echo htmlentities($data27x->name); ?>" src='http://27x.co/media/image.php?p=<?php echo $data27x->profile_image; ?>&mx=150&square=1' /></a>
 										</td>
 										<td width='25%'>
 											<div class='label'>Name</div>
@@ -268,6 +280,10 @@
 												){
 													$hwebsite = "http://".$website;
 												}
+												else{
+													$hwebsite = $website;
+												}
+												$hwebsite = "http://27x.co/l?url=".urlencode($hwebsite);
 												?>
 												<div class='label'>Blog</div>
 												<div class='value'><a href='<?php echo $hwebsite; ?>'><?php echo $website; ?></a></div>

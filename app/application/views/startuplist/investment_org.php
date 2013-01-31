@@ -15,13 +15,13 @@
 						<?php
 						if(trim($investment_org['logo'])){
 							?>
-							<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $investment_org['logo'] ?>&mx=220' />
+							<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $investment_org['logo'] ?>&mx=220&square=1' />
 							<?php
 						}
 						else{
 							$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
 							?>
-							<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $logo; ?>&mx=220' />
+							<img src='<?php echo site_url(); ?>media/image.php?p=<?php echo $logo; ?>&mx=220&square=1' />
 							<?php	
 						}
 						?>

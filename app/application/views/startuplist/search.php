@@ -86,13 +86,13 @@ echo "i ".$i_limit."<br>";
 										}
 										if(trim($cresults[$i][$logokey])){
 											echo "<a href='".site_url().$link."/".$cresults[$i]['slug']."' >";
-											echo "<img class='rounded' src='".site_url()."media/image.php?p=".$cresults[$i][$logokey]."&mx=60' />";
+											echo "<img class='rounded' src='".site_url()."media/image.php?p=".$cresults[$i][$logokey]."&mx=60&square=1' />";
 											echo "</a>";
 										}
 										else{
 											$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
 											echo "<a href='".site_url().$link."/".$cresults[$i]['slug']."' >";
-											echo "<img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=60' />";
+											echo "<img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=60&square=1' />";
 											echo "</a>";
 										}
 										?>

@@ -1797,6 +1797,13 @@ class startuplist extends CI_Controller {
 		$this->load->view('startuplist/main', $data);
 	}
 	
+	function l(){
+		$url = urldecode($_GET['url']);
+		header ('HTTP/1.1 301 Moved Permanently');
+		header("Location: ".$url);
+		exit();
+	}
+	
 }
 
 

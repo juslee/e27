@@ -24,13 +24,13 @@ if($nft){
 					echo "<td class='middle pad5 .nflogo'>";
 					if($newlyfunded[$i]['logo']){
 						echo "<a href='".site_url()."company/".$newlyfunded[$i]['slug']."' >";
-						echo "<img class='rounded' src='".site_url()."media/image.php?p=".$newlyfunded[$i]['logo']."&mx=38' />";
+						echo "<img class='rounded' src='".site_url()."media/image.php?p=".$newlyfunded[$i]['logo']."&mx=38&square=1' />";
 						echo "</a>";
 					}
 					else{
 						$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
 						echo "<a href='".site_url()."company/".$newlyfunded[$i]['slug']."' >";
-						echo "<img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38' />";
+						echo "<img class='rounded' src='".site_url()."media/image.php?p=".$logo."&mx=38&square=1' />";
 						echo "</a>";
 					}
 					echo "</td>";

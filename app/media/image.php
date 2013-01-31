@@ -71,11 +71,28 @@ function showThumb($src, $thumbWidth, $thumbHeight, $dest="")
 			$new_width = floor( $width * ( $thumbHeight / $height ) );
 		}
 	}
-	// create a new temporary image
-	$tmp_img = imagecreatetruecolor( $new_width, $new_height );
+	if($_GET['square']){
+		if($new_width>$new_height){
+			$side = $new_width;
+		}
+		else{
+			$side = $new_height;
+		}
+		$tmp_img = imagecreatetruecolor( $side, $side );
+		$white = imagecolorallocate($tmp_img, 255, 255, 255);
+		imagefill($tmp_img, 0, 0, $white);
+		
+		imagecopyresampled( $tmp_img, $img, (($side-$new_width)/2), (($side-$new_height)/2), 0, 0, $new_width, $new_height, $width, $height );
+	}
+	else{
+		// create a new temporary image
+		$tmp_img = imagecreatetruecolor( $new_width, $new_height );
+		$white = imagecolorallocate($tmp_img, 255, 255, 255);
+		imagefill($tmp_img, 0, 0, $white);
+		// copy and resize old image into new image 
+		imagecopyresampled( $tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
+	}
 	
-	// copy and resize old image into new image 
-	imagecopyresampled( $tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
 	
 	if(!trim($dest)){
 		imagepng( $tmp_img , null, 0);
@@ -105,8 +122,13 @@ $p = dirname($p)."/".rawurlencode(basename($p));
 if($_GET['b']){
 	$p = base64_decode($_GET['p']);
 }
+if($_GET['square']){
+	$md5file = dirname(__FILE__)."/imgcache/".md5($p)."_mx".$mx."_mxh".$mxh."_mxw".$mxw."_square.png";
+}
+else{
+	$md5file = dirname(__FILE__)."/imgcache/".md5($p)."_mx".$mx."_mxh".$mxh."_mxw".$mxw.".png";
+}
 
-$md5file = dirname(__FILE__)."/imgcache/".md5($p)."_mx".$mx."_mxh".$mxh."_mxw".$mxw.".png";
 
 
 if(file_exists($md5file)&&!$_GET['nocache']){

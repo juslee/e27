@@ -199,7 +199,7 @@ else if(trim($investment_org['logo'])){
 }
 else if($company['id']||$person['id']||$investment_org['id']){
 	$logo = urlencode(site_url()."media/startuplist/noimage.jpg");
-	$og_image = site_url()."media/image.php?p=".$logo."&mx=250";
+	$og_image = site_url()."media/image.php?p=".$logo."&mx=250&square=1";
 	/*?><link rel="image_src" href="<?php echo site_url(); ?>media/image.php?p=<?php echo $logo; ?>&mx=250" /><?php	*/
 }
 else{

@@ -60,6 +60,8 @@ Follow variables are useable :
 			jQuery("#ng"+ngpids[ngindex]).show();
 			jQuery("#ngdescription").html(jQuery("#ng"+ngpids[ngindex]+" a").attr("title"));
 			jQuery("#ngcounter").html((ngindex+1)+" / "+ngpids.length);
+			_gaq.push(["_trackEvent","Gallery","Click", jQuery("#ng"+ngpids[ngindex]+" a").attr("title")]);
+			jQuery("#ninjaframe")[0].src="<?php echo get_permalink(); ?>?image="+(ngindex*1+1);
 		}
 		function ngNext(){
 			if(ngindex+1==ngpids.length){
@@ -71,6 +73,8 @@ Follow variables are useable :
 			jQuery("#ng"+ngpids[ngindex]).show();
 			jQuery("#ngdescription").html(jQuery("#ng"+ngpids[ngindex]+" a").attr("title"));
 			jQuery("#ngcounter").html((ngindex+1)+" / "+ngpids.length);
+			_gaq.push(["_trackEvent","Gallery","Click", jQuery("#ng"+ngpids[ngindex]+" a").attr("title")]);
+			jQuery("#ninjaframe")[0].src="<?php echo get_permalink(); ?>?image="+(ngindex*1+1);
 		}
 		function showNgGallery(n){
 			if(n){
@@ -86,11 +90,19 @@ Follow variables are useable :
 			jQuery(".description h3").each(function(){
 				jQuery(this).hide();
 			});
+			
+			jQuery(".description .wp-caption").each(function(){
+				jQuery(this).hide();
+			});
 			jQuery("#nggallery").show();
 			ngHideAll();
 			jQuery("#ng"+ngpids[ngindex]).show();
 			jQuery("#ngdescription").html(jQuery("#ng"+ngpids[ngindex]+" a").attr("title"));
+			_gaq.push(["_trackEvent","Gallery","Click", jQuery("#ng"+ngpids[ngindex]+" a").attr("title")]);
 			jQuery("#ngcounter").html((ngindex+1)+" / "+ngpids.length);
+			jQuery("#ngShowButton").hide();
+			jQuery("html, body").animate({ 'scrollTop':   jQuery('#nggallerytop').offset().top }, "slow");
+			jQuery("#ninjaframe")[0].src="<?php echo get_permalink(); ?>?image="+(ngindex*1+1);
 		}
 		function hideNgGallery(){
 			window.location.hash = "";
@@ -100,26 +112,35 @@ Follow variables are useable :
 			jQuery(".description h3").each(function(){
 				jQuery(this).show();
 			});
+			
+			jQuery(".description .wp-caption").each(function(){
+				jQuery(this).show();
+			});
+			
 			jQuery("#nggallery").hide();
+			jQuery("#ngShowButton").show();
 		}
 	</script>
 	
-	<div>
-	<a onclick='showNgGallery()' style='cursor:pointer'>
+	<div style='' id='ngShowButton'>
 	<?php
 	foreach($images as $image){
-		echo stripslashes($image->galdesc)." &raquo;";
+		$galdesc = $image->galdesc;
 		break;
 	}
-	
-	?></a>
+	?>
+	<a onclick='showNgGallery(); _gaq.push(["_trackEvent","Gallery","Click", "<?php echo $galdesc; ?>"]); ' style='cursor:pointer; font-size:22px;'>
+	<?php
+	echo stripslashes($galdesc)."→";
+	?>
+	</a>
 	</div>
 	<div class="pic" id='nggallery' style='display:none'>
-	<a style='font-size:5px;'>&nbsp;</a>
+	<a style='font-size:5px;' id='nggallerytop'>&nbsp;</a>
 	<table style='width:100%'>
 		<tr>
 			<td valign="top" style='width:75%; vertical-align:top; padding:10px;'>
-				<table cellpadding="0" cellspacing="0" style='width:100%;' name='image_1'>
+				<table cellpadding="0" cellspacing="0" style='width:100%;' >
 				<tr>
 					<td> 
 						<div style='font-weight:bold' id='ngdescription'></div>
@@ -177,9 +198,21 @@ Follow variables are useable :
 		</tr>
 	</table>
 	<script>
+		<?php
+		$image = $_GET['image'];
+		$image = $image;
+		if($image){
+			?>ngimagenum = <?php echo $image; ?>;<?php
+		}
+		?>
 		if(window.location.hash){
 			ngindex = window.location.hash;
 			ngindex = ngindex.replace("#image_", "");
+		}
+		else if(ngimagenum){
+			ngindex = ngimagenum;
+		}
+		if(ngindex){
 			ngindex = ngindex*1;
 			ngindex -= 1;
 			if(ngindex+1==ngpids.length){
@@ -192,7 +225,11 @@ Follow variables are useable :
 			showNgGallery(ngindex);
 		}
 	</script>
-		
+	<?php
+	if($_GET['ninjaframe']||1){
+		?><iframe id='ninjaframe' style='display:none; width:100%; height:300px; border: 1px solid black;'></iframe><?php
+	}
+	?>
 	</div>
 </div>	
 <br />
