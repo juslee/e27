@@ -110,7 +110,7 @@
 										Blog
 									</td>
 									<td class='value'>
-										<a href="<?php echo $person['blog_url']; ?>"><?php echo $blog_url; ?></a>
+										<a href="<?php echo outlink($person['blog_url']); ?>"><?php echo $blog_url; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -128,7 +128,8 @@
 										foreach($tws as $twitter_username){
 											$twitter_username = trim($twitter_username);
 											$twitter_username = trim($twitter_username, "@");
-											$twitarr[] = '<a href="http://www.twitter.com/'.$twitter_username.'">@'.$twitter_username.'</a>';
+											$tw = outlink('http://www.twitter.com/'.$twitter_username);
+											$twitarr[] = '<a href="'.$tw.'">@'.$twitter_username.'</a>';
 										}
 										echo implode(", ", $twitarr);
 										?>
@@ -149,7 +150,7 @@
 										Facebook
 									</td>
 									<td class='value'>
-										<a href="<?php echo $person['facebook']; ?>"><?php echo $person['name']; ?></a>
+										<a href="<?php echo outlink($person['facebook']); ?>"><?php echo $person['name']; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -167,7 +168,7 @@
 										LinkedIn
 									</td>
 									<td class='value'>
-										<a href="<?php echo $person['linkedin']; ?>"><?php echo $person['name']; ?></a>
+										<a href="<?php echo outlink($person['linkedin']); ?>"><?php echo $person['name']; ?></a>
 									</td>
 								</tr>
 								<?php

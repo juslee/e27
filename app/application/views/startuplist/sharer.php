@@ -10,7 +10,7 @@
 			<td style="width:92px;">
 				<div style="width:92px; position:relative">
 					<div style='position:absolute'>
-						<a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo site_url().uri_string(); ?>" data-text="E27 Startup List <?php
+						<a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo site_url().uri_string(); ?>" data-text="27x Startup List Asia <?php
 						$method = $this->router->method;
 						if($method!="index"){
 							echo " | "; 
@@ -43,7 +43,7 @@
 					*/
 					?>
 					
-					<div id="fbshareme" data-url="<?php echo site_url().uri_string(); ?>" data-text="Startup List <?php
+					<div id="fbshareme" data-url="<?php echo site_url().uri_string(); ?>" data-text="27x Startup List Asia<?php
 					$method = $this->router->method;
 					if($method!="index"){
 						echo " | "; 

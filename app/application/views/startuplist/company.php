@@ -86,7 +86,7 @@
 										Web
 									</td>
 									<td class='value'>
-										<a href="<?php echo $company['website']; ?>"><?php echo $website; ?></a>
+										<a href="<?php echo outlink($company['website']); ?>"><?php echo $website; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -106,7 +106,7 @@
 										Blog
 									</td>
 									<td class='value'>
-										<a href="<?php echo $company['blog_url']; ?>"><?php echo $blog_url; ?></a>
+										<a href="<?php echo outlink($company['blog_url']); ?>"><?php echo $blog_url; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -124,7 +124,8 @@
 										foreach($tws as $twitter_username){
 											$twitter_username = trim($twitter_username);
 											$twitter_username = trim($twitter_username, "@");
-											$twitarr[] = '<a href="http://www.twitter.com/'.$twitter_username.'">@'.$twitter_username.'</a>';
+											$tw = outlink('http://www.twitter.com/'.$twitter_username);
+											$twitarr[] = '<a href="'.$tw.'">@'.$twitter_username.'</a>';
 										}
 										echo implode(", ", $twitarr);
 										?>
@@ -145,7 +146,7 @@
 										Facebook
 									</td>
 									<td class='value'>
-										<a href="<?php echo $company['facebook']; ?>"><?php echo $company['name']; ?></a>
+										<a href="<?php echo outlink($company['facebook']); ?>"><?php echo $company['name']; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -163,7 +164,7 @@
 										LinkedIn
 									</td>
 									<td class='value'>
-										<a href="<?php echo $company['linkedin']; ?>"><?php echo $company['name']; ?></a>
+										<a href="<?php echo outlink($company['linkedin']); ?>"><?php echo $company['name']; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -580,7 +581,7 @@
 					?>
 					<tr>
 						<td class="productgal">
-							<div class="productgal_title">Product Gallery</div>
+							<div class="productgal_title">Gallery</div>
 							<div class="productgal_loader hidden" style="text-align:center; padding:50px;"><img src="<?php echo site_url(); ?>media/ajax-loader.gif"><br>&nbsp;<br>Loading Gallery...</div>
 							<div class="productgal_contents">
 							<div id="screenshots">

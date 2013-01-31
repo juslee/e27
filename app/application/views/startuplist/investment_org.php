@@ -71,7 +71,7 @@
 										Web
 									</td>
 									<td class='value'>
-										<a href="<?php echo $investment_org['website']; ?>"><?php echo $website; ?></a>
+										<a href="<?php echo outlink($investment_org['website']); ?>"><?php echo $website; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -91,7 +91,7 @@
 										Blog
 									</td>
 									<td class='value'>
-										<a href="<?php echo $investment_org['blog_url']; ?>"><?php echo $blog_url; ?></a>
+										<a href="<?php echo outlink($investment_org['blog_url']); ?>"><?php echo $blog_url; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -103,7 +103,17 @@
 										Twitter
 									</td>
 									<td class='value'>
-										<a href="http://www.twitter.com/<?php echo str_replace("@", "", $investment_org['twitter_username']); ?>"><?php echo $investment_org['twitter_username']; ?></a>
+										<?php
+										$tws = explode(",", $investment_org['twitter_username']);
+										$twitarr = array();
+										foreach($tws as $twitter_username){
+											$twitter_username = trim($twitter_username);
+											$twitter_username = trim($twitter_username, "@");
+											$tw = outlink('http://www.twitter.com/'.$twitter_username);
+											$twitarr[] = '<a href="'.$tw.'">@'.$twitter_username.'</a>';
+										}
+										echo implode(", ", $twitarr);
+										?>
 									</td>
 								</tr>
 								<?php
@@ -121,7 +131,7 @@
 										Facebook
 									</td>
 									<td class='value'>
-										<a href="<?php echo $investment_org['facebook']; ?>"><?php echo $investment_org['name']; ?></a>
+										<a href="<?php echo outlink($investment_org['facebook']); ?>"><?php echo $investment_org['name']; ?></a>
 									</td>
 								</tr>
 								<?php
@@ -139,7 +149,7 @@
 										LinkedIn
 									</td>
 									<td class='value'>
-										<a href="<?php echo $investment_org['linkedin']; ?>"><?php echo $investment_org['name']; ?></a>
+										<a href="<?php echo outlink($investment_org['linkedin']); ?>"><?php echo $investment_org['name']; ?></a>
 									</td>
 								</tr>
 								<?php

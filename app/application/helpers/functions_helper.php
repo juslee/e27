@@ -117,6 +117,9 @@ function site_url(){
 		return "http://".$host."/";
 	}
 }
+function outlink($url){
+	return site_url()."l?url=".urlencode($url);
+}
 function redirect_to($url){
 	ob_end_clean();
 	?>

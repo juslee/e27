@@ -109,7 +109,7 @@ if($_SESSION['web_user']&&!$_SESSION['web_user']['business_email']&&($_SESSION['
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php
-$metatitle = "27x Startup List";
+$metatitle = "27x Startup List Asia";
 $method = $this->router->method;
 if($method!="index"&&$method!="country"&&$method!="setcountry"){
 	if($person['name']){

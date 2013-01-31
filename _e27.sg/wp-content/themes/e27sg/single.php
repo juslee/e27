@@ -163,6 +163,7 @@
 											if(trim($data27x->website)){
 												$website = preg_replace("/http:\/\//i", "", $data27x->website);
 												$website = preg_replace("/https:\/\//i", "", $data27x->website);
+												$website = trim($website, "/");
 												if(
 													strpos(strtolower(trim($data27x->website)),"http://")===false&&
 													strpos(strtolower(trim($data27x->website)),"https://")===false
@@ -218,6 +219,7 @@
 											if(trim($data27x->website)){
 												$website = preg_replace("/http:\/\//i", "", $data27x->website);
 												$website = preg_replace("/https:\/\//i", "", $data27x->website);
+												$website = trim($website, "/");
 												if(
 													strpos(strtolower(trim($data27x->website)),"http://")===false&&
 													strpos(strtolower(trim($data27x->website)),"https://")===false
@@ -274,6 +276,7 @@
 											if(trim($data27x->blog_url)){
 												$website = preg_replace("/http:\/\//i", "", $data27x->blog_url);
 												$website = preg_replace("/https:\/\//i", "", $data27x->blog_url);
+												$website = trim($website, "/");
 												if(
 													strpos(strtolower(trim($data27x->blog_url)),"http://")===false&&
 													strpos(strtolower(trim($data27x->blog_url)),"https://")===false
