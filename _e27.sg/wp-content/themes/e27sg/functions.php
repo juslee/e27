@@ -788,7 +788,7 @@ function startuplist_add_post_meta_boxes() {
 		'startuplist_post_class_meta_box',		// Callback function
 		'post',					// Admin page (or post type)
 		'side',					// Context
-		'default'					// Priority
+		'high'					// Priority
 	);
 }
 
@@ -834,7 +834,7 @@ function startuplist_post_class_meta_box( $object, $box ) { ?>
 			select: function(e, ui) {
 				label = ui.item.label;
 				value = ui.item.value;
-				jQuery("#startuplist_people_search").val("");
+				jQuery("#startuplist_company_search").val("");
 				jQuery("#startuplist_companies").append("<div><input class=\"widefat\" type=\"hidden\" name=\"startuplist_companies[]\" value=\""+value+"\" /><a onclick='this.parentElement.outerHTML = \"\"' style='cursor:pointer'>[ x ]</a>&nbsp;<a href='http://27x.co/company/id/"+value+"' target='_blank'>"+label+"</a></div>");
 				//self.location = "http://27x.co/companies/edit/"+value;
 				return false;
@@ -869,7 +869,7 @@ function startuplist_post_class_meta_box( $object, $box ) { ?>
 			select: function(e, ui) {
 				label = ui.item.label;
 				value = ui.item.value;
-				jQuery("#startuplist_people_search").val("");
+				jQuery("#startuplist_investment_orgs_search").val("");
 				jQuery("#startuplist_investment_orgs").append("<div><input class=\"widefat\" type=\"hidden\" name=\"startuplist_investment_orgs[]\" value=\""+value+"\" /><a onclick='this.parentElement.outerHTML = \"\"' style='cursor:pointer'>[ x ]</a>&nbsp;<a href='http://27x.co/investment_org/id/"+value+"' target='_blank'>"+label+"</a></div>");
 				return false;
 			},

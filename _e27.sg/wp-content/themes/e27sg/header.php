@@ -5,12 +5,12 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta name="robots" content="follow, all" />
-	<link rel="shortcut icon" href="<?php bloginfo('template_directory') ?>/favicon.ico" />
+	<link rel="shortcut icon" href="<?php bloginfo('template_directory') ?>/favicon.ico?_=<?php echo time(); ?>" />
 	<title><?php wp_title(' '); ?></title>
 
 
 	<link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/css/reset.css?ver=1" type="text/css" />
-	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>?ver=2" type="text/css" />
+	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>?ver=<?php echo time(); ?>" type="text/css" />
 	<link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/css/grid.css" type="text/css" />
 	<link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/post.css?ver=1" type="text/css" />
 	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo('name'); ?> RSS Feed" href="<?php bloginfo('rss2_url'); ?>" />
@@ -123,7 +123,10 @@ position: relative; top: -8; font-size: 10px;
 				<?php
 				$date = date("md");
 				$datey = date("mdY");
-				if($datey=="01012013"||$datey=="01022013"||$datey=="01032013"||$_GET['ny']){
+				if($_GET['tz']){
+					echo date("e");
+				}
+				else if(0&&($datey=="01012013"||$datey=="01022013"||$datey=="01032013"||$_GET['ny'])){
 					?>
 					<div style='position:absolute; left:170px; top:-30px;'>
 					<img src="<?php bloginfo('template_directory') ?>/img/2013.png" alt="<?php bloginfo('name'); ?>" />
