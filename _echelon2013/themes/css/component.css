@@ -57,7 +57,7 @@ body {
     background-color: #2F2F2E;
     border-bottom: 8px solid #000000;
     height: 355px;
-    margin: 0 auto 25px;
+    margin: 0 auto;
     position: relative;
     width: 100%;
 }
@@ -113,6 +113,7 @@ h1.logo a {
     font-size:18px;
     font-weight:normal;
 }
+
 
 .slogan > em {
     float: left;
@@ -181,11 +182,12 @@ h1.logo a {
     background-color: #FFFFFF;
     height:337px;
     width:449px;
+    text-indent:-9999px;
     float:left
 }
 
 .highlights h2 {
-    font-weight:normal;
+    font-weight:bold;
     font-size:34px;
     border-bottom: 1px solid #55B72B;
     padding-bottom:10px
@@ -196,8 +198,13 @@ h1.logo a {
     line-height:24px
 }
 
+.highlights p.sponsor-det a {
+    font-weight:bold
+}
+
 .wrapper-speakers p, .wrapper-crew p {
-    line-height:20px
+    line-height:22px;
+    font-size:15px
 }
 
 .wrapper-speakers em, .wrapper-crew em {
@@ -216,7 +223,7 @@ h1.logo a {
 }
 
 
-.wrapper-speakers img.rounded, .wrapper-crew img.rounded {
+.wrapper-speakers img.rounded, .wrapper-crew img.rounded, .client-badge img.rounded {
     background-clip:padding-box;
     border-radius:50%;
     height:auto;
@@ -264,14 +271,9 @@ h1.logo a {
     width: 40px;
 }
 
-.client-badge {
-    background: url("../img/badge.png") no-repeat scroll 0 0 transparent;
-    display: inline-block;
+.client-badge{
     float: left;
-    height: 70px;
     margin-top: 36px;
-    text-indent: -9999px;
-    width: 70px;
 }
 
 .sayings {
@@ -379,12 +381,40 @@ footer.footer {
     height:50px
 }
 
-.side-pillar {
+.side-pillar, .side-pillar-partners {
     background-color: #FFFFFF;
     border: 5px solid #EBEEEE;
     padding-left: 8px;
     width: 183px;
     margin-top:25px
+}
+
+.side-pillar-partners {
+    background-color:#2f2f2e;
+    border:none;
+    color:#ffffff;
+    width:210px;    
+}
+
+.side-pillar-partners a{
+    background:url('../img/sponsor_btn.png') no-repeat scroll 0 0 transparent;
+    height:40px;
+    width:180px;
+    text-indent:-9999px;
+    display:inline-block;
+    text-align:center;
+    margin:0 12px 12px;
+}
+
+.side-pillar-partners p.quote, .side-pillar-partners p.auth {
+    padding:8px;
+    font-size:15px;
+    line-height:20px
+}
+
+.side-pillar-partners p.auth {
+    font-size:12px;
+    text-align:right
 }
 
 .head-pillar, .inner-pillar {
@@ -401,46 +431,13 @@ footer.footer {
     color:#ffffff;
     font-size:14px;
     text-align:center;
-    padding-top:4px
+    padding-top:4px;
 }
 
 .inner-pillar {
     margin-top: 20px;
     top: 0;
 }
-
-.side-pillar li a.blackberry, .side-pillar li a.microsoft,
-.side-pillar li a.gb, .side-pillar li a.amazon,
-.side-pillar li a.dena, .side-pillar li a.innov8,
-.side-pillar li a.google, .side-pillar li a.lenovo,
-.side-pillar li a.plug-play, .side-pillar li a.roof,
-.side-pillar li a.doob, .side-pillar li a.cbs, .side-pillar li a.zdnet,
-.side-pillar li a.startup-dating, .side-pillar li a.startup-weekend,
-.side-pillar li a.tech65, .side-pillar li a.techgoondu{
-    background:url('../img/logo_comps.png')no-repeat scroll 0 0 transparent;
-    width:200px;
-    text-indent:-9999px;
-    display:inline-block
-}
-
-.side-pillar li a.blackberry { background-position: 0 -16px; height:45px }
-.side-pillar li a.microsoft { background-position: 0 -65px; height:45px }
-.side-pillar li a.gb { background-position: 0 -119px; height: 100px }
-.side-pillar li a.amazon { background-position: 0 -228px; height: 70px }
-.side-pillar li a.dena { background-position: 0 -313px; height: 50px; }
-.side-pillar li a.innov8 { background-position: 0 -371px; height: 65px; }
-.side-pillar li a.google { background-position: 0 -448px; height: 60px; }
-.side-pillar li a.lenovo { background-position: 0 -524px; height: 45px; }
-.side-pillar li a.plug-play { background-position: 0 -581px; height: 72px; }
-.side-pillar li a.roof { background-position: 0 -665px; height: 80px; }
-.side-pillar li a.doob { background-position: 0 -756px; height: 90px; }
-.side-pillar li a.cbs { background-position: 0 -851px; height: 63px; }
-.side-pillar li a.zdnet { background-position: 0 -925px; height: 60px; }
-.side-pillar li a.startup-dating { background-position: 0 -999px; height: 68px; }
-.side-pillar li a.startup-weekend { background-position: 0 -1071px; height: 68px; }
-.side-pillar li a.tech65 { background-position: 0 -1143px; height: 68px; }
-.side-pillar li a.techgoondu { background-position: 0 -1221px; height: 68px; }
-
 
 .side-pillar ul {
     margin-left:-12px;
@@ -461,7 +458,14 @@ footer.footer {
   margin-bottom: 20px;   
 }
 
-.wrapper-crew .social a.twitter, .wrapper-crew .social a.facebook, .wrapper-crew .social a.linkedin {
+.wrapper-crew .social a.twitter,
+.wrapper-crew .social a.facebook,
+.wrapper-crew .social a.linkedin,
+
+.wrapper-speakers .social a.twitter,
+.wrapper-speakers .social a.facebook,
+.wrapper-speakers .social a.linkedin
+{
     background:url('../img/small_icons.png') no-repeat scroll 0 0 transparent;
     height:35px;
     width:40px;
@@ -469,14 +473,20 @@ footer.footer {
     text-indent:-9999px;
 }
 
-.wrapper-crew .social a.twitter { background-position: -4px -528px; }
-.wrapper-crew .social a.facebook {  background-position: -4px -642px; }
-.wrapper-crew .social a.linkedin { background-position: -4px -583px; }
+.wrapper-crew .social a.twitter, .wrapper-speakers .social a.twitter { background-position: -4px -528px; }
+.wrapper-crew .social a.facebook, .wrapper-speakers .social a.facebook {  background-position: -4px -642px; }
+.wrapper-crew .social a.linkedin, .wrapper-speakers .social a.linkedin { background-position: -4px -583px; }
+
 
 .crew-indiv {
     padding-top:20px;
     position:absolute;
     left:140px
+}
+
+.wrapper-speakers .crew-indiv em {
+    font-size:16px;
+    color:#55B72B
 }
 
 .divider-agenda {
@@ -531,6 +541,29 @@ table.agenda td span.parallel {
     border:3px solid #cccccc
 }
 
+.speaker-details ul {
+    border-bottom: 3px solid #55B72B;
+    border-top: 3px solid #55B72B;
+    margin: 0;
+}
+
+.speaker-details li {
+    border-bottom:1px solid #e5e5e7;
+    padding:5px;
+    font-weight:bold
+}
+
+.speaker-details li.active {
+    background-color:#ebeeee;
+}
+
+.speaker-details li.active a {
+    color:#55B72B
+}
+
+.speaker-details li a {
+    color:#000000
+}
 
 /* special fonts */
 
@@ -627,6 +660,10 @@ table.agenda td span.parallel {
 
 .pos-abs {
     position:relative
+}
+
+.no-float {
+    float:none !important
 }
 
 /* counter for the logo width in the footer */

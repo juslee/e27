@@ -1,12 +1,28 @@
 <?php
 get_header();
 ?>
+<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	<script type="text/javascript">
+	  (function() {
+	    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	    po.src = 'https://apis.google.com/js/plusone.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	  })();
+	</script>
     <div class="wrapper">
       <header class="header">
         <div class="inner">
           <div class="branding">
             <h1 class="logo">
-              <a href="#" title="Echelon 2013" alt="Echelon" >Echelon</a>
+              <a href="<?php echo home_url('/'); ?>" title="Echelon 2013" alt="Echelon" >Echelon</a>
             </h1>
             <span class="year">2013</span>
             <div class="date">11-12 June 2013</div>
@@ -37,8 +53,11 @@ get_header();
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </a>
-            <a class="register" href="#">Project name</a>
-            <div class="nav-collapse collapse">
+            <a class="register" href="/register">Project name</a>
+
+			<?php
+			/*
+			<div class="nav-collapse collapse">
               <ul class="nav">
                 <li><a href="about.html">About</a></li>
                 <li><a href="agenda.html">Agenda</a></li>
@@ -47,9 +66,37 @@ get_header();
                 <li><a href="#startups">Startups</a></li>
                 <li><a href="#venue">Venue</a></li>
                 <li><a href="#partner">Partner</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact">Contact</a></li>	
               </ul>
-            </div><!--/.nav-collapse -->
+			 </div>
+			*/
+			?>
+			  <?php
+
+				$defaults = array(
+					'theme_location'  => '',
+					'menu'            => '',
+					'container'       => 'div',
+					'container_class' => 'nav-collapse collapse',
+					'container_id'    => '',
+					'menu_class'      => 'nav',
+					'menu_id'         => '',
+					'echo'            => true,
+					'fallback_cb'     => 'wp_page_menu',
+					'before'          => '',
+					'after'           => '',
+					'link_before'     => '',
+					'link_after'      => '',
+					'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+					'depth'           => 0,
+					'walker'          => ''
+				);
+
+				wp_nav_menu( $defaults );
+				
+				
+				?>
+            <!--/.nav-collapse -->
           </div>
         </div>
       </div>
@@ -66,7 +113,8 @@ get_header();
 					'post_type'=> $ptype,
 					'order'    => 'ASC',
 					'orderby'	=> 'meta_value',
-					'meta_key' 	=> $ptype.'_order'
+					'meta_key' 	=> $ptype.'_order',
+					'posts_per_page' => -1
 				);              
 				$the_query = new WP_Query( $args );
 				if($the_query->have_posts() ){
@@ -92,7 +140,8 @@ get_header();
 				$args = array(
 					'post_type'=> $ptype,
 					'order'    => 'ASC',
-					'orderby'	=> 'rand'
+					'orderby'	=> 'rand',
+					'posts_per_page' => -1
 				);              
 				$the_query = new WP_Query( $args );
 				if($the_query->have_posts() ){
@@ -104,7 +153,8 @@ get_header();
 						$youtube_id = $youtube_id[1];
 						$youtube_id = explode("&", $youtube_id);
 						$youtube_id = $youtube_id[0];
-						?> <iframe width="449" height="337" src="http://www.youtube.com/embed/<?php echo $youtube_id; ?>" frameborder="0" allowfullscreen></iframe><?php
+						?> 
+						<iframe width="449" height="337" src="http://www.youtube.com/embed/<?php echo $youtube_id; ?>" frameborder="0" allowfullscreen></iframe><?php
 						break;
 					}
 				}
@@ -120,27 +170,90 @@ get_header();
     <div class="container">
       <div class="row add-bot-med">
         <div class="span9 highlights">
-          <h2>The Biggest TechBiz Event in the Region</h2>
+          <?php
+		  /*
+		  <h2>The Biggest TechBiz Event in the Region</h2>
           <p>Echelon 2013 is a <a href="">two-day, double-track event on June 11-12</a> with over 1,100 delegates, a <a href="">startup marketplace of up to 50 startups</a> and various workshops. Echelon 2012 will be the biggest ever edition of Asia's best startup event. It will discover Southeast Asia's best startups on an all new scale.</p>
-          <p>Echelon 2013 will be the biggest ever edition of Asia's best startup event. It will discover Southeast Asia's best startups on an all new scale.</p>        
+          <p>Echelon 2013 will be the biggest ever edition of Asia's best startup event. It will discover Southeast Asia's best startups on an all new scale.</p>  
+			*/
+			?>
+
+			<h2><?php echo get_option("echelon_fphead_1"); ?></h2>
+			<?php echo stripslashes(html_entity_decode(get_option("echelon_fptext_1"))); ?>
           <div class="par-comment">
-            <div class="row-fluid comment-wrapper">
-              <div class="green-quote">quote</div>
-              <div class="client-badge">quote</div>
-              <div class="sayings"><p>e27 is the foundation of the startup<br/>& entreprenuerial ecosystem in<br/>Southeast Asia</p><p>- Hugh Mason Co-founder - JFDI Asia</p></div>
-              <div class="register-small"><a href="" alt="Register" title="Early Bird Registration">Early Bird</a></div>
+            <div class="row-fluid comment-wrapper" style='position:relative'>
+              <style>
+				#quotes1{
+					width:370px;
+				}
+				#quotes1 .slides_container .div {
+					width:300px;
+					height:130px;
+					display:block;
+				}
+				
+				</style>
+				<div class="green-quote">quote</div>
+				<div id='quotes1'>
+				<div class="slides_container">
+					<?php
+						$ptype = "e_quote";
+						$args = array(
+							'post_type'=> $ptype,
+							'order'    => 'ASC',
+							'orderby'	=> 'rand',
+							'posts_per_page' => -1
+						);              
+						$the_query = new WP_Query( $args );
+						if($the_query->have_posts() ){
+							while ( $the_query->have_posts() ){
+								$the_query->the_post();
+								$p = get_post( get_the_ID(), OBJECT );
+								$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
+								$image_src = wp_get_attachment_url( $image_id );
+								?> 
+								
+									<div class='div'>
+										<table style='width:100%; height:150px'>
+										<tr>
+										<td style='vertical-align:top'>
+											<div class="client-badge"><img src="<?php echo $image_src; ?>" style='height:70px; width:70px' /></div>
+										</td>
+										<td style='vertical-align:middle'>
+											<div class="sayings" style='margin-top:0px; float:left; width:230px;'><?php echo $p->post_content; echo " </p> <p align='right'>- "; echo $p->post_title; ?></div>
+										</td>
+										</tr>
+										</table>
+									</div>
+								
+								<?php
+							}
+						}
+						wp_reset_postdata();
+						
+						?>
+				</div>
+				</div>
+				<div class="register-small" style='position:absolute; left:370px; top:0px'><a href="/register" alt="Register" title="Early Bird Registration">Early Bird</a></div>
             </div>
           </div>
-          <h2 class="add-top">Featured Speakers</h2>
+          <!--
+		  <h2 class="add-top">Featured Speakers</h2>
           <p>Renowned for our ability to bring in top notch speakers and judges from around the world including US and Asia. You can be assured that we will delivered the utmost relevant trending Asia content. <a href="">Check out our full list of speakers</a>.</p>
-          <div class="row-fluid add-top">
+          -->
+		  <h2 class="add-top"><?php echo get_option("echelon_fphead_2"); ?></h2>
+		  <?php echo stripslashes(html_entity_decode(get_option("echelon_fptext_2"))); ?>
+		  <div class="row-fluid add-top">
 			 <?php
 				$ptype = "e_speaker";
 				$args = array(
 					'post_type'=> $ptype,
 					'order'    => 'ASC',
 					'orderby'	=> 'meta_value',
-					'meta_key' 	=> $ptype.'_order'
+					'meta_key' 	=> $ptype.'_order',
+					'meta_key' => $ptype.'_frontpage',
+					'meta_value' => 'Yes',
+					'posts_per_page' => -1
 				);              
 				$the_query = new WP_Query( $args );
 				$i=0;
@@ -159,8 +272,8 @@ get_header();
 						$image_src = wp_get_attachment_url( $image_id );
 						?>
 						 <div class="span3 txt-c">
-							<img style='height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded"/>
-							<p><em><?php echo htmlentities($p->post_title) ?></em><br/><?php echo $designation;?></p>
+							<a href='<?php echo get_permalink( $p->ID ) ; ?>'><img style='cursor:pointer; height:128px; width:128px' src="<?php echo $image_src?>" title="<?php echo htmlentities($p->post_title) ?>" alt="<?php echo htmlentities($p->post_title) ?>" class="rounded"/></a>
+							<p><a href='<?php echo get_permalink( $p->ID ) ; ?>'style='color:black'><em><?php echo htmlentities($p->post_title) ?></em></a><br/><?php echo $designation;?></p>
 						  </div>
 						<?php
 						$i++;
@@ -173,54 +286,108 @@ get_header();
          
           </div>
           
-          <div class="view-more"><a href="#" class="pull-right add-top">Check out our full list of speakers</a></div>          
+          <div class="view-more"><a href="/speakers" class="pull-right add-top">Check out our full list of speakers</a></div>          
           <div class="par-comment">
-            <div class="row-fluid comment-wrapper">
-              <div class="green-quote">quote</div>
-              <div class="client-badge">quote</div>
-              <div class="sayings"><p>e27 is the foundation of the startup<br/>& entreprenuerial ecosystem in<br/>Southeast Asia</p><p>- Hugh Mason Co-founder - JFDI Asia</p></div>
-              <div class="register-small"><a href="" alt="Register" title="Early Bird Registration">Early Bird</a></div>
+            <div class="row-fluid comment-wrapper" style='position:relative'>
+			 
+				<style>
+				#quotes2{
+					width:370px;
+				}
+				#quotes2 .slides_container .div {
+					width:300px;
+					height:130px;
+					display:block;
+				}
+				
+				</style>
+				<div class="green-quote">quote</div>
+				<div id='quotes2'>
+				<div class="slides_container">
+					<?php
+						$ptype = "e_quote";
+						$args = array(
+							'post_type'=> $ptype,
+							'order'    => 'ASC',
+							'orderby'	=> 'rand',
+							'posts_per_page' => -1
+						);              
+						$the_query = new WP_Query( $args );
+						if($the_query->have_posts() ){
+							while ( $the_query->have_posts() ){
+								$the_query->the_post();
+								$p = get_post( get_the_ID(), OBJECT );
+								$image_id = get_post_meta( $p->ID, $ptype.'_image_id', true );
+								$image_src = wp_get_attachment_url( $image_id );
+								?> 
+								
+									<div class='div'>
+										<table style='width:100%; height:150px'>
+										<tr>
+										<td style='vertical-align:top'>
+											<div class="client-badge"><img src="<?php echo $image_src; ?>" style='height:70px; width:70px' /></div>
+										</td>
+										<td style='vertical-align:middle'>
+											<div class="sayings" style='margin-top:0px; float:left; width:230px;'><?php echo $p->post_content; echo " </p> <p align='right'>- "; echo $p->post_title; ?></div>
+										</td>
+										</tr>
+										</table>
+									</div>
+								
+								<?php
+							}
+						}
+						wp_reset_postdata();
+						
+						?>
+					</div>
+					</div>
+					<div class="register-small" style='position:absolute; left:370px; top:0px'><a href="/register" alt="Register" title="Early Bird Registration">Early Bird</a></div>
+              
             </div>
+			
           </div>
           <div class="row-fluid add-top">
             <div class="span6">
-              <h2>Startups</h2>
-              <div class="startups-img">Image</div>
-              <p><a href="">With the high number of quality applications</a> for the Japan Satellite, the startups were put through a preliminary round and 9 startups were selected to pitch tomorrow at the main Japan Satellite. The Japan Satellite kicked off with the Preliminaries today at the Open Network Labs' offices today.</p>
-              <p>With the high number of quality applications for the Japan Satellite, the startups were put through a preliminary round and 9 startups were selected to pitch tomorrow at the main Japan Satellite. The Japan Satellite kicked off with the Preliminaries today at the Open Network Labs' offices today.</p>            
+              <h2><?php echo get_option("echelon_fphead_5"); ?></h2>
+			  <p><?php echo stripslashes(html_entity_decode(get_option("echelon_fptext_5"))); ?></p>
             </div>
             <div class="span6">
-              <h2>Satellites</h2>
-              <p>With the high number of quality applications for the Japan Satellite, the startups were put through a preliminary round and 9 startups were selected to pitch tomorrow at the main Japan Satellite. The Japan Satellite kicked off with the Preliminaries today at the Open Network Labs' offices today.</p>
-              <div class="satellites-img">Image</div>
-              <p>With the high number of quality applications for the Japan Satellite, the startups were put through a preliminary round and 9 startups were selected to pitch tomorrow at the main <a href="">Japan Satellite</a>. The Japan Satellite kicked off with the Preliminaries today at the Open Network Labs' offices today.</p>
+               <h2><?php echo get_option("echelon_fphead_4"); ?></h2>
+			   <p><?php echo stripslashes(html_entity_decode(get_option("echelon_fptext_4"))); ?></p>
             </div>
           </div>
           <div class="row-fluid fourth-lvl">
             <h2>News & Update</h2>
             <div class="row-fluid">
               <div class="span6 nu-box">
-                <h3>Startup Pitch is opening, hurry up!</h3>
-                <p>With the high number of quality applications for the Japan Satellite, the startups were put through a preliminary round and 9 startups were selected to pitch tomorrow at the main Japan Satellite. The Japan Satellite kicked off with the Preliminaries today at the Open Network Labs' offices today.</p>            
-                <a href="" class="readmore">Read more</a>              
+                <h3><?php echo $e_rss->items[0]['title']; ?></h3>
+                <p>
+				<?php echo $e_rss->items[0]['description']; ?>
+				</p>            
+                <a href="<?php echo $e_rss->items[0]['link']; ?>" class="readmore">Read more</a>              
               </div>
               <div class="span6 nu-box">
-                <h3>Startup Pitch is opening, hurry up!</h3>
-                <p>With the high number of quality applications for the Japan Satellite, the startups were put through a preliminary round and 9 startups were selected to pitch tomorrow at the main Japan Satellite. The Japan Satellite kicked off with the Preliminaries today at the Open Network Labs' offices today.</p>            
-                <a href="" class="readmore">Read more</a>              
+                <h3><?php echo $e_rss->items[1]['title']; ?></h3>
+                <p>
+				<?php echo $e_rss->items[1]['description']; ?>
+				</p>            
+                <a href="<?php echo $e_rss->items[1]['link']; ?>" class="readmore">Read more</a>              
               </div>
             </div>
           </div>
         </div>
         
-        <div class="span3 side-pillar txt-c">
+        <div class="span3 side-pillar txt-c" id='side_pillar' style='display:none'>
 			<?php
+			$side = false;
 			$ptype = "e_sponsor";
 			$args = array(
 				'post_type'=> $ptype,
 				'order'    => 'ASC',
 				'orderby'	=> 'meta_value',
-				'meta_key' 	=> $ptype.'_order'
+				'meta_key' 	=> $ptype.'_order',
+				'posts_per_page' => -1
 			);              
 			$the_query = new WP_Query( $args );
 			$premier_sponsors = array();
@@ -243,9 +410,11 @@ get_header();
 					
 					if(strtolower($type)=='premier'){
 						$premier_sponsors[] = $v;
+						$side = true;
 					}
 					else{
 						$sponsors[] = $v;
+						$side = true;
 					}
 				}
 			}
@@ -266,9 +435,10 @@ get_header();
 						echo trim($premier_sponsors[$i]['html']);
 					}
 					else{
+						e_view($premier_sponsors[$i]['post']);
 						if(trim($premier_sponsors[$i]['link'])){
 							?>
-							<a href="<?php echo $premier_sponsors[$i]['link']; ?>"><img src="<?php echo $premier_sponsors[$i]['image_src']; ?>" title="<?php echo htmlentities($premier_sponsors[$i]['post']->post_title); ?>" alt="<?php echo htmlentities($premier_sponsors[$i]['post']->post_title); ?>"><a/>
+							<a href="<?php echo e_clickurl($premier_sponsors[$i]['link'], $premier_sponsors[$i]['post']); ?>"><img src="<?php echo $premier_sponsors[$i]['image_src']; ?>" title="<?php echo htmlentities($premier_sponsors[$i]['post']->post_title); ?>" alt="<?php echo htmlentities($premier_sponsors[$i]['post']->post_title); ?>"></a>
 							<?php
 						}
 						else{
@@ -300,9 +470,10 @@ get_header();
 						echo trim($sponsors[$i]['html']);
 					}
 					else{
+						e_view($sponsors[$i]['post']);
 						if(trim($sponsors[$i]['link'])){
 							?>
-							<a href="<?php echo $sponsors[$i]['link']; ?>"><img src="<?php echo $sponsors[$i]['image_src']; ?>" title="<?php echo htmlentities($sponsors[$i]['post']->post_title); ?>" alt="<?php echo htmlentities($sponsors[$i]['post']->post_title); ?>"><a/>
+							<a href="<?php echo e_clickurl($sponsors[$i]['link'], $sponsors[$i]['post']); ?>"><img src="<?php echo $sponsors[$i]['image_src']; ?>" title="<?php echo htmlentities($sponsors[$i]['post']->post_title); ?>" alt="<?php echo htmlentities($sponsors[$i]['post']->post_title); ?>"></a>
 							<?php
 						}
 						else{
@@ -329,7 +500,8 @@ get_header();
 				'post_type'=> $ptype,
 				'order'    => 'ASC',
 				'orderby'	=> 'meta_value',
-				'meta_key' 	=> $ptype.'_order'
+				'meta_key' 	=> $ptype.'_order',
+				'posts_per_page' => -1
 			);              
 			$the_query = new WP_Query( $args );
 			$premier_mps = array();
@@ -352,9 +524,11 @@ get_header();
 					
 					if(strtolower($type)=='premier'){
 						$premier_mps[] = $v;
+						$side = true;
 					}
 					else{
 						$mps[] = $v;
+						$side = true;
 					}
 				}
 			}
@@ -371,13 +545,16 @@ get_header();
 					?>
 					<li>
 					<?php
-					if(trim($premier_mps[$i]['html'])){
-						echo trim($premier_mps[$i]['html']);
+					e_view($premier_mps[$i]['post']);
+					if(trim($premier_mps[$i]['link'])){
+						?>
+						<a href="<?php echo e_clickurl($premier_mps[$i]['link'], $premier_mps[$i]['post']); ?>"><img src="<?php echo $premier_mps[$i]['image_src']; ?>" title="<?php echo htmlentities($premier_mps[$i]['post']->post_title); ?>" alt="<?php echo htmlentities($premier_mps[$i]['post']->post_title); ?>"></a>
+						<?php
 					}
 					else{
 						if(trim($premier_mps[$i]['link'])){
 							?>
-							<a href="<?php echo $premier_mps[$i]['link']; ?>"><img src="<?php echo $premier_mps[$i]['image_src']; ?>" title="<?php echo htmlentities($premier_mps[$i]['post']->post_title); ?>" alt="<?php echo htmlentities($premier_mps[$i]['post']->post_title); ?>"><a/>
+							<a href="<?php echo $premier_mps[$i]['link']; ?>"><img src="<?php echo $premier_mps[$i]['image_src']; ?>" title="<?php echo htmlentities($premier_mps[$i]['post']->post_title); ?>" alt="<?php echo htmlentities($premier_mps[$i]['post']->post_title); ?>"></a>
 							<?php
 						}
 						else{
@@ -405,13 +582,16 @@ get_header();
 					?>
 					<li>
 					<?php
-					if(trim($mps[$i]['html'])){
-						echo trim($mps[$i]['html']);
+					e_view($mps[$i]['post']);
+					if(trim($mps[$i]['link'])){
+						?>
+						<a href="<?php echo e_clickurl($mps[$i]['link'], $mps[$i]['post']); ?>"><img src="<?php echo $mps[$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$i]['post']->post_title); ?>"></a>
+						<?php
 					}
 					else{
 						if(trim($mps[$i]['link'])){
 							?>
-							<a href="<?php echo $mps[$i]['link']; ?>"><img src="<?php echo $mps[$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$i]['post']->post_title); ?>"><a/>
+							<a href="<?php echo $mps[$i]['link']; ?>"><img src="<?php echo $mps[$i]['image_src']; ?>" title="<?php echo htmlentities($mps[$i]['post']->post_title); ?>" alt="<?php echo htmlentities($mps[$i]['post']->post_title); ?>"></a>
 							<?php
 						}
 						else{
@@ -430,105 +610,26 @@ get_header();
 			}
 			?>
 			
-          
-           
-          <!--
-          <div class="inner-pillar"><p>Sponsors</p></div>
-          <ul>
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/amazon.png" alt="Amazon Web Services"></a></li>
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/dena.png" alt="Dena"></a></li>
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/innov8.png" alt="Innov8"></a></li>
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/google.png" alt="Google"></a></li>
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/lenovo.png" alt="Lenovo"></a></li>
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/pnp.png" alt="Plug and Play Tech Center"></a></li>
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/roof.png" alt="Roof"></a></li>
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/doob.png" alt="Doob Bean Bags"></a></li>
-          </ul>
-		  
-          <div class="inner-pillar"><p>Premier Media Partners</p></div>
-          <ul>              
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/cbs.png" alt="CBS Interactive"></a></li>
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/zdnet.png" alt="ZDNet"></a></li>
-          </ul>
-          <div class="inner-pillar"><p>Media Partners</p></div>
-          <ul>              
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/sdating.png" alt="Startup Dating"></a></li>
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/s-weekend.png" alt="Startup Weekend"></a></li>
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/t65.png" alt="Tech 65"></a></li>
-            <li><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/themes/img/sponsors/tgndu.png" alt="Techgoondu"></a></li>
-          </ul>  
-        </div>
-		-->
 
       </div>
+	 
 
-      <div class="row-fluid socials add-bot">
-        <div class="span4">
-          facebook here     
-        </div>
-        <div class="span4">
-            <div class="twitter-btn add-bot">Twitter Button</div>
-            <div class="twitter-feed">
-              <p>Call for startup pitch! hurry up for the life time experience!<br/><em>6 hours ago by <span class="text-success">e27</span></em></p>  
-            </div>
-            <div class="twitter-feed">
-              <p>Call for startup pitch! hurry up for the life time experience!<br/><em>6 hours ago by <span class="text-success">e27</span></em></p>  
-            </div>
-        </div>
-        <div class="span4">
-          <div class="subscribe add-left-med">
-            <h3>Subscribe for <br/>Echelon Newsletter</h3>
-            <input type="text" placeholder="Your Email"/>
-            <a class="btn btn-success subscribe" data-toggle="modal" href="#signupModal">Subscribe</a>
-            <p class="txt-small">Don't worry! we hate spam too!</p>
-          </div>            
-        </div>
-      </div>
-    </div>
+      
     <!-- /container -->
-    <div class="footer-extras">
-      <div class="container">
-        <div class="row">
-          <div class="span3-ftr-cnter  logo-e27"><a href="" alt="e27 Web Innovation Asia" title="e27 Web Innovation Asia">e27 logo</a></div>
-          <div class="span7 about-small">
-            <h3>Your event organizer, e27</h3>
-            <p>Founded in 2007, e27 is a media organization focused on the Asian technology startup industry.
-              We believe in building the community of technology innovators across Asia by reporting on the latest,
-              breaking news relevant to technology startups, technology companies as well as investors on the  while
-              keeping our ears to the ground by connecting with our readers </p>
-          </div>
-          <div class="span2 social-footer pull-right">
-            <h3>Stay Connected</h3>
-            <div class="inner-social-footer">
-              <ul class="social-icons-footer clearfix">
-                <li>
-                  <span class="twitter"></span>
-                  <a href="<?php echo get_option("echelon_tw_url"); ?>">Twitter</a>
-                </li>
-                <li>
-                  <span class="facebook"></span>                  
-                  <a href="<?php echo get_option("echelon_fb_url"); ?>">Facebook</a>
-                </li>
-                <li>
-                  <span class="google"></span>
-                  <a href="<?php echo get_option("echelon_gp_url"); ?>">Google+</a>
-                </li>   
-                <li>
-                  <span class="linkedin"></span>  
-                  <a href="<?php echo get_option("echelon_in_url"); ?>">LinkedIn</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>      
-      </div>
-    </div>
-    <footer class="footer">
-      <div class="container add-top-small c-text">
-        <div class="pull-left">&copy;2012 Echelon | e27 Web Innovation Asia</div>
-        <div class="pull-right"><a href="">About</a> | <a href="">Contact</a> | <a href="">Register</a></div>  
-      </div>    
-    </footer>
+   
 </div>
+
+ <!-- /container -->
+ <?php
+  if($side){
+	?>
+	<script>
+		jQuery("#side_pillar").show();
+	</script>
+	<?php		
+  }
+  
+  ?>
 <?php
 get_footer();
 ?>

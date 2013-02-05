@@ -24,6 +24,7 @@
 		echo ' | ' . sprintf( __( 'Page %s', 'twentyeleven' ), max( $paged, $page ) );
 
 	?></title>
+	<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico" />
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 	<?php // Loads HTML5 JavaScript file to add support for HTML5 elements in older IE versions. ?>
@@ -33,13 +34,18 @@
 	
 	
 	 <!-- Le styles -->
-    <link href="<?php echo get_template_directory_uri(); ?>/themes/css/bootstrap.css" rel="stylesheet">
-    <link href="<?php echo get_template_directory_uri(); ?>/themes/css/component.css" rel="stylesheet">
-    <link href="<?php echo get_template_directory_uri(); ?>/themes/css/carousel-pagination.css" rel="stylesheet">
+	 <link href="/wp-includes/js/tinymce/themes/advanced/skins/wp_theme/content.css?_=<?php echo time(); ?>" rel="stylesheet">
+    <link href="<?php echo get_template_directory_uri(); ?>/themes/css/bootstrap.css?_=<?php echo time(); ?>" rel="stylesheet">
+    <link href="<?php echo get_template_directory_uri(); ?>/themes/css/component.css?_=<?php echo time(); ?>" rel="stylesheet">
+    <link href="<?php echo get_template_directory_uri(); ?>/themes/css/carousel-pagination.css?_=<?php echo time(); ?>" rel="stylesheet">
 
     <script src="<?php echo get_template_directory_uri(); ?>/js/plugins/jquery-1.5.1.js"></script>
     <script src="<?php echo get_template_directory_uri(); ?>/js/plugins/slides.min.jquery.js"></script>
 
+	
+	 
+	
+	
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -49,17 +55,73 @@
 	<script>
 		jQuery(function () {    
 		  // Carousel
-				jQuery('#slides').slides({
-					preload: true,
-					preloadImage: '<?php echo get_template_directory_uri(); ?>/img/ajax-loader.gif',
-					play: 5000,
-					pause: 2500,
-					hoverPause: true
-		  });
+			jQuery('#slides').slides({
+				preload: true,
+				generatePagination: false,
+				pagination: false,
+				preloadImage: '<?php echo get_template_directory_uri(); ?>/img/ajax-loader.gif',
+				play: 5000,
+				pause: 2500,
+				hoverPause: true
+			});
+			
+			jQuery('#quotes2').slides({
+				effect: 'fade',
+				generatePagination: false,
+				pagination: false,
+				preload: true,
+				preloadImage: '<?php echo get_template_directory_uri(); ?>/img/ajax-loader.gif',
+				play: 5000,
+				pause: 2500,
+				hoverPause: true,
+				
+			});
+			jQuery('#quotes1').slides({
+				effect: 'fade',
+				generatePagination: false,
+				pagination: false,
+				preload: true,
+				preloadImage: '<?php echo get_template_directory_uri(); ?>/img/ajax-loader.gif',
+				play: 5000,
+				pause: 2500,
+				hoverPause: true,
+				
+			});
+			
 		});
+		
 
 	</script>
-	
+	<style>
+	.navbar .nav .current-menu-item > a,
+	.navbar .nav .current-menu-item > a:hover,
+	.navbar .nav .current-menu-item > a:focus {
+	background-color:#ec6c25;
+	color:#ffffff;
+	} 
+	.client-badge img{
+		border-radius: 50%;
+	}
+	.sayings{
+		color:white;
+	}
+	.sayings *{
+		color:white;
+	}
+	.video-wrapper {
+		text-indent: 0px;;
+	}
+	a:link, a:visited, a:hover{
+		cursor:pointer;
+	}
+	a:link img, a:visited img, a:hover img{
+		cursor:pointer;
+	}
+	img{
+		max-width:
+	}
+
+	</style>
 	<?php wp_head(); ?>
 	</head>
 
