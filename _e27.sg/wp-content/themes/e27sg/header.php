@@ -3,11 +3,13 @@
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <head>
+	<meta property="fb:admins" content="712289645" />
+	<meta property="fb:admins" content="7137316668" />
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta name="robots" content="follow, all" />
 	<link rel="shortcut icon" href="<?php bloginfo('template_directory') ?>/favicon.ico?_=<?php echo time(); ?>" />
 	<title><?php wp_title(' '); ?></title>
-
+	
 
 	<link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/css/reset.css?ver=1" type="text/css" />
 	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>?ver=<?php echo time(); ?>" type="text/css" />

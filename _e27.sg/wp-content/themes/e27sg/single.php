@@ -68,8 +68,28 @@
 							<div id="sharebar" class="post_share rail">
 								<div class="share-buttons share-button-rail">
 									<div>
-										<div class="fb-like" data-href="<?php the_permalink() ?>" data-send="false" data-layout="box_count" data-width="50" data-show-faces="false" data-font="arial"></div>
+										<div id='fblikes' class="fb-like" data-href="<?php the_permalink() ?>" data-send="false" data-layout="box_count" data-width="50" data-show-faces="false" data-font="arial"></div>
+										<?php
+										if($_GET['fb']){
+											?>
+											<script>
+											function likeIt(){
+												alert(jQuery("#fblikes iframe")[0].src);
+												jQuery("#fblikes iframe").contents().find(".pluginCountTextDisconnected").html("1000");
+											}
+											jQuery(function(){
+												likeIt();
+											
+											});
+											</script>
+											<button onclick='likeIt()'>Likes</button>
+											<?php
+										}
+										
+										?>
+									
 									</div>
+																		
 									<div>
 										<a href="https://twitter.com/share?count=vertical" class="twitter-share-button" data-url="<?php echo str_replace("http://www.", "http://", $permalink); ?>">Tweet</a>
 									</div>
