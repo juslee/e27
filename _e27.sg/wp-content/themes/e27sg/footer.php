@@ -73,7 +73,7 @@
 			<p>Copyright &copy; 2012 e27 - Web Innovation in Asia. All Rights Reserved. Use of this site is subject to terms of use, which prohibit commercial use of this site. By continuing past this page, you agree to abide by these terms.</p>
 		</div><!-- #footer -->
 	</div><!-- #bottombar -->
-	<script type="text/javascript" src="http://twitter.com/statuses/user_timeline/e27sg.json?callback=twitterCallback2&count=1"></script>
+	<script type="text/javascript" src="http://twitter.com/statuses/user_timeline/e27co.json?callback=twitterCallback2&count=1"></script>
 
 	<script type="text/javascript">
   (function() {

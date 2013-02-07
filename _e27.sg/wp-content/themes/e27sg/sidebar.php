@@ -26,7 +26,7 @@
 						      <g:plusone href="https://plus.google.com/115156064497501931516" annotation="inline" width="300" onClick="_gaq.push(['_trackEvent', 'Button Clicks', 'Social Links', 'Google Plus']);"></g:plusone>
 						    </div>
 						    <div class="twitter-follow">
-						      <a onClick="_gaq.push(['_trackEvent', 'Button Clicks', 'Social Links', 'Twitter']);" href="https://twitter.com/e27sg" class="twitter-follow-button" data-show-count="true">Follow @e27sg</a> 
+						      <a onClick="_gaq.push(['_trackEvent', 'Button Clicks', 'Social Links', 'Twitter']);" href="https://twitter.com/e27co" class="twitter-follow-button" data-show-count="true">Follow @e27co</a> 
 						    <div class="follow-options">
 						      <ul class="social">
 						        <li class="linkedin">

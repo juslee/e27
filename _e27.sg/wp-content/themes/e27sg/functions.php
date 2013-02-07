@@ -244,11 +244,11 @@ function insert_fb_in_head() {
 	echo '<meta name="twitter:card" content="summary" />';
 	echo '<meta name="twitter:url" content="' . get_permalink() . '"/>';
 	echo '<meta name="twitter:title" content="' . get_the_title() . '"/>';
-	echo '<meta name="twitter:site" content="@e27sg" />';
+	echo '<meta name="twitter:site" content="@e27co" />';
 	echo '<meta name="twitter:site:id" content="15315691" />';
 	echo '<meta name="twitter:description" content="'.substr(strip_tags($post->post_content), 0, 200).'" />';
 	
-    //echo '<meta property="fb:admins" content="e27sg"/>';
+    //echo '<meta property="fb:admins" content="e27"/>';
 	if(has_post_thumbnail( $post->ID )) { //the post does not have featured image, use a default image
 		$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
 		echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>';

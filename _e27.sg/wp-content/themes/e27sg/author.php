@@ -96,7 +96,7 @@
 												<iframe src="http://www.facebook.com/plugins/like.php?href=<?php the_permalink() ?>&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" allowTransparency="true"></iframe>
 											</div>
 											<div class="twitter-tweets">
-												<a href="https://twitter.com/share" class="twitter-share-button" data-text="<?php the_title(); ?>" data-via="e27sg" data-url="<?php the_permalink() ?>">Tweet</a>
+												<a href="https://twitter.com/share" class="twitter-share-button" data-text="<?php the_title(); ?>" data-via="e27co" data-url="<?php the_permalink() ?>">Tweet</a>
 											</div>
 										</div><!-- social -->		
 									</div><!-- postmetasocial -->
