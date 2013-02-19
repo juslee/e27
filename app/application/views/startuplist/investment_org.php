@@ -334,6 +334,7 @@
 					</td>
 				</tr>
 				<?php
+				/*
 				if(trim($investment_org['twitter_username'])){
 					?>
 					<tr>
@@ -350,20 +351,20 @@
 								<div id='tweet<?php echo $n; ?>'></div><br />
 								<script>
 								jQuery(function($){
-									/*
-									jQuery("#tweet<?php echo $n; ?>").tweet({
-										join_text: "auto",
-										username: "<?php echo $twitter_username; ?>",
-										avatar_size: 48,
-										count: 5,
-										auto_join_text_default: " we said, ",
-										auto_join_text_ed: " we ",
-										auto_join_text_ing: " we were ",
-										auto_join_text_reply: " we replied ",
-										auto_join_text_url: " we were checking out ",
-										loading_text: "loading tweets..."
-									});
-									*/
+									
+									//jQuery("#tweet<?php echo $n; ?>").tweet({
+									//	join_text: "auto",
+									//	username: "<?php echo $twitter_username; ?>",
+									//	avatar_size: 48,
+									//	count: 5,
+									//	auto_join_text_default: " we said, ",
+									//	auto_join_text_ed: " we ",
+									//	auto_join_text_ing: " we were ",
+									//	auto_join_text_reply: " we replied ",
+									//	auto_join_text_url: " we were checking out ",
+									//	loading_text: "loading tweets..."
+									//});
+									
 									jQuery("#tweet<?php echo $n; ?>").tweet({
 										username: "<?php echo $twitter_username; ?>",
 										avatar_size: 48,
@@ -383,6 +384,136 @@
 						</td>
 					</tr>
 				<?php
+				}
+				*/
+				function convertLinks($str){
+					$str = preg_replace("/(http:\/\/[^\s]*)/i", "<a href='$1' target='_blank'>$1</a>", $str);
+					$str = preg_replace("/#([^\s]*)/i", "<a class='tweet_hashtag' href='https://twitter.com/search?q=%23$1&src=hash' target='_blank'>#$1</a>", $str);
+					
+					return $str;
+				}
+				
+				if(trim($investment_org['twitter_username'])){
+					$feed = 'http://search.twitter.com/search.json?q=from:'.trim($investment_org['twitter_username']);
+					$tweets = json_decode(file_get_contents($feed));
+					$t = count($tweets->results);
+					if($t){
+						?>
+						<tr>
+							<td class="description">
+								<div class="description_title">Tweets</div>
+								<?php
+								//echo "<pre>";
+								//print_r($tweets);
+								//echo "</pre>";
+								/*
+								stdClass Object
+								(
+									[completed_in] => 0.019
+									[max_id] => 3.02276351598E+17
+									[max_id_str] => 302276351598141441
+									[next_page] => ?page=2&max_id=302276351598141441&q=from%3Ae27co
+									[page] => 1
+									[query] => from%3Ae27co
+									[refresh_url] => ?since_id=302276351598141441&q=from%3Ae27co
+									[results] => Array
+										(
+											[0] => stdClass Object
+												(
+													[created_at] => Fri, 15 Feb 2013 04:41:12 +0000
+													[from_user] => e27co
+													[from_user_id] => 15315691
+													[from_user_id_str] => 15315691
+													[from_user_name] => e27
+													[geo] => 
+													[id] => 3.02276351598E+17
+													[id_str] => 302276351598141441
+													[iso_language_code] => en
+													[metadata] => stdClass Object
+														(
+															[result_type] => recent
+														)
+
+													[profile_image_url] => http://a0.twimg.com/profile_images/2817545201/83d0f88ad573ddf1a64f0b567a109a46_normal.jpeg
+													[profile_image_url_https] => https://si0.twimg.com/profile_images/2817545201/83d0f88ad573ddf1a64f0b567a109a46_normal.jpeg
+													[source] => <a href="http://www.hootsuite.com">HootSuite</a>
+													[text] => Creative Mixer 5 is here. The theme will be "push", exploring how #entrepreneurs are pushing the boundaries http://t.co/bH19QMon
+													[to_user] => 
+													[to_user_id] => 0
+													[to_user_id_str] => 0
+													[to_user_name] => 
+												)
+
+											[1] => stdClass Object
+												(
+													[created_at] => Fri, 15 Feb 2013 04:20:14 +0000
+													[from_user] => e27co
+													[from_user_id] => 15315691
+													[from_user_id_str] => 15315691
+													[from_user_name] => e27
+													[geo] => 
+													[id] => 3.02271073104E+17
+													[id_str] => 302271073104326656
+													[iso_language_code] => en
+													[metadata] => stdClass Object
+														(
+															[result_type] => recent
+														)
+
+													[profile_image_url] => http://a0.twimg.com/profile_images/2817545201/83d0f88ad573ddf1a64f0b567a109a46_normal.jpeg
+													[profile_image_url_https] => https://si0.twimg.com/profile_images/2817545201/83d0f88ad573ddf1a64f0b567a109a46_normal.jpeg
+													[source] => <a href="http://www.hootsuite.com">HootSuite</a>
+													[text] => What's going to be hot in #mobile #ecommerce this year? http://t.co/aZz5AF7H
+													[to_user] => 
+													[to_user_id] => 0
+													[to_user_id_str] => 0
+													[to_user_name] => 
+												)
+
+									
+									
+								*/
+								?><div id="tweet0"><ul class="tweet_list"><?php
+								for($i=0; $i<6; $i++){
+									if(!trim($tweets->results[$i]->text)){
+										continue;
+									}
+									$hoursago = (time() - strtotime($tweets->results[$i]->created_at))/(60*60);
+									if($hoursago<1){
+										$hoursago = "less than an hour ago";
+									}
+									else if($hoursago<2){
+										$hoursago = "about an hour ago";
+									}
+									else{
+										$hoursago = floor($hoursago)." hours ago";
+									}
+									if($i%2){
+										$class = 'tweet_odd';
+									}
+									else{
+										$class = 'tweet_even';
+									}
+									?>
+									<li class="tweet_first <?php echo $class; ?>">
+									<a href="http://twitter.com/<?php echo $tweets->results[$i]->from_user; ?>" class="tweet_avatar">
+									<img height="48" border="0" width="48" title="<?php echo $tweets->results[$i]->from_user; ?>'s avatar" alt="<?php echo $tweets->results[$i]->from_user; ?>'s avatar" src="<?php echo $tweets->results[$i]->profile_image_url; ?>"></a>
+									<span class="tweet_time"><a title="view tweet on twitter" href="http://twitter.com/<?php echo $tweets->results[$i]->from_user; ?>/status/<?php echo $tweets->results[$i]->id_str; ?>"><?php echo $hoursago; ?></a></span> 
+									<span class="tweet_text">
+									<?php
+									echo convertLinks($tweets->results[$i]->text);
+									?>
+									</li>
+									<?php
+								}
+								?>
+								</ul>
+								</div>
+								
+							</td>
+						</tr>
+					<?php
+					}
 				}
 				?>
 			</table>
