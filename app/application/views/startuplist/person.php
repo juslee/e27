@@ -591,31 +591,45 @@
 									
 									
 								*/
-								?><div id="tweet0"><ul class="tweet_list"><?php
+								?><div id="tweet0">
+								<?php
+								$i = 0;
+								?><div id="tweet0">
+								<ul class="tweet_list">
+								<li class="tweet_first tweet_even" style='height:48px'>
+									<a href="http://twitter.com/<?php echo $tweets->results[$i]->from_user; ?>" class="tweet_avatar">
+										<img height="48" border="0" width="48" title="<?php echo $tweets->results[$i]->from_user; ?>'s avatar" alt="<?php echo $tweets->results[$i]->from_user; ?>'s avatar" src="<?php echo $tweets->results[$i]->profile_image_url; ?>">
+									</a>
+									<span class="tweet_time" >
+									<a href="http://twitter.com/<?php echo $tweets->results[$i]->from_user; ?>" class="tweet_avatar" style='font-size:26px; text-decoration:none'>
+									@<?php echo $tweets->results[$i]->from_user; ?>
+									</a>
+									</span>
+								</li>
+								</ul>
+								<ul class="tweet_list"><?php
 								for($i=0; $i<6; $i++){
 									if(!trim($tweets->results[$i]->text)){
 										continue;
 									}
 									$hoursago = (time() - strtotime($tweets->results[$i]->created_at))/(60*60);
 									if($hoursago<1){
-										$hoursago = "less than an hour ago";
+										$hoursago = "Less than an hour ago";
 									}
 									else if($hoursago<2){
-										$hoursago = "about an hour ago";
+										$hoursago = "About an hour ago";
 									}
 									else{
 										$hoursago = floor($hoursago)." hours ago";
 									}
 									if($i%2){
-										$class = 'tweet_odd';
-									}
-									else{
 										$class = 'tweet_even';
 									}
+									else{
+										$class = 'tweet_odd';
+									}
 									?>
-									<li class="tweet_first <?php echo $class; ?>">
-									<a href="http://twitter.com/<?php echo $tweets->results[$i]->from_user; ?>" class="tweet_avatar">
-									<img height="48" border="0" width="48" title="<?php echo $tweets->results[$i]->from_user; ?>'s avatar" alt="<?php echo $tweets->results[$i]->from_user; ?>'s avatar" src="<?php echo $tweets->results[$i]->profile_image_url; ?>"></a>
+									<li class="tweet_first <?php echo $class; ?>" style='height:48px'>
 									<span class="tweet_time"><a title="view tweet on twitter" href="http://twitter.com/<?php echo $tweets->results[$i]->from_user; ?>/status/<?php echo $tweets->results[$i]->id_str; ?>"><?php echo $hoursago; ?></a></span> 
 									<span class="tweet_text">
 									<?php
