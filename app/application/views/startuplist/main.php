@@ -578,11 +578,11 @@ $method=='addinvestment_org'
 						}
 						//$this->load->view("startuplist/bannerad_block");
 						
-						/*
+						
 						$data = array();
 						$data['newlyfunded'] = $newlyfunded;
 						$this->load->view("startuplist/nfcompany_block", $data);
-						*/
+						
 						
 						$data = array();
 						$data['categoriesCount'] = $categoriesCount;

@@ -1,6 +1,6 @@
 <?php
 $nft = count($newlyfunded);
-if($nft){
+if($nft && 0){
 	?>
 	<table cellpadding="0" cellspacing="0" class='sidebarblock sidebar_right' >
 		<tr>
