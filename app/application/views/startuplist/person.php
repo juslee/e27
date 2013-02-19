@@ -608,7 +608,7 @@
 								</li>
 								</ul>
 								<ul class="tweet_list"><?php
-								for($i=0; $i<6; $i++){
+								for($i=0; $i<7; $i++){
 									if(!trim($tweets->results[$i]->text)){
 										continue;
 									}
