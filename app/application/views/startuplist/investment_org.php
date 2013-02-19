@@ -394,8 +394,10 @@
 				}
 				
 				if(trim($investment_org['twitter_username'])){
-					$feed = 'http://search.twitter.com/search.json?q=from:'.trim($investment_org['twitter_username']);
-					$tweets = json_decode(file_get_contents($feed));
+					//$feed = 'http://search.twitter.com/search.json?q=from:'.trim($investment_org['twitter_username']);
+					$feed = "http://api.twitter.com/1/statuses/user_timeline.json?screen_name=".trim($investment_org['twitter_username'])."&include_rts=true";
+					$tweets = new stdClass();
+					$tweets->results = json_decode(file_get_contents($feed));;
 					$t = count($tweets->results);
 					if($t){
 						?>
@@ -477,12 +479,12 @@
 								?><div id="tweet0">
 								<ul class="tweet_list">
 								<li class="tweet_first tweet_even" style='height:48px'>
-									<a href="http://twitter.com/<?php echo $tweets->results[$i]->from_user; ?>" class="tweet_avatar">
-										<img height="48" border="0" width="48" title="<?php echo $tweets->results[$i]->from_user; ?>'s avatar" alt="<?php echo $tweets->results[$i]->from_user; ?>'s avatar" src="<?php echo $tweets->results[$i]->profile_image_url; ?>">
+									<a href="http://twitter.com/<?php echo $tweets->results[$i]->user->screen_name; ?>" class="tweet_avatar">
+										<img height="48" border="0" width="48" title="<?php echo $tweets->results[$i]->user->screen_name; ?>'s avatar" alt="<?php echo $tweets->results[$i]->user->screen_name; ?>'s avatar" src="<?php echo $tweets->results[$i]->user->profile_image_url; ?>">
 									</a>
 									<span class="tweet_time" >
-									<a href="http://twitter.com/<?php echo $tweets->results[$i]->from_user; ?>" class="tweet_avatar" style='font-size:26px; text-decoration:none'>
-									@<?php echo $tweets->results[$i]->from_user; ?>
+									<a href="http://twitter.com/<?php echo $tweets->results[$i]->user->screen_name; ?>" class="tweet_avatar" style='font-size:26px; text-decoration:none'>
+									@<?php echo $tweets->results[$i]->user->screen_name; ?>
 									</a>
 									</span>
 								</li>
@@ -510,7 +512,7 @@
 									}
 									?>
 									<li class="tweet_first <?php echo $class; ?>" style='height:48px'>
-									<span class="tweet_time"><a title="view tweet on twitter" href="http://twitter.com/<?php echo $tweets->results[$i]->from_user; ?>/status/<?php echo $tweets->results[$i]->id_str; ?>"><?php echo $hoursago; ?></a></span> 
+									<span class="tweet_time"><a title="view tweet on twitter" href="http://twitter.com/<?php echo $tweets->results[$i]->user->screen_name; ?>/status/<?php echo $tweets->results[$i]->id_str; ?>"><?php echo $hoursago; ?></a></span> 
 									<span class="tweet_text">
 									<?php
 									echo convertLinks($tweets->results[$i]->text);

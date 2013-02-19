@@ -636,7 +636,13 @@
 				
 				if(trim($company['twitter_username'])){
 					$feed = 'http://search.twitter.com/search.json?q=from:'.trim($company['twitter_username']);
-					$tweets = json_decode(file_get_contents($feed));
+					$feed = "http://api.twitter.com/1/statuses/user_timeline.json?screen_name=".trim($company['twitter_username'])."&include_rts=true";
+					$tweets = new stdClass();
+					$tweets->results = json_decode(file_get_contents($feed));
+					
+					//echo "<pre>";
+					//print_r($tweets);
+					//echo "</pre>";
 					$t = count($tweets->results);
 					if($t){
 						?>
@@ -644,86 +650,148 @@
 							<td class="description">
 								<div class="description_title">Tweets</div>
 								<?php
-								//echo "<pre>";
-								//print_r($tweets);
-								//echo "</pre>";
+								
 								/*
-								stdClass Object
+								Array
 								(
-									[completed_in] => 0.019
-									[max_id] => 3.02276351598E+17
-									[max_id_str] => 302276351598141441
-									[next_page] => ?page=2&max_id=302276351598141441&q=from%3Ae27co
-									[page] => 1
-									[query] => from%3Ae27co
-									[refresh_url] => ?since_id=302276351598141441&q=from%3Ae27co
-									[results] => Array
+									[0] => stdClass Object
 										(
-											[0] => stdClass Object
+											[created_at] => Tue Feb 19 10:03:45 +0000 2013
+											[id] => 3.03807073442E+17
+											[id_str] => 303807073441955840
+											[text] => RT @TechCrunch: Thai Mobile Shopping App ShopSpot Adds Brands, Gets $630,000 http://t.co/q6FO2Y54 by @vickiho
+											[source] => Twitter for iPhone
+											[truncated] => 
+											[in_reply_to_status_id] => 
+											[in_reply_to_status_id_str] => 
+											[in_reply_to_user_id] => 
+											[in_reply_to_user_id_str] => 
+											[in_reply_to_screen_name] => 
+											[user] => stdClass Object
 												(
-													[created_at] => Fri, 15 Feb 2013 04:41:12 +0000
-													[from_user] => e27co
-													[from_user_id] => 15315691
-													[from_user_id_str] => 15315691
-													[from_user_name] => e27
-													[geo] => 
-													[id] => 3.02276351598E+17
-													[id_str] => 302276351598141441
-													[iso_language_code] => en
-													[metadata] => stdClass Object
-														(
-															[result_type] => recent
-														)
-
-													[profile_image_url] => http://a0.twimg.com/profile_images/2817545201/83d0f88ad573ddf1a64f0b567a109a46_normal.jpeg
-													[profile_image_url_https] => https://si0.twimg.com/profile_images/2817545201/83d0f88ad573ddf1a64f0b567a109a46_normal.jpeg
-													[source] => <a href="http://www.hootsuite.com">HootSuite</a>
-													[text] => Creative Mixer 5 is here. The theme will be "push", exploring how #entrepreneurs are pushing the boundaries http://t.co/bH19QMon
-													[to_user] => 
-													[to_user_id] => 0
-													[to_user_id_str] => 0
-													[to_user_name] => 
+													[id] => 485860171
+													[id_str] => 485860171
+													[name] => ShopSpot
+													[screen_name] => ShopSpotApp
+													[location] => Singapore
+													[url] => http://www.shopspotapp.com
+													[description] => Discover all the local shops you love in one place. Download now on the App Store.
+													[protected] => 
+													[followers_count] => 161
+													[friends_count] => 114
+													[listed_count] => 5
+													[created_at] => Tue Feb 07 17:15:26 +0000 2012
+													[favourites_count] => 113
+													[utc_offset] => 28800
+													[time_zone] => Singapore
+													[geo_enabled] => 1
+													[verified] => 
+													[statuses_count] => 275
+													[lang] => en
+													[contributors_enabled] => 
+													[is_translator] => 
+													[profile_background_color] => 8B542B
+													[profile_background_image_url] => http://a0.twimg.com/images/themes/theme8/bg.gif
+													[profile_background_image_url_https] => https://si0.twimg.com/images/themes/theme8/bg.gif
+													[profile_background_tile] => 
+													[profile_image_url] => http://a0.twimg.com/profile_images/2047788510/512x512_normal.png
+													[profile_image_url_https] => https://si0.twimg.com/profile_images/2047788510/512x512_normal.png
+													[profile_link_color] => 9D582E
+													[profile_sidebar_border_color] => D9B17E
+													[profile_sidebar_fill_color] => EADEAA
+													[profile_text_color] => 333333
+													[profile_use_background_image] => 1
+													[default_profile] => 
+													[default_profile_image] => 
+													[following] => 
+													[follow_request_sent] => 
+													[notifications] => 
 												)
 
-											[1] => stdClass Object
+											[geo] => 
+											[coordinates] => 
+											[place] => 
+											[contributors] => 
+											[retweeted_status] => stdClass Object
 												(
-													[created_at] => Fri, 15 Feb 2013 04:20:14 +0000
-													[from_user] => e27co
-													[from_user_id] => 15315691
-													[from_user_id_str] => 15315691
-													[from_user_name] => e27
-													[geo] => 
-													[id] => 3.02271073104E+17
-													[id_str] => 302271073104326656
-													[iso_language_code] => en
-													[metadata] => stdClass Object
+													[created_at] => Tue Feb 19 09:08:08 +0000 2013
+													[id] => 3.03793075892E+17
+													[id_str] => 303793075891867649
+													[text] => Thai Mobile Shopping App ShopSpot Adds Brands, Gets $630,000 http://t.co/q6FO2Y54 by @vickiho
+													[source] => WordPress.com VIP
+													[truncated] => 
+													[in_reply_to_status_id] => 
+													[in_reply_to_status_id_str] => 
+													[in_reply_to_user_id] => 
+													[in_reply_to_user_id_str] => 
+													[in_reply_to_screen_name] => 
+													[user] => stdClass Object
 														(
-															[result_type] => recent
+															[id] => 816653
+															[id_str] => 816653
+															[name] => TechCrunch
+															[screen_name] => TechCrunch
+															[location] => Silicon Valley
+															[url] => http://techcrunch.com
+															[description] => Breaking Technology News And Opinions From TechCrunch
+															[protected] => 
+															[followers_count] => 2605895
+															[friends_count] => 823
+															[listed_count] => 73264
+															[created_at] => Wed Mar 07 01:27:09 +0000 2007
+															[favourites_count] => 36
+															[utc_offset] => -28800
+															[time_zone] => Pacific Time (US & Canada)
+															[geo_enabled] => 1
+															[verified] => 1
+															[statuses_count] => 54050
+															[lang] => en
+															[contributors_enabled] => 
+															[is_translator] => 
+															[profile_background_color] => 149500
+															[profile_background_image_url] => http://a0.twimg.com/profile_background_images/710259120/2c873e1157470b4c0d07478ebe412e40.png
+															[profile_background_image_url_https] => https://si0.twimg.com/profile_background_images/710259120/2c873e1157470b4c0d07478ebe412e40.png
+															[profile_background_tile] => 
+															[profile_image_url] => http://a0.twimg.com/profile_images/2176846885/-5-1_normal.jpeg
+															[profile_image_url_https] => https://si0.twimg.com/profile_images/2176846885/-5-1_normal.jpeg
+															[profile_link_color] => 0888C4
+															[profile_sidebar_border_color] => FFFFFF
+															[profile_sidebar_fill_color] => DDFFCC
+															[profile_text_color] => 222222
+															[profile_use_background_image] => 1
+															[default_profile] => 
+															[default_profile_image] => 
+															[following] => 
+															[follow_request_sent] => 
+															[notifications] => 
 														)
 
-													[profile_image_url] => http://a0.twimg.com/profile_images/2817545201/83d0f88ad573ddf1a64f0b567a109a46_normal.jpeg
-													[profile_image_url_https] => https://si0.twimg.com/profile_images/2817545201/83d0f88ad573ddf1a64f0b567a109a46_normal.jpeg
-													[source] => <a href="http://www.hootsuite.com">HootSuite</a>
-													[text] => What's going to be hot in #mobile #ecommerce this year? http://t.co/aZz5AF7H
-													[to_user] => 
-													[to_user_id] => 0
-													[to_user_id_str] => 0
-													[to_user_name] => 
+													[geo] => 
+													[coordinates] => 
+													[place] => 
+													[contributors] => 
+													[retweet_count] => 32
+													[favorited] => 
+													[retweeted] => 
+													[possibly_sensitive] => 
 												)
 
-									
-									
+											[retweet_count] => 32
+											[favorited] => 
+											[retweeted] => 
+											[possibly_sensitive] => 
+										)
 								*/
 								$i = 0;
 								?><div id="tweet0">
 								<ul class="tweet_list">
 								<li class="tweet_first tweet_even" style='height:48px'>
-									<a href="http://twitter.com/<?php echo $tweets->results[$i]->from_user; ?>" class="tweet_avatar">
-										<img height="48" border="0" width="48" title="<?php echo $tweets->results[$i]->from_user; ?>'s avatar" alt="<?php echo $tweets->results[$i]->from_user; ?>'s avatar" src="<?php echo $tweets->results[$i]->profile_image_url; ?>">
+									<a href="http://twitter.com/<?php echo $tweets->results[$i]->user->screen_name; ?>" class="tweet_avatar">
+										<img height="48" border="0" width="48" title="<?php echo $tweets->results[$i]->user->screen_name; ?>'s avatar" alt="<?php echo $tweets->results[$i]->user->screen_name; ?>'s avatar" src="<?php echo $tweets->results[$i]->user->profile_image_url; ?>">
 									</a>
 									<span class="tweet_time" >
-									<a href="http://twitter.com/<?php echo $tweets->results[$i]->from_user; ?>" class="tweet_avatar" style='font-size:26px; text-decoration:none'>
-									@<?php echo $tweets->results[$i]->from_user; ?>
+									<a href="http://twitter.com/<?php echo $tweets->results[$i]->user->screen_name; ?>" class="tweet_avatar" style='font-size:26px; text-decoration:none'>
+									@<?php echo $tweets->results[$i]->user->screen_name; ?>
 									</a>
 									</span>
 								</li>
@@ -758,7 +826,7 @@
 									}
 									?>
 									<li class="tweet_first <?php echo $class; ?>" style='height:48px'>
-									<span class="tweet_time"><a title="view tweet on twitter" href="http://twitter.com/<?php echo $tweets->results[$i]->from_user; ?>/status/<?php echo $tweets->results[$i]->id_str; ?>"><?php echo $hoursago; ?></a></span> 
+									<span class="tweet_time"><a title="view tweet on twitter" href="http://twitter.com/<?php echo $tweets->results[$i]->user->screen_name; ?>/status/<?php echo $tweets->results[$i]->id_str; ?>"><?php echo $hoursago; ?></a></span> 
 									<span class="tweet_text">
 									<?php
 									echo convertLinks($tweets->results[$i]->text);
