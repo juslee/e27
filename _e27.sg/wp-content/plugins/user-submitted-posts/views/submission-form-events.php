@@ -153,7 +153,7 @@ if ($authorName == $default_author) {
 		<?php if ($usp_options['max-images'] !== 0) { ?>
 		<fieldset class="usp-images">
 			<label for="user-submitted-image"><?php _e('Upload Image(s)'); ?></label>
-			<div id="usp-upload-message"><?php echo "Event banner/image (220 x 220 px)"; ?></div>
+			<div id="usp-upload-message"><?php echo "Event banner/image (300 x 300 px)"; ?></div>
 			<div id="user-submitted-image">
 				<?php if($usp_options['min-images'] < 1) {
 					$numberImages = 1;

@@ -73,6 +73,8 @@ class Administrators extends CI_Model {
     		
     		$query = $this->db->get_where('administrators', array('email'=>$email, 'status'=>'active', 'password'=>$password));
     		
+			//echo $query->num_rows();
+			
     		if ($query->num_rows() > 0)
     		{
     			$data=array('last_login'=>date('Y-m-d H:i:s'), 'last_login_ip'=>$this->input->ip_address());
